@@ -18,7 +18,7 @@ public class Main {
                             }
 
                             for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                                if ("".equals(info.getName())) {
+                                if ("Metal".equals(info.getName())) {
                                     UIManager.setLookAndFeel(info.getClassName());
                                     break;
                                 }
