@@ -18,7 +18,7 @@ public class Main {
                             }
 
                             for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                                if ("Metal".equals(info.getName())) {
+                                if ("Nimbus".equals(info.getName())) {
                                     UIManager.setLookAndFeel(info.getClassName());
                                     break;
                                 }
