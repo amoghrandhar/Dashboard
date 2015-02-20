@@ -11,11 +11,11 @@ public class Main {
                     public void run() {
 
                         try {
-                            LookAndFeelInfo[] la = UIManager.getInstalledLookAndFeels();
+                            /*LookAndFeelInfo[] la = UIManager.getInstalledLookAndFeels();
                             for (int i = 0; i < la.length; i++) {
                                 LookAndFeelInfo l = la[i];
                                 System.out.println(l.getName());
-                            }
+                            }*/
 
                             for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                                 if ("Nimbus".equals(info.getName())) {
