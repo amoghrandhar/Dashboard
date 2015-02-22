@@ -6,7 +6,6 @@ import java.io.FileReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Amogh on 22-02-2015.
@@ -45,7 +44,6 @@ public class ServerlogParser implements Runnable {
             CsvParser parser = new CsvParser(settings);
             // call beginParsing to read records one by one, iterator-style.
             parser.beginParsing(new FileReader("server_log.csv"));
-            List<String[]> allRows = new ArrayList<String[]>();
             String[] row;
             while ((row = parser.parseNext()) != null) {
                 if (row[2].equals("n/a")) {

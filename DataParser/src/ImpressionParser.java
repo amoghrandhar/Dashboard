@@ -12,7 +12,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 
 /**
  * Created by Amogh on 19-02-2015.
@@ -56,7 +55,6 @@ public class ImpressionParser implements Runnable {
             // call beginParsing to read records one by one, iterator-style.
             parser.beginParsing(new FileReader("impression_log.csv"));
 
-            List<String[]> allRows = new ArrayList<String[]>();
 
             String[] row;
             while ((row = parser.parseNext()) != null) {
