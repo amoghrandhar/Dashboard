@@ -74,4 +74,22 @@ public class DataAnalytics {
         double total = totalImpressionCost(impressionArrayList) + totalClickCost(clickLogArrayList);
         return total;
     }
+
+
+    public double getCPA(ArrayList<Impression> impressionArrayList, ArrayList<ClickLog> clickLogArrayList, ArrayList<ServerLog> slog) {
+        double total = 0;
+        int im = 0;     //The current location on impression list
+        int cl = 0;     //The current location on click list
+        for (int i = 0; i < slog.size(); i++) {
+
+            if (slog.get(i).isConversation())
+                for (int j = im; j < impressionArrayList.size(); j++) {
+                    if (impressionArrayList.get(j).getDate().before(slog.get(i).getEndDate()) && impressionArrayList.get(j).getID() == slog.get(i).getID()) {
+                        total = impressionArrayList.get(j).getImpression() + total;
+                        break;
+                    }
+                }
+        }
+        return 0;
+    }
 }
