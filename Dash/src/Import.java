@@ -1,178 +1,266 @@
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-
 import java.awt.*;
-import java.awt.geom.RoundRectangle2D;
-
+import java.awt.datatransfer.DataFlavor;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetDragEvent;
+import java.awt.dnd.DropTargetDropEvent;
+import java.awt.dnd.DropTargetEvent;
+import java.awt.dnd.DropTargetListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.util.List;
 
 @SuppressWarnings("serial")
 public class Import extends JFrame 
 {
-    JButton openButton, cancelButton;
+	File clickLog, impressionLog, serverLog;
+	Container container;
+	GridBagConstraints c;
+	JButton browseButton1, browseButton2, browseButton3;
+	JButton cancelButton, openButton;
+	DragAndDropPanel panel1, panel2, panel3;
 
     public Import(String title) 
     {    
         super(title);
-    }
-    
+    } 
 
     public void init() 
     {
-    	Container container = this.getContentPane();
+    	container = this.getContentPane();
     	container.setLayout(new GridBagLayout());
-    	GridBagConstraints c = new GridBagConstraints();
+    	c = new GridBagConstraints();
+    	ButtonListener buttonListener = new ButtonListener();
     	c.fill = GridBagConstraints.HORIZONTAL;
     	
-    	JPanel glassPanel = new JPanel()  
-    	{  
-    	   public void paintComponent(Graphics g)  
-    	   {  
-    		  Graphics2D g2 = (Graphics2D) g;
-    		  g2.setColor(Color.black);  
-    		  g2.setStroke(new BasicStroke(2));
-    		  g2.drawRect(7, 7, 335, 115);
-    		  g2.drawRect(7, 130, 335, 115);
-    		  g2.drawRect(7, 255, 335, 115);
-
-
-    	   }  
-    	};     	
-    	glassPanel.setOpaque(false);  
-    	this.setGlassPane(glassPanel);
-    	glassPanel.setVisible(true);
-
-    	//////////////////////////////////////////////////////
-    	
-    	DragAndDropPanel panel = new DragAndDropPanel();
-    	c.weighty = 0.5;
-    	c.weightx = 0;
+     	this.browseButton1 = new JButton("Browse for the file");
+     	this.browseButton1.addActionListener(buttonListener);
     	c.gridx = 0;
     	c.gridy = 0;
-    	c.gridheight = 4;
-        c.insets = new Insets(0, -10, -10, 10);
-        container.add(panel, c);
-
-    	JLabel impressionLabel = new JLabel("Impression Log");
-    	impressionLabel.setFont(new Font("", Font.PLAIN, 16));
     	c.gridheight = 1;
+        c.insets = new Insets(0, 10, 0, 10);
+        container.add(browseButton1, c);   
+        
+    	this.configurePanel1("dropClick.png");
+   	
+     	this.browseButton2 = new JButton("Browse for the file");
+     	this.browseButton2.addActionListener(buttonListener);
     	c.gridx = 1;
     	c.gridy = 0;
-        c.insets = new Insets(5, 18, 0, 0);
-        container.add(impressionLabel, c);
-    	
-
-    	JLabel label1 = new JLabel("Alternatively you can");
-    	c.gridx = 1;
-    	c.gridy = 1;
-        c.insets = new Insets(0, 18, -5, 0);
-    	container.add(label1, c);
-    	
-    
-    	JLabel label2 = new JLabel("browse for the file");
-    	c.gridx = 1;
-    	c.gridy = 2;
-        c.insets = new Insets(-5, 18, 0, 0);
-    	container.add(label2, c);
-    	
-
-    	JButton browseButton = new JButton("Browse");
-    	c.gridx = 1;
-    	c.gridy = 3;
-    	c.anchor = GridBagConstraints.LAST_LINE_END; //bottom of space
-        c.insets = new Insets(0, 70, 0, 0);
-    	container.add(browseButton, c);
-    	    	
-    	//////////////////////////////////////////////////////
-
-    	DragAndDropPanel panel2 = new DragAndDropPanel();
-    	c.weighty = 0.5;
-    	c.weightx = 0;
-    	c.gridx = 0;
-    	c.gridy = 4;
-    	c.gridheight = 4;
-        c.insets = new Insets(0, -10, 0, 10);
-    	container.add(panel2, c);
-
-    	JLabel clickLabel = new JLabel("Click Log");
-    	clickLabel.setFont(new Font("", Font.PLAIN, 16));
     	c.gridheight = 1;
-    	c.gridx = 1;
-    	c.gridy = 4;
-        c.insets = new Insets(8, 18, 0, 0);
-    	container.add(clickLabel, c);
-    	
-    	JLabel label3 = new JLabel("Alternatively you can");
-    	c.gridx = 1;
+        c.insets = new Insets(0, 10, 0, 10);
+        container.add(browseButton2, c);   
+        
+    	this.configurePanel2("dropImpression.png");
+
+     	this.browseButton3 = new JButton("Browse for the file");
+     	this.browseButton3.addActionListener(buttonListener);
+    	c.gridx = 2;
+    	c.gridy = 0;
+    	c.gridheight = 1;
+        c.insets = new Insets(0, 10, 0, 10);
+        container.add(browseButton3, c);   
+        
+    	this.configurePanel3("dropServer.png");
+        
+      	this.cancelButton = new JButton("Cancel");
+     	this.cancelButton.addActionListener(buttonListener);
+    	c.gridx = 2;
     	c.gridy = 5;
-        c.insets = new Insets(0, 18, -5, 0);
-    	container.add(label3, c);
-    	
-    	JLabel label4 = new JLabel("browse for the file");
-    	c.gridx = 1;
-    	c.gridy = 6;
-        c.insets = new Insets(-5, 18, 0, 0);
-    	container.add(label4, c);
-    	
-    	JButton browseButton2 = new JButton("Browse");
-    	c.gridx = 1;
-    	c.gridy = 7;
-        c.insets = new Insets(0, 70, 0, 0);
-    	container.add(browseButton2, c);
-    	
-    	//////////////////////////////////////////////////////
-
-    	DragAndDropPanel panel3 = new DragAndDropPanel();
-    	c.weighty = 0.5;
-    	c.weightx = 0;
-    	c.gridx = 0;
-    	c.gridy = 8;
-    	c.gridheight = 4;
-        c.insets = new Insets(0, -10, 10, 10);
-    	container.add(panel3, c);
-
-    	JLabel serverLabel = new JLabel("Server Log");
-    	serverLabel.setFont(new Font("", Font.PLAIN, 16));
     	c.gridheight = 1;
-    	c.gridx = 1;
-    	c.gridy = 8;
-        c.insets = new Insets(8, 18, 0, 0);
-    	container.add(serverLabel, c);
-    	
-    	JLabel label5 = new JLabel("Alternatively you can");
-    	c.gridx = 1;
-    	c.gridy = 9;
-        c.insets = new Insets(0, 18, -5, 0);
-    	container.add(label5, c);
-    	
-    	JLabel label6 = new JLabel("browse for the file");
-    	c.gridx = 1;
-    	c.gridy = 10;
-        c.insets = new Insets(-5, 18, 0, 0);
-    	container.add(label6, c);
-    	
-    	JButton browseButton3 = new JButton("Browse");
-    	c.gridx = 1;
-    	c.gridy = 11;
-        c.insets = new Insets(0, 70, 10, 0);
-    	container.add(browseButton3, c);
-    	
-    	//////////////////////////////////////////////////////
-    	container.setBackground(Color.WHITE);
+        c.insets = new Insets(0, 7, 0, 95);
+        container.add(cancelButton, c);   
+       
+     	this.openButton = new JButton("Open");
+     	this.openButton.addActionListener(buttonListener);
+    	c.gridx = 2;
+    	c.gridy = 5;
+    	c.gridheight = 1;
+        c.insets = new Insets(0, 95, 0, 7);
+        container.add(openButton, c); 
+        
+        container.setBackground(new Color(0xf5f5f5));
         this.pack();
-        this.setMinimumSize(new Dimension(350, 398));
+        this.setSize(580, 200);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setVisible(true);
     }
     
+    public void configurePanel1(String type)
+    {
+      	panel1 = new DragAndDropPanel(type);
+    	c.gridx = 0;
+    	c.gridy = 1;
+    	c.gridheight = 4;
+        c.insets = new Insets(0, 0, 0, 0);
+        container.add(panel1, c);   
+    }
+    
+    public void configurePanel2(String type)
+    {
+		panel2 = new DragAndDropPanel(type);
+		c.gridx = 1;
+		c.gridy = 1;
+		c.gridheight = 4;
+	    c.insets = new Insets(0, 0, 0, 0);
+	    container.add(panel2, c); 
+    }
+    
+    public void configurePanel3(String type)
+    {
+    	panel3 = new DragAndDropPanel(type);
+    	c.gridx = 2;
+    	c.gridy = 1;
+    	c.gridheight = 4;
+        c.insets = new Insets(0, 0, 0, 0);
+        container.add(panel3, c); 
+    }
+    
     class DragAndDropPanel extends JPanel
     {
-    	public DragAndDropPanel()
+    	
+    	public DragAndDropPanel(String type)
     	{
-    		ImageIcon icon = new ImageIcon(getClass().getResource("dropImpression.png"));
+    		ImageIcon icon = new ImageIcon(getClass().getResource(type));
     		Image img = icon.getImage();
     		icon = new ImageIcon(img);
-    		add(new JLabel(icon));
-    		setBackground(Color.WHITE);
+    		add(new JLabel(icon));    		
+    		setBackground(new Color(0xf5f5f5)); 
+    		new DropTarget(this, new DragDropListener());
+    	}
+    }
+    
+    class DragDropListener implements DropTargetListener 
+    {
+
+        public void drop(DropTargetDropEvent event) 
+        {
+            event.acceptDrop(DnDConstants.ACTION_COPY);
+			try {
+				@SuppressWarnings("unchecked")
+	            File file = ((List<File>) event.getTransferable().getTransferData(DataFlavor.javaFileListFlavor)).get(0);
+				if (file.getName().equals("click_log.csv"))
+				{
+					clickLog = file;
+        			System.out.println("Opening: " + clickLog.getName());
+        			configurePanel1("clickLogImported.png");
+        	        revalidate();
+				}
+				else if (file.getName().equals("impression_log.csv"))
+				{
+					impressionLog = file;
+        			System.out.println("Opening: " + impressionLog.getName());
+        			configurePanel2("impressionLogImported.png");
+        	        revalidate();
+				}
+				if (file.getName().equals("server_log.csv"))
+				{
+					serverLog = file;
+        			System.out.println("Opening: " + serverLog.getName());
+        			configurePanel3("serverLogImported.png");
+        	        revalidate();
+				}
+				else
+        		{
+        			// throw exception?
+        			System.out.println("Wrong file selected...");
+        		}
+			} catch (Exception e) 
+			{
+				e.printStackTrace();
+			}
+          
+            event.dropComplete(true);
+        }
+
+		public void dragEnter(DropTargetDragEvent dtde) {}
+
+		public void dragOver(DropTargetDragEvent dtde) {}
+
+		public void dropActionChanged(DropTargetDragEvent dtde) {}
+
+		public void dragExit(DropTargetEvent dte) {}
+    }
+    
+    class ButtonListener implements ActionListener
+    {
+    	public void actionPerformed(ActionEvent e) 
+    	{
+        	if (e.getSource() == openButton)
+        	{
+        		if (clickLog != null && impressionLog != null && serverLog != null)
+        		{
+        			setVisible(false);
+        			dispose();
+        		}
+        	}
+          	else if (e.getSource() == cancelButton)
+        	{
+          		clickLog = null;
+          		impressionLog = null;
+          		serverLog = null;
+        		setVisible(false);
+        		dispose();
+        	}
+          	else
+          	{
+        		final JFileChooser fc = new JFileChooser();
+		        int returnVal = fc.showOpenDialog(Import.this);
+		        if (returnVal == JFileChooser.APPROVE_OPTION) 
+		        {	
+		        	if (e.getSource() == browseButton1) 
+		        	{
+		        		if (fc.getSelectedFile().getName().equals("click_log.csv"))
+		        		{
+		        			clickLog = fc.getSelectedFile();
+		        			System.out.println("Opening: " + clickLog.getName());
+		        			configurePanel1("clickLogImported.png");
+		        	        revalidate();
+		        		}
+		        		else
+		        		{
+		        			// throw exception?
+		        			System.out.println("Wrong file selected...");
+		        		}
+		        	}
+		        	else if (e.getSource() == browseButton2) 
+		        	{
+		        		if (fc.getSelectedFile().getName().equals("impression_log.csv"))
+		        		{
+		        			impressionLog = fc.getSelectedFile();
+		        			System.out.println("Opening: " + impressionLog.getName());
+		        			configurePanel2("impressionLogImported.png");
+		        	        revalidate();
+		        		}
+		        		else
+		        		{
+		        			// throw exception?
+		        			System.out.println("Wrong file selected...");
+		        		}
+		        	}
+		        	else if (e.getSource() == browseButton3) 
+		        	{
+		           		if (fc.getSelectedFile().getName().equals("server_log.csv"))
+		        		{
+		        			serverLog = fc.getSelectedFile();
+		        			System.out.println("Opening: " + serverLog.getName());
+		        			configurePanel3("serverLogImported.png"); 
+		        	        revalidate();
+		        		}
+		        		else
+		        		{
+		        			// throw exception?
+		        			System.out.println("Wrong file selected...");
+		        		}
+		        	}
+		        }
+		        else
+		        {
+		            System.out.println("Open command cancelled by user.");
+		        }
+    		}
     	}
     }
 }
