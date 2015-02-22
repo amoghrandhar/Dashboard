@@ -18,8 +18,8 @@ public class Dashboard extends JFrame {
 
         menu = new SideBar();
         menu.setPreferredSize(new Dimension(200, 700));
-
-        content = new JPanel();
+        
+        content = new Content();
         content.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0, Color.gray));
 
         Container container = this.getContentPane();
