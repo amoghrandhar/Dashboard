@@ -1,12 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
-import java.awt.dnd.DnDConstants;
-import java.awt.dnd.DropTarget;
-import java.awt.dnd.DropTargetDragEvent;
-import java.awt.dnd.DropTargetDropEvent;
-import java.awt.dnd.DropTargetEvent;
-import java.awt.dnd.DropTargetListener;
+import java.awt.dnd.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -22,10 +17,20 @@ public class Import extends JFrame
 	JButton cancelButton, openButton;
 	DragAndDropPanel panel1, panel2, panel3;
 
-    public Import(String title) 
-    {    
+    public Import(String title) {
         super(title);
-    } 
+    }
+
+    public static void main(String[] args) {
+        final Import imp = new Import("Import");
+
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                imp.init();
+            }
+        });
+    }
 
     public void init() 
     {
