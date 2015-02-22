@@ -338,7 +338,7 @@ abstract class AbstractExpansionPanel extends JPanel {
 		revalidate();
 		//fireExpansionEvent();
 		EventQueue.invokeLater(new Runnable() {
-			@Override public void run() {
+			public void run() {
 				panel.scrollRectToVisible(panel.getBounds());
 			}
 		});
