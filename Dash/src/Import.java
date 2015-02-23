@@ -88,7 +88,7 @@ public class Import extends JFrame
         
         container.setBackground(new Color(0xf5f5f5));
         this.pack();
-        this.setSize(580, 200);
+        this.setMinimumSize(getPreferredSize());
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setVisible(true);
     }

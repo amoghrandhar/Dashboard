@@ -21,19 +21,17 @@ public class SideBar extends JPanel {
 	JButton importButton, exportButton;
 	JPanel filePanel, menuPanel;
 	
-	Color FOREGROUND = Color.decode("#fafafa");
+	UtilDateModel dateModel, dateModel2;
+	SpinnerDateModel timeModel, timeModel2;
+	JToggleButton male, female;
+	RangeSlider ageSlider, incomeSlider;
+	ModifiedButtonGroup sexGroup, contextGroup;
+
+	Color SECONDARY = Color.decode("#fafafa");
 
 	public SideBar() {
 
 		init();
-
-	}
-
-	public static JPanel getDummyPanel(String name) {
-
-		JPanel panel = new JPanel(new BorderLayout());
-		panel.add(new JLabel(name, JLabel.CENTER));
-		return panel;
 
 	}
 
@@ -60,7 +58,7 @@ public class SideBar extends JPanel {
 		menuPanel = new JPanel();
 		menuPanel.setLayout(new BoxLayout(menuPanel, BoxLayout.PAGE_AXIS));
 		menuPanel.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, Color.gray));
-		
+
 		filePanel.setBorder(new EmptyBorder(16, 0, 16, 0));
 
 		menuPanel.setPreferredSize(new Dimension(200, 500));
@@ -91,10 +89,10 @@ public class SideBar extends JPanel {
 		filePanel.add(exportButton, exportC);
 
 		// Menu Panel (Bottom)
-		
+
 		JButton updateButton = new JButton("Update");
 		JButton resetButton = new JButton ("Reset");
-		
+
 		JPanel updatePanel = new JPanel();
 		updatePanel.setLayout(new FlowLayout());
 		updatePanel.add(resetButton);
@@ -105,15 +103,15 @@ public class SideBar extends JPanel {
 
 		Box accordion = Box.createVerticalBox();
 		accordion.setOpaque(true);
-		
+
 		List<AbstractExpansionPanel> titledPanes = makeList();
-		
+
 		for (AbstractExpansionPanel p: titledPanes) {
 			p.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.gray));
 			p.label.addMouseListener(new TitledPaneAdapter(p, titledPanes));
 			accordion.add(p);
 		}
-		
+
 		accordion.add(Box.createVerticalGlue());
 		accordion.setPreferredSize(new Dimension(200, 499));
 
@@ -128,126 +126,125 @@ public class SideBar extends JPanel {
 	}
 
 	private List<AbstractExpansionPanel> makeList() {
-		
+
 		return Arrays.asList(
-				
+
 				new AbstractExpansionPanel(" Date Range") {
+					
 					public JPanel makePanel() {
-						JPanel pnl = new JPanel(new GridLayout(0, 1));
 						
+						JPanel pnl = new JPanel(new GridLayout(0, 1));
+
 						JLabel startLabel = new JLabel("Start");
 						JLabel endLabel = new JLabel("End");
-						
+
 						Properties p = new Properties();
 						p.put("text.today", "Today");
 						p.put("text.month", "Month");
 						p.put("text.year", "Year");
-						
-						UtilDateModel model = new UtilDateModel();
-						UtilDateModel model2 = new UtilDateModel();
-						JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
-						JDatePanelImpl datePanel2 = new JDatePanelImpl(model2, p);
+
+						dateModel = new UtilDateModel();
+						dateModel2 = new UtilDateModel();
+						JDatePanelImpl datePanel = new JDatePanelImpl(dateModel, p);
+						JDatePanelImpl datePanel2 = new JDatePanelImpl(dateModel2, p);
 						JDatePickerImpl startPicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
 						JDatePickerImpl endPicker = new JDatePickerImpl(datePanel2, new DateLabelFormatter());
-//						UtilDateModel model = new UtilDateModel();
-//						JDatePanelImpl datePanel = new JDatePanelImpl(model);
-//						JDatePickerImpl datePicker = new JDatePickerImpl(datePanel);
-//						pnl.add(datePicker);
-						
+
 						Calendar calendar = Calendar.getInstance();
-				        calendar.set(Calendar.HOUR_OF_DAY, 24); // 24 == 12 PM == 00:00:00
-				        calendar.set(Calendar.MINUTE, 0);
-				        calendar.set(Calendar.SECOND, 0);
+						calendar.set(Calendar.HOUR_OF_DAY, 24); // 24 == 12 PM == 00:00:00
+						calendar.set(Calendar.MINUTE, 0);
+						calendar.set(Calendar.SECOND, 0);
 
-				        SpinnerDateModel dateModel = new SpinnerDateModel();
-				        dateModel.setValue(calendar.getTime());
-				        
-				        SpinnerDateModel dateModel2 = new SpinnerDateModel();
-				        dateModel2.setValue(calendar.getTime());
+						timeModel = new SpinnerDateModel();
+						timeModel.setValue(calendar.getTime());
 
-				        JSpinner spinner = new JSpinner(dateModel);
-				        JSpinner spinner2 = new JSpinner(dateModel2);
-				        		        			        
-				        JSpinner.DateEditor editor = new JSpinner.DateEditor(spinner, "HH:mm:ss");
-				        JSpinner.DateEditor editor2 = new JSpinner.DateEditor(spinner2, "HH:mm:ss");
-				        
-				        DateFormatter formatter = (DateFormatter)editor.getTextField().getFormatter();
-				        formatter.setAllowsInvalid(false); // this makes what you want
-				        formatter.setOverwriteMode(true);
-				        
-				        DateFormatter formatter2 = (DateFormatter)editor2.getTextField().getFormatter();
-				        formatter2.setAllowsInvalid(false); // this makes what you want
-				        formatter2.setOverwriteMode(true);
+						timeModel2 = new SpinnerDateModel();
+						timeModel2.setValue(calendar.getTime());
 
-				        spinner.setEditor(editor);
-				        spinner2.setEditor(editor2);
-				        
-				        startPicker.setBackground(FOREGROUND);
-				        endPicker.setBackground(FOREGROUND);
-						
+						JSpinner spinner = new JSpinner(timeModel);
+						JSpinner spinner2 = new JSpinner(timeModel2);
+
+						JSpinner.DateEditor editor = new JSpinner.DateEditor(spinner, "HH:mm:ss");
+						JSpinner.DateEditor editor2 = new JSpinner.DateEditor(spinner2, "HH:mm:ss");
+
+						DateFormatter formatter = (DateFormatter)editor.getTextField().getFormatter();
+						formatter.setAllowsInvalid(false); // this makes what you want
+						formatter.setOverwriteMode(true);
+
+						DateFormatter formatter2 = (DateFormatter)editor2.getTextField().getFormatter();
+						formatter2.setAllowsInvalid(false); // this makes what you want
+						formatter2.setOverwriteMode(true);
+
+						spinner.setEditor(editor);
+						spinner2.setEditor(editor2);
+
+						startPicker.setBackground(SECONDARY);
+						endPicker.setBackground(SECONDARY);
+
 						pnl.add(startLabel);
 						pnl.add(startPicker);
 						pnl.add(spinner);
 						pnl.add(endLabel);
 						pnl.add(endPicker);
 						pnl.add(spinner2);	
-						
+
 						return pnl;
+						
 					}
-				},
-				
-				new AbstractExpansionPanel(" Audience Segments") {
 					
+				},
+				new AbstractExpansionPanel(" Audience Segments") {
+
 					public JPanel makePanel() {
-						
+
 						JPanel pnl = new JPanel(new GridLayout(0, 1));
-						
-						JToggleButton male = new JToggleButton("Male");
-						JToggleButton female = new JToggleButton("Female");
-						
-						ButtonGroup bg = new ModifiedButtoGroup();
-						bg.add(male);
-						bg.add(female);
-						
+
+						male = new JToggleButton("Male");
+						female = new JToggleButton("Female");
+
+						ButtonGroup sexGroup = new ModifiedButtonGroup();
+						sexGroup.add(male);
+						sexGroup.add(female);
+
 						JPanel buttonPanel = new JPanel(new FlowLayout());
-						buttonPanel.setBackground(FOREGROUND);
+						buttonPanel.setBackground(SECONDARY);
 						buttonPanel.add(male);
 						buttonPanel.add(female);
-						
+
 						JLabel ageLabel = new JLabel("Age");
-						
+
 						Hashtable<Integer, JLabel> labels = new Hashtable<Integer, JLabel>();
-				        labels.put(0, new JLabel("0"));
-				        labels.put(1, new JLabel("25"));
-				        labels.put(2, new JLabel("35"));
-				        labels.put(3, new JLabel("45"));
-				        labels.put(4, new JLabel("55"));
-				        labels.put(5, new JLabel("100"));
-						
-						RangeSlider ageSlider = new RangeSlider(0, 5);
+						labels.put(0, new JLabel("0"));
+						labels.put(1, new JLabel("25"));
+						labels.put(2, new JLabel("35"));
+						labels.put(3, new JLabel("45"));
+						labels.put(4, new JLabel("55"));
+						labels.put(5, new JLabel("100"));
+
+						ageSlider = new RangeSlider(0, 5);
 						ageSlider.setMinorTickSpacing(1);
 						ageSlider.setPaintTicks(true);
-					    ageSlider.setPaintLabels(true);
-					    ageSlider.setLowerValue(0);
-					    ageSlider.setUpperValue(5);
+						ageSlider.setPaintLabels(true);
+						ageSlider.setLowerValue(0);
+						ageSlider.setUpperValue(5);
 						ageSlider.setLabelTable(labels);
-						
+
 						JLabel incomeLabel = new JLabel("Income");
-						
+
 						Hashtable<Integer, JLabel> labels2 = new Hashtable<Integer, JLabel>();
-				        labels2.put(0, new JLabel("Low"));
-				        labels2.put(1, new JLabel("Mid"));
-				        labels2.put(2, new JLabel("High"));
-						
-						RangeSlider incomeSlider = new RangeSlider(0, 2);
+						labels2.put(0, new JLabel("Low"));
+						labels2.put(1, new JLabel("Mid"));
+						labels2.put(2, new JLabel("High"));
+
+						incomeSlider = new RangeSlider(0, 2);
 						incomeSlider.setMinorTickSpacing(1);
 						incomeSlider.setPaintTicks(true);
-					    incomeSlider.setPaintLabels(true);
-					    incomeSlider.setLowerValue(0);
-					    incomeSlider.setUpperValue(3);
+						incomeSlider.setPaintLabels(true);
+						incomeSlider.setLowerValue(0);
+						incomeSlider.setUpperValue(3);
 						incomeSlider.setLabelTable(labels2);
-						
-//						// Add listener to update display.
+
+						// Add listener to update display.
 //				        ageSlider.addChangeListener(new ChangeListener() {
 //				            public void stateChanged(ChangeEvent e) {
 //				                RangeageSlider ageSlider = (RangeageSlider) e.getSource();
@@ -255,20 +252,24 @@ public class SideBar extends JPanel {
 //				                rangeageSliderValue2.setText(String.valueOf(ageSlider.getUpperValue()));
 //				            }
 //				        });
-						
+
 						pnl.add(buttonPanel);
 						pnl.add(ageLabel);
 						pnl.add(ageSlider);
 						pnl.add(incomeLabel);
 						pnl.add(incomeSlider);
-						return pnl;
 						
+						return pnl;
+
 					}
-					
-				},
+
+				},			
 				new AbstractExpansionPanel(" Context") {
+					
 					public JPanel makePanel() {
+						
 						JPanel pnl = new JPanel(new GridLayout(0, 1));
+						contextGroup = new ModifiedButtonGroup();
 						JRadioButton b1 = new JRadioButton("News");
 						JRadioButton b2 = new JRadioButton("Shopping");
 						JRadioButton b3 = new JRadioButton("Social");
@@ -276,24 +277,84 @@ public class SideBar extends JPanel {
 						JRadioButton b5 = new JRadioButton("Blog");
 						JRadioButton b6 = new JRadioButton("Hobbies");
 						JRadioButton b7 = new JRadioButton("Travel");
+						
 						for (JRadioButton b: Arrays.asList(b1, b2, b3, b4, b5, b6, b7)) {
-							b.setOpaque(false); pnl.add(b);
+							b.setOpaque(false); contextGroup.add(b); pnl.add(b);
 						}
+						
 						return pnl;
+						
 					}
-				},
+					
+				},			
 				new AbstractExpansionPanel(" Define Bounce") {
+					
 					public JPanel makePanel() {
+						
 						JPanel pnl = new JPanel(new GridLayout(0, 1));
 						String[] bounceOptions = { "Time spent on website", "Number of pages visited" };
 						JComboBox bounceBox = new JComboBox(bounceOptions);
 						pnl.add(bounceBox);
 						return pnl;
+						
 					}
+					
 				}
+				
 				);
+		
 	}
 
+	public Calendar getChosenStartDate(){
+		
+		Calendar temp = Calendar.getInstance();
+		temp.setTime(timeModel.getDate());
+		
+		Calendar date = Calendar.getInstance();
+		date.set(Calendar.YEAR, dateModel.getDay());
+		date.set(Calendar.MONTH, dateModel.getMonth());
+		date.set(Calendar.DAY_OF_MONTH, dateModel.getYear());
+		date.set(Calendar.HOUR_OF_DAY, temp.get(Calendar.HOUR_OF_DAY));
+		date.set(Calendar.MINUTE, temp.get(Calendar.MINUTE));
+		date.set(Calendar.SECOND, temp.get(Calendar.SECOND));
+		
+		return date;
+
+	}
+	
+	public Calendar getChosenEndDate(){
+		
+		Calendar temp = Calendar.getInstance();
+		temp.setTime(timeModel2.getDate());
+		
+		Calendar date = Calendar.getInstance();
+		date.set(Calendar.YEAR, dateModel2.getDay());
+		date.set(Calendar.MONTH, dateModel2.getMonth());
+		date.set(Calendar.DAY_OF_MONTH, dateModel2.getYear());
+		date.set(Calendar.HOUR_OF_DAY, temp.get(Calendar.HOUR_OF_DAY));
+		date.set(Calendar.MINUTE, temp.get(Calendar.MINUTE));
+		date.set(Calendar.SECOND, temp.get(Calendar.SECOND));
+		
+		return date;
+
+	}
+	
+	public Boolean getChosenSex(){
+		
+		if(male.isSelected())
+			return true;
+		if(female.isSelected())
+			return false;
+		else return null;
+		
+	}
+	
+	public String getChosenContext(){
+		
+		return ((JLabel) contextGroup.getSelection()).getName();
+		
+	}
+	
 }
 
 abstract class AbstractExpansionPanel extends JPanel {
@@ -402,13 +463,12 @@ class TitledPaneAdapter extends MouseAdapter {
 		}
 
 	}
-	
+
 }
 
 class ImportListener implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
-
 
 		Import importFrame = new Import("Import Files");
 		importFrame.init();
@@ -417,37 +477,55 @@ class ImportListener implements ActionListener {
 
 }
 
-class ModifiedButtoGroup extends ButtonGroup {
+class UpdateListener implements ActionListener {
+	
+	Dashboard dashboard;
+	
+	public UpdateListener(Dashboard dashboard){
+		
+		this.dashboard = dashboard;
+		
+	}
 
-	  @Override
-	  public void setSelected(ButtonModel model, boolean selected) {
+	public void actionPerformed(ActionEvent e) {
 
-	    if (selected)
-	      super.setSelected(model, selected); 
-	    
-	    else clearSelection();
-	  }
-	  
+		
+
+	}
+
+}
+
+class ModifiedButtonGroup extends ButtonGroup {
+
+	@Override
+	public void setSelected(ButtonModel model, boolean selected) {
+
+		if (selected)
+			super.setSelected(model, selected); 
+
+		else clearSelection();
+	}
+
 }
 
 class DateLabelFormatter extends AbstractFormatter {
-	 
-    private String datePattern = "yyyy-MM-dd";
-    private SimpleDateFormat dateFormatter = new SimpleDateFormat(datePattern);
-     
-    @Override
-    public Object stringToValue(String text) throws ParseException {
-        return dateFormatter.parseObject(text);
-    }
- 
-    @Override
-    public String valueToString(Object value) throws ParseException {
-        if (value != null) {
-            Calendar cal = (Calendar) value;
-            return dateFormatter.format(cal.getTime());
-        }
-         
-        return "";
-    }
- 
+
+	private String datePattern = "yyyy-MM-dd";
+	private SimpleDateFormat dateFormatter = new SimpleDateFormat(datePattern);
+
+	@Override
+	public Object stringToValue(String text) throws ParseException {
+		return dateFormatter.parseObject(text);
+	}
+
+	@Override
+	public String valueToString(Object value) throws ParseException {
+		if (value != null) {
+			Calendar cal = (Calendar) value;
+			return dateFormatter.format(cal.getTime());
+		}
+
+		return "";
+	}
+
 }
