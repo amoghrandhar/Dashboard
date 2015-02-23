@@ -19,11 +19,6 @@ public class ServerlogParser implements Runnable {
     }
 
 
-    public static void main(String[] args) {
-        ServerlogParser slp = new ServerlogParser();
-        slp.run();
-    }
-
     public void run() {
         try {
             generateServerLogs();

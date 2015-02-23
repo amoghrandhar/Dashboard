@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 
 public class Dashboard extends JFrame {
@@ -7,10 +8,20 @@ public class Dashboard extends JFrame {
     public JPanel menu;
     public JPanel content;
 
-    public Dashboard(String title) {
+    private ClicklogParser clp;
+    private ImpressionParser ipp;
+    private ServerlogParser slp;
 
+    private ArrayList<ClickLog> clickLogs;
+    private ArrayList<Impression> impressions;
+    private ArrayList<ServerLog> serverLogs;
+
+    public Dashboard(String title) {
         super(title);
 
+        clp = new ClicklogParser();
+        ipp = new ImpressionParser();
+        slp = new ServerlogParser();
     }
 
     // Display login panel
@@ -32,6 +43,18 @@ public class Dashboard extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
 
+    }
+
+    public void updateClickLogs(ArrayList<ClickLog> clickLogArrayList) {
+        clickLogs = clickLogArrayList;
+    }
+
+    public void updateImpresssionLogs(ArrayList<Impression> impressionArrayList) {
+        impressions = impressionArrayList;
+    }
+
+    public void updateServerLogs(ArrayList<ServerLog> serverLogArrayList) {
+        serverLogs = serverLogArrayList;
     }
 
 }
