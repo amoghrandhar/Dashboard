@@ -24,7 +24,6 @@ public class ServerlogParser implements Runnable {
         slp.run();
     }
 
-    @Override
     public void run() {
         try {
             generateServerLogs();

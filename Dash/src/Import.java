@@ -1,7 +1,12 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
-import java.awt.dnd.*;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetDragEvent;
+import java.awt.dnd.DropTargetDropEvent;
+import java.awt.dnd.DropTargetEvent;
+import java.awt.dnd.DropTargetListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -17,18 +22,14 @@ public class Import extends JFrame
 	JButton cancelButton, openButton;
 	DragAndDropPanel panel1, panel2, panel3;
 
-    public Import(String title) {
+    public Import(String title) 
+    {    
         super(title);
-    }
+    } 
 
-    public static void main(String[] args) {
-        final Import imp = new Import("Import");
-
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                imp.init();
-            }
-        });
+    public static void main(String[] args)
+    {
+        new Import("Import");
     }
 
     public void init() 
@@ -159,7 +160,7 @@ public class Import extends JFrame
         			configurePanel2("impressionLogImported.png");
         	        revalidate();
 				}
-				if (file.getName().equals("server_log.csv"))
+				else if (file.getName().equals("server_log.csv"))
 				{
 					serverLog = file;
         			System.out.println("Opening: " + serverLog.getName());
@@ -169,7 +170,7 @@ public class Import extends JFrame
 				else
         		{
         			// throw exception?
-        			System.out.println("Wrong file selected...");
+					JOptionPane.showMessageDialog(Import.this, "Wrong file selected");
         		}
 			} catch (Exception e) 
 			{
@@ -226,7 +227,7 @@ public class Import extends JFrame
 		        		else
 		        		{
 		        			// throw exception?
-		        			System.out.println("Wrong file selected...");
+							JOptionPane.showMessageDialog(Import.this, "Wrong file selected");
 		        		}
 		        	}
 		        	else if (e.getSource() == browseButton2) 
@@ -241,7 +242,7 @@ public class Import extends JFrame
 		        		else
 		        		{
 		        			// throw exception?
-		        			System.out.println("Wrong file selected...");
+							JOptionPane.showMessageDialog(Import.this, "Wrong file selected");
 		        		}
 		        	}
 		        	else if (e.getSource() == browseButton3) 
@@ -256,13 +257,9 @@ public class Import extends JFrame
 		        		else
 		        		{
 		        			// throw exception?
-		        			System.out.println("Wrong file selected...");
+							JOptionPane.showMessageDialog(Import.this, "Wrong file selected");
 		        		}
 		        	}
-		        }
-		        else
-		        {
-		            System.out.println("Open command cancelled by user.");
 		        }
     		}
     	}

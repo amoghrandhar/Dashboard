@@ -161,7 +161,6 @@ public class ImpressionParser implements Runnable {
         return impressions;
     }
 
-    @Override
     public void run() {
         try {
             this.generateImpressionsMethod1();

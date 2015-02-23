@@ -54,7 +54,6 @@ public class ClicklogParser implements Runnable {
         }
     }
 
-    @Override
     public void run() {
         try {
             generateClickLogs();
