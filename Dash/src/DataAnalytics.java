@@ -13,7 +13,15 @@ public class DataAnalytics {
 
     public long totalClicks(ArrayList<ClickLog> clickLogArrayList) {
         //This will tell you total no. of click records
-        return clickLogArrayList.size();
+        //Its based on if the Click cost is greater than zero.
+        int total = 0;
+        for (int i = 0; i < clickLogArrayList.size(); i++) {
+            if (clickLogArrayList.get(i).getClickCost() > 0) {
+                total++;
+            }
+        }
+
+        return total;
     }
 
     public HashSet<ClickLog> uniqueClickSet(ArrayList<ClickLog> clickLogArrayList) {
@@ -76,7 +84,16 @@ public class DataAnalytics {
     }
 
 
+    public double getCTR(ArrayList<ClickLog> clickLogArrayList) {
+        //Returns the CTR
+        double ctr = totalClicks(clickLogArrayList) / clickLogArrayList.size();
+        return ctr;
+    }
+
+
+    /*
     public double getCPA(ArrayList<Impression> impressionArrayList, ArrayList<ClickLog> clickLogArrayList, ArrayList<ServerLog> slog) {
+    //This is the wrong CPA calculation -- // Old Code
         double total = 0;
         int im = 0;     //The current location on impression list
         int cl = 0;     //The current location on click list
@@ -101,4 +118,32 @@ public class DataAnalytics {
         }
         return total;
     }
+    */
+
+    public double getCPA(ArrayList<Impression> impressionArrayList, ArrayList<ClickLog> clickLogArrayList, ArrayList<ServerLog> slog) {
+        // This returns the CPA
+        double cpa = totalCost(impressionArrayList, clickLogArrayList) / noOfConversions(slog);
+        return cpa;
+    }
+
+
+    public double getCPC(ArrayList<Impression> impressionArrayList, ArrayList<ClickLog> clickLogArrayList) {
+        // This returns the CPC
+        double cpc = totalCost(impressionArrayList, clickLogArrayList) / totalClicks(clickLogArrayList);
+        return cpc;
+    }
+
+    public double getCPM(ArrayList<Impression> impressionArrayList, ArrayList<ClickLog> clickLogArrayList) {
+        // This returns the CPM
+        double cpm = (totalCost(impressionArrayList, clickLogArrayList) / noOfImpression(impressionArrayList)) * 1000;
+        return cpm;
+    }
+
+    public double bounceRate(int bounceProperty, ArrayList<ClickLog> clickLogArrayList, ArrayList<ServerLog> slog) {
+        // This returns the average bounceRate
+        double bRate = noOfBounces(slog, bounceProperty) / totalClicks(clickLogArrayList);
+        return bRate;
+    }
+
+
 }
