@@ -79,7 +79,8 @@ public class Import extends JFrame {
 
         container.setBackground(new Color(0xf5f5f5));
         this.pack();
-        this.setMinimumSize(getPreferredSize());
+        this.setSize(580, 200);
+        this.setMinimumSize(getSize());
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setVisible(true);
     }
@@ -153,7 +154,6 @@ public class Import extends JFrame {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
             event.dropComplete(true);
         }
 
@@ -176,6 +176,9 @@ public class Import extends JFrame {
                 if (clickLog != null && impressionLog != null && serverLog != null) {
                     setVisible(false);
                     dispose();
+                } else {
+                    JOptionPane.showMessageDialog(Import.this, "Please import all three\nfiles before continuing.", "Error",
+                            JOptionPane.ERROR_MESSAGE);
                 }
             } else if (e.getSource() == cancelButton) {
                 clickLog = null;
