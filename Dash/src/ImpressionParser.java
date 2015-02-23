@@ -4,14 +4,12 @@ import com.univocity.parsers.conversions.Conversions;
 import com.univocity.parsers.csv.CsvParser;
 import com.univocity.parsers.csv.CsvParserSettings;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 
 /**
  * Created by Amogh on 19-02-2015.
@@ -24,28 +22,6 @@ public class ImpressionParser implements Runnable {
 
     ImpressionParser() {
         impressions = new ArrayList<Impression>();
-    }
-
-    public static void main(String[] args) throws WrongFileException {
-
-        System.out.println(new File(".").getAbsolutePath());
-
-        ImpressionParser ip = new ImpressionParser();
-        ip.generateImpressionsMethod1();
-//        ip.generateImpressionsMethod2();
-
-        HashSet<Impression> him = new HashSet<Impression>();
-        him.addAll(ip.getImpressions());
-        System.out.println(him.size());
-
-
-        System.out.println("\n\n\n\n");
-        System.out.println("Data Analytics Test");
-
-        DataAnalytics dataAnalytics = new DataAnalytics();
-
-
-
     }
 
     public void generateImpressionsMethod1() throws WrongFileException {

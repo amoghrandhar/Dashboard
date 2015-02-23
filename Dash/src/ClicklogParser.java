@@ -18,11 +18,6 @@ public class ClicklogParser implements Runnable {
         clickLogs = new ArrayList<ClickLog>();
     }
 
-    public static void main(String[] args) {
-        ClicklogParser clp = new ClicklogParser();
-        clp.run();
-    }
-
     public void generateClickLogs() throws WrongFileException {
 
         try {
