@@ -29,95 +29,92 @@ public class Import extends JFrame
         this.dashboard = dashboard;
     } 
 
-    public void init() 
-    {
-    	container = this.getContentPane();
-    	container.setLayout(new GridBagLayout());
-    	c = new GridBagConstraints();
-    	ButtonListener buttonListener = new ButtonListener(dashboard);
-    	c.fill = GridBagConstraints.HORIZONTAL;
-    	
-     	this.browseButton1 = new JButton("Browse for the file");
-     	this.browseButton1.addActionListener(buttonListener);
-    	c.gridx = 0;
-    	c.gridy = 0;
-    	c.gridheight = 1;
-        c.insets = new Insets(0, 10, 0, 10);
-        container.add(browseButton1, c);   
-        
-    	this.configurePanel1("dropClick.png");
-   	
-     	this.browseButton2 = new JButton("Browse for the file");
-     	this.browseButton2.addActionListener(buttonListener);
-    	c.gridx = 1;
-    	c.gridy = 0;
-    	c.gridheight = 1;
-        c.insets = new Insets(0, 10, 0, 10);
-        container.add(browseButton2, c);   
-        
-    	this.configurePanel2("dropImpression.png");
+    public void init() {
+        container = this.getContentPane();
+        container.setLayout(new GridBagLayout());
+        c = new GridBagConstraints();
+        ButtonListener buttonListener = new ButtonListener(this.dashboard);
+        c.fill = GridBagConstraints.HORIZONTAL;
 
-     	this.browseButton3 = new JButton("Browse for the file");
-     	this.browseButton3.addActionListener(buttonListener);
-    	c.gridx = 2;
-    	c.gridy = 0;
-    	c.gridheight = 1;
-        c.insets = new Insets(0, 10, 0, 10);
-        container.add(browseButton3, c);   
-        
-    	this.configurePanel3("dropServer.png");
-        
-      	this.cancelButton = new JButton("Cancel");
-     	this.cancelButton.addActionListener(buttonListener);
-    	c.gridx = 2;
-    	c.gridy = 5;
-    	c.gridheight = 1;
-        c.insets = new Insets(0, 7, 0, 95);
-        container.add(cancelButton, c);   
-       
-     	this.openButton = new JButton("Open");
-     	this.openButton.addActionListener(buttonListener);
-    	c.gridx = 2;
-    	c.gridy = 5;
-    	c.gridheight = 1;
-        c.insets = new Insets(0, 95, 0, 7);
-        container.add(openButton, c); 
-        
+        this.browseButton1 = new JButton("Browse for the file");
+        this.browseButton1.addActionListener(buttonListener);
+        c.gridx = 0;
+        c.gridy = 0;
+        c.gridheight = 1;
+        c.insets = new Insets(1, 7, -2, 7);
+        container.add(browseButton1, c);
+
+        this.configurePanel1("dropClick.png");
+
+        this.browseButton2 = new JButton("Browse for the file");
+        this.browseButton2.addActionListener(buttonListener);
+        c.gridx = 1;
+        c.gridy = 0;
+        c.gridheight = 1;
+        c.insets = new Insets(1, 7, -2, 7);
+        container.add(browseButton2, c);
+
+        this.configurePanel2("dropImpression.png");
+
+        this.browseButton3 = new JButton("Browse for the file");
+        this.browseButton3.addActionListener(buttonListener);
+        c.gridx = 2;
+        c.gridy = 0;
+        c.gridheight = 1;
+        c.insets = new Insets(1, 7, -2, 7);
+        container.add(browseButton3, c);
+
+        this.configurePanel3("dropServer.png");
+
+        this.cancelButton = new JButton("Cancel");
+        this.cancelButton.addActionListener(buttonListener);
+        c.gridx = 2;
+        c.gridy = 5;
+        c.gridheight = 1;
+        c.insets = new Insets(-3, 7, -2, 95);
+        container.add(cancelButton, c);
+
+        this.openButton = new JButton("Open");
+        this.openButton.addActionListener(buttonListener);
+        c.gridx = 2;
+        c.gridy = 5;
+        c.gridheight = 1;
+        c.insets = new Insets(-3, 95, -2, 7);
+        container.add(openButton, c);
+
         container.setBackground(new Color(0xf5f5f5));
         this.pack();
-        this.setMinimumSize(getPreferredSize());
+        this.setSize(580, 190);
+        this.setMinimumSize(getSize());
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setVisible(true);
     }
-    
-    public void configurePanel1(String type)
-    {
-      	panel1 = new DragAndDropPanel(type);
-    	c.gridx = 0;
-    	c.gridy = 1;
-    	c.gridheight = 4;
-        c.insets = new Insets(0, 0, 0, 0);
-        container.add(panel1, c);   
+
+    public void configurePanel1(String type) {
+        panel1 = new DragAndDropPanel(type);
+        c.gridx = 0;
+        c.gridy = 1;
+        c.gridheight = 4;
+        c.insets = new Insets(-4, 0, 0, 0);
+        container.add(panel1, c);
     }
-    
-    public void configurePanel2(String type)
-    {
-		panel2 = new DragAndDropPanel(type);
-		c.gridx = 1;
-		c.gridy = 1;
-		c.gridheight = 4;
-	    c.insets = new Insets(0, 0, 0, 0);
-	    container.add(panel2, c); 
+
+    public void configurePanel2(String type) {
+        panel2 = new DragAndDropPanel(type);
+        c.gridx = 1;
+        c.gridy = 1;
+        c.gridheight = 4;
+        c.insets = new Insets(-4, 0, 0, 0);
+        container.add(panel2, c);
     }
-    
-    public void configurePanel3(String type)
-    {
-    	panel3 = new DragAndDropPanel(type);
-    	c.gridx = 2;
-    	c.gridy = 1;
-    	c.gridheight = 4;
-        c.insets = new Insets(0, 0, 0, 0);
-        container.add(panel3, c); 
+
+    public void configurePanel3(String type) {
+        panel3 = new DragAndDropPanel(type);
+        c.gridx = 2;
+        c.gridy = 1;
+        c.gridheight = 4;
+        c.insets = new Insets(-4, 0, 0, 0);
+        container.add(panel3, c);
     }
     
     class DragAndDropPanel extends JPanel
