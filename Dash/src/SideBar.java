@@ -202,8 +202,8 @@ public class SideBar extends JPanel {
 				new AbstractExpansionPanel(" Audience Segments") {
 
 					public JPanel makePanel() {
-
-						JPanel pnl = new JPanel(new GridLayout(0, 1));
+						
+						// ######### Male or Female buttons #########
 
 						male = new JToggleButton("Male");
 						female = new JToggleButton("Female");
@@ -216,6 +216,8 @@ public class SideBar extends JPanel {
 						buttonPanel.setBackground(SECONDARY);
 						buttonPanel.add(male);
 						buttonPanel.add(female);
+						
+						// ######### Age Group SLider #########
 
 						JLabel ageLabel = new JLabel("Age");
 
@@ -235,6 +237,8 @@ public class SideBar extends JPanel {
 //						ageSlider.setUpperValue(5);
 						ageSlider.setLabelTable(labels);
 
+						// ######### Income SLider #########
+						
 						JLabel incomeLabel = new JLabel("Income");
 
 						Hashtable<Integer, JLabel> labels2 = new Hashtable<Integer, JLabel>();
@@ -260,6 +264,9 @@ public class SideBar extends JPanel {
 //				            }
 //				        });
 
+						// ######### Panel #########
+						
+						JPanel pnl = new JPanel(new GridLayout(0, 1));
 						pnl.add(buttonPanel);
 						pnl.add(ageLabel);
 						pnl.add(ageSlider);
@@ -275,7 +282,6 @@ public class SideBar extends JPanel {
 					
 					public JPanel makePanel() {
 						
-						JPanel pnl = new JPanel(new GridLayout(0, 1));
 						contextGroup = new ModifiedButtonGroup();
 						JRadioButton b1 = new JRadioButton("News");
 						JRadioButton b2 = new JRadioButton("Shopping");
@@ -284,6 +290,8 @@ public class SideBar extends JPanel {
 						JRadioButton b5 = new JRadioButton("Blog");
 						JRadioButton b6 = new JRadioButton("Hobbies");
 						JRadioButton b7 = new JRadioButton("Travel");
+						
+						JPanel pnl = new JPanel(new GridLayout(0, 1));
 						
 						for (JRadioButton b: Arrays.asList(b1, b2, b3, b4, b5, b6, b7)) {
 							b.setOpaque(false); contextGroup.add(b); pnl.add(b);
@@ -298,10 +306,12 @@ public class SideBar extends JPanel {
 					
 					public JPanel makePanel() {
 						
-						JPanel pnl = new JPanel(new GridLayout(0, 1));
 						String[] bounceOptions = { "Time spent on website", "Number of pages visited" };
 						JComboBox bounceBox = new JComboBox(bounceOptions);
+						
+						JPanel pnl = new JPanel(new GridLayout(0, 1));
 						pnl.add(bounceBox);
+						
 						return pnl;
 						
 					}
@@ -347,6 +357,18 @@ public class SideBar extends JPanel {
 
 	}
 	
+	public int getChosenAge(){
+		
+		return ageSlider.getValue();
+		
+	}
+		
+	public int getChosenIncome(){
+		
+		return incomeSlider.getValue();
+		
+	}
+	
 	public Boolean getChosenSex(){
 		
 		if(male.isSelected())
@@ -377,6 +399,7 @@ abstract class AbstractExpansionPanel extends JPanel {
 
 		super(new BorderLayout());
 		this.title = title;
+		
 		label = new JLabel("\u25BA " + title) {
 			protected void paintComponent(Graphics g) {
 				Graphics2D g2 = (Graphics2D) g.create();
@@ -403,6 +426,7 @@ abstract class AbstractExpansionPanel extends JPanel {
 		panel.setOpaque(true);
 		panel.setBackground(Color.decode("#fafafa"));
 		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		
 		this.add(panel);
 
 	}
@@ -442,6 +466,7 @@ abstract class AbstractExpansionPanel extends JPanel {
 
 }
 
+// Controls expansion of titled panes in the SideBar
 class TitledPaneAdapter extends MouseAdapter {
 
 	List<AbstractExpansionPanel> titledPanes;
@@ -474,6 +499,7 @@ class TitledPaneAdapter extends MouseAdapter {
 
 }
 
+// Opens a new frame to import files
 class ImportListener implements ActionListener {
 	
 	Dashboard dashboard;
@@ -493,6 +519,7 @@ class ImportListener implements ActionListener {
 
 }
 
+// Collects all filter options and updates the graphs and metrics
 class UpdateListener implements ActionListener {
 	
 	Dashboard dashboard;
@@ -511,6 +538,7 @@ class UpdateListener implements ActionListener {
 
 }
 
+// ButtonGroup that allows deselection
 class ModifiedButtonGroup extends ButtonGroup {
 
 	@Override
