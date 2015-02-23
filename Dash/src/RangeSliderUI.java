@@ -379,7 +379,6 @@ class RangeSliderUI extends BasicSliderUI {
     }
 
     private class ChangeHandler implements ChangeListener {
-        @Override
         public void stateChanged(final ChangeEvent EVENT) {
             if (!lowerDragging && !upperDragging) {
                 calculateThumbLocation();

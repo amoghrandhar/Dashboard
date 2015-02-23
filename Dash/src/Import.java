@@ -25,7 +25,6 @@ public class Import extends JFrame
         final Import imp = new Import("Import");
 
         SwingUtilities.invokeLater(new Runnable() {
-            @Override
             public void run() {
                 imp.init();
             }

@@ -1,21 +1,20 @@
-import org.jdatepicker.impl.JDatePanelImpl;
-import org.jdatepicker.impl.JDatePickerImpl;
-import org.jdatepicker.impl.UtilDateModel;
-
 import javax.swing.*;
 import javax.swing.JFormattedTextField.AbstractFormatter;
-import javax.swing.border.Border;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
+import javax.swing.border.*;
+import javax.swing.event.*;
+import javax.swing.text.DateFormatter;
+import org.jdatepicker.impl.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Properties;
 
 public class SideBar extends JPanel {
 
@@ -106,10 +105,15 @@ public class SideBar extends JPanel {
 
 		Box accordion = Box.createVerticalBox();
 		accordion.setOpaque(true);
-		for (AbstractExpansionPanel p: makeList()) {
+		
+		List<AbstractExpansionPanel> titledPanes = makeList();
+		
+		for (AbstractExpansionPanel p: titledPanes) {
 			p.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.gray));
+			p.label.addMouseListener(new TitledPaneAdapter(p, titledPanes));
 			accordion.add(p);
 		}
+		
 		accordion.add(Box.createVerticalGlue());
 		accordion.setPreferredSize(new Dimension(200, 499));
 
@@ -150,10 +154,43 @@ public class SideBar extends JPanel {
 //						JDatePickerImpl datePicker = new JDatePickerImpl(datePanel);
 //						pnl.add(datePicker);
 						
+						Calendar calendar = Calendar.getInstance();
+				        calendar.set(Calendar.HOUR_OF_DAY, 24); // 24 == 12 PM == 00:00:00
+				        calendar.set(Calendar.MINUTE, 0);
+				        calendar.set(Calendar.SECOND, 0);
+
+				        SpinnerDateModel dateModel = new SpinnerDateModel();
+				        dateModel.setValue(calendar.getTime());
+				        
+				        SpinnerDateModel dateModel2 = new SpinnerDateModel();
+				        dateModel2.setValue(calendar.getTime());
+
+				        JSpinner spinner = new JSpinner(dateModel);
+				        JSpinner spinner2 = new JSpinner(dateModel2);
+				        		        			        
+				        JSpinner.DateEditor editor = new JSpinner.DateEditor(spinner, "HH:mm:ss");
+				        JSpinner.DateEditor editor2 = new JSpinner.DateEditor(spinner2, "HH:mm:ss");
+				        
+				        DateFormatter formatter = (DateFormatter)editor.getTextField().getFormatter();
+				        formatter.setAllowsInvalid(false); // this makes what you want
+				        formatter.setOverwriteMode(true);
+				        
+				        DateFormatter formatter2 = (DateFormatter)editor2.getTextField().getFormatter();
+				        formatter2.setAllowsInvalid(false); // this makes what you want
+				        formatter2.setOverwriteMode(true);
+
+				        spinner.setEditor(editor);
+				        spinner2.setEditor(editor2);
+				        
+				        startPicker.setBackground(FOREGROUND);
+				        endPicker.setBackground(FOREGROUND);
+						
 						pnl.add(startLabel);
 						pnl.add(startPicker);
+						pnl.add(spinner);
 						pnl.add(endLabel);
 						pnl.add(endPicker);
+						pnl.add(spinner2);	
 						
 						return pnl;
 					}
@@ -198,16 +235,16 @@ public class SideBar extends JPanel {
 						JLabel incomeLabel = new JLabel("Income");
 						
 						Hashtable<Integer, JLabel> labels2 = new Hashtable<Integer, JLabel>();
-				        labels2.put(1, new JLabel("Low"));
-				        labels2.put(3, new JLabel("Mid"));
-				        labels2.put(5, new JLabel("High"));
+				        labels2.put(0, new JLabel("Low"));
+				        labels2.put(1, new JLabel("Mid"));
+				        labels2.put(2, new JLabel("High"));
 						
-						RangeSlider incomeSlider = new RangeSlider(0, 6);
-						incomeSlider.setMinorTickSpacing(2);
+						RangeSlider incomeSlider = new RangeSlider(0, 2);
+						incomeSlider.setMinorTickSpacing(1);
 						incomeSlider.setPaintTicks(true);
 					    incomeSlider.setPaintLabels(true);
 					    incomeSlider.setLowerValue(0);
-					    incomeSlider.setUpperValue(4);
+					    incomeSlider.setUpperValue(3);
 						incomeSlider.setLabelTable(labels2);
 						
 //						// Add listener to update display.
@@ -248,24 +285,9 @@ public class SideBar extends JPanel {
 				new AbstractExpansionPanel(" Define Bounce") {
 					public JPanel makePanel() {
 						JPanel pnl = new JPanel(new GridLayout(0, 1));
-						ButtonGroup bg = new ButtonGroup();
-						JRadioButton b1 = new JRadioButton("aaa");
-						JRadioButton b2 = new JRadioButton("bbb");
-						JRadioButton b3 = new JRadioButton("ccc");
-						JRadioButton b4 = new JRadioButton("ddd");
-						JRadioButton b5 = new JRadioButton("aaa");
-						JRadioButton b6 = new JRadioButton("bbb");
-						JRadioButton b7 = new JRadioButton("ccc");
-						JRadioButton b8 = new JRadioButton("ddd");
-						JRadioButton b9 = new JRadioButton("aaa");
-						JRadioButton b10 = new JRadioButton("bbb");
-						JRadioButton b11 = new JRadioButton("ccc");
-						JRadioButton b12 = new JRadioButton("ddd");
-						for (JRadioButton b: Arrays.asList(b1, b2, b3, b4, b5, b6, b7, b8,
-								b9, b10, b11, b12)) {
-							b.setOpaque(false); pnl.add(b); bg.add(b);
-						}
-						b1.setSelected(true);
+						String[] bounceOptions = { "Time spent on website", "Number of pages visited" };
+						JComboBox bounceBox = new JComboBox(bounceOptions);
+						pnl.add(bounceBox);
 						return pnl;
 					}
 				}
@@ -277,8 +299,10 @@ public class SideBar extends JPanel {
 abstract class AbstractExpansionPanel extends JPanel {
 
 	private final String title;
-	private final JLabel label;
-	private final JPanel panel;
+	public final JLabel label;
+	public final JPanel panel;
+
+	public abstract JPanel makePanel();
 
 	public AbstractExpansionPanel(String title) {
 
@@ -297,11 +321,11 @@ abstract class AbstractExpansionPanel extends JPanel {
 				super.paintComponent(g);
 			}
 		};
-		label.addMouseListener(new MouseAdapter() {
-			@Override public void mousePressed(MouseEvent e) {
-				initPanel();
-			}
-		});
+//		label.addMouseListener(new MouseAdapter() {
+//			@Override public void mousePressed(MouseEvent e) {
+//				initPanel();
+//			}
+//		});
 		label.setBorder(BorderFactory.createEmptyBorder(12, 12, 12, 12));
 		this.add(label, BorderLayout.NORTH);
 
@@ -313,8 +337,6 @@ abstract class AbstractExpansionPanel extends JPanel {
 		this.add(panel);
 
 	}
-
-    public abstract JPanel makePanel();
 
 	public Dimension getPreferredSize() {
 
@@ -340,6 +362,7 @@ abstract class AbstractExpansionPanel extends JPanel {
 		label.setText(String.format("%s %s", panel.isVisible() ? "\u25BD" : "\u25BA", title));
 		revalidate();
 		//fireExpansionEvent();
+
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				panel.scrollRectToVisible(panel.getBounds());
@@ -348,6 +371,38 @@ abstract class AbstractExpansionPanel extends JPanel {
 
 	}
 
+}
+
+class TitledPaneAdapter extends MouseAdapter {
+
+	List<AbstractExpansionPanel> titledPanes;
+	AbstractExpansionPanel clickedPane ;
+
+	public TitledPaneAdapter(AbstractExpansionPanel clickedPane, List<AbstractExpansionPanel> titledPanes){
+
+		this.clickedPane = clickedPane;
+		this.titledPanes = titledPanes;
+
+	}
+
+	public void mousePressed(MouseEvent e) {
+
+		if(clickedPane.panel.isVisible()){
+			clickedPane.initPanel();
+		}
+		else{
+
+			for(AbstractExpansionPanel titledPane: titledPanes){
+				if(titledPane.panel.isVisible())
+					titledPane.initPanel();
+			}
+
+			clickedPane.initPanel();
+
+		}
+
+	}
+	
 }
 
 class ImportListener implements ActionListener {
@@ -367,14 +422,10 @@ class ModifiedButtoGroup extends ButtonGroup {
 	  @Override
 	  public void setSelected(ButtonModel model, boolean selected) {
 
-	    if (selected) {
-
-	      super.setSelected(model, selected);
-
-	    } else {
-
-	      clearSelection();
-	    }
+	    if (selected)
+	      super.setSelected(model, selected); 
+	    
+	    else clearSelection();
 	  }
 	  
 }

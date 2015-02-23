@@ -1,4 +1,3 @@
-
 /**
  * A paint class that creates conical gradients around a given center point
  * It could be used in the same way as LinearGradientPaint and RadialGradientPaint
@@ -292,14 +291,12 @@ public final class ConicalGradientPaint implements java.awt.Paint
         return new java.awt.Color(SOURCE_RED + RED_FRACTION * VALUE, SOURCE_GREEN + GREEN_FRACTION * VALUE, SOURCE_BLUE + BLUE_FRACTION * VALUE, SOURCE_ALPHA + ALPHA_FRACTION * VALUE);
     }
 
-    @Override
     public java.awt.PaintContext createContext(final java.awt.image.ColorModel COLOR_MODEL, final java.awt.Rectangle DEVICE_BOUNDS, final java.awt.geom.Rectangle2D USER_BOUNDS, final java.awt.geom.AffineTransform TRANSFORM, final java.awt.RenderingHints HINTS)
     {
         final java.awt.geom.Point2D TRANSFORMED_CENTER = TRANSFORM.transform(CENTER, null);
         return new ConicalGradientPaintContext(TRANSFORMED_CENTER);
     }
 
-    @Override
     public int getTransparency()
     {
         return java.awt.Transparency.TRANSLUCENT;
@@ -314,18 +311,15 @@ public final class ConicalGradientPaint implements java.awt.Paint
             this.CENTER = new java.awt.geom.Point2D.Double(CENTER.getX(), CENTER.getY());
         }
 
-        @Override
         public void dispose()
         {
         }
 
-        @Override
         public java.awt.image.ColorModel getColorModel()
         {
             return java.awt.image.ColorModel.getRGBdefault();
         }
 
-        @Override
         public java.awt.image.Raster getRaster(final int X, final int Y, final int TILE_WIDTH, final int TILE_HEIGHT)
         {
             final double ROTATION_CENTER_X = -X + CENTER.getX();
