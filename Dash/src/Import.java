@@ -126,7 +126,9 @@ public class Import extends JFrame {
     	}
     }
 
-        public void drop(DropTargetDropEvent event) 
+    class DragDropListener implements DropTargetListener {
+
+        public void drop(DropTargetDropEvent event)
         {
             event.acceptDrop(DnDConstants.ACTION_COPY);
             try {
@@ -179,7 +181,6 @@ public class Import extends JFrame {
         	if (e.getSource() == openButton)
         	{
                 if (clickLog != null && impressionLog != null && serverLog != null) {
-                    System.out.println(clickLog.getAbsolutePath());
                     ClicklogParser clicklogParser = new ClicklogParser(clickLog.getAbsolutePath());
                     ImpressionParser impressionParser = new ImpressionParser(impressionLog.getAbsolutePath());
                     ServerlogParser serverlogParser = new ServerlogParser(serverLog.getAbsolutePath());
