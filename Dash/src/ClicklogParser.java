@@ -33,7 +33,9 @@ public class ClicklogParser implements Runnable {
             parser.beginParsing(new FileReader(fileLocation));
             String[] row;
             while ((row = parser.parseNext()) != null) {
-                clickLogs.add(new ClickLog(sdf.parse(row[0]), Double.parseDouble(row[1]), Double.parseDouble(row[2])));
+                if (row.length == 3) {
+                    clickLogs.add(new ClickLog(sdf.parse(row[0]), Double.parseDouble(row[1]), Double.parseDouble(row[2])));
+                }
             }
 
             long endTime = System.currentTimeMillis();

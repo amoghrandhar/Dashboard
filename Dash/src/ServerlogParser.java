@@ -42,10 +42,12 @@ public class ServerlogParser implements Runnable {
             parser.beginParsing(new FileReader("server_log.csv"));
             String[] row;
             while ((row = parser.parseNext()) != null) {
-                if (row[2].equals("n/a")) {
-                    serverLogs.add(new ServerLog(sdf.parse(row[0]), Double.parseDouble(row[1]), null, Integer.valueOf(row[3]), "Yes".equals(row[4])));
-                } else {
-                    serverLogs.add(new ServerLog(sdf.parse(row[0]), Double.parseDouble(row[1]), sdf.parse(row[2]), Integer.valueOf(row[3]), "Yes".equals(row[4])));
+                if (row.length == 5) {
+                    if (row[2].equals("n/a")) {
+                        serverLogs.add(new ServerLog(sdf.parse(row[0]), Double.parseDouble(row[1]), null, Integer.valueOf(row[3]), "Yes".equals(row[4])));
+                    } else {
+                        serverLogs.add(new ServerLog(sdf.parse(row[0]), Double.parseDouble(row[1]), sdf.parse(row[2]), Integer.valueOf(row[3]), "Yes".equals(row[4])));
+                    }
                 }
             }
 
