@@ -12,7 +12,7 @@ public class TestingParser {
         ip.generateImpressionsMethod1();
 
         ClicklogParser clp = new ClicklogParser();
-        clp.generateClickLogs();
+        //clp.generateClickLogs();
 
         ServerlogParser slp = new ServerlogParser();
         slp.generateServerLogs();

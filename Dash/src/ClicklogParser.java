@@ -51,11 +51,11 @@ public class ClicklogParser implements Runnable {
     }
 
     public void run() {
-        try {
-            generateClickLogs();
-        } catch (WrongFileException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            generateClickLogs();
+//        } catch (WrongFileException e) {
+//            e.printStackTrace();
+//        }
     }
 
     public ArrayList<ClickLog> getClickLogs() {
