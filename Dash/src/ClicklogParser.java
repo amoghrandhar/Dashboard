@@ -1,7 +1,6 @@
 import com.univocity.parsers.csv.CsvParser;
 import com.univocity.parsers.csv.CsvParserSettings;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.text.ParseException;
@@ -14,12 +13,14 @@ import java.util.ArrayList;
 public class ClicklogParser implements Runnable {
 
     private ArrayList<ClickLog> clickLogs;
+    private String fileLocation;
 
-    ClicklogParser() {
+    ClicklogParser(String fileLocation) {
         clickLogs = new ArrayList<ClickLog>();
+        this.fileLocation = fileLocation;
     }
 
-    public void generateClickLogs(File file) throws WrongFileException {
+    public void generateClickLogs() throws WrongFileException {
 
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -29,7 +30,7 @@ public class ClicklogParser implements Runnable {
             settings.setHeaderExtractionEnabled(true);      // This will remove the header data from csv
             CsvParser parser = new CsvParser(settings);
             // call beginParsing to read records one by one, iterator-style.
-            parser.beginParsing(new FileReader(file.getAbsoluteFile()));
+            parser.beginParsing(new FileReader(fileLocation));
             String[] row;
             while ((row = parser.parseNext()) != null) {
                 clickLogs.add(new ClickLog(sdf.parse(row[0]), Double.parseDouble(row[1]), Double.parseDouble(row[2])));

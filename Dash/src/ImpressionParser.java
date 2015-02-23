@@ -17,11 +17,13 @@ import java.util.Date;
 public class ImpressionParser implements Runnable {
     // creates a CSV parser
 
+    String fileLocation;
     private ArrayList<Impression> impressions;
 
 
-    ImpressionParser() {
+    ImpressionParser(String fileLocation) {
         impressions = new ArrayList<Impression>();
+        this.fileLocation = fileLocation;
     }
 
     public void generateImpressionsMethod1() throws WrongFileException {
@@ -36,7 +38,7 @@ public class ImpressionParser implements Runnable {
             settings.setHeaderExtractionEnabled(true);      // This will remove the header data from csv
             CsvParser parser = new CsvParser(settings);
             // call beginParsing to read records one by one, iterator-style.
-            parser.beginParsing(new FileReader("impression_log.csv"));
+            parser.beginParsing(new FileReader(fileLocation));
 
 
             String[] row;

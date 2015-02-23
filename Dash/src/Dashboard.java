@@ -8,9 +8,6 @@ public class Dashboard extends JFrame {
     public JPanel menu;
     public JPanel content;
 
-    private ClicklogParser clp;
-    private ImpressionParser ipp;
-    private ServerlogParser slp;
 
     private ArrayList<ClickLog> clickLogs;
     private ArrayList<Impression> impressions;
@@ -18,10 +15,6 @@ public class Dashboard extends JFrame {
 
     public Dashboard(String title) {
         super(title);
-
-        clp = new ClicklogParser();
-        ipp = new ImpressionParser();
-        slp = new ServerlogParser();
     }
 
     // Display login panel

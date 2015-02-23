@@ -9,19 +9,18 @@ import java.util.List;
 
 @SuppressWarnings("serial")
 public class Import extends JFrame {
-    File clickLog, impressionLog, serverLog;
-    Container container;
-    GridBagConstraints c;
-    JButton browseButton1, browseButton2, browseButton3;
-    JButton cancelButton, openButton;
-    DragAndDropPanel panel1, panel2, panel3;
+    private File clickLog, impressionLog, serverLog;
+    private Container container;
+    private GridBagConstraints c;
+    private JButton browseButton1, browseButton2, browseButton3;
+    private JButton cancelButton, openButton;
+    private DragAndDropPanel panel1, panel2, panel3;
+    private Dashboard dashboard;
 
-    public Import(String title) {
+    public Import(String title, Dashboard dd) {
         super(title);
-    }
+        dashboard = dd;
 
-    public static void main(String[] args) {
-        new Import("Import");
     }
 
     public void init() {
@@ -174,6 +173,26 @@ public class Import extends JFrame {
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == openButton) {
                 if (clickLog != null && impressionLog != null && serverLog != null) {
+                    System.out.println(clickLog.getAbsolutePath());
+                    ClicklogParser clicklogParser = new ClicklogParser(clickLog.getAbsolutePath());
+                    ImpressionParser impressionParser = new ImpressionParser(impressionLog.getAbsolutePath());
+                    ServerlogParser serverlogParser = new ServerlogParser(serverLog.getAbsolutePath());
+
+                    try {
+                        clicklogParser.generateClickLogs();
+                        impressionParser.generateImpressionsMethod1();
+                        serverlogParser.generateServerLogs();
+                    } catch (WrongFileException e1) {
+                        JOptionPane.showMessageDialog(Import.this, "Wrong File Passed for Processing", "Error",
+                                JOptionPane.ERROR_MESSAGE);
+                        e1.printStackTrace();
+                    }
+
+
+                    dashboard.updateClickLogs(clicklogParser.getClickLogs());
+                    dashboard.updateImpresssionLogs(impressionParser.getImpressions());
+                    dashboard.updateServerLogs(serverlogParser.getServerLogs());
+
                     setVisible(false);
                     dispose();
                 } else {

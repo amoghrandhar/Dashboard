@@ -13,9 +13,11 @@ import java.util.ArrayList;
 public class ServerlogParser implements Runnable {
 
     private ArrayList<ServerLog> serverLogs;
+    private String fileLocation;
 
-    ServerlogParser() {
+    ServerlogParser(String fileLocation) {
         serverLogs = new ArrayList<ServerLog>();
+        this.fileLocation = fileLocation;
     }
 
 
