@@ -3,7 +3,9 @@ import javax.swing.JFormattedTextField.AbstractFormatter;
 import javax.swing.border.*;
 import javax.swing.event.*;
 import javax.swing.text.DateFormatter;
+
 import org.jdatepicker.impl.*;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.text.ParseException;
@@ -26,7 +28,8 @@ public class SideBar extends JPanel {
 	UtilDateModel dateModel, dateModel2;
 	SpinnerDateModel timeModel, timeModel2;
 	JToggleButton male, female;
-	RangeSlider ageSlider, incomeSlider;
+	JSlider ageSlider, incomeSlider;
+
 	ModifiedButtonGroup sexGroup, contextGroup;
 
 	Color SECONDARY = Color.decode("#fafafa");
@@ -39,7 +42,7 @@ public class SideBar extends JPanel {
 	}
 
 	public void init() {
-
+		
 		//this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
 		GridBagConstraints importC = new GridBagConstraints();
@@ -217,19 +220,19 @@ public class SideBar extends JPanel {
 						JLabel ageLabel = new JLabel("Age");
 
 						Hashtable<Integer, JLabel> labels = new Hashtable<Integer, JLabel>();
-						labels.put(0, new JLabel("0"));
-						labels.put(1, new JLabel("25"));
-						labels.put(2, new JLabel("35"));
-						labels.put(3, new JLabel("45"));
-						labels.put(4, new JLabel("55"));
-						labels.put(5, new JLabel("100"));
+						labels.put(0, new JLabel("<25"));
+						labels.put(1, new JLabel("25-34"));
+						labels.put(2, new JLabel("35-44"));
+						labels.put(3, new JLabel("45-54"));
+						labels.put(4, new JLabel(">55"));
 
-						ageSlider = new RangeSlider(0, 5);
+						ageSlider = new JSlider(0, 4);
 						ageSlider.setMinorTickSpacing(1);
 						ageSlider.setPaintTicks(true);
 						ageSlider.setPaintLabels(true);
-						ageSlider.setLowerValue(0);
-						ageSlider.setUpperValue(5);
+						ageSlider.setSnapToTicks(true);
+//						ageSlider.setLowerValue(0);
+//						ageSlider.setUpperValue(5);
 						ageSlider.setLabelTable(labels);
 
 						JLabel incomeLabel = new JLabel("Income");
@@ -239,12 +242,13 @@ public class SideBar extends JPanel {
 						labels2.put(1, new JLabel("Mid"));
 						labels2.put(2, new JLabel("High"));
 
-						incomeSlider = new RangeSlider(0, 2);
+						incomeSlider = new JSlider(0, 2);
 						incomeSlider.setMinorTickSpacing(1);
 						incomeSlider.setPaintTicks(true);
 						incomeSlider.setPaintLabels(true);
-						incomeSlider.setLowerValue(0);
-						incomeSlider.setUpperValue(3);
+						incomeSlider.setSnapToTicks(true);
+//						incomeSlider.setLowerValue(0);
+//						incomeSlider.setUpperValue(3);
 						incomeSlider.setLabelTable(labels2);
 
 						// Add listener to update display.
@@ -308,9 +312,10 @@ public class SideBar extends JPanel {
 		
 	}
 
-	public Calendar getChosenStartDate(){
+	public Date getChosenStartDate(){
 		
 		Calendar temp = Calendar.getInstance();
+		//Date dA = new SimpleDateFormat("dd:hh:mm").parse(source); 
 		temp.setTime(timeModel.getDate());
 		
 		Calendar date = Calendar.getInstance();
@@ -321,11 +326,11 @@ public class SideBar extends JPanel {
 		date.set(Calendar.MINUTE, temp.get(Calendar.MINUTE));
 		date.set(Calendar.SECOND, temp.get(Calendar.SECOND));
 		
-		return date;
+		return date.getTime();
 
 	}
 	
-	public Calendar getChosenEndDate(){
+	public Date getChosenEndDate(){
 		
 		Calendar temp = Calendar.getInstance();
 		temp.setTime(timeModel2.getDate());
@@ -338,7 +343,7 @@ public class SideBar extends JPanel {
 		date.set(Calendar.MINUTE, temp.get(Calendar.MINUTE));
 		date.set(Calendar.SECOND, temp.get(Calendar.SECOND));
 		
-		return date;
+		return date.getTime();
 
 	}
 	
