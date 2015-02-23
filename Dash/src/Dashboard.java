@@ -5,8 +5,8 @@ import java.util.ArrayList;
 
 public class Dashboard extends JFrame {
 
-    public JPanel menu;
-    public JPanel content;
+    public SideBar sidebar;
+    public Content content;
 
     private ClicklogParser clp;
     private ImpressionParser ipp;
@@ -27,15 +27,15 @@ public class Dashboard extends JFrame {
     // Display login panel
     public void init() {
 
-        menu = new SideBar();
-        menu.setPreferredSize(new Dimension(200, 700));
+        sidebar = new SideBar(this);
+        sidebar.setPreferredSize(new Dimension(200, 700));
         
         content = new Content();
         content.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0, Color.gray));
 
         Container container = this.getContentPane();
 
-        container.add(menu, BorderLayout.LINE_START);
+        container.add(sidebar, BorderLayout.LINE_START);
         container.add(content);
 
         this.pack();

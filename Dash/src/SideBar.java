@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.Properties;
 
 public class SideBar extends JPanel {
+	
+	Dashboard dashboard;
 
 	JButton importButton, exportButton;
 	JPanel filePanel, menuPanel;
@@ -29,8 +31,9 @@ public class SideBar extends JPanel {
 
 	Color SECONDARY = Color.decode("#fafafa");
 
-	public SideBar() {
+	public SideBar(Dashboard dashboard) {
 
+		this.dashboard = dashboard;
 		init();
 
 	}
@@ -74,7 +77,7 @@ public class SideBar extends JPanel {
 		importButton.setFont(new Font("", Font.PLAIN, 12));
 		importButton.setPreferredSize(new Dimension(120, 46));
 		importButton.setFocusable(false);
-		importButton.addActionListener(new ImportListener());
+		importButton.addActionListener(new ImportListener(dashboard));
 		filePanel.add(importButton, importC);
 
 		ImageIcon exportIcon = new ImageIcon(getClass().getResource("download.png"));
@@ -467,10 +470,18 @@ class TitledPaneAdapter extends MouseAdapter {
 }
 
 class ImportListener implements ActionListener {
+	
+	Dashboard dashboard;
+	
+	public ImportListener (Dashboard dashboard){
+		
+		this.dashboard = dashboard;
+		
+	}
 
 	public void actionPerformed(ActionEvent e) {
 
-		Import importFrame = new Import("Import Files");
+		Import importFrame = new Import("Import Files", dashboard);
 		importFrame.init();
 
 	}
