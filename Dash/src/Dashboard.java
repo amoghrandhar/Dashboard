@@ -50,4 +50,7 @@ public class Dashboard extends JFrame {
         serverLogs = serverLogArrayList;
     }
 
+    public void updateUI() {
+
+    }
 }

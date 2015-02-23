@@ -17,7 +17,7 @@ import java.util.Date;
 public class ImpressionParser implements Runnable {
     // creates a CSV parser
 
-    String fileLocation;
+    private String fileLocation;
     private ArrayList<Impression> impressions;
 
 
@@ -43,27 +43,29 @@ public class ImpressionParser implements Runnable {
 
             String[] row;
             while ((row = parser.parseNext()) != null) {
-                if (row[3].equals("<25")) {
-                    row[3] = "0";
-                } else if (row[3].equals("25-34")) {
-                    row[3] = "1";
-                } else if (row[3].equals("35-44")) {
-                    row[3] = "2";
-                } else if (row[3].equals("45-54")) {
-                    row[3] = "3";
-                } else {
-                    row[3] = "4";
-                }
+                if (row.length == 7) {
+                    if (row[3].equals("<25")) {
+                        row[3] = "0";
+                    } else if (row[3].equals("25-34")) {
+                        row[3] = "1";
+                    } else if (row[3].equals("35-44")) {
+                        row[3] = "2";
+                    } else if (row[3].equals("45-54")) {
+                        row[3] = "3";
+                    } else {
+                        row[3] = "4";
+                    }
 
-                if (row[4].equals("Low")) {
-                    row[4] = "0";
-                } else if (row[3].equals("Medium")) {
-                    row[4] = "1";
-                } else {
-                    row[4] = "2";
-                }
+                    if (row[4].equals("Low")) {
+                        row[4] = "0";
+                    } else if (row[3].equals("Medium")) {
+                        row[4] = "1";
+                    } else {
+                        row[4] = "2";
+                    }
 
-                impressions.add(new Impression(sdf.parse(row[0]), Double.parseDouble(row[1]), "Male".equals(row[2]), Integer.valueOf(row[3]), Integer.valueOf(row[4]), row[5], Double.parseDouble(row[6])));
+                    impressions.add(new Impression(sdf.parse(row[0]), Double.parseDouble(row[1]), "Male".equals(row[2]), Integer.valueOf(row[3]), Integer.valueOf(row[4]), row[5], Double.parseDouble(row[6])));
+                }
             }
 
             long endTime = System.currentTimeMillis();
