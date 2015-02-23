@@ -36,7 +36,7 @@ public class Import extends JFrame {
         c.gridx = 0;
         c.gridy = 0;
         c.gridheight = 1;
-        c.insets = new Insets(0, 10, 0, 10);
+        c.insets = new Insets(1, 7, -2, 7);
         container.add(browseButton1, c);
 
         this.configurePanel1("dropClick.png");
@@ -46,7 +46,7 @@ public class Import extends JFrame {
         c.gridx = 1;
         c.gridy = 0;
         c.gridheight = 1;
-        c.insets = new Insets(0, 10, 0, 10);
+        c.insets = new Insets(1, 7, -2, 7);
         container.add(browseButton2, c);
 
         this.configurePanel2("dropImpression.png");
@@ -56,7 +56,7 @@ public class Import extends JFrame {
         c.gridx = 2;
         c.gridy = 0;
         c.gridheight = 1;
-        c.insets = new Insets(0, 10, 0, 10);
+        c.insets = new Insets(1, 7, -2, 7);
         container.add(browseButton3, c);
 
         this.configurePanel3("dropServer.png");
@@ -66,7 +66,7 @@ public class Import extends JFrame {
         c.gridx = 2;
         c.gridy = 5;
         c.gridheight = 1;
-        c.insets = new Insets(0, 7, 0, 95);
+        c.insets = new Insets(-3, 7, -2, 95);
         container.add(cancelButton, c);
 
         this.openButton = new JButton("Open");
@@ -74,12 +74,12 @@ public class Import extends JFrame {
         c.gridx = 2;
         c.gridy = 5;
         c.gridheight = 1;
-        c.insets = new Insets(0, 95, 0, 7);
+        c.insets = new Insets(-3, 95, -2, 7);
         container.add(openButton, c);
 
         container.setBackground(new Color(0xf5f5f5));
         this.pack();
-        this.setSize(580, 200);
+        this.setSize(580, 190);
         this.setMinimumSize(getSize());
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setVisible(true);
@@ -90,7 +90,7 @@ public class Import extends JFrame {
         c.gridx = 0;
         c.gridy = 1;
         c.gridheight = 4;
-        c.insets = new Insets(0, 0, 0, 0);
+        c.insets = new Insets(-4, 0, 0, 0);
         container.add(panel1, c);
     }
 
@@ -99,7 +99,7 @@ public class Import extends JFrame {
         c.gridx = 1;
         c.gridy = 1;
         c.gridheight = 4;
-        c.insets = new Insets(0, 0, 0, 0);
+        c.insets = new Insets(-4, 0, 0, 0);
         container.add(panel2, c);
     }
 
@@ -108,7 +108,7 @@ public class Import extends JFrame {
         c.gridx = 2;
         c.gridy = 1;
         c.gridheight = 4;
-        c.insets = new Insets(0, 0, 0, 0);
+        c.insets = new Insets(-4, 0, 0, 0);
         container.add(panel3, c);
     }
 
