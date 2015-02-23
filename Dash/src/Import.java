@@ -170,7 +170,8 @@ public class Import extends JFrame
 				else
         		{
         			// throw exception?
-					JOptionPane.showMessageDialog(Import.this, "Wrong file selected");
+				    JOptionPane.showMessageDialog(Import.this, "<html>Please drop either click_log.csv, <br> impression_log.csv or server_log.csv.</html>", "Error",
+				            JOptionPane.ERROR_MESSAGE);
         		}
 			} catch (Exception e) 
 			{
@@ -227,8 +228,8 @@ public class Import extends JFrame
 		        		else
 		        		{
 		        			// throw exception?
-							JOptionPane.showMessageDialog(Import.this, "Wrong file selected");
-		        		}
+						    JOptionPane.showMessageDialog(Import.this, "Please select click_log.csv.", "Error",
+						            JOptionPane.ERROR_MESSAGE);		        		}
 		        	}
 		        	else if (e.getSource() == browseButton2) 
 		        	{
@@ -242,8 +243,8 @@ public class Import extends JFrame
 		        		else
 		        		{
 		        			// throw exception?
-							JOptionPane.showMessageDialog(Import.this, "Wrong file selected");
-		        		}
+						    JOptionPane.showMessageDialog(Import.this, "Please select impresion_log.csv.", "Error",
+						            JOptionPane.ERROR_MESSAGE);		        		}
 		        	}
 		        	else if (e.getSource() == browseButton3) 
 		        	{
@@ -257,8 +258,8 @@ public class Import extends JFrame
 		        		else
 		        		{
 		        			// throw exception?
-							JOptionPane.showMessageDialog(Import.this, "Wrong file selected");
-		        		}
+						    JOptionPane.showMessageDialog(Import.this, "Please select server_log.csv.", "Error",
+						            JOptionPane.ERROR_MESSAGE);		        		}
 		        	}
 		        }
     		}
