@@ -19,7 +19,7 @@ import java.util.HashSet;
 public class ImpressionParser implements Runnable {
     // creates a CSV parser
 
-    ArrayList<Impression> impressions;
+    private ArrayList<Impression> impressions;
 
 
     ImpressionParser() {
@@ -37,6 +37,13 @@ public class ImpressionParser implements Runnable {
         HashSet<Impression> him = new HashSet<Impression>();
         him.addAll(ip.getImpressions());
         System.out.println(him.size());
+
+
+        System.out.println("\n\n\n\n");
+        System.out.println("Data Analytics Test");
+
+        DataAnalytics dataAnalytics = new DataAnalytics();
+
 
 
     }

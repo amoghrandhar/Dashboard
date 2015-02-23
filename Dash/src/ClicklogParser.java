@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public class ClicklogParser implements Runnable {
 
-    ArrayList<ClickLog> clickLogs;
+    private ArrayList<ClickLog> clickLogs;
 
     ClicklogParser() {
         clickLogs = new ArrayList<ClickLog>();

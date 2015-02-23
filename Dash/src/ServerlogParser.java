@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public class ServerlogParser implements Runnable {
 
-    ArrayList<ServerLog> serverLogs;
+    private ArrayList<ServerLog> serverLogs;
 
     ServerlogParser() {
         serverLogs = new ArrayList<ServerLog>();

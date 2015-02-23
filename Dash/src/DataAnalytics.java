@@ -64,7 +64,7 @@ public class DataAnalytics {
         //Returns total money spent on Clicks in Penny
         double total = 0;
         for (int i = 0; i < clickLogArrayList.size(); i++) {
-            total = total + clickLogArrayList.get(i).getImpression();
+            total = total + clickLogArrayList.get(i).getClickCost();
         }
         return total;
     }
@@ -84,12 +84,21 @@ public class DataAnalytics {
 
             if (slog.get(i).isConversation())
                 for (int j = im; j < impressionArrayList.size(); j++) {
-                    if (impressionArrayList.get(j).getDate().before(slog.get(i).getEndDate()) && impressionArrayList.get(j).getID() == slog.get(i).getID()) {
+                    if (impressionArrayList.get(j).getDate().after(slog.get(i).getStartDate()) && impressionArrayList.get(j).getID() == slog.get(i).getID()) {
                         total = impressionArrayList.get(j).getImpression() + total;
+                        im = j;
                         break;
                     }
                 }
+            for (int k = cl; k < clickLogArrayList.size(); k++) {
+                if (clickLogArrayList.get(k).getDate().after(slog.get(i).getStartDate()) && clickLogArrayList.get(k).getID() == slog.get(i).getID()) {
+                    total = clickLogArrayList.get(k).getClickCost() + total;
+                    cl = k;
+                    break;
+                }
+            }
+
         }
-        return 0;
+        return total;
     }
 }

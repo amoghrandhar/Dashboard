@@ -25,7 +25,7 @@ public class ClickLog implements Serializable {
         return ID;
     }
 
-    public double getImpression() {
+    public double getClickCost() {
         return clickCost;
     }
 
