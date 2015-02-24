@@ -39,15 +39,15 @@ public class Content extends JPanel{
 		metricsPanel = new JPanel();
 		metricsPanel.setLayout(new GridBagLayout());
 
-		final JFXPanel fxPanel = new JFXPanel();
+		final Chart chart = new Chart();
 
 		Platform.runLater(new Runnable() {
 			public void run() {
-				initFX(fxPanel);
+				chart.initFX();
 			}
 		});
 
-		graphPanel.add(fxPanel);
+		graphPanel.add(chart);
 
 		String columnNames[] = { "Clicks", "Impressions", "Uniques", "Bounces", "Conversions", 
 				"Total Cost", "CTR", "CPA", "CPC", "CPM", "Bounce Rate" };
@@ -123,44 +123,4 @@ public class Content extends JPanel{
 		metrics = dataValues;
 		
 	}
-
-	private static void initFX(JFXPanel fxPanel) {
-		// This method is invoked on the JavaFX thread
-		Scene scene = createScene();
-		fxPanel.setScene(scene);
-	}
-
-	public static Scene createScene() {
-
-		final CategoryAxis xAxis = new CategoryAxis();
-		final NumberAxis yAxis = new NumberAxis();
-		xAxis.setLabel("Month");       
-
-		final LineChart<String,Number> lineChart = 
-				new LineChart<String,Number>(xAxis,yAxis);
-
-		lineChart.setTitle("Stock Monitoring, 2010");
-
-		XYChart.Series series = new XYChart.Series();
-		series.setName("My portfolio");
-
-		series.getData().add(new XYChart.Data("Jan", 23));
-		series.getData().add(new XYChart.Data("Feb", 14));
-		series.getData().add(new XYChart.Data("Mar", 15));
-		series.getData().add(new XYChart.Data("Apr", 24));
-		series.getData().add(new XYChart.Data("May", 34));
-		series.getData().add(new XYChart.Data("Jun", 36));
-		series.getData().add(new XYChart.Data("Jul", 22));
-		series.getData().add(new XYChart.Data("Aug", 45));
-		series.getData().add(new XYChart.Data("Sep", 43));
-		series.getData().add(new XYChart.Data("Oct", 17));
-		series.getData().add(new XYChart.Data("Nov", 29));
-		series.getData().add(new XYChart.Data("Dec", 25));
-		lineChart.getData().add(series); 
-
-		Scene scene  = new Scene(lineChart,600,300);
-
-		return scene;
-	}
-
 }
