@@ -1,5 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.*;
 
 /**
  * Created by Amogh on 22-02-2015.
@@ -61,23 +60,23 @@ public class DataAnalytics {
     }
 
 
-    public double totalImpressionCost(ArrayList<Impression> impressionArrayList) {
-        //Returns total money spent on impressions in Penny
+    public Double totalImpressionCost(ArrayList<Impression> impressionArrayList) {
+        //Returns total money spent on impressions in Pounds
         double total = 0;
         for (int i = 0; i < impressionArrayList.size(); i++) {
             total = total + impressionArrayList.get(i).getImpression();
         }
-        return total;
+        return total / 100;
     }
 
 
-    public double totalClickCost(ArrayList<ClickLog> clickLogArrayList) {
-        //Returns total money spent on Clicks in Penny
+    public Double totalClickCost(ArrayList<ClickLog> clickLogArrayList) {
+        //Returns total money spent on Clicks in Pounds
         double total = 0;
         for (int i = 0; i < clickLogArrayList.size(); i++) {
             total = total + clickLogArrayList.get(i).getClickCost();
         }
-        return total;
+        return total / 100;
     }
 
     public Double totalCost(ArrayList<Impression> impressionArrayList, ArrayList<ClickLog> clickLogArrayList) {
@@ -87,7 +86,7 @@ public class DataAnalytics {
     }
 
 
-    public double getCTR(ArrayList<ClickLog> clickLogArrayList, ArrayList<Impression> impressionArrayList) {
+    public Double getCTR(ArrayList<ClickLog> clickLogArrayList, ArrayList<Impression> impressionArrayList) {
         //Returns the CTR
         double ctr = ((double) totalClicks(clickLogArrayList)) / impressionArrayList.size();
         return ctr;
@@ -123,30 +122,42 @@ public class DataAnalytics {
     }
     */
 
-    public double getCPA(ArrayList<Impression> impressionArrayList, ArrayList<ClickLog> clickLogArrayList, ArrayList<ServerLog> slog) {
+    public Double getCPA(ArrayList<Impression> impressionArrayList, ArrayList<ClickLog> clickLogArrayList, ArrayList<ServerLog> slog) {
         // This returns the CPA
         double cpa = totalCost(impressionArrayList, clickLogArrayList) / noOfConversions(slog);
         return cpa;
     }
 
 
-    public double getCPC(ArrayList<Impression> impressionArrayList, ArrayList<ClickLog> clickLogArrayList) {
+    public Double getCPC(ArrayList<Impression> impressionArrayList, ArrayList<ClickLog> clickLogArrayList) {
         // This returns the CPC
         double cpc = totalCost(impressionArrayList, clickLogArrayList) / totalClicks(clickLogArrayList);
         return cpc;
     }
 
-    public double getCPM(ArrayList<Impression> impressionArrayList, ArrayList<ClickLog> clickLogArrayList) {
+    public Double getCPM(ArrayList<Impression> impressionArrayList, ArrayList<ClickLog> clickLogArrayList) {
         // This returns the CPM
         double cpm = (totalCost(impressionArrayList, clickLogArrayList) / noOfImpression(impressionArrayList)) * 1000;
         return cpm;
     }
 
-    public double bounceRate(int bounceProperty, ArrayList<ClickLog> clickLogArrayList, ArrayList<ServerLog> slog) {
+    public Double bounceRate(int bounceProperty, ArrayList<ClickLog> clickLogArrayList, ArrayList<ServerLog> slog) {
         // This returns the average bounceRate
         double bRate = ((double) noOfBounces(slog, bounceProperty)) / totalClicks(clickLogArrayList);
         return bRate;
     }
 
+
+    /*
+
+    ---------> The Graph Methods Starts Here.
+
+     */
+
+    public Map<Date, Long> getDateVsClick() {
+        AbstractMap.SimpleEntry dateLongSimpleEntry = new AbstractMap.SimpleEntry<Date, Long>(new Date(), new Long(45));
+
+        return null;
+    }
 
 }

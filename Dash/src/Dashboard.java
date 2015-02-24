@@ -63,12 +63,12 @@ public class Dashboard extends JFrame {
                 String.valueOf(dataAnalytics.noOfUniques(clickLogs)),
                 String.valueOf(dataAnalytics.noOfBounces(serverLogs, 5)),
                 String.valueOf(dataAnalytics.noOfConversions(serverLogs)),
-                String.valueOf(dataAnalytics.totalCost(impressions, clickLogs)),
-                String.valueOf(dataAnalytics.getCTR(clickLogs, impressions)),
-                String.valueOf(dataAnalytics.getCPA(impressions, clickLogs, serverLogs)),
-                String.valueOf(dataAnalytics.getCPC(impressions, clickLogs)),
-                String.valueOf(dataAnalytics.getCPM(impressions, clickLogs)),
-                String.valueOf(dataAnalytics.bounceRate(5, clickLogs, serverLogs))
+                String.valueOf(dataAnalytics.totalCost(impressions, clickLogs).floatValue()),
+                String.valueOf(dataAnalytics.getCTR(clickLogs, impressions).floatValue()),
+                String.valueOf(dataAnalytics.getCPA(impressions, clickLogs, serverLogs).floatValue()),
+                String.valueOf(dataAnalytics.getCPC(impressions, clickLogs).floatValue()),
+                String.valueOf(dataAnalytics.getCPM(impressions, clickLogs).floatValue()),
+                String.valueOf(dataAnalytics.bounceRate(5, clickLogs, serverLogs).floatValue())
         };
         content.setMetrics(0, rowData);
     }
