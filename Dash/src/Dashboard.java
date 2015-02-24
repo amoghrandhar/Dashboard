@@ -1,5 +1,7 @@
 import javax.swing.*;
+
 import java.awt.*;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 
@@ -72,21 +74,33 @@ public class Dashboard extends JFrame {
 
     public void updateMetrics() {
 
-        // Update metrics table
-        String[] rowData = {
-                String.valueOf(dataAnalytics.totalClicks(clickLogs)),
-                String.valueOf(dataAnalytics.noOfImpression(impressionLogs)),
-                String.valueOf(dataAnalytics.noOfUniques(clickLogs)),
-                String.valueOf(dataAnalytics.noOfBounces(serverLogs, 5)),
-                String.valueOf(dataAnalytics.noOfConversions(serverLogs)),
-                String.valueOf(dataAnalytics.totalCost(impressionLogs, clickLogs).floatValue()),
-                String.valueOf(dataAnalytics.getCTR(clickLogs, impressionLogs).floatValue()),
-                String.valueOf(dataAnalytics.getCPA(impressionLogs, clickLogs, serverLogs).floatValue()),
-                String.valueOf(dataAnalytics.getCPC(impressionLogs, clickLogs).floatValue()),
-                String.valueOf(dataAnalytics.getCPM(impressionLogs, clickLogs).floatValue()),
-                String.valueOf(dataAnalytics.bounceRate(5, clickLogs, serverLogs).floatValue())
-        };
-        content.setMetrics(0, rowData);
+    	// Update metrics table
+    	String[] rowData = {
+    			String.valueOf(dataAnalytics.totalClicks(clickLogs)),
+    			String.valueOf(dataAnalytics.noOfImpression(impressionLogs)),
+    			String.valueOf(dataAnalytics.noOfUniques(clickLogs)),
+    			String.valueOf(dataAnalytics.noOfBounces(serverLogs, 5)),
+    			String.valueOf(dataAnalytics.noOfConversions(serverLogs)),
+    			String.valueOf(dataAnalytics.totalCost(impressionLogs, clickLogs).floatValue()),
+    			String.valueOf(dataAnalytics.getCTR(clickLogs, impressionLogs).floatValue()),
+    			String.valueOf(dataAnalytics.getCPA(impressionLogs, clickLogs, serverLogs).floatValue()),
+    			String.valueOf(dataAnalytics.getCPC(impressionLogs, clickLogs).floatValue()),
+    			String.valueOf(dataAnalytics.getCPM(impressionLogs, clickLogs).floatValue()),
+    			String.valueOf(dataAnalytics.bounceRate(5, clickLogs, serverLogs).floatValue())
+    	};
+    	content.setMetrics(0, rowData);
+    	content.setHeaderMetrics(
+    			String.valueOf(dataAnalytics.totalClicks(clickLogs)), 
+    			String.valueOf(dataAnalytics.noOfImpression(impressionLogs)),
+    			round(dataAnalytics.totalCost(impressionLogs, clickLogs).floatValue(), 2)
+    			);
+        
     }
+    
+    public String round(double value, int scale){
+		
+		return new BigDecimal(String.valueOf(value)).setScale(scale, BigDecimal.ROUND_HALF_UP).toString();
+		
+	}
     
 }

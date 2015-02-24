@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
 
 import javafx.application.Platform;
 
@@ -17,7 +18,9 @@ public class Content extends JPanel{
 	
 	SimpleTableModel tableModel;
 
-	JPanel graphPanel, metricsPanel;
+	JPanel graphPanel, metricsPanel, headerPanel;
+	
+	JLabel clicksValueLabel, impressionsValueLabel, totalCostValueLabel;
 	
 	Dashboard dashboard;
 	
@@ -34,11 +37,108 @@ public class Content extends JPanel{
 
 		this.setLayout(new BorderLayout());
 
+		headerPanel = new JPanel();
+		headerPanel.setLayout(new GridBagLayout());
+		
 		graphPanel = new JPanel();
 		graphPanel.setLayout(new GridBagLayout());
 
 		metricsPanel = new JPanel();
 		metricsPanel.setLayout(new GridBagLayout());
+		
+		// ######### GridBagLayout Constraints #########
+		
+		GridBagConstraints l1 = new GridBagConstraints();
+		GridBagConstraints l2 = new GridBagConstraints();
+		GridBagConstraints l3 = new GridBagConstraints();
+		GridBagConstraints v1 = new GridBagConstraints();
+		GridBagConstraints v2 = new GridBagConstraints();
+		GridBagConstraints v3 = new GridBagConstraints();
+		GridBagConstraints graphChoiceBoxC = new GridBagConstraints();
+		GridBagConstraints graphChoiceLabelC = new GridBagConstraints();
+		
+		v1.gridx = 0;
+		v1.gridy = 0;
+		v1.anchor = GridBagConstraints.LINE_START;
+		v1.insets = new Insets(0, 20, 0, 20);
+		
+		v2.gridx = 1;
+		v2.gridy = 0;
+		v2.anchor = GridBagConstraints.LINE_START;
+		v2.insets = new Insets(0, 20, 0, 20);
+		
+		v3.gridx = 2;
+		v3.gridy = 0;
+		v3.anchor = GridBagConstraints.LINE_START;
+		v3.insets = new Insets(0, 20, 0, 20);
+		
+		l1.gridx = 0;
+		l1.gridy = 1;
+		l1.anchor = GridBagConstraints.LINE_START;
+		l1.insets = new Insets(0, 20, 0, 20);
+		
+		l2.gridx = 1;
+		l2.gridy = 1;
+		l2.anchor = GridBagConstraints.LINE_START;
+		l2.insets = new Insets(0, 20, 0, 20);
+		
+		l3.gridx = 2;
+		l3.gridy = 1;
+		l3.anchor = GridBagConstraints.LINE_START;
+		l3.insets = new Insets(0, 20, 0, 20);
+		
+		graphChoiceBoxC.gridx = 3;
+		graphChoiceBoxC.gridy = 1;
+		graphChoiceBoxC.anchor = GridBagConstraints.LINE_START;
+		graphChoiceBoxC.insets = new Insets(-4, 300, 0, 20);
+		 
+		graphChoiceLabelC.gridx = 3;
+		graphChoiceLabelC.gridy = 0;
+		graphChoiceLabelC.anchor = GridBagConstraints.LINE_START;
+		graphChoiceLabelC.insets = new Insets(0, 304, 0, 20);
+		
+		// ######### Panels #########
+		
+		Font valueFont = new Font("", Font.BOLD, 20);
+		Font labelFont = new Font("", Font.PLAIN, 12);
+		
+		clicksValueLabel = new JLabel("0");
+		impressionsValueLabel = new JLabel("0");
+		totalCostValueLabel = new JLabel("£ 0");
+		
+		clicksValueLabel.setFont(valueFont);
+		impressionsValueLabel.setFont(valueFont);
+		totalCostValueLabel.setFont(valueFont);
+		
+		JLabel clicksLabel = new JLabel("Clicks");
+		JLabel impressionsLabel = new JLabel("Impressions");
+		JLabel totalCostLabel = new JLabel("Total Cost");
+		
+		clicksLabel.setFont(labelFont);
+		impressionsLabel.setFont(labelFont);
+		totalCostLabel.setFont(labelFont);
+		
+		headerPanel.add(clicksValueLabel, v1);
+		headerPanel.add(impressionsValueLabel, v2);
+		headerPanel.add(totalCostValueLabel, v3);
+		
+		headerPanel.add(clicksLabel, l1);
+		headerPanel.add(impressionsLabel, l2);
+		headerPanel.add(totalCostLabel, l3);
+		
+		String[] graphChoices = { "Clicks", "Impressions", "Uniques", "Bounces", "Conversions", 
+				"Total Cost", "CTR", "CPA", "CPC", "CPM", "Bounce Rate" };
+		
+		JComboBox graphChoiceBox = new JComboBox(graphChoices);
+		graphChoiceBox.setPrototypeDisplayValue("XXXXXXXXXX");
+		
+		JLabel graphChoiceLabel = new JLabel("Display graph");
+		graphChoiceLabel.setFont(labelFont);
+		
+		headerPanel.add(graphChoiceBox, graphChoiceBoxC);
+		headerPanel.add(graphChoiceLabel, graphChoiceLabelC);
+		
+		// ######### Graph Panel #########
 
 		chart = new Chart();
 
@@ -70,7 +170,7 @@ public class Content extends JPanel{
 		graphPanel.add(clickBtn);
 		graphPanel.add(impressionBtn);
 
-		// Create a new table instance
+		// ######### Header Panel #########
 		
 		tableModel = new SimpleTableModel();
 		
@@ -129,12 +229,18 @@ public class Content extends JPanel{
 
 		JPanel tablePanel = new JPanel();
 		tablePanel.add(scrollPane);
+		
+		// ######### Panels #########
 
+		headerPanel.setPreferredSize(new Dimension(900, 100));
+		headerPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.gray));
+		
 		metricsPanel.add(tablePanel);
 		metricsPanel.setPreferredSize(new Dimension(900, 160));
 		metricsPanel.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, Color.gray));
 
-		this.add(graphPanel, BorderLayout.PAGE_START);
+		this.add(headerPanel, BorderLayout.PAGE_START);
+		this.add(graphPanel, BorderLayout.CENTER);
 		this.add(metricsPanel, BorderLayout.PAGE_END);
 
 	}
@@ -142,6 +248,14 @@ public class Content extends JPanel{
 	public void setMetrics(int rowIndex, String[] rowValues){
 		
 		tableModel.updateRow(0, rowValues);
+		
+	}
+	
+	public void setHeaderMetrics(String clicks, String impressions, String cost){
+		
+		this.clicksValueLabel.setText(clicks);
+		this.impressionsValueLabel.setText(impressions);
+		this.totalCostValueLabel.setText("£" + cost);
 		
 	}
 	
@@ -201,5 +315,11 @@ class SimpleTableModel extends AbstractTableModel {
             setValueAt(values[i],index,i);
 
     }
+	
+	public String round(double value, int scale){
+		
+		return new BigDecimal(String.valueOf(value)).setScale(scale, BigDecimal.ROUND_HALF_UP).toString();
+		
+	}
 	
 }
