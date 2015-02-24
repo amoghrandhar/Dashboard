@@ -4,7 +4,6 @@ import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -218,7 +217,7 @@ public class Content extends JPanel{
                     c.setForeground(Color.BLACK);
                 } else {
                     c.setForeground(Color.blue);
-                    c.setBackground(new java.awt.Color(220, 255, 20));
+                    c.setBackground(new java.awt.Color(149, 255, 253));
                 }
 
                 /*
