@@ -39,7 +39,7 @@ public class ServerlogParser implements Runnable {
             settings.setHeaderExtractionEnabled(true);      // This will remove the header data from csv
             CsvParser parser = new CsvParser(settings);
             // call beginParsing to read records one by one, iterator-style.
-            parser.beginParsing(new FileReader("server_log.csv"));
+            parser.beginParsing(new FileReader(fileLocation));
             String[] row;
             while ((row = parser.parseNext()) != null) {
                 if (row.length == 5) {

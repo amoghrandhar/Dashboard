@@ -7,11 +7,12 @@ public class Dashboard extends JFrame {
 
     public SideBar sidebar;
     public Content content;
+    public DataAnalytics analytics;
 
-
-    private ArrayList<ClickLog> clickLogs;
-    private ArrayList<Impression> impressions;
-    private ArrayList<ServerLog> serverLogs;
+    
+    ArrayList<ClickLog> clickLogs;
+    ArrayList<Impression> impressions;
+    ArrayList<ServerLog> serverLogs;
 
     public Dashboard(String title) {
         super(title);
@@ -54,4 +55,5 @@ public class Dashboard extends JFrame {
 
 
     }
+    
 }

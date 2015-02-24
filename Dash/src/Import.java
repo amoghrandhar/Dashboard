@@ -1,4 +1,5 @@
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.dnd.*;
@@ -203,7 +204,20 @@ public class Import extends JFrame {
                     dashboard.updateServerLogs(serverlogParser.getServerLogs());
 
                     //This will update the UI of Dashboard
-                    dashboard.updateUI();
+                    String[] rowData = { 
+                    		Integer.toString(dashboard.clickLogs.size()), 
+                    		Integer.toString(dashboard.impressions.size()),
+                    		"0",
+                    		"0",
+                    		"0",
+                    		"0", 
+                    		"0", 
+                    		"0", 
+                    		"0",
+                    		"0",
+                    		"0" 
+                	};
+                    dashboard.content.setMetrics(0, rowData);
 
                     setVisible(false);
                     dispose();

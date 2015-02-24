@@ -1,5 +1,4 @@
 import java.awt.*;
-
 import javafx.application.Platform;
 import javafx.embed.swing.*;
 import javafx.scene.*;
@@ -7,7 +6,6 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
