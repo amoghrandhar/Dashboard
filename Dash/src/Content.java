@@ -1,4 +1,5 @@
 import java.awt.*;
+
 import javafx.application.Platform;
 import javafx.embed.swing.*;
 import javafx.scene.*;
@@ -6,8 +7,9 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javax.swing.BorderFactory;
+
 import javax.swing.*;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -16,12 +18,10 @@ import javax.swing.table.TableModel;
 
 
 public class Content extends JPanel{
+	
+	SimpleTableModel tableModel;
 
 	JPanel graphPanel, metricsPanel;
-
-	private String metrics[][] = {
-			{ "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0" },
-	};
 
 	public Content() {
 
@@ -49,11 +49,11 @@ public class Content extends JPanel{
 
 		graphPanel.add(fxPanel);
 
-		String columnNames[] = { "Clicks", "Impressions", "Uniques", "Bounces", "Conversions", 
-				"Total Cost", "CTR", "CPA", "CPC", "CPM", "Bounce Rate" };
-
 		// Create a new table instance
-		JTable table = new JTable( metrics, columnNames );
+		
+		tableModel = new SimpleTableModel();
+		
+		JTable table = new JTable( tableModel );
 		
 		TableCellRenderer rendererFromHeader = table.getTableHeader().getDefaultRenderer();
 		JLabel headerLabel = (JLabel) rendererFromHeader;
@@ -118,9 +118,9 @@ public class Content extends JPanel{
 
 	}
 	
-	public void setMetrics(String dataValues[][]){
+	public void setMetrics(int rowIndex, String[] rowValues){
 		
-		metrics = dataValues;
+		tableModel.updateRow(0, rowValues);
 		
 	}
 
@@ -163,4 +163,58 @@ public class Content extends JPanel{
 		return scene;
 	}
 
+}
+
+class SimpleTableModel extends AbstractTableModel {
+	
+	private String[][] rowData = {
+			{ "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0" },
+	};
+	
+	private String[] columnNames = { "Clicks", "Impressions", "Uniques", "Bounces", "Conversions", 
+			"Total Cost", "CTR", "CPA", "CPC", "CPM", "Bounce Rate" };
+
+	public String getColumnName(int col) {
+		
+		return columnNames[col].toString();
+		
+	}
+	public int getRowCount() {
+		
+		return rowData.length;
+		
+	}
+	
+	public int getColumnCount() {
+		
+		return columnNames.length;
+		
+	}
+	
+	public Object getValueAt(int row, int col) {
+		
+		return rowData[row][col];
+		
+	}
+	
+	public boolean isCellEditable(int row, int col){
+		
+		return true;
+		
+	}
+	
+	public void setValueAt(String value, int row, int col) {
+		
+		rowData[row][col] = value;
+		fireTableCellUpdated(row, col);
+		
+	}
+	
+	public void updateRow(int index, String[] values){
+		
+        for (int i = 0 ; i < values.length ; i++)
+            setValueAt(values[i],index,i);
+
+    }
+	
 }
