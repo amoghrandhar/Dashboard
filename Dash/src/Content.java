@@ -138,6 +138,7 @@ public class Content extends JPanel{
 
 		chart = new Chart();
 
+		Platform.setImplicitExit(false);
 		Platform.runLater(new Runnable() {
 			public void run() {
 				chart.initFX();
