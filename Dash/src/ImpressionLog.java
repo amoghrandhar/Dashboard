@@ -4,7 +4,7 @@ import java.util.Date;
 /**
  * Created by Amogh on 20-02-2015.
  */
-public class Impression implements Serializable {
+public class ImpressionLog implements Serializable {
 
     private Date date;
     private double ID;
@@ -14,7 +14,7 @@ public class Impression implements Serializable {
     private int incomeGroup;
     private String context;
 
-    Impression(Date d, double id, boolean sex, int age, int inc, String con, double imp) {
+    ImpressionLog(Date d, double id, boolean sex, int age, int inc, String con, double imp) {
         this.date = d;
         this.ID = id;
         this.impression = imp;
@@ -55,8 +55,8 @@ public class Impression implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj != null && obj instanceof Impression) {
-            Impression t = (Impression) obj;
+        if (obj != null && obj instanceof ImpressionLog) {
+            ImpressionLog t = (ImpressionLog) obj;
             if (t.getID() == this.ID) {
                 return true;
             }

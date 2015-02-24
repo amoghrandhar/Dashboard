@@ -15,6 +15,7 @@ import javafx.scene.chart.XYChart;
 public class Chart extends JFXPanel{
 	
 	private Scene scene;
+	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	
 	public Chart() {
 		super();
@@ -50,25 +51,58 @@ public class Chart extends JFXPanel{
 		scene = new Scene(lineChart, 600, 300);
 		this.setScene(scene);
 	}
+	
+	public void showImpressionsChart(ArrayList<ImpressionLog> impressionList) {
+		CategoryAxis xAxis = new CategoryAxis();
+		NumberAxis yAxis = new NumberAxis();
+		xAxis.setLabel("Date");
+		
+		LinkedHashMap<String,Integer> impressionPairs = new LinkedHashMap<String,Integer>();
+		String date;
+		
+		for (ImpressionLog impression : impressionList) {
+			date = sdf.format(impression.getDate());
+			if (!impressionPairs.containsKey(date)) {
+				impressionPairs.put(date, 1);
+			} else {
+				impressionPairs.put(date, impressionPairs.get(date) + 1);
+			}
+		}
+		
+		final LineChart<String,Number> lineChart = 
+				new LineChart<String,Number>(xAxis,yAxis);
+
+		XYChart.Series series = new XYChart.Series();
+		series.setName("Clicks Over Time");
+
+		for (Entry<String,Integer> entry : impressionPairs.entrySet()) {
+			series.getData().add(new XYChart.Data(entry.getKey(), entry.getValue()));
+		}
+		lineChart.getData().add(series);
+		
+		scene = new Scene(lineChart, 600, 300);
+		this.setScene(scene);
+		
+	}
 
 	public void showClicksChart(ArrayList<ClickLog> clickList) {
 		CategoryAxis xAxis = new CategoryAxis();
 		NumberAxis yAxis = new NumberAxis();
 		xAxis.setLabel("Date");
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		LinkedHashMap<String,Integer> clickPairs = new LinkedHashMap<String, Integer>();
-		String s;
+		
+		LinkedHashMap<String,Integer> clickPairs = new LinkedHashMap<String,Integer>();
+		String date;
 		
 		
 		/* 'Counts' number of clicks per day */
 		/*TODO Implement granularity */
 		for (ClickLog click : clickList) {
-			s = sdf.format(click.getDate());
-			if (!clickPairs.containsKey(s)) {
-				clickPairs.put(s, 1);
+			date = sdf.format(click.getDate());
+			if (!clickPairs.containsKey(date)) {
+				clickPairs.put(date, 1);
 			} else {
-				clickPairs.put(s, clickPairs.get(s) + 1);
+				clickPairs.put(date, clickPairs.get(date) + 1);
 			}
 		}
 		
@@ -87,4 +121,5 @@ public class Chart extends JFXPanel{
 		scene = new Scene(lineChart, 600, 300);
 		this.setScene(scene);
 	}
+	
 }

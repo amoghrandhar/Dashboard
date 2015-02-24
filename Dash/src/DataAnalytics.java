@@ -5,7 +5,7 @@ import java.util.*;
  */
 public class DataAnalytics {
 
-    public long noOfImpression(ArrayList<Impression> impressionArrayList) {
+    public long noOfImpression(ArrayList<ImpressionLog> impressionArrayList) {
         //This returns the total no. of impressions
         return impressionArrayList.size();
     }
@@ -60,7 +60,7 @@ public class DataAnalytics {
     }
 
 
-    public Double totalImpressionCost(ArrayList<Impression> impressionArrayList) {
+    public Double totalImpressionCost(ArrayList<ImpressionLog> impressionArrayList) {
         //Returns total money spent on impressions in Pounds
         double total = 0;
         for (int i = 0; i < impressionArrayList.size(); i++) {
@@ -79,14 +79,14 @@ public class DataAnalytics {
         return total / 100;
     }
 
-    public Double totalCost(ArrayList<Impression> impressionArrayList, ArrayList<ClickLog> clickLogArrayList) {
+    public Double totalCost(ArrayList<ImpressionLog> impressionArrayList, ArrayList<ClickLog> clickLogArrayList) {
         // It returns the sum of the total cost  spent on impressions + clicks
         double total = totalImpressionCost(impressionArrayList) + totalClickCost(clickLogArrayList);
         return total;
     }
 
 
-    public Double getCTR(ArrayList<ClickLog> clickLogArrayList, ArrayList<Impression> impressionArrayList) {
+    public Double getCTR(ArrayList<ClickLog> clickLogArrayList, ArrayList<ImpressionLog> impressionArrayList) {
         //Returns the CTR
         double ctr = ((double) totalClicks(clickLogArrayList)) / impressionArrayList.size();
         return ctr;
@@ -94,10 +94,10 @@ public class DataAnalytics {
 
 
     /*
-    public double getCPA(ArrayList<Impression> impressionArrayList, ArrayList<ClickLog> clickLogArrayList, ArrayList<ServerLog> slog) {
+    public double getCPA(ArrayList<ImpressionLog> impressionArrayList, ArrayList<ClickLog> clickLogArrayList, ArrayList<ServerLog> slog) {
     //This is the wrong CPA calculation -- // Old Code
         double total = 0;
-        int im = 0;     //The current location on impression list
+        int im = 0;     //The current location on ImpressionLog list
         int cl = 0;     //The current location on click list
         for (int i = 0; i < slog.size(); i++) {
 
@@ -122,20 +122,20 @@ public class DataAnalytics {
     }
     */
 
-    public Double getCPA(ArrayList<Impression> impressionArrayList, ArrayList<ClickLog> clickLogArrayList, ArrayList<ServerLog> slog) {
+    public Double getCPA(ArrayList<ImpressionLog> impressionArrayList, ArrayList<ClickLog> clickLogArrayList, ArrayList<ServerLog> slog) {
         // This returns the CPA
         double cpa = totalCost(impressionArrayList, clickLogArrayList) / noOfConversions(slog);
         return cpa;
     }
 
 
-    public Double getCPC(ArrayList<Impression> impressionArrayList, ArrayList<ClickLog> clickLogArrayList) {
+    public Double getCPC(ArrayList<ImpressionLog> impressionArrayList, ArrayList<ClickLog> clickLogArrayList) {
         // This returns the CPC
         double cpc = totalCost(impressionArrayList, clickLogArrayList) / totalClicks(clickLogArrayList);
         return cpc;
     }
 
-    public Double getCPM(ArrayList<Impression> impressionArrayList, ArrayList<ClickLog> clickLogArrayList) {
+    public Double getCPM(ArrayList<ImpressionLog> impressionArrayList, ArrayList<ClickLog> clickLogArrayList) {
         // This returns the CPM
         double cpm = (totalCost(impressionArrayList, clickLogArrayList) / noOfImpression(impressionArrayList)) * 1000;
         return cpm;

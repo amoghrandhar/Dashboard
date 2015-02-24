@@ -11,7 +11,7 @@ public class Dashboard extends JFrame {
 
     
     private ArrayList<ClickLog> clickLogs;
-    private ArrayList<Impression> impressions;
+    private ArrayList<ImpressionLog> impressionLogs;
     private ArrayList<ServerLog> serverLogs;
 
     //Default Bounce Rate is 5
@@ -46,8 +46,8 @@ public class Dashboard extends JFrame {
         clickLogs = clickLogArrayList;
     }
 
-    public void updateImpresssionLogs(ArrayList<Impression> impressionArrayList) {
-        impressions = impressionArrayList;
+    public void updateImpresssionLogs(ArrayList<ImpressionLog> impressionArrayList) {
+        impressionLogs = impressionArrayList;
     }
 
     public void updateServerLogs(ArrayList<ServerLog> serverLogArrayList) {
@@ -58,12 +58,16 @@ public class Dashboard extends JFrame {
     	return clickLogs;
     }
     
-    public ArrayList<Impression> getImpressionLogs() {
-    	return impressions;
+    public ArrayList<ImpressionLog> getImpressionLogs() {
+    	return impressionLogs;
     }
     
     public ArrayList<ServerLog> getServerLogs() {
     	return serverLogs;
+    }
+    
+    public void defaultChart() {
+    	content.defaultChart();
     }
 
     public void updateMetrics() {
@@ -71,15 +75,15 @@ public class Dashboard extends JFrame {
         // Update metrics table
         String[] rowData = {
                 String.valueOf(dataAnalytics.totalClicks(clickLogs)),
-                String.valueOf(dataAnalytics.noOfImpression(impressions)),
+                String.valueOf(dataAnalytics.noOfImpression(impressionLogs)),
                 String.valueOf(dataAnalytics.noOfUniques(clickLogs)),
                 String.valueOf(dataAnalytics.noOfBounces(serverLogs, 5)),
                 String.valueOf(dataAnalytics.noOfConversions(serverLogs)),
-                String.valueOf(dataAnalytics.totalCost(impressions, clickLogs).floatValue()),
-                String.valueOf(dataAnalytics.getCTR(clickLogs, impressions).floatValue()),
-                String.valueOf(dataAnalytics.getCPA(impressions, clickLogs, serverLogs).floatValue()),
-                String.valueOf(dataAnalytics.getCPC(impressions, clickLogs).floatValue()),
-                String.valueOf(dataAnalytics.getCPM(impressions, clickLogs).floatValue()),
+                String.valueOf(dataAnalytics.totalCost(impressionLogs, clickLogs).floatValue()),
+                String.valueOf(dataAnalytics.getCTR(clickLogs, impressionLogs).floatValue()),
+                String.valueOf(dataAnalytics.getCPA(impressionLogs, clickLogs, serverLogs).floatValue()),
+                String.valueOf(dataAnalytics.getCPC(impressionLogs, clickLogs).floatValue()),
+                String.valueOf(dataAnalytics.getCPM(impressionLogs, clickLogs).floatValue()),
                 String.valueOf(dataAnalytics.bounceRate(5, clickLogs, serverLogs).floatValue())
         };
         content.setMetrics(0, rowData);

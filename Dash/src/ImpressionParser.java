@@ -18,11 +18,11 @@ public class ImpressionParser implements Runnable {
     // creates a CSV parser
 
     private String fileLocation;
-    private ArrayList<Impression> impressions;
+    private ArrayList<ImpressionLog> impressions;
 
 
     ImpressionParser(String fileLocation) {
-        impressions = new ArrayList<Impression>();
+        impressions = new ArrayList<ImpressionLog>();
         this.fileLocation = fileLocation;
     }
 
@@ -64,7 +64,7 @@ public class ImpressionParser implements Runnable {
                         row[4] = "2";
                     }
 
-                    impressions.add(new Impression(sdf.parse(row[0]), Double.parseDouble(row[1]), "Male".equals(row[2]), Integer.valueOf(row[3]), Integer.valueOf(row[4]), row[5], Double.parseDouble(row[6])));
+                    impressions.add(new ImpressionLog(sdf.parse(row[0]), Double.parseDouble(row[1]), "Male".equals(row[2]), Integer.valueOf(row[3]), Integer.valueOf(row[4]), row[5], Double.parseDouble(row[6])));
                 }
             }
 
@@ -95,7 +95,7 @@ public class ImpressionParser implements Runnable {
                 @Override
                 public void rowProcessed(Object[] row, ParsingContext context) {
                     //here is the row. Let's just print it.
-                    impressions.add(new Impression((Date) row[0], (Double) row[1], (Boolean) row[2], (Integer) row[3], (Integer) row[4], (String) row[5], (Double) row[6]));
+                    impressions.add(new ImpressionLog((Date) row[0], (Double) row[1], (Boolean) row[2], (Integer) row[3], (Integer) row[4], (String) row[5], (Double) row[6]));
                 }
             };
 
@@ -137,7 +137,7 @@ public class ImpressionParser implements Runnable {
 
     }
 
-    public ArrayList<Impression> getImpressions() {
+    public ArrayList<ImpressionLog> getImpressions() {
         return impressions;
     }
 

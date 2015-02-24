@@ -3,12 +3,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javafx.application.Platform;
-import javafx.embed.swing.*;
-import javafx.scene.*;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
@@ -25,9 +19,9 @@ public class Content extends JPanel{
 
 	JPanel graphPanel, metricsPanel;
 	
-	JButton clickBtn;
-	
 	Dashboard dashboard;
+	
+	Chart chart;
 
 	public Content(Dashboard d) {
 
@@ -46,7 +40,7 @@ public class Content extends JPanel{
 		metricsPanel = new JPanel();
 		metricsPanel.setLayout(new GridBagLayout());
 
-		final Chart chart = new Chart();
+		chart = new Chart();
 
 		Platform.runLater(new Runnable() {
 			public void run() {
@@ -54,7 +48,7 @@ public class Content extends JPanel{
 			}
 		});
 		
-		clickBtn = new JButton("Click Chart");
+		JButton clickBtn = new JButton("Click Chart");
 		clickBtn.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
@@ -63,11 +57,18 @@ public class Content extends JPanel{
 			}
 		});
 		
-		GridBagConstraints c = new GridBagConstraints();
+		JButton impressionBtn = new JButton("Impressions Chart");
+		impressionBtn.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				chart.showImpressionsChart(dashboard.getImpressionLogs());	
+			}
+		});
 		
 		
 		graphPanel.add(chart);
 		graphPanel.add(clickBtn);
+		graphPanel.add(impressionBtn);
 
 		// Create a new table instance
 		
@@ -142,6 +143,10 @@ public class Content extends JPanel{
 		
 		tableModel.updateRow(0, rowValues);
 		
+	}
+	
+	public void defaultChart() {
+		chart.showClicksChart(dashboard.getClickLogs());
 	}
 }
 

@@ -203,6 +203,7 @@ public class Import extends JFrame {
                     dashboard.updateServerLogs(serverlogParser.getServerLogs());
 
                     dashboard.updateMetrics();
+                    dashboard.defaultChart();
 
                     setVisible(false);
                     dispose();
