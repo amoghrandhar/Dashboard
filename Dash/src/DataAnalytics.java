@@ -26,10 +26,11 @@ public class DataAnalytics {
 
     }
 
-    public HashSet<ClickLog> uniqueClickSet(ArrayList<ClickLog> clickLogArrayList) {
+    public LinkedHashSet<ClickLog> uniqueClickSet(ArrayList<ClickLog> clickLogArrayList) {
         //This will return a Hash Set of ClickLogs based on unique ID of the user
         //So it removes the repetition
-        return new HashSet<ClickLog>(clickLogArrayList);
+        return new LinkedHashSet<ClickLog>(clickLogArrayList);
+        
     }
 
     public long noOfUniques(ArrayList<ClickLog> clickLogArrayList) {

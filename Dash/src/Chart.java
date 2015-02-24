@@ -1,5 +1,6 @@
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 
@@ -69,11 +70,11 @@ public class Chart extends JFXPanel{
 			}
 		}
 		
-		final LineChart<String,Number> lineChart = 
+		LineChart<String,Number> lineChart = 
 				new LineChart<String,Number>(xAxis,yAxis);
 
 		XYChart.Series series = new XYChart.Series();
-		series.setName("Clicks Over Time");
+		series.setName("Impressions Over Time");
 
 		for (Entry<String,Integer> entry : impressionPairs.entrySet()) {
 			series.getData().add(new XYChart.Data(entry.getKey(), entry.getValue()));
@@ -84,7 +85,40 @@ public class Chart extends JFXPanel{
 		this.setScene(scene);
 		
 	}
+	
+	public void showUniqueChart(HashSet<ClickLog> hashSet) {
+		CategoryAxis xAxis = new CategoryAxis();
+		NumberAxis yAxis = new NumberAxis();
+		xAxis.setLabel("Date");
+		
+		
+		LinkedHashMap<String,Integer> uniquePairs = new LinkedHashMap<String,Integer>();
+		String date;
+		
+		for (ClickLog click : hashSet) {
+			date = sdf.format(click.getDate());
+			if (!uniquePairs.containsKey(date)) {
+				uniquePairs.put(date, 1);
+			} else {
+				uniquePairs.put(date, uniquePairs.get(date) + 1);
+			}
+		}	
+		
+		LineChart<String,Number> lineChart = 
+				new LineChart<String,Number>(xAxis,yAxis);
 
+		XYChart.Series series = new XYChart.Series();
+		series.setName("Unique Clicks Over Time");
+
+		for (Entry<String,Integer> entry : uniquePairs.entrySet()) {
+			series.getData().add(new XYChart.Data(entry.getKey(), entry.getValue()));
+		}
+		lineChart.getData().add(series);
+		
+		scene = new Scene(lineChart, 600, 300);
+		this.setScene(scene);
+	}
+ 
 	public void showClicksChart(ArrayList<ClickLog> clickList) {
 		CategoryAxis xAxis = new CategoryAxis();
 		NumberAxis yAxis = new NumberAxis();
@@ -107,7 +141,7 @@ public class Chart extends JFXPanel{
 		}
 		
 		
-		final LineChart<String,Number> lineChart = 
+		LineChart<String,Number> lineChart = 
 				new LineChart<String,Number>(xAxis,yAxis);
 
 		XYChart.Series series = new XYChart.Series();

@@ -20,7 +20,7 @@ public class Content extends JPanel{
 	Dashboard dashboard;
 	
 	Chart chart;
-	JComboBox<String> chartCombo;
+	JComboBox<String> graphChoiceBox;
 
 	public Content(Dashboard d) {
 
@@ -125,8 +125,32 @@ public class Content extends JPanel{
 		String[] graphChoices = { "Clicks", "Impressions", "Uniques", "Bounces", "Conversions", 
 				"Total Cost", "CTR", "CPA", "CPC", "CPM", "Bounce Rate" };
 		
-		JComboBox graphChoiceBox = new JComboBox(graphChoices);
+		graphChoiceBox = new JComboBox(graphChoices);
 		graphChoiceBox.setPrototypeDisplayValue("XXXXXXXXXX");
+		graphChoiceBox.setEnabled(false);		
+		graphChoiceBox.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				JComboBox<String> cb = (JComboBox) e.getSource();
+                final int item = cb.getSelectedIndex();
+                Platform.runLater(new Runnable() {
+                    public void run() {
+                        switch (item) {
+                            case 1:
+                                chart.showImpressionsChart(dashboard.getImpressionLogs());
+                                break;
+                            case 2:
+                            	chart.showUniqueChart(dashboard.dataAnalytics.uniqueClickSet(dashboard.getClickLogs()));
+                            	break;
+                            default:
+                                chart.showClicksChart(dashboard.getClickLogs());
+                                break;
+                        }
+                    }
+                });
+
+			}
+		});	
 		
 		JLabel graphChoiceLabel = new JLabel("Display graph");
 		graphChoiceLabel.setFont(labelFont);
@@ -145,34 +169,7 @@ public class Content extends JPanel{
 			}
 		});
 		
-		String[] chartList = {"Clicks", "Impressions", "Uniques", "Bounces", "Conversions"};
-		
-		chartCombo = new JComboBox<String>(chartList);
-		chartCombo.setSelectedIndex(0);
-		chartCombo.setEnabled(false);
-		chartCombo.addActionListener(new ActionListener() {
-			
-			public void actionPerformed(ActionEvent e) {
-				JComboBox<String> cb = (JComboBox<String>) e.getSource();
-                final int item = cb.getSelectedIndex();
-                Platform.runLater(new Runnable() {
-                    public void run() {
-                        switch (item) {
-                            case 1:
-                                chart.showImpressionsChart(dashboard.getImpressionLogs());
-                                break;
-                            default:
-                                chart.showClicksChart(dashboard.getClickLogs());
-                                break;
-                        }
-                    }
-                });
-
-			}
-		});	
-		
 		graphPanel.add(chart);
-		graphPanel.add(chartCombo);
 
 		// ######### Header Panel #########
 		
@@ -264,7 +261,7 @@ public class Content extends JPanel{
 	}
 	
 	public void defaultChart() {
-		chartCombo.setEnabled(true);
+		graphChoiceBox.setEnabled(true);
 		chart.showClicksChart(dashboard.getClickLogs());
 	}
 }
