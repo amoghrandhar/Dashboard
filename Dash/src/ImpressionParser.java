@@ -4,14 +4,12 @@ import com.univocity.parsers.conversions.Conversions;
 import com.univocity.parsers.csv.CsvParser;
 import com.univocity.parsers.csv.CsvParserSettings;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 
 /**
  * Created by Amogh on 19-02-2015.
@@ -19,33 +17,13 @@ import java.util.HashSet;
 public class ImpressionParser implements Runnable {
     // creates a CSV parser
 
+    private String fileLocation;
     private ArrayList<Impression> impressions;
 
 
-    ImpressionParser() {
+    ImpressionParser(String fileLocation) {
         impressions = new ArrayList<Impression>();
-    }
-
-    public static void main(String[] args) throws WrongFileException {
-
-        System.out.println(new File(".").getAbsolutePath());
-
-        ImpressionParser ip = new ImpressionParser();
-        ip.generateImpressionsMethod1();
-//        ip.generateImpressionsMethod2();
-
-        HashSet<Impression> him = new HashSet<Impression>();
-        him.addAll(ip.getImpressions());
-        System.out.println(him.size());
-
-
-        System.out.println("\n\n\n\n");
-        System.out.println("Data Analytics Test");
-
-        DataAnalytics dataAnalytics = new DataAnalytics();
-
-
-
+        this.fileLocation = fileLocation;
     }
 
     public void generateImpressionsMethod1() throws WrongFileException {
@@ -60,32 +38,34 @@ public class ImpressionParser implements Runnable {
             settings.setHeaderExtractionEnabled(true);      // This will remove the header data from csv
             CsvParser parser = new CsvParser(settings);
             // call beginParsing to read records one by one, iterator-style.
-            parser.beginParsing(new FileReader("impression_log.csv"));
+            parser.beginParsing(new FileReader(fileLocation));
 
 
             String[] row;
             while ((row = parser.parseNext()) != null) {
-                if (row[3].equals("<25")) {
-                    row[3] = "0";
-                } else if (row[3].equals("25-34")) {
-                    row[3] = "1";
-                } else if (row[3].equals("35-44")) {
-                    row[3] = "2";
-                } else if (row[3].equals("45-54")) {
-                    row[3] = "3";
-                } else {
-                    row[3] = "4";
-                }
+                if (row.length == 7) {
+                    if (row[3].equals("<25")) {
+                        row[3] = "0";
+                    } else if (row[3].equals("25-34")) {
+                        row[3] = "1";
+                    } else if (row[3].equals("35-44")) {
+                        row[3] = "2";
+                    } else if (row[3].equals("45-54")) {
+                        row[3] = "3";
+                    } else {
+                        row[3] = "4";
+                    }
 
-                if (row[4].equals("Low")) {
-                    row[4] = "0";
-                } else if (row[3].equals("Medium")) {
-                    row[4] = "1";
-                } else {
-                    row[4] = "2";
-                }
+                    if (row[4].equals("Low")) {
+                        row[4] = "0";
+                    } else if (row[3].equals("Medium")) {
+                        row[4] = "1";
+                    } else {
+                        row[4] = "2";
+                    }
 
-                impressions.add(new Impression(sdf.parse(row[0]), Double.parseDouble(row[1]), "Male".equals(row[2]), Integer.valueOf(row[3]), Integer.valueOf(row[4]), row[5], Double.parseDouble(row[6])));
+                    impressions.add(new Impression(sdf.parse(row[0]), Double.parseDouble(row[1]), "Male".equals(row[2]), Integer.valueOf(row[3]), Integer.valueOf(row[4]), row[5], Double.parseDouble(row[6])));
+                }
             }
 
             long endTime = System.currentTimeMillis();

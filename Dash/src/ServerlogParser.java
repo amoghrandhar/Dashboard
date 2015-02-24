@@ -13,16 +13,13 @@ import java.util.ArrayList;
 public class ServerlogParser implements Runnable {
 
     private ArrayList<ServerLog> serverLogs;
+    private String fileLocation;
 
-    ServerlogParser() {
+    ServerlogParser(String fileLocation) {
         serverLogs = new ArrayList<ServerLog>();
+        this.fileLocation = fileLocation;
     }
 
-
-    public static void main(String[] args) {
-        ServerlogParser slp = new ServerlogParser();
-        slp.run();
-    }
 
     public void run() {
         try {
@@ -42,13 +39,15 @@ public class ServerlogParser implements Runnable {
             settings.setHeaderExtractionEnabled(true);      // This will remove the header data from csv
             CsvParser parser = new CsvParser(settings);
             // call beginParsing to read records one by one, iterator-style.
-            parser.beginParsing(new FileReader("server_log.csv"));
+            parser.beginParsing(new FileReader(fileLocation));
             String[] row;
             while ((row = parser.parseNext()) != null) {
-                if (row[2].equals("n/a")) {
-                    serverLogs.add(new ServerLog(sdf.parse(row[0]), Double.parseDouble(row[1]), null, Integer.valueOf(row[3]), "Yes".equals(row[4])));
-                } else {
-                    serverLogs.add(new ServerLog(sdf.parse(row[0]), Double.parseDouble(row[1]), sdf.parse(row[2]), Integer.valueOf(row[3]), "Yes".equals(row[4])));
+                if (row.length == 5) {
+                    if (row[2].equals("n/a")) {
+                        serverLogs.add(new ServerLog(sdf.parse(row[0]), Double.parseDouble(row[1]), null, Integer.valueOf(row[3]), "Yes".equals(row[4])));
+                    } else {
+                        serverLogs.add(new ServerLog(sdf.parse(row[0]), Double.parseDouble(row[1]), sdf.parse(row[2]), Integer.valueOf(row[3]), "Yes".equals(row[4])));
+                    }
                 }
             }
 

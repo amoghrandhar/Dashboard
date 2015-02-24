@@ -13,14 +13,11 @@ import java.util.ArrayList;
 public class ClicklogParser implements Runnable {
 
     private ArrayList<ClickLog> clickLogs;
+    private String fileLocation;
 
-    ClicklogParser() {
+    ClicklogParser(String fileLocation) {
         clickLogs = new ArrayList<ClickLog>();
-    }
-
-    public static void main(String[] args) {
-        ClicklogParser clp = new ClicklogParser();
-        clp.run();
+        this.fileLocation = fileLocation;
     }
 
     public void generateClickLogs() throws WrongFileException {
@@ -33,10 +30,12 @@ public class ClicklogParser implements Runnable {
             settings.setHeaderExtractionEnabled(true);      // This will remove the header data from csv
             CsvParser parser = new CsvParser(settings);
             // call beginParsing to read records one by one, iterator-style.
-            parser.beginParsing(new FileReader("click_log.csv"));
+            parser.beginParsing(new FileReader(fileLocation));
             String[] row;
             while ((row = parser.parseNext()) != null) {
-                clickLogs.add(new ClickLog(sdf.parse(row[0]), Double.parseDouble(row[1]), Double.parseDouble(row[2])));
+                if (row.length == 3) {
+                    clickLogs.add(new ClickLog(sdf.parse(row[0]), Double.parseDouble(row[1]), Double.parseDouble(row[2])));
+                }
             }
 
             long endTime = System.currentTimeMillis();

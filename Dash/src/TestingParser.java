@@ -8,13 +8,13 @@ public class TestingParser {
     public static void main(String[] args) throws WrongFileException {
         System.out.println(new File(".").getAbsolutePath());
 
-        ImpressionParser ip = new ImpressionParser();
+        ImpressionParser ip = new ImpressionParser("impression_log.csv");
         ip.generateImpressionsMethod1();
 
-        ClicklogParser clp = new ClicklogParser();
+        ClicklogParser clp = new ClicklogParser("click_log.csv");
         clp.generateClickLogs();
 
-        ServerlogParser slp = new ServerlogParser();
+        ServerlogParser slp = new ServerlogParser("server_log.csv");
         slp.generateServerLogs();
 
 

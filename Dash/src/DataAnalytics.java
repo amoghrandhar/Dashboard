@@ -1,5 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.*;
 
 /**
  * Created by Amogh on 22-02-2015.
@@ -13,7 +12,18 @@ public class DataAnalytics {
 
     public long totalClicks(ArrayList<ClickLog> clickLogArrayList) {
         //This will tell you total no. of click records
+        //Its based on if the Click cost is greater than zero.
+//        int total = 0;
+//        for (int i = 0; i < clickLogArrayList.size(); i++) {
+//            if (clickLogArrayList.get(i).getClickCost() > 0) {
+//                total++;
+//            }
+//        }
+//
+//        return total;
+
         return clickLogArrayList.size();
+
     }
 
     public HashSet<ClickLog> uniqueClickSet(ArrayList<ClickLog> clickLogArrayList) {
@@ -50,23 +60,23 @@ public class DataAnalytics {
     }
 
 
-    public double totalImpressionCost(ArrayList<Impression> impressionArrayList) {
-        //Returns total money spent on impressions in Penny
+    public Double totalImpressionCost(ArrayList<Impression> impressionArrayList) {
+        //Returns total money spent on impressions in Pounds
         double total = 0;
         for (int i = 0; i < impressionArrayList.size(); i++) {
             total = total + impressionArrayList.get(i).getImpression();
         }
-        return total;
+        return total / 100;
     }
 
 
-    public double totalClickCost(ArrayList<ClickLog> clickLogArrayList) {
-        //Returns total money spent on Clicks in Penny
+    public Double totalClickCost(ArrayList<ClickLog> clickLogArrayList) {
+        //Returns total money spent on Clicks in Pounds
         double total = 0;
         for (int i = 0; i < clickLogArrayList.size(); i++) {
             total = total + clickLogArrayList.get(i).getClickCost();
         }
-        return total;
+        return total / 100;
     }
 
     public Double totalCost(ArrayList<Impression> impressionArrayList, ArrayList<ClickLog> clickLogArrayList) {
@@ -76,7 +86,16 @@ public class DataAnalytics {
     }
 
 
+    public Double getCTR(ArrayList<ClickLog> clickLogArrayList, ArrayList<Impression> impressionArrayList) {
+        //Returns the CTR
+        double ctr = ((double) totalClicks(clickLogArrayList)) / impressionArrayList.size();
+        return ctr;
+    }
+
+
+    /*
     public double getCPA(ArrayList<Impression> impressionArrayList, ArrayList<ClickLog> clickLogArrayList, ArrayList<ServerLog> slog) {
+    //This is the wrong CPA calculation -- // Old Code
         double total = 0;
         int im = 0;     //The current location on impression list
         int cl = 0;     //The current location on click list
@@ -101,4 +120,44 @@ public class DataAnalytics {
         }
         return total;
     }
+    */
+
+    public Double getCPA(ArrayList<Impression> impressionArrayList, ArrayList<ClickLog> clickLogArrayList, ArrayList<ServerLog> slog) {
+        // This returns the CPA
+        double cpa = totalCost(impressionArrayList, clickLogArrayList) / noOfConversions(slog);
+        return cpa;
+    }
+
+
+    public Double getCPC(ArrayList<Impression> impressionArrayList, ArrayList<ClickLog> clickLogArrayList) {
+        // This returns the CPC
+        double cpc = totalCost(impressionArrayList, clickLogArrayList) / totalClicks(clickLogArrayList);
+        return cpc;
+    }
+
+    public Double getCPM(ArrayList<Impression> impressionArrayList, ArrayList<ClickLog> clickLogArrayList) {
+        // This returns the CPM
+        double cpm = (totalCost(impressionArrayList, clickLogArrayList) / noOfImpression(impressionArrayList)) * 1000;
+        return cpm;
+    }
+
+    public Double bounceRate(int bounceProperty, ArrayList<ClickLog> clickLogArrayList, ArrayList<ServerLog> slog) {
+        // This returns the average bounceRate
+        double bRate = ((double) noOfBounces(slog, bounceProperty)) / totalClicks(clickLogArrayList);
+        return bRate;
+    }
+
+
+    /*
+
+    ---------> The Graph Methods Starts Here.
+
+     */
+
+    public Map<Date, Long> getDateVsClick() {
+        AbstractMap.SimpleEntry dateLongSimpleEntry = new AbstractMap.SimpleEntry<Date, Long>(new Date(), new Long(45));
+
+        return null;
+    }
+
 }

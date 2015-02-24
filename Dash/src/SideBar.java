@@ -3,7 +3,9 @@ import javax.swing.JFormattedTextField.AbstractFormatter;
 import javax.swing.border.*;
 import javax.swing.event.*;
 import javax.swing.text.DateFormatter;
+
 import org.jdatepicker.impl.*;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.text.ParseException;
@@ -17,6 +19,8 @@ import java.util.List;
 import java.util.Properties;
 
 public class SideBar extends JPanel {
+	
+	Dashboard dashboard;
 
 	JButton importButton, exportButton;
 	JPanel filePanel, menuPanel;
@@ -24,19 +28,21 @@ public class SideBar extends JPanel {
 	UtilDateModel dateModel, dateModel2;
 	SpinnerDateModel timeModel, timeModel2;
 	JToggleButton male, female;
-	RangeSlider ageSlider, incomeSlider;
+	JSlider ageSlider, incomeSlider;
+
 	ModifiedButtonGroup sexGroup, contextGroup;
 
 	Color SECONDARY = Color.decode("#fafafa");
 
-	public SideBar() {
+	public SideBar(Dashboard dashboard) {
 
+		this.dashboard = dashboard;
 		init();
 
 	}
 
 	public void init() {
-
+		
 		//this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
 		GridBagConstraints importC = new GridBagConstraints();
@@ -74,7 +80,7 @@ public class SideBar extends JPanel {
 		importButton.setFont(new Font("", Font.PLAIN, 12));
 		importButton.setPreferredSize(new Dimension(120, 46));
 		importButton.setFocusable(false);
-		importButton.addActionListener(new ImportListener());
+		importButton.addActionListener(new ImportListener(dashboard));
 		filePanel.add(importButton, importC);
 
 		ImageIcon exportIcon = new ImageIcon(getClass().getResource("download.png"));
@@ -196,8 +202,8 @@ public class SideBar extends JPanel {
 				new AbstractExpansionPanel(" Audience Segments") {
 
 					public JPanel makePanel() {
-
-						JPanel pnl = new JPanel(new GridLayout(0, 1));
+						
+						// ######### Male or Female buttons #########
 
 						male = new JToggleButton("Male");
 						female = new JToggleButton("Female");
@@ -210,25 +216,29 @@ public class SideBar extends JPanel {
 						buttonPanel.setBackground(SECONDARY);
 						buttonPanel.add(male);
 						buttonPanel.add(female);
+						
+						// ######### Age Group SLider #########
 
 						JLabel ageLabel = new JLabel("Age");
 
 						Hashtable<Integer, JLabel> labels = new Hashtable<Integer, JLabel>();
-						labels.put(0, new JLabel("0"));
-						labels.put(1, new JLabel("25"));
-						labels.put(2, new JLabel("35"));
-						labels.put(3, new JLabel("45"));
-						labels.put(4, new JLabel("55"));
-						labels.put(5, new JLabel("100"));
+						labels.put(0, new JLabel("<25"));
+						labels.put(1, new JLabel("25-34"));
+						labels.put(2, new JLabel("35-44"));
+						labels.put(3, new JLabel("45-54"));
+						labels.put(4, new JLabel(">55"));
 
-						ageSlider = new RangeSlider(0, 5);
+						ageSlider = new JSlider(0, 4);
 						ageSlider.setMinorTickSpacing(1);
 						ageSlider.setPaintTicks(true);
 						ageSlider.setPaintLabels(true);
-						ageSlider.setLowerValue(0);
-						ageSlider.setUpperValue(5);
+						ageSlider.setSnapToTicks(true);
+//						ageSlider.setLowerValue(0);
+//						ageSlider.setUpperValue(5);
 						ageSlider.setLabelTable(labels);
 
+						// ######### Income SLider #########
+						
 						JLabel incomeLabel = new JLabel("Income");
 
 						Hashtable<Integer, JLabel> labels2 = new Hashtable<Integer, JLabel>();
@@ -236,12 +246,13 @@ public class SideBar extends JPanel {
 						labels2.put(1, new JLabel("Mid"));
 						labels2.put(2, new JLabel("High"));
 
-						incomeSlider = new RangeSlider(0, 2);
+						incomeSlider = new JSlider(0, 2);
 						incomeSlider.setMinorTickSpacing(1);
 						incomeSlider.setPaintTicks(true);
 						incomeSlider.setPaintLabels(true);
-						incomeSlider.setLowerValue(0);
-						incomeSlider.setUpperValue(3);
+						incomeSlider.setSnapToTicks(true);
+//						incomeSlider.setLowerValue(0);
+//						incomeSlider.setUpperValue(3);
 						incomeSlider.setLabelTable(labels2);
 
 						// Add listener to update display.
@@ -253,6 +264,9 @@ public class SideBar extends JPanel {
 //				            }
 //				        });
 
+						// ######### Panel #########
+						
+						JPanel pnl = new JPanel(new GridLayout(0, 1));
 						pnl.add(buttonPanel);
 						pnl.add(ageLabel);
 						pnl.add(ageSlider);
@@ -268,7 +282,6 @@ public class SideBar extends JPanel {
 					
 					public JPanel makePanel() {
 						
-						JPanel pnl = new JPanel(new GridLayout(0, 1));
 						contextGroup = new ModifiedButtonGroup();
 						JRadioButton b1 = new JRadioButton("News");
 						JRadioButton b2 = new JRadioButton("Shopping");
@@ -277,6 +290,8 @@ public class SideBar extends JPanel {
 						JRadioButton b5 = new JRadioButton("Blog");
 						JRadioButton b6 = new JRadioButton("Hobbies");
 						JRadioButton b7 = new JRadioButton("Travel");
+						
+						JPanel pnl = new JPanel(new GridLayout(0, 1));
 						
 						for (JRadioButton b: Arrays.asList(b1, b2, b3, b4, b5, b6, b7)) {
 							b.setOpaque(false); contextGroup.add(b); pnl.add(b);
@@ -291,10 +306,12 @@ public class SideBar extends JPanel {
 					
 					public JPanel makePanel() {
 						
-						JPanel pnl = new JPanel(new GridLayout(0, 1));
 						String[] bounceOptions = { "Time spent on website", "Number of pages visited" };
 						JComboBox bounceBox = new JComboBox(bounceOptions);
+						
+						JPanel pnl = new JPanel(new GridLayout(0, 1));
 						pnl.add(bounceBox);
+						
 						return pnl;
 						
 					}
@@ -305,9 +322,10 @@ public class SideBar extends JPanel {
 		
 	}
 
-	public Calendar getChosenStartDate(){
+	public Date getChosenStartDate(){
 		
 		Calendar temp = Calendar.getInstance();
+		//Date dA = new SimpleDateFormat("dd:hh:mm").parse(source); 
 		temp.setTime(timeModel.getDate());
 		
 		Calendar date = Calendar.getInstance();
@@ -318,11 +336,11 @@ public class SideBar extends JPanel {
 		date.set(Calendar.MINUTE, temp.get(Calendar.MINUTE));
 		date.set(Calendar.SECOND, temp.get(Calendar.SECOND));
 		
-		return date;
+		return date.getTime();
 
 	}
 	
-	public Calendar getChosenEndDate(){
+	public Date getChosenEndDate(){
 		
 		Calendar temp = Calendar.getInstance();
 		temp.setTime(timeModel2.getDate());
@@ -335,8 +353,20 @@ public class SideBar extends JPanel {
 		date.set(Calendar.MINUTE, temp.get(Calendar.MINUTE));
 		date.set(Calendar.SECOND, temp.get(Calendar.SECOND));
 		
-		return date;
+		return date.getTime();
 
+	}
+	
+	public int getChosenAge(){
+		
+		return ageSlider.getValue();
+		
+	}
+		
+	public int getChosenIncome(){
+		
+		return incomeSlider.getValue();
+		
 	}
 	
 	public Boolean getChosenSex(){
@@ -369,6 +399,7 @@ abstract class AbstractExpansionPanel extends JPanel {
 
 		super(new BorderLayout());
 		this.title = title;
+		
 		label = new JLabel("\u25BA " + title) {
 			protected void paintComponent(Graphics g) {
 				Graphics2D g2 = (Graphics2D) g.create();
@@ -395,6 +426,7 @@ abstract class AbstractExpansionPanel extends JPanel {
 		panel.setOpaque(true);
 		panel.setBackground(Color.decode("#fafafa"));
 		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		
 		this.add(panel);
 
 	}
@@ -434,6 +466,7 @@ abstract class AbstractExpansionPanel extends JPanel {
 
 }
 
+// Controls expansion of titled panes in the SideBar
 class TitledPaneAdapter extends MouseAdapter {
 
 	List<AbstractExpansionPanel> titledPanes;
@@ -466,17 +499,27 @@ class TitledPaneAdapter extends MouseAdapter {
 
 }
 
+// Opens a new frame to import files
 class ImportListener implements ActionListener {
+	
+	Dashboard dashboard;
+	
+	public ImportListener (Dashboard dashboard){
+		
+		this.dashboard = dashboard;
+		
+	}
 
 	public void actionPerformed(ActionEvent e) {
 
-		Import importFrame = new Import("Import Files");
+		Import importFrame = new Import("Import Files", dashboard);
 		importFrame.init();
 
 	}
 
 }
 
+// Collects all filter options and updates the graphs and metrics
 class UpdateListener implements ActionListener {
 	
 	Dashboard dashboard;
@@ -495,6 +538,7 @@ class UpdateListener implements ActionListener {
 
 }
 
+// ButtonGroup that allows deselection
 class ModifiedButtonGroup extends ButtonGroup {
 
 	@Override
