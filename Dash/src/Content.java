@@ -172,11 +172,10 @@ public class Content extends JPanel{
 		graphPanel.add(chart);
 
 		// ######### Header Panel #########
-		
+
 		tableModel = new SimpleTableModel();
 		
 		JTable table = new JTable( tableModel );
-		
 		TableCellRenderer rendererFromHeader = table.getTableHeader().getDefaultRenderer();
 		JLabel headerLabel = (JLabel) rendererFromHeader;
 		headerLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -211,17 +210,35 @@ public class Content extends JPanel{
 				}
 
 				if(column%2 != 0){
-					c.setBackground(Color.decode("#f5f5f5"));
-				}
+                    c.setBackground(Color.decode("#e6e6e6"));
+                }
 
-                if (table.isCellSelected(row, column))
-                    setForeground(Color.red);
-                else if (table.isRowSelected(row))
-                    setForeground(Color.green);
-                else if (table.isColumnSelected(column))
-                    setForeground(Color.blue);
-                else
-                    setForeground(Color.black);
+                if (!hasFocus) {
+                    c.setForeground(Color.BLACK);
+                } else {
+                    c.setForeground(Color.blue);
+                    c.setBackground(new java.awt.Color(220, 255, 20));
+                }
+
+                /*
+                For Future :---->
+
+                 //  Color row based on a cell value
+
+                 So Green color if that value is good , Red if its bad .
+
+                if (!isRowSelected(row))
+                {
+                    c.setBackground(getBackground());
+                    int modelRow = convertRowIndexToModel(row);
+                    String type = (String)getModel().getValueAt(modelRow, 0);
+                    if ("Buy".equals(type)) c.setBackground(Color.GREEN);
+                    if ("Sell".equals(type)) c.setBackground(Color.YELLOW);
+                }
+
+
+                 */
+
 
 				return c;
 
