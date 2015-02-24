@@ -1,17 +1,22 @@
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javafx.application.Platform;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableModel;
-
 
 public class Content extends JPanel{
 	
@@ -22,6 +27,7 @@ public class Content extends JPanel{
 	Dashboard dashboard;
 	
 	Chart chart;
+	JComboBox<String> chartCombo;
 
 	public Content(Dashboard d) {
 
@@ -48,27 +54,27 @@ public class Content extends JPanel{
 			}
 		});
 		
-		JButton clickBtn = new JButton("Click Chart");
-		clickBtn.addActionListener(new ActionListener() {
+		String[] chartList = {"Clicks", "Impressions", "Uniques", "Bounces", "Conversions"};
+		
+		chartCombo = new JComboBox<String>(chartList);
+		chartCombo.setSelectedIndex(0);
+		chartCombo.setEnabled(false);
+		chartCombo.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
-				chart.showClicksChart(dashboard.getClickLogs());
-				
+				JComboBox<String> cb = (JComboBox<String>) e.getSource();
+				int item = cb.getSelectedIndex();
+				switch (item) {
+					case 1 : chart.showImpressionsChart(dashboard.getImpressionLogs());
+					break;
+					default : chart.showClicksChart(dashboard.getClickLogs());
+					break;
+				}
 			}
-		});
-		
-		JButton impressionBtn = new JButton("Impressions Chart");
-		impressionBtn.addActionListener(new ActionListener() {
-			
-			public void actionPerformed(ActionEvent e) {
-				chart.showImpressionsChart(dashboard.getImpressionLogs());	
-			}
-		});
-		
+		});	
 		
 		graphPanel.add(chart);
-		graphPanel.add(clickBtn);
-		graphPanel.add(impressionBtn);
+		graphPanel.add(chartCombo);
 
 		// Create a new table instance
 		
@@ -146,6 +152,7 @@ public class Content extends JPanel{
 	}
 	
 	public void defaultChart() {
+		chartCombo.setEnabled(true);
 		chart.showClicksChart(dashboard.getClickLogs());
 	}
 }
