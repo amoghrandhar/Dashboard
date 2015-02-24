@@ -207,7 +207,6 @@ public class Import extends JFrame {
                     dashboard.updateMetrics();
 
                     Platform.runLater(new Runnable() {
-                        @Override
                         public void run() {
                             dashboard.defaultChart();
                         }

@@ -156,7 +156,6 @@ public class Content extends JPanel{
 				JComboBox<String> cb = (JComboBox<String>) e.getSource();
                 final int item = cb.getSelectedIndex();
                 Platform.runLater(new Runnable() {
-                    @Override
                     public void run() {
                         switch (item) {
                             case 1:
