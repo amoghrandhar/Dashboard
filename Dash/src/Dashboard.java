@@ -7,7 +7,7 @@ public class Dashboard extends JFrame {
 
     public SideBar sidebar;
     public Content content;
-    public DataAnalytics analytics;
+    public DataAnalytics dataAnalytics;
 
     
     ArrayList<ClickLog> clickLogs;
@@ -16,6 +16,7 @@ public class Dashboard extends JFrame {
 
     public Dashboard(String title) {
         super(title);
+        dataAnalytics = new DataAnalytics();
     }
 
     // Display login panel

@@ -203,18 +203,18 @@ public class Import extends JFrame {
                     dashboard.updateImpresssionLogs(impressionParser.getImpressions());
                     dashboard.updateServerLogs(serverlogParser.getServerLogs());
 
-                    //This will update the UI of Dashboard
+                    // Update metrics table
                     String[] rowData = { 
-                    		Integer.toString(dashboard.clickLogs.size()), 
-                    		Integer.toString(dashboard.impressions.size()),
+                    		String.valueOf((long)Math.round(dashboard.dataAnalytics.totalClicks(dashboard.clickLogs))), 
+                    		String.valueOf((long)Math.round(dashboard.dataAnalytics.noOfImpression(dashboard.impressions))),
+                    		String.valueOf((long)Math.round(dashboard.dataAnalytics.noOfUniques(dashboard.clickLogs))),
                     		"0",
-                    		"0",
-                    		"0",
-                    		"0", 
-                    		"0", 
-                    		"0", 
-                    		"0",
-                    		"0",
+                    		String.valueOf((long)Math.round(dashboard.dataAnalytics.noOfConversions(dashboard.serverLogs))),
+                    		String.valueOf((long)Math.round(dashboard.dataAnalytics.totalCost(dashboard.impressions, dashboard.clickLogs))), 
+                    		String.valueOf((long)Math.round(dashboard.dataAnalytics.getCTR(dashboard.clickLogs))),
+                    		String.valueOf((long)Math.round(dashboard.dataAnalytics.getCPA(dashboard.impressions, dashboard.clickLogs, dashboard.serverLogs))), 
+                    		String.valueOf((long)Math.round(dashboard.dataAnalytics.getCPC(dashboard.impressions, dashboard.clickLogs))),
+                    		String.valueOf((long)Math.round(dashboard.dataAnalytics.getCPM(dashboard.impressions, dashboard.clickLogs))),
                     		"0" 
                 	};
                     dashboard.content.setMetrics(0, rowData);
