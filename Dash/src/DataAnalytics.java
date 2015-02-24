@@ -154,8 +154,19 @@ public class DataAnalytics {
 
      */
 
-    public Map<Date, Long> getDateVsClick() {
-        AbstractMap.SimpleEntry dateLongSimpleEntry = new AbstractMap.SimpleEntry<Date, Long>(new Date(), new Long(45));
+    public ArrayList<Map<Date, Long>> getDateVsClick(ArrayList<ClickLog> clickLogs) {
+
+        //AbstractMap.SimpleEntry dateLongSimpleEntry = new AbstractMap.SimpleEntry<Date, Long>(new Date(), new Long(45));
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(clickLogs.get(0).getDate());
+
+        int hr = cal.get(Calendar.DAY_OF_MONTH);
+
+//        for (int i = 0 ; i < clickLogs.size() ; i++){
+//            if(clickLogs.get(i).getDate())
+//        }
+
 
         return null;
     }

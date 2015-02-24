@@ -1,3 +1,5 @@
+import javafx.application.Platform;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
@@ -203,7 +205,14 @@ public class Import extends JFrame {
                     dashboard.updateServerLogs(serverlogParser.getServerLogs());
 
                     dashboard.updateMetrics();
-                    dashboard.defaultChart();
+
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            dashboard.defaultChart();
+                        }
+                    });
+
 
                     setVisible(false);
                     dispose();

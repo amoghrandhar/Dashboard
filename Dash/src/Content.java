@@ -1,26 +1,13 @@
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.math.BigDecimal;
-
 import javafx.application.Platform;
 
-import javax.swing.BorderFactory;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
+import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.math.BigDecimal;
 
 public class Content extends JPanel{
 	
@@ -166,13 +153,21 @@ public class Content extends JPanel{
 			
 			public void actionPerformed(ActionEvent e) {
 				JComboBox<String> cb = (JComboBox<String>) e.getSource();
-				int item = cb.getSelectedIndex();
-				switch (item) {
-					case 1 : chart.showImpressionsChart(dashboard.getImpressionLogs());
-					break;
-					default : chart.showClicksChart(dashboard.getClickLogs());
-					break;
-				}
+                final int item = cb.getSelectedIndex();
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        switch (item) {
+                            case 1:
+                                chart.showImpressionsChart(dashboard.getImpressionLogs());
+                                break;
+                            default:
+                                chart.showClicksChart(dashboard.getClickLogs());
+                                break;
+                        }
+                    }
+                });
+
 			}
 		});	
 		
