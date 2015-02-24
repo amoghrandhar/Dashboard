@@ -14,6 +14,8 @@ public class Dashboard extends JFrame {
     ArrayList<Impression> impressions;
     ArrayList<ServerLog> serverLogs;
 
+    //Default Bounce Rate is 5
+
     public Dashboard(String title) {
         super(title);
         dataAnalytics = new DataAnalytics();
@@ -52,9 +54,23 @@ public class Dashboard extends JFrame {
         serverLogs = serverLogArrayList;
     }
 
-    public void updateUI() {
+    public void updateMetrics() {
 
-
+        // Update metrics table
+        String[] rowData = {
+                String.valueOf(dataAnalytics.totalClicks(clickLogs)),
+                String.valueOf(dataAnalytics.noOfImpression(impressions)),
+                String.valueOf(dataAnalytics.noOfUniques(clickLogs)),
+                String.valueOf(dataAnalytics.noOfBounces(serverLogs, 5)),
+                String.valueOf(dataAnalytics.noOfConversions(serverLogs)),
+                String.valueOf(dataAnalytics.totalCost(impressions, clickLogs)),
+                String.valueOf(dataAnalytics.getCTR(clickLogs, impressions)),
+                String.valueOf(dataAnalytics.getCPA(impressions, clickLogs, serverLogs)),
+                String.valueOf(dataAnalytics.getCPC(impressions, clickLogs)),
+                String.valueOf(dataAnalytics.getCPM(impressions, clickLogs)),
+                String.valueOf(dataAnalytics.bounceRate(5, clickLogs, serverLogs))
+        };
+        content.setMetrics(0, rowData);
     }
     
 }
