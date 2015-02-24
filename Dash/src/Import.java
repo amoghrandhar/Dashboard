@@ -1,5 +1,4 @@
 import javax.swing.*;
-
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.dnd.*;
@@ -204,19 +203,19 @@ public class Import extends JFrame {
                     dashboard.updateServerLogs(serverlogParser.getServerLogs());
 
                     // Update metrics table
-                    String[] rowData = { 
-                    		String.valueOf((long)Math.round(dashboard.dataAnalytics.totalClicks(dashboard.clickLogs))), 
-                    		String.valueOf((long)Math.round(dashboard.dataAnalytics.noOfImpression(dashboard.impressions))),
-                    		String.valueOf((long)Math.round(dashboard.dataAnalytics.noOfUniques(dashboard.clickLogs))),
+                    String[] rowData = {
+                            String.valueOf((long) Math.round(dashboard.dataAnalytics.totalClicks(dashboard.clickLogs))),
+                            String.valueOf((long) Math.round(dashboard.dataAnalytics.noOfImpression(dashboard.impressions))),
+                            String.valueOf((long)Math.round(dashboard.dataAnalytics.noOfUniques(dashboard.clickLogs))),
                     		"0",
                     		String.valueOf((long)Math.round(dashboard.dataAnalytics.noOfConversions(dashboard.serverLogs))),
-                    		String.valueOf((long)Math.round(dashboard.dataAnalytics.totalCost(dashboard.impressions, dashboard.clickLogs))), 
-                    		String.valueOf((long)Math.round(dashboard.dataAnalytics.getCTR(dashboard.clickLogs))),
-                    		String.valueOf((long)Math.round(dashboard.dataAnalytics.getCPA(dashboard.impressions, dashboard.clickLogs, dashboard.serverLogs))), 
-                    		String.valueOf((long)Math.round(dashboard.dataAnalytics.getCPC(dashboard.impressions, dashboard.clickLogs))),
-                    		String.valueOf((long)Math.round(dashboard.dataAnalytics.getCPM(dashboard.impressions, dashboard.clickLogs))),
-                    		"0" 
-                	};
+                            String.valueOf(Math.round(dashboard.dataAnalytics.totalCost(dashboard.impressions, dashboard.clickLogs))),
+                            String.valueOf(dashboard.dataAnalytics.getCTR(dashboard.clickLogs, dashboard.impressions)),
+                            String.valueOf(Math.round(dashboard.dataAnalytics.getCPA(dashboard.impressions, dashboard.clickLogs, dashboard.serverLogs))),
+                            String.valueOf(Math.round(dashboard.dataAnalytics.getCPC(dashboard.impressions, dashboard.clickLogs))),
+                            String.valueOf(Math.round(dashboard.dataAnalytics.getCPM(dashboard.impressions, dashboard.clickLogs))),
+                            "0"
+                    };
                     dashboard.content.setMetrics(0, rowData);
 
                     setVisible(false);

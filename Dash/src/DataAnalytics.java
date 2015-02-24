@@ -14,14 +14,17 @@ public class DataAnalytics {
     public long totalClicks(ArrayList<ClickLog> clickLogArrayList) {
         //This will tell you total no. of click records
         //Its based on if the Click cost is greater than zero.
-        int total = 0;
-        for (int i = 0; i < clickLogArrayList.size(); i++) {
-            if (clickLogArrayList.get(i).getClickCost() > 0) {
-                total++;
-            }
-        }
+//        int total = 0;
+//        for (int i = 0; i < clickLogArrayList.size(); i++) {
+//            if (clickLogArrayList.get(i).getClickCost() > 0) {
+//                total++;
+//            }
+//        }
+//
+//        return total;
 
-        return total;
+        return clickLogArrayList.size();
+
     }
 
     public HashSet<ClickLog> uniqueClickSet(ArrayList<ClickLog> clickLogArrayList) {
@@ -84,9 +87,9 @@ public class DataAnalytics {
     }
 
 
-    public double getCTR(ArrayList<ClickLog> clickLogArrayList) {
+    public double getCTR(ArrayList<ClickLog> clickLogArrayList, ArrayList<Impression> impressionArrayList) {
         //Returns the CTR
-        double ctr = totalClicks(clickLogArrayList) / clickLogArrayList.size();
+        double ctr = ((double) totalClicks(clickLogArrayList)) / impressionArrayList.size();
         return ctr;
     }
 
@@ -141,7 +144,7 @@ public class DataAnalytics {
 
     public double bounceRate(int bounceProperty, ArrayList<ClickLog> clickLogArrayList, ArrayList<ServerLog> slog) {
         // This returns the average bounceRate
-        double bRate = noOfBounces(slog, bounceProperty) / totalClicks(clickLogArrayList);
+        double bRate = ((double) noOfBounces(slog, bounceProperty)) / totalClicks(clickLogArrayList);
         return bRate;
     }
 
