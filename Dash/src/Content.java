@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -283,20 +284,25 @@ public class Content extends JPanel{
 		
 	}
 	
-	public void setHeaderMetrics(String clicks, String impressions, String cost){
-		
+	public void setHeaderMetrics(String clicks, String impressions, String cost) {
 		this.clicksValueLabel.setText(clicks);
 		this.impressionsValueLabel.setText(impressions);
 		this.totalCostValueLabel.setText("£" + cost);
-		
 	}
 	
 	public void defaultChart() {
-		graphChoiceBox.setEnabled(true);
 		chart.showClicksChart(dashboard.getClickLogs());
+		class Worker extends SwingWorker<Void, Void> {
+		    protected Void doInBackground() throws Exception {
+				graphChoiceBox.setEnabled(true);
+				return null;
+		    }
+		}
+        new Worker().execute();
 	}
 }
 
+@SuppressWarnings("serial")
 class SimpleTableModel extends AbstractTableModel {
 	
 	private String[][] rowData = {
