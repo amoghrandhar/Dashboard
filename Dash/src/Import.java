@@ -186,6 +186,7 @@ public class Import extends JFrame {
                     ServerlogParser serverlogParser = new ServerlogParser(serverLog.getAbsolutePath());
 
                     try {
+                        //This will start the parsing of the csv log files and generate Arraylist of Data
                         clicklogParser.generateClickLogs();
                         impressionParser.generateImpressionsMethod1();
                         serverlogParser.generateServerLogs();
@@ -196,9 +197,13 @@ public class Import extends JFrame {
                     }
 
 
+                    // This will update the ArrayList of datalogs with new data
                     dashboard.updateClickLogs(clicklogParser.getClickLogs());
                     dashboard.updateImpresssionLogs(impressionParser.getImpressions());
                     dashboard.updateServerLogs(serverlogParser.getServerLogs());
+
+                    //This will update the UI of Dashboard
+                    dashboard.updateUI();
 
                     setVisible(false);
                     dispose();
