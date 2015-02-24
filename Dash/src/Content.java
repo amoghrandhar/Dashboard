@@ -182,17 +182,17 @@ public class Content extends JPanel{
 		headerLabel.setHorizontalAlignment(JLabel.CENTER);
 
 		table.setRowHeight(40);
-		table.getColumnModel().getColumn(0).setPreferredWidth(60);
-		table.getColumnModel().getColumn(1).setPreferredWidth(85);
-		table.getColumnModel().getColumn(2).setPreferredWidth(70);
-		table.getColumnModel().getColumn(3).setPreferredWidth(70);
-		table.getColumnModel().getColumn(4).setPreferredWidth(85);
-		table.getColumnModel().getColumn(5).setPreferredWidth(80);
-		table.getColumnModel().getColumn(6).setPreferredWidth(60);
-		table.getColumnModel().getColumn(7).setPreferredWidth(60);
-		table.getColumnModel().getColumn(8).setPreferredWidth(60);
-		table.getColumnModel().getColumn(9).setPreferredWidth(60);
-		table.getColumnModel().getColumn(10).setPreferredWidth(80);
+        table.getColumnModel().getColumn(0).setMinWidth(60);
+        table.getColumnModel().getColumn(1).setMinWidth(85);
+        table.getColumnModel().getColumn(2).setMinWidth(70);
+        table.getColumnModel().getColumn(3).setMinWidth(70);
+        table.getColumnModel().getColumn(4).setMinWidth(85);
+        table.getColumnModel().getColumn(5).setMinWidth(80);
+        table.getColumnModel().getColumn(6).setMinWidth(60);
+        table.getColumnModel().getColumn(7).setMinWidth(60);
+        table.getColumnModel().getColumn(8).setMinWidth(60);
+        table.getColumnModel().getColumn(9).setMinWidth(60);
+        table.getColumnModel().getColumn(10).setMinWidth(80);
 
 		table.setDefaultRenderer(Object.class, new TableCellRenderer(){
 
@@ -214,19 +214,33 @@ public class Content extends JPanel{
 					c.setBackground(Color.decode("#f5f5f5"));
 				}
 
+                if (table.isCellSelected(row, column))
+                    setForeground(Color.red);
+                else if (table.isRowSelected(row))
+                    setForeground(Color.green);
+                else if (table.isColumnSelected(column))
+                    setForeground(Color.blue);
+                else
+                    setForeground(Color.black);
+
 				return c;
 
 			}
 
 		});
 
-		table.setEnabled(false);		
-		table.setFillsViewportHeight(true);
-		table.setPreferredScrollableViewportSize(table.getPreferredSize());
+        table.setEnabled(true);
+        table.setFillsViewportHeight(true);
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        table.setFillsViewportHeight(true);
+        table.setToolTipText(" Table showing the Key Metrics. ");
+        table.setPreferredScrollableViewportSize(table.getPreferredSize());
+        table.setCellSelectionEnabled(true);
+
 
 		JScrollPane scrollPane = new JScrollPane( table );
 
-		table.getTableHeader().setPreferredSize(new Dimension(scrollPane.getWidth(), 30));
+        table.getTableHeader().setMinimumSize(new Dimension(scrollPane.getWidth(), 30));
 
 		JPanel tablePanel = new JPanel();
 		tablePanel.add(scrollPane);
@@ -297,14 +311,13 @@ class SimpleTableModel extends AbstractTableModel {
 		return rowData[row][col];
 		
 	}
-	
-	public boolean isCellEditable(int row, int col){
-		
-		return true;
-		
-	}
-	
-	public void setValueAt(String value, int row, int col) {
+
+
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
+        return false;
+    }
+
+    public void setValueAt(String value, int row, int col) {
 		
 		rowData[row][col] = value;
 		fireTableCellUpdated(row, col);
