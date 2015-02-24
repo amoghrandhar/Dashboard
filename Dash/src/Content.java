@@ -216,7 +216,7 @@ public class Content extends JPanel{
                 if (!hasFocus) {
                     c.setForeground(Color.BLACK);
                 } else {
-                    c.setForeground(Color.blue);
+                    c.setBackground(new java.awt.Color(21, 17, 124));
                     c.setBackground(new java.awt.Color(149, 255, 253));
                 }
 
