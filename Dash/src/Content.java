@@ -207,9 +207,7 @@ public class Content extends JPanel{
 
 				if (column%2 == 0){
 					c.setBackground(Color.WHITE);
-				}
-
-				if(column%2 != 0){
+                } else {
                     c.setBackground(Color.decode("#e6e6e6"));
                 }
 
