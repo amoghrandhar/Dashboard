@@ -52,5 +52,6 @@ public class Dashboard extends JFrame {
 
     public void updateUI() {
 
+
     }
 }
