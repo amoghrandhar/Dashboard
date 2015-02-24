@@ -1,4 +1,7 @@
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javafx.application.Platform;
 import javafx.embed.swing.*;
 import javafx.scene.*;
@@ -6,6 +9,7 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -20,9 +24,14 @@ public class Content extends JPanel{
 	SimpleTableModel tableModel;
 
 	JPanel graphPanel, metricsPanel;
+	
+	JButton clickBtn;
+	
+	Dashboard dashboard;
 
-	public Content() {
+	public Content(Dashboard d) {
 
+		dashboard = d;
 		init();
 
 	}
@@ -44,8 +53,21 @@ public class Content extends JPanel{
 				chart.initFX();
 			}
 		});
-
+		
+		clickBtn = new JButton("Click Chart");
+		clickBtn.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				chart.showClicksChart(dashboard.getClickLogs());
+				
+			}
+		});
+		
+		GridBagConstraints c = new GridBagConstraints();
+		
+		
 		graphPanel.add(chart);
+		graphPanel.add(clickBtn);
 
 		// Create a new table instance
 		

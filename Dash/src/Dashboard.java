@@ -10,9 +10,9 @@ public class Dashboard extends JFrame {
     public DataAnalytics dataAnalytics;
 
     
-    ArrayList<ClickLog> clickLogs;
-    ArrayList<Impression> impressions;
-    ArrayList<ServerLog> serverLogs;
+    private ArrayList<ClickLog> clickLogs;
+    private ArrayList<Impression> impressions;
+    private ArrayList<ServerLog> serverLogs;
 
     //Default Bounce Rate is 5
 
@@ -27,7 +27,7 @@ public class Dashboard extends JFrame {
         sidebar = new SideBar(this);
         sidebar.setPreferredSize(new Dimension(200, 700));
         
-        content = new Content();
+        content = new Content(this);
         content.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0, Color.gray));
 
         Container container = this.getContentPane();
@@ -52,6 +52,18 @@ public class Dashboard extends JFrame {
 
     public void updateServerLogs(ArrayList<ServerLog> serverLogArrayList) {
         serverLogs = serverLogArrayList;
+    }
+    
+    public ArrayList<ClickLog> getClickLogs() {
+    	return clickLogs;
+    }
+    
+    public ArrayList<Impression> getImpressionLogs() {
+    	return impressions;
+    }
+    
+    public ArrayList<ServerLog> getServerLogs() {
+    	return serverLogs;
     }
 
     public void updateMetrics() {
