@@ -19,11 +19,10 @@ public class Import extends JFrame {
     private DragAndDropPanel panel1, panel2, panel3;
     private Dashboard dashboard;
 
-    public Import(String title, Dashboard dashboard) 
-    {    
+    public Import(String title, Dashboard dashboard) {
         super(title);
         this.dashboard = dashboard;
-    } 
+    }
 
     public void init() {
         container = this.getContentPane();
@@ -85,15 +84,14 @@ public class Import extends JFrame {
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setVisible(true);
     }
-    
-    public void configurePanel1(String type)
-    {
-      	panel1 = new DragAndDropPanel(type);
-    	c.gridx = 0;
-    	c.gridy = 1;
-    	c.gridheight = 4;
+
+    public void configurePanel1(String type) {
+        panel1 = new DragAndDropPanel(type);
+        c.gridx = 0;
+        c.gridy = 1;
+        c.gridheight = 4;
         c.insets = new Insets(-4, 0, 0, 0);
-        container.add(panel1, c);   
+        container.add(panel1, c);
     }
 
     public void configurePanel2(String type) {
@@ -113,25 +111,22 @@ public class Import extends JFrame {
         c.insets = new Insets(-4, 0, 0, 0);
         container.add(panel3, c);
     }
-    
-    class DragAndDropPanel extends JPanel
-    {
-    	
-    	public DragAndDropPanel(String type)
-    	{
-    		ImageIcon icon = new ImageIcon(getClass().getResource(type));
-    		Image img = icon.getImage();
-    		icon = new ImageIcon(img);
-    		add(new JLabel(icon));    		
-    		setBackground(new Color(0xf5f5f5)); 
-    		new DropTarget(this, new DragDropListener());
-    	}
+
+    class DragAndDropPanel extends JPanel {
+
+        public DragAndDropPanel(String type) {
+            ImageIcon icon = new ImageIcon(getClass().getResource(type));
+            Image img = icon.getImage();
+            icon = new ImageIcon(img);
+            add(new JLabel(icon));
+            setBackground(new Color(0xf5f5f5));
+            new DropTarget(this, new DragDropListener());
+        }
     }
 
     class DragDropListener implements DropTargetListener {
 
-        public void drop(DropTargetDropEvent event)
-        {
+        public void drop(DropTargetDropEvent event) {
             event.acceptDrop(DnDConstants.ACTION_COPY);
             try {
                 @SuppressWarnings("unchecked")
@@ -162,26 +157,28 @@ public class Import extends JFrame {
             event.dropComplete(true);
         }
 
-		public void dragEnter(DropTargetDragEvent dtde) {}
+        public void dragEnter(DropTargetDragEvent dtde) {
+        }
 
-		public void dragOver(DropTargetDragEvent dtde) {}
+        public void dragOver(DropTargetDragEvent dtde) {
+        }
 
-		public void dropActionChanged(DropTargetDragEvent dtde) {}
+        public void dropActionChanged(DropTargetDragEvent dtde) {
+        }
 
-		public void dragExit(DropTargetEvent dte) {}
+        public void dragExit(DropTargetEvent dte) {
+        }
     }
-    
-    class ButtonListener implements ActionListener
-    {
-    	Dashboard dashboard;
-    	
-    	public ButtonListener(Dashboard dashboard){
-    		this.dashboard = dashboard;
-    	}
-    	public void actionPerformed(ActionEvent e) 
-    	{
-        	if (e.getSource() == openButton)
-        	{
+
+    class ButtonListener implements ActionListener {
+        Dashboard dashboard;
+
+        public ButtonListener(Dashboard dashboard) {
+            this.dashboard = dashboard;
+        }
+
+        public void actionPerformed(ActionEvent e) {
+            if (e.getSource() == openButton) {
                 if (clickLog != null && impressionLog != null && serverLog != null) {
                     ClicklogParser clicklogParser = new ClicklogParser(clickLog.getAbsolutePath());
                     ImpressionParser impressionParser = new ImpressionParser(impressionLog.getAbsolutePath());
@@ -219,68 +216,52 @@ public class Import extends JFrame {
                     JOptionPane.showMessageDialog(Import.this, "Please import all three\nfiles before continuing.", "Error",
                             JOptionPane.ERROR_MESSAGE);
                 }
-        	}
-          	else if (e.getSource() == cancelButton)
-        	{
-          		clickLog = null;
-          		impressionLog = null;
-          		serverLog = null;
-        		setVisible(false);
-        		dispose();
-        	}
-          	else
-          	{
-        		final JFileChooser fc = new JFileChooser();
-		        int returnVal = fc.showOpenDialog(Import.this);
-		        if (returnVal == JFileChooser.APPROVE_OPTION) 
-		        {	
-		        	if (e.getSource() == browseButton1) 
-		        	{
-		        		if (fc.getSelectedFile().getName().equals("click_log.csv"))
-		        		{
-		        			clickLog = fc.getSelectedFile();
-		        			System.out.println("Opening: " + clickLog.getName());
-		        			configurePanel1("clickLogImported.png");
-		        	        revalidate();
-		        		}
-		        		else
-		        		{
-		        			// throw exception?
-						    JOptionPane.showMessageDialog(Import.this, "Please select click_log.csv.", "Error",
-						            JOptionPane.ERROR_MESSAGE);		        		}
-		        	}
-		        	else if (e.getSource() == browseButton2) 
-		        	{
-		        		if (fc.getSelectedFile().getName().equals("impression_log.csv"))
-		        		{
-		        			impressionLog = fc.getSelectedFile();
-		        			System.out.println("Opening: " + impressionLog.getName());
-		        			configurePanel2("impressionLogImported.png");
-		        	        revalidate();
-		        		}
-		        		else
-		        		{
-		        			// throw exception?
-						    JOptionPane.showMessageDialog(Import.this, "Please select impresion_log.csv.", "Error",
-						            JOptionPane.ERROR_MESSAGE);		        		}
-		        	}
-		        	else if (e.getSource() == browseButton3) 
-		        	{
-		           		if (fc.getSelectedFile().getName().equals("server_log.csv"))
-		        		{
-		        			serverLog = fc.getSelectedFile();
-		        			System.out.println("Opening: " + serverLog.getName());
-		        			configurePanel3("serverLogImported.png"); 
-		        	        revalidate();
-		        		}
-		        		else
-		        		{
-		        			// throw exception?
-						    JOptionPane.showMessageDialog(Import.this, "Please select server_log.csv.", "Error",
-						            JOptionPane.ERROR_MESSAGE);		        		}
-		        	}
-		        }
-    		}
-    	}
+            } else if (e.getSource() == cancelButton) {
+                clickLog = null;
+                impressionLog = null;
+                serverLog = null;
+                setVisible(false);
+                dispose();
+            } else {
+                final JFileChooser fc = new JFileChooser();
+                int returnVal = fc.showOpenDialog(Import.this);
+                if (returnVal == JFileChooser.APPROVE_OPTION) {
+                    if (e.getSource() == browseButton1) {
+                        if (fc.getSelectedFile().getName().equals("click_log.csv")) {
+                            clickLog = fc.getSelectedFile();
+                            System.out.println("Opening: " + clickLog.getName());
+                            configurePanel1("clickLogImported.png");
+                            revalidate();
+                        } else {
+                            // throw exception?
+                            JOptionPane.showMessageDialog(Import.this, "Please select click_log.csv.", "Error",
+                                    JOptionPane.ERROR_MESSAGE);
+                        }
+                    } else if (e.getSource() == browseButton2) {
+                        if (fc.getSelectedFile().getName().equals("impression_log.csv")) {
+                            impressionLog = fc.getSelectedFile();
+                            System.out.println("Opening: " + impressionLog.getName());
+                            configurePanel2("impressionLogImported.png");
+                            revalidate();
+                        } else {
+                            // throw exception?
+                            JOptionPane.showMessageDialog(Import.this, "Please select impresion_log.csv.", "Error",
+                                    JOptionPane.ERROR_MESSAGE);
+                        }
+                    } else if (e.getSource() == browseButton3) {
+                        if (fc.getSelectedFile().getName().equals("server_log.csv")) {
+                            serverLog = fc.getSelectedFile();
+                            System.out.println("Opening: " + serverLog.getName());
+                            configurePanel3("serverLogImported.png");
+                            revalidate();
+                        } else {
+                            // throw exception?
+                            JOptionPane.showMessageDialog(Import.this, "Please select server_log.csv.", "Error",
+                                    JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+                }
+            }
+        }
     }
 }

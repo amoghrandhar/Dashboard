@@ -1,7 +1,5 @@
-
-
-import java.awt.Color;
-import javax.swing.JSlider;
+import javax.swing.*;
+import java.awt.*;
 
 
 /**
@@ -13,21 +11,16 @@ public class RangeSlider extends JSlider {
     private int upperValue;
     private boolean rangeVisible;
     private boolean rangeSelectionEnabled;
-    public static enum ThumbShape { ROUND, SQUARE, RECTANGULAR, DROP, NONE }
     private ThumbShape thumbShape = ThumbShape.ROUND;
-    public static enum ThumbDesign { BRIGHT, DARK, STAINLESS, DARK_STAINLESS }
     private ThumbDesign thumbDesign = ThumbDesign.DARK;
-    public static enum TrackWidth { THIN, MEDIUM, THICK}
     private TrackWidth trackWidth = TrackWidth.THIN;
     private boolean darkTrack;
     private Color rangeColor;
-    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Constructor">
     public RangeSlider() {
         this(0, 100);
     }
-
     public RangeSlider(int min, int max) {
         super(min, max);
         rangeVisible = true;
@@ -38,7 +31,6 @@ public class RangeSlider extends JSlider {
         setFocusTraversalKeysEnabled(true);
         initSlider();
     }
-    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Initialization">
     private void initSlider() {
@@ -53,13 +45,13 @@ public class RangeSlider extends JSlider {
         // Update UI of the slider.
         updateLabelUIs();
     }
-    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Getters and Setters">
     @Override
     public int getValue() {
         return super.getValue();
     }
+    // </editor-fold>
 
     @Override
     public void setValue(int value) {
@@ -73,12 +65,14 @@ public class RangeSlider extends JSlider {
         lowerValue = newValue;
         getModel().setRangeProperties(newValue, newExtent, getMinimum(), getMaximum(), getValueIsAdjusting());
     }
+    // </editor-fold>
 
     @Override
     public void setOrientation(int orientation) {
         super.setOrientation(orientation);
         updateUI();
     }
+    // </editor-fold>
 
     public boolean isRangeVisible() {
         return rangeVisible;
@@ -166,5 +160,11 @@ public class RangeSlider extends JSlider {
         rangeColor = RANGE_COLOR;
         updateUI();
     }
+
+    public static enum ThumbShape {ROUND, SQUARE, RECTANGULAR, DROP, NONE}
+
+    public static enum ThumbDesign {BRIGHT, DARK, STAINLESS, DARK_STAINLESS}
+
+    public static enum TrackWidth {THIN, MEDIUM, THICK}
     // </editor-fold>
 }
