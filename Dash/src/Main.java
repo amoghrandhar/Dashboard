@@ -8,8 +8,9 @@ public class Main {
 
         SwingUtilities.invokeLater(
                 new Runnable() {
-                    public void run() {
+                    public void run() {                	
                         try {
+                        	
                             /*LookAndFeelInfo[] la = UIManager.getInstalledLookAndFeels();
                             for (int i = 0; i < la.length; i++) {
                                 LookAndFeelInfo l = la[i];
@@ -27,6 +28,7 @@ public class Main {
 
                             Dashboard frame = new Dashboard("Ad Dashboard");
                             frame.init();
+                            
                         } catch (IllegalAccessException e) {
                             e.printStackTrace();
                         } catch (InstantiationException e) {
@@ -35,9 +37,10 @@ public class Main {
                             e.printStackTrace();
                         } catch (ClassNotFoundException e) {
                             e.printStackTrace();
-                        }
+                        }                 
                     }
                 }
         );
     }
+    
 }

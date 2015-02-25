@@ -3,14 +3,11 @@ import javax.swing.JFormattedTextField.AbstractFormatter;
 import javax.swing.border.*;
 import javax.swing.event.*;
 import javax.swing.text.DateFormatter;
-
 import org.jdatepicker.impl.*;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -22,14 +19,13 @@ public class SideBar extends JPanel {
 	
 	Dashboard dashboard;
 
-	JButton importButton, exportButton;
 	JPanel filePanel, menuPanel;
 	
+	JButton importButton, exportButton;
 	UtilDateModel dateModel, dateModel2;
 	SpinnerDateModel timeModel, timeModel2;
 	JToggleButton male, female;
 	JSlider ageSlider, incomeSlider;
-
 	ModifiedButtonGroup sexGroup, contextGroup;
 
 	Color SECONDARY = Color.decode("#fafafa");
