@@ -193,7 +193,7 @@ public class Import extends JFrame {
                         impressionParser.generateImpressionsMethod1();
                         serverlogParser.generateServerLogs();
                     } catch (WrongFileException e1) {
-                        JOptionPane.showMessageDialog(Import.this, "Wrong File Passed for Processing", "Error",
+                        JOptionPane.showMessageDialog(Import.this, "Wrong File Passed for Processing \n" + e1.fileName, "Error",
                                 JOptionPane.ERROR_MESSAGE);
                         e1.printStackTrace();
                     }

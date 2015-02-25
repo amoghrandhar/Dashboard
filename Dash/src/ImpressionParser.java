@@ -30,17 +30,13 @@ public class ImpressionParser implements Runnable {
 
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-            System.out.println("UNI Velocity --- One By One");
-            long startTime = System.currentTimeMillis();
-
+//            System.out.println("UNI Velocity --- One By One");
+//            long startTime = System.currentTimeMillis();
             CsvParserSettings settings = new CsvParserSettings();
             settings.setHeaderExtractionEnabled(true);      // This will remove the header data from csv
             CsvParser parser = new CsvParser(settings);
             // call beginParsing to read records one by one, iterator-style.
             parser.beginParsing(new FileReader(fileLocation));
-
-
             String[] row;
             while ((row = parser.parseNext()) != null) {
                 if (row.length == 7) {
@@ -63,23 +59,22 @@ public class ImpressionParser implements Runnable {
                     } else {
                         row[4] = "2";
                     }
-
                     impressions.add(new ImpressionLog(sdf.parse(row[0]), Double.parseDouble(row[1]), "Male".equals(row[2]), Integer.valueOf(row[3]), Integer.valueOf(row[4]), row[5], Double.parseDouble(row[6])));
                 }
             }
 
-            long endTime = System.currentTimeMillis();
-            System.out.println(impressions.size());
-            System.out.println(impressions.get(0).getGender());
-
-            long totalTime = endTime - startTime;
-            System.out.println(totalTime);
+//            long endTime = System.currentTimeMillis();
+//            System.out.println(impressions.size());
+//            System.out.println(impressions.get(0).getGender());
+//
+//            long totalTime = endTime - startTime;
+//            System.out.println(totalTime);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (ParseException e) {
             e.printStackTrace();
-            throw new WrongFileException("Impression File : Wrong Date Format");
+            throw new WrongFileException("Impression File");
         }
 
     }
