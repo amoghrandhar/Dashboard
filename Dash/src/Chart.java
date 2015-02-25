@@ -16,6 +16,8 @@ import javafx.scene.chart.XYChart;
 @SuppressWarnings("serial")
 public class Chart extends JFXPanel{
 	
+	private int xDim = 820;
+	private int yDim = 370;
 	private Scene scene;
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	
@@ -51,7 +53,7 @@ public class Chart extends JFXPanel{
 		series.getData().add(new XYChart.Data<String, Integer>("Dec", 25));
 		lineChart.getData().add(series);
 		
-		scene = new Scene(lineChart, 820, 370);
+		scene = new Scene(lineChart, xDim, yDim);
 		this.setScene(scene);
 	}
 	
@@ -83,7 +85,7 @@ public class Chart extends JFXPanel{
 		}
 		lineChart.getData().add(series);
 		
-		scene = new Scene(lineChart, 820, 370);
+		scene = new Scene(lineChart, xDim, yDim);
 		this.setScene(scene);
 		
 	}
@@ -117,7 +119,7 @@ public class Chart extends JFXPanel{
 		}
 		lineChart.getData().add(series);
 		
-		scene = new Scene(lineChart, 820, 370);
+		scene = new Scene(lineChart, xDim, yDim);
 		this.setScene(scene);
 	}
  
@@ -154,7 +156,7 @@ public class Chart extends JFXPanel{
 		}
 		lineChart.getData().add(series);
 		
-		scene = new Scene(lineChart, 820, 370);
+		scene = new Scene(lineChart, xDim, yDim);
 		this.setScene(scene);
 	}
 
@@ -188,7 +190,7 @@ public class Chart extends JFXPanel{
         }
         lineChart.getData().add(series);
 
-        scene = new Scene(lineChart, 600, 300);
+        scene = new Scene(lineChart, xDim, yDim);
         this.setScene(scene);
     }
     
@@ -222,7 +224,7 @@ public class Chart extends JFXPanel{
         }
         lineChart.getData().add(series);
 
-        scene = new Scene(lineChart, 600, 300);
+        scene = new Scene(lineChart, xDim, yDim);
         this.setScene(scene);
     }
     
@@ -261,7 +263,7 @@ public class Chart extends JFXPanel{
         }
         lineChart.getData().add(series);
 
-        scene = new Scene(lineChart, 600, 300);
+        scene = new Scene(lineChart, xDim, yDim);
         this.setScene(scene);
     }
 }
