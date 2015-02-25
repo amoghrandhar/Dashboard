@@ -55,6 +55,7 @@ public class Chart extends JFXPanel{
 		
 		lineChart.setLegendVisible(false);
 		scene = new Scene(lineChart, xDim, yDim);
+		scene.getStylesheets().add("chartstyle.css");
 		this.setScene(scene);
 	}
 	
@@ -88,6 +89,7 @@ public class Chart extends JFXPanel{
 		lineChart.getData().add(series);
 		
 		scene = new Scene(lineChart, xDim, yDim);
+		scene.getStylesheets().add("chartstyle.css");
 		this.setScene(scene);
 		
 	}
@@ -123,6 +125,7 @@ public class Chart extends JFXPanel{
 		lineChart.getData().add(series);
 		
 		scene = new Scene(lineChart, xDim, yDim);
+		scene.getStylesheets().add("chartstyle.css");
 		this.setScene(scene);
 	}
  
@@ -161,6 +164,7 @@ public class Chart extends JFXPanel{
 		lineChart.getData().add(series);
 		
 		scene = new Scene(lineChart, xDim, yDim);
+		scene.getStylesheets().add("chartstyle.css");
 		this.setScene(scene);
 	}
 
@@ -196,6 +200,7 @@ public class Chart extends JFXPanel{
         lineChart.getData().add(series);
 
         scene = new Scene(lineChart, xDim, yDim);
+        scene.getStylesheets().add("chartstyle.css");
         this.setScene(scene);
     }
     
@@ -231,6 +236,7 @@ public class Chart extends JFXPanel{
         lineChart.getData().add(series);
 
         scene = new Scene(lineChart, xDim, yDim);
+        scene.getStylesheets().add("chartstyle.css");
         this.setScene(scene);
     }
     
@@ -269,6 +275,7 @@ public class Chart extends JFXPanel{
         lineChart.getData().add(series);
 
         scene = new Scene(lineChart, xDim, yDim);
+        scene.getStylesheets().add("chartstyle.css");
         this.setScene(scene);
     }
     
@@ -302,6 +309,7 @@ public class Chart extends JFXPanel{
         lineChart.getData().add(series);
 
         scene = new Scene(lineChart, xDim, yDim);
+        scene.getStylesheets().add("chartstyle.css");
         this.setScene(scene);
     }
 }
