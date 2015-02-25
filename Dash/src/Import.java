@@ -56,7 +56,7 @@ public class Import extends JFrame {
         c.gridx = 2;
         c.gridy = 0;
         c.gridheight = 1;
-        c.insets = new Insets(1, 7, -2, 7);
+        c.insets = new Insets(-6, 7, 2, 7);
         container.add(browseButton3, c);
 
         this.configurePanel3("dropServer.png");
