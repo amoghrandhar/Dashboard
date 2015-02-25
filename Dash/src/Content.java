@@ -325,7 +325,7 @@ public class Content extends JPanel{
 	public void setHeaderMetrics(String clicks, String impressions, String cost) {
 		this.clicksValueLabel.setText(clicks);
 		this.impressionsValueLabel.setText(impressions);
-		this.totalCostValueLabel.setText("£" + cost);
+		this.totalCostValueLabel.setText("\u00A3" + cost);
 	}
 	
 	public void defaultChart() {
