@@ -25,7 +25,7 @@ public class Main {
                                         UIManager.getCrossPlatformLookAndFeelClassName());
                             }
 
-                            Dashboard frame = new Dashboard("Ad Dashboard v1");
+                            Dashboard frame = new Dashboard("Ad Dashboard");
                             frame.init();
                         } catch (IllegalAccessException e) {
                             e.printStackTrace();
