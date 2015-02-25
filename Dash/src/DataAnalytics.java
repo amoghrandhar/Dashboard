@@ -42,7 +42,7 @@ public class DataAnalytics {
         //It returns the total no bounces happened, compared and based on the bounce property
         long total = 0;
         for (int i = 0; i < slog.size(); i++) {
-            if (slog.get(i).getPagesViewed() >= bounceProperty) {
+            if (slog.get(i).getPagesViewed() < bounceProperty) {
                 total++;
             }
         }
