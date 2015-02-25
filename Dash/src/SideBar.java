@@ -3,7 +3,9 @@ import javax.swing.JFormattedTextField.AbstractFormatter;
 import javax.swing.border.*;
 import javax.swing.event.*;
 import javax.swing.text.DateFormatter;
+
 import org.jdatepicker.impl.*;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.text.ParseException;
@@ -131,7 +133,7 @@ public class SideBar extends JPanel {
 		// Frame
 		
 		this.add(filePanel, BorderLayout.PAGE_START);
-		this.add(menuPanel, BorderLayout.PAGE_END);
+		//this.add(menuPanel, BorderLayout.PAGE_END);
 
 	}
 
@@ -224,13 +226,28 @@ public class SideBar extends JPanel {
 						// ######### Age Group SLider #########
 
 						JLabel ageLabel = new JLabel("Age");
+						
+						JLabel age0 = new JLabel("<25");
+						JLabel age1 = new JLabel("25-34");
+						JLabel age2 = new JLabel("35-44");
+						JLabel age3 = new JLabel("45-54");
+						JLabel age4 = new JLabel(">55");
+						
+						Font labelFont = new Font("", Font.PLAIN, 10);
+						
+						age0.setFont(labelFont);
+						age1.setFont(labelFont);
+						age2.setFont(labelFont);
+						age3.setFont(labelFont);
+						age4.setFont(labelFont);
 
 						Hashtable<Integer, JLabel> labels = new Hashtable<Integer, JLabel>();
-						labels.put(0, new JLabel("<25"));
-						labels.put(1, new JLabel("25-34"));
-						labels.put(2, new JLabel("35-44"));
-						labels.put(3, new JLabel("45-54"));
-						labels.put(4, new JLabel(">55"));
+						labels.put(0, age0);
+						labels.put(1, age1);
+						labels.put(2, age2);
+						labels.put(3, age3);
+						labels.put(4, age4);
+						
 
 						ageSlider = new JSlider(0, 4);
 						ageSlider.setMinorTickSpacing(1);
@@ -247,7 +264,7 @@ public class SideBar extends JPanel {
 
 						Hashtable<Integer, JLabel> labels2 = new Hashtable<Integer, JLabel>();
 						labels2.put(0, new JLabel("Low"));
-						labels2.put(1, new JLabel("Mid"));
+						labels2.put(1, new JLabel("Medium"));
 						labels2.put(2, new JLabel("High"));
 
 						incomeSlider = new JSlider(0, 2);
@@ -298,7 +315,10 @@ public class SideBar extends JPanel {
 						JPanel pnl = new JPanel(new GridLayout(0, 1));
 						
 						for (JRadioButton b: Arrays.asList(b1, b2, b3, b4, b5, b6, b7)) {
-							b.setOpaque(false); contextGroup.add(b); pnl.add(b);
+							b.setBorder(BorderFactory.createEmptyBorder(4, 0, 4, 0));
+							b.setOpaque(false);
+							contextGroup.add(b);
+							pnl.add(b);
 						}
 						
 						return pnl;
@@ -310,11 +330,60 @@ public class SideBar extends JPanel {
 					
 					public JPanel makePanel() {
 						
-						String[] bounceOptions = { "Time spent on website", "Number of pages visited" };
+						JPanel pnl = new JPanel(new GridBagLayout());
+						
+						GridBagConstraints bounceBoxC = new GridBagConstraints();
+						GridBagConstraints bounceLabelC = new GridBagConstraints();
+						GridBagConstraints bounceSpinnerC = new GridBagConstraints();
+
+						bounceBoxC.gridx = 0;
+						bounceBoxC.gridy = 0;
+						bounceBoxC.gridwidth = 2;
+						bounceBoxC.insets = new Insets(0, 0, 12, 0);
+
+						bounceLabelC.gridx = 0;
+						bounceLabelC.gridy = 1;
+						bounceLabelC.insets = new Insets(0, 6, 0, 0);
+						
+						bounceSpinnerC.gridx = 1;
+						bounceSpinnerC.gridy = 1;
+						bounceSpinnerC.anchor = GridBagConstraints.LINE_END;
+						
+						String[] bounceOptions = { "Number of pages visited", "Time spent on website" };
 						JComboBox bounceBox = new JComboBox(bounceOptions);
 						
-						JPanel pnl = new JPanel(new GridLayout(0, 1));
-						pnl.add(bounceBox);
+						final JLabel bounceLabel = new JLabel("Pages:");						
+
+						SpinnerModel spinnerModel = new SpinnerNumberModel(0, 0, 60, 1);
+						final JSpinner bounceSpinner = new JSpinner(spinnerModel);
+						
+						JComponent editor = bounceSpinner.getEditor();
+						JFormattedTextField tf = ((JSpinner.DefaultEditor) editor).getTextField();
+						tf.setColumns(7);					
+						
+						bounceBox.addActionListener(new ActionListener(){
+
+							public void actionPerformed(ActionEvent e) {
+								
+								JComboBox<String> cb = (JComboBox) e.getSource();
+				                final int item = cb.getSelectedIndex();
+								
+								if (item == 0){
+									bounceLabel.setText("Pages:");
+									bounceSpinner.setValue(0);
+								}
+								if (item == 1){
+									bounceLabel.setText("Minutes:");
+									bounceSpinner.setValue(0);
+								}
+								
+							}
+
+						});
+						
+						pnl.add(bounceBox, bounceBoxC);
+						pnl.add(bounceLabel, bounceLabelC);
+						pnl.add(bounceSpinner, bounceSpinnerC);
 						
 						return pnl;
 						
