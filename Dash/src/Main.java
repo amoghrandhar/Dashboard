@@ -9,8 +9,6 @@ public class Main {
         SwingUtilities.invokeLater(
                 new Runnable() {
                     public void run() {
-
-                        System.out.println(com.sun.javafx.runtime.VersionInfo.getRuntimeVersion());
                         try {
                             /*LookAndFeelInfo[] la = UIManager.getInstalledLookAndFeels();
                             for (int i = 0; i < la.length; i++) {
