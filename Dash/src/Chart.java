@@ -238,7 +238,7 @@ public class Chart extends JFXPanel{
     	CategoryAxis xAxis = new CategoryAxis();
         NumberAxis yAxis = new NumberAxis();
         xAxis.setLabel("Date");
-        yAxis.setLabel("Cumulative Cost");
+        yAxis.setLabel("Cumulative Cost (pence)");
         
         LinkedHashMap<String, Double> costPairs = new LinkedHashMap<String, Double>();
         String date, previous = null;
@@ -276,7 +276,7 @@ public class Chart extends JFXPanel{
     	CategoryAxis xAxis = new CategoryAxis();
         NumberAxis yAxis = new NumberAxis();
         xAxis.setLabel("Date");
-        yAxis.setLabel("Cost");
+        yAxis.setLabel("Cost (pence)");
         
         LinkedHashMap<String, Double> costPairs = new LinkedHashMap<String, Double>();
         String date;
