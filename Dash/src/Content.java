@@ -122,7 +122,7 @@ public class Content extends JPanel{
 		headerPanel.add(totalCostLabel, l3);
 		
 		String[] graphChoices = { "Clicks", "Impressions", "Uniques", "Bounces", "Conversions", 
-				"Total Cost", "CTR", "CPA", "CPC", "CPM", "Bounce Rate" };
+				"Cumulative Cost", "Cost", "CTR", "CPA", "CPC", "CPM", "Bounce Rate" };
 		
 		graphChoiceBox = new JComboBox(graphChoices);
 		graphChoiceBox.setPrototypeDisplayValue("XXXXXXXXXXXX");
@@ -150,6 +150,9 @@ public class Content extends JPanel{
                             	break;
                             case 5:
                             	chart.showCumulativeCost(dashboard.getClickLogs());
+                            	break;
+                            case 6:
+                            	chart.showCost(dashboard.getClickLogs());
                             	break;
                             default:
                                 chart.showClicksChart(dashboard.getClickLogs());
@@ -322,7 +325,7 @@ public class Content extends JPanel{
 	public void setHeaderMetrics(String clicks, String impressions, String cost) {
 		this.clicksValueLabel.setText(clicks);
 		this.impressionsValueLabel.setText(impressions);
-		this.totalCostValueLabel.setText("Â£" + cost);
+		this.totalCostValueLabel.setText("£" + cost);
 	}
 	
 	public void defaultChart() {

@@ -53,6 +53,7 @@ public class Chart extends JFXPanel{
 		series.getData().add(new XYChart.Data<String, Integer>("Dec", 25));
 		lineChart.getData().add(series);
 		
+		lineChart.setLegendVisible(false);
 		scene = new Scene(lineChart, xDim, yDim);
 		this.setScene(scene);
 	}
@@ -261,6 +262,39 @@ public class Chart extends JFXPanel{
 
         XYChart.Series series = new XYChart.Series();
         series.setName("Cumulative Cost Over Time");
+
+        for (Entry<String, Double> entry : costPairs.entrySet()) {
+            series.getData().add(new XYChart.Data(entry.getKey(), entry.getValue()));
+        }
+        lineChart.getData().add(series);
+
+        scene = new Scene(lineChart, xDim, yDim);
+        this.setScene(scene);
+    }
+    
+    public void showCost(ArrayList<ClickLog> clickList) {
+    	CategoryAxis xAxis = new CategoryAxis();
+        NumberAxis yAxis = new NumberAxis();
+        xAxis.setLabel("Date");
+        yAxis.setLabel("Cost");
+        
+        LinkedHashMap<String, Double> costPairs = new LinkedHashMap<String, Double>();
+        String date;
+           
+        for (ClickLog click : clickList) {
+        	date = sdf.format(click.getDate());
+        	if (!costPairs.containsKey(date)) {
+        			costPairs.put(date, click.getClickCost());
+        	} else {
+        		costPairs.put(date, costPairs.get(date) + click.getClickCost());
+        	}
+        }
+        
+        LineChart<String, Number> lineChart =
+                new LineChart<String, Number>(xAxis, yAxis);
+
+        XYChart.Series series = new XYChart.Series();
+        series.setName("Cost Over Time");
 
         for (Entry<String, Double> entry : costPairs.entrySet()) {
             series.getData().add(new XYChart.Data(entry.getKey(), entry.getValue()));
