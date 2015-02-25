@@ -99,7 +99,7 @@ public class Content extends JPanel{
 		
 		clicksValueLabel = new JLabel("0");
 		impressionsValueLabel = new JLabel("0");
-		totalCostValueLabel = new JLabel("£ 0");
+		totalCostValueLabel = new JLabel("\u00A3 0");
 		
 		clicksValueLabel.setFont(valueFont);
 		impressionsValueLabel.setFont(valueFont);
