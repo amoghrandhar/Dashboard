@@ -1,9 +1,5 @@
 .chart-series-line {    
     -fx-stroke-width: 2px;
     -fx-effect: null;
-    -fx-stroke: #95fffd;
-}
-
-.chart-line-symbol {
-	-fx-stroke: #64c8fd;
+    -fx-stroke: #15117c;
 }
