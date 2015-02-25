@@ -119,7 +119,7 @@ public class Content extends JPanel{
 		headerPanel.add(totalCostLabel, l3);
 		
 		String[] graphChoices = { "Clicks", "Impressions", "Uniques", "Bounces", "Conversions", 
-				"Cumulative Cost", "Cost", "CTR", "CPA", "CPC", "CPM", "Bounce Rate" };
+				"Cumulative Cost", "Cost"/*, "CTR", "CPA", "CPC", "CPM", "Bounce Rate"*/ };
 		
 		graphChoiceBox = new JComboBox(graphChoices);
 		graphChoiceBox.setPrototypeDisplayValue("XXXXXXXXXXXX");
