@@ -61,6 +61,7 @@ public class Chart extends JFXPanel{
 		CategoryAxis xAxis = new CategoryAxis();
 		NumberAxis yAxis = new NumberAxis();
 		xAxis.setLabel("Date");
+		yAxis.setLabel("Number of Impressions");
 		
 		LinkedHashMap<String,Integer> impressionPairs = new LinkedHashMap<String,Integer>();
 		String date;
@@ -94,6 +95,7 @@ public class Chart extends JFXPanel{
 		CategoryAxis xAxis = new CategoryAxis();
 		NumberAxis yAxis = new NumberAxis();
 		xAxis.setLabel("Date");
+		yAxis.setLabel("Number of Unique Clicks");
 		
 		
 		LinkedHashMap<String,Integer> uniquePairs = new LinkedHashMap<String,Integer>();
@@ -127,6 +129,7 @@ public class Chart extends JFXPanel{
 		CategoryAxis xAxis = new CategoryAxis();
 		NumberAxis yAxis = new NumberAxis();
 		xAxis.setLabel("Date");
+		yAxis.setLabel("Number of Clicks");
 		
 		
 		LinkedHashMap<String,Integer> clickPairs = new LinkedHashMap<String,Integer>();
@@ -164,6 +167,7 @@ public class Chart extends JFXPanel{
     	CategoryAxis xAxis = new CategoryAxis();
         NumberAxis yAxis = new NumberAxis();
         xAxis.setLabel("Date");
+        yAxis.setLabel("Number of Bounces");
         
         LinkedHashMap<String, Integer> bouncePairs = new LinkedHashMap<String, Integer>();
         String date;
@@ -198,6 +202,7 @@ public class Chart extends JFXPanel{
     	CategoryAxis xAxis = new CategoryAxis();
         NumberAxis yAxis = new NumberAxis();
         xAxis.setLabel("Date");
+        yAxis.setLabel("Number of Conversions");
         
         LinkedHashMap<String, Integer> convertPairs = new LinkedHashMap<String, Integer>();
         String date;
@@ -232,12 +237,11 @@ public class Chart extends JFXPanel{
     	CategoryAxis xAxis = new CategoryAxis();
         NumberAxis yAxis = new NumberAxis();
         xAxis.setLabel("Date");
+        yAxis.setLabel("Cumulative Cost");
         
         LinkedHashMap<String, Double> costPairs = new LinkedHashMap<String, Double>();
         String date, previous = null;
-        
-        
-        
+           
         for (ClickLog click : clickList) {
         	date = sdf.format(click.getDate());
         	if (!costPairs.containsKey(date)) {
@@ -256,7 +260,7 @@ public class Chart extends JFXPanel{
                 new LineChart<String, Number>(xAxis, yAxis);
 
         XYChart.Series series = new XYChart.Series();
-        series.setName("Cost Over Time");
+        series.setName("Cumulative Cost Over Time");
 
         for (Entry<String, Double> entry : costPairs.entrySet()) {
             series.getData().add(new XYChart.Data(entry.getKey(), entry.getValue()));
