@@ -18,10 +18,12 @@ public class Import extends JFrame {
     private JButton cancelButton, openButton;
     private DragAndDropPanel panel1, panel2, panel3;
     private Dashboard dashboard;
+    final JFileChooser fc;
 
     public Import(String title, Dashboard dashboard) {
         super(title);
         this.dashboard = dashboard;
+        fc = new JFileChooser();
     }
 
     public void init() {
@@ -219,7 +221,6 @@ public class Import extends JFrame {
                 setVisible(false);
                 dispose();
             } else {
-                final JFileChooser fc = new JFileChooser();
                 int returnVal = fc.showOpenDialog(Import.this);
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
                     if (e.getSource() == browseButton1) {
