@@ -33,8 +33,8 @@ public class ServerlogParser implements Runnable {
 
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            System.out.println("UNI Velocity --- One By One");
-            long startTime = System.currentTimeMillis();
+//            System.out.println("UNI Velocity --- One By One");
+//            long startTime = System.currentTimeMillis();
             CsvParserSettings settings = new CsvParserSettings();
             settings.setHeaderExtractionEnabled(true);      // This will remove the header data from csv
             CsvParser parser = new CsvParser(settings);
@@ -51,18 +51,18 @@ public class ServerlogParser implements Runnable {
                 }
             }
 
-            long endTime = System.currentTimeMillis();
-            System.out.println(serverLogs.size());
-
-            long totalTime = endTime - startTime;
-            System.out.println(totalTime);
+//            long endTime = System.currentTimeMillis();
+//            System.out.println(serverLogs.size());
+//
+//            long totalTime = endTime - startTime;
+//            System.out.println(totalTime);
 
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (ParseException e) {
             e.printStackTrace();
-            throw new WrongFileException("Impression File : Wrong Date Format");
+            throw new WrongFileException("ServerLog File");
         }
     }
 

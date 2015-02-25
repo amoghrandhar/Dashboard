@@ -30,7 +30,7 @@ public class DataAnalytics {
         //This will return a Hash Set of ClickLogs based on unique ID of the user
         //So it removes the repetition
         return new LinkedHashSet<ClickLog>(clickLogArrayList);
-        
+
     }
 
     public long noOfUniques(ArrayList<ClickLog> clickLogArrayList) {
