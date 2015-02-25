@@ -1,3 +1,10 @@
+import java.awt.Color;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.Map.Entry;
+import javax.swing.BorderFactory;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Scene;
 import javafx.scene.chart.CategoryAxis;
@@ -5,155 +12,151 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.Map.Entry;
-
 
 @SuppressWarnings("serial")
-public class Chart extends JFXPanel {
+public class Chart extends JFXPanel{
+	
+	private Scene scene;
+	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	
+	public Chart() {
+		super();
+		this.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.gray));
+	}
+	
+	public void initFX() {
+		CategoryAxis xAxis = new CategoryAxis();
+		NumberAxis yAxis = new NumberAxis();
+		xAxis.setLabel("Month");       
 
-    private Scene scene;
-    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		final LineChart<String,Number> lineChart = 
+				new LineChart<String,Number>(xAxis,yAxis);
 
-    public Chart() {
-        super();
-    }
+		//lineChart.setTitle("Stock Monitoring, 2010");
 
-    public void initFX() {
-        CategoryAxis xAxis = new CategoryAxis();
-        NumberAxis yAxis = new NumberAxis();
-        xAxis.setLabel("Month");
+		XYChart.Series series = new XYChart.Series();
+		//series.setName("My portfolio");
 
-        final LineChart<String, Number> lineChart =
-                new LineChart<String, Number>(xAxis, yAxis);
+		series.getData().add(new XYChart.Data<String, Integer>("Jan", 23));
+		series.getData().add(new XYChart.Data<String, Integer>("Feb", 14));
+		series.getData().add(new XYChart.Data<String, Integer>("Mar", 15));
+		series.getData().add(new XYChart.Data<String, Integer>("Apr", 24));
+		series.getData().add(new XYChart.Data<String, Integer>("May", 34));
+		series.getData().add(new XYChart.Data<String, Integer>("Jun", 36));
+		series.getData().add(new XYChart.Data<String, Integer>("Jul", 22));
+		series.getData().add(new XYChart.Data<String, Integer>("Aug", 45));
+		series.getData().add(new XYChart.Data<String, Integer>("Sep", 43));
+		series.getData().add(new XYChart.Data<String, Integer>("Oct", 17));
+		series.getData().add(new XYChart.Data<String, Integer>("Nov", 29));
+		series.getData().add(new XYChart.Data<String, Integer>("Dec", 25));
+		lineChart.getData().add(series);
+		
+		scene = new Scene(lineChart, 820, 370);
+		this.setScene(scene);
+	}
+	
+	public void showImpressionsChart(ArrayList<ImpressionLog> impressionList) {
+		CategoryAxis xAxis = new CategoryAxis();
+		NumberAxis yAxis = new NumberAxis();
+		xAxis.setLabel("Date");
+		
+		LinkedHashMap<String,Integer> impressionPairs = new LinkedHashMap<String,Integer>();
+		String date;
+		
+		for (ImpressionLog impression : impressionList) {
+			date = sdf.format(impression.getDate());
+			if (!impressionPairs.containsKey(date)) {
+				impressionPairs.put(date, 1);
+			} else {
+				impressionPairs.put(date, impressionPairs.get(date) + 1);
+			}
+		}
+		
+		LineChart<String,Number> lineChart = 
+				new LineChart<String,Number>(xAxis,yAxis);
 
-        //lineChart.setTitle("Stock Monitoring, 2010");
+		XYChart.Series series = new XYChart.Series();
+		series.setName("Impressions Over Time");
 
-        XYChart.Series series = new XYChart.Series();
-        //series.setName("My portfolio");
+		for (Entry<String,Integer> entry : impressionPairs.entrySet()) {
+			series.getData().add(new XYChart.Data(entry.getKey(), entry.getValue()));
+		}
+		lineChart.getData().add(series);
+		
+		scene = new Scene(lineChart, 820, 370);
+		this.setScene(scene);
+		
+	}
+	
+	public void showUniqueChart(HashSet<ClickLog> hashSet) {
+		CategoryAxis xAxis = new CategoryAxis();
+		NumberAxis yAxis = new NumberAxis();
+		xAxis.setLabel("Date");
+		
+		
+		LinkedHashMap<String,Integer> uniquePairs = new LinkedHashMap<String,Integer>();
+		String date;
+		
+		for (ClickLog click : hashSet) {
+			date = sdf.format(click.getDate());
+			if (!uniquePairs.containsKey(date)) {
+				uniquePairs.put(date, 1);
+			} else {
+				uniquePairs.put(date, uniquePairs.get(date) + 1);
+			}
+		}	
+		
+		LineChart<String,Number> lineChart = 
+				new LineChart<String,Number>(xAxis,yAxis);
 
-        series.getData().add(new XYChart.Data<String, Integer>("Jan", 23));
-        series.getData().add(new XYChart.Data<String, Integer>("Feb", 14));
-        series.getData().add(new XYChart.Data<String, Integer>("Mar", 15));
-        series.getData().add(new XYChart.Data<String, Integer>("Apr", 24));
-        series.getData().add(new XYChart.Data<String, Integer>("May", 34));
-        series.getData().add(new XYChart.Data<String, Integer>("Jun", 36));
-        series.getData().add(new XYChart.Data<String, Integer>("Jul", 22));
-        series.getData().add(new XYChart.Data<String, Integer>("Aug", 45));
-        series.getData().add(new XYChart.Data<String, Integer>("Sep", 43));
-        series.getData().add(new XYChart.Data<String, Integer>("Oct", 17));
-        series.getData().add(new XYChart.Data<String, Integer>("Nov", 29));
-        series.getData().add(new XYChart.Data<String, Integer>("Dec", 25));
-        lineChart.getData().add(series);
+		XYChart.Series series = new XYChart.Series();
+		series.setName("Unique Clicks Over Time");
 
-        scene = new Scene(lineChart, 600, 300);
-        this.setScene(scene);
-    }
-
-    public void showImpressionsChart(ArrayList<ImpressionLog> impressionList) {
-        CategoryAxis xAxis = new CategoryAxis();
-        NumberAxis yAxis = new NumberAxis();
-        xAxis.setLabel("Date");
-
-        LinkedHashMap<String, Integer> impressionPairs = new LinkedHashMap<String, Integer>();
-        String date;
-
-        for (ImpressionLog impression : impressionList) {
-            date = sdf.format(impression.getDate());
-            if (!impressionPairs.containsKey(date)) {
-                impressionPairs.put(date, 1);
-            } else {
-                impressionPairs.put(date, impressionPairs.get(date) + 1);
-            }
-        }
-
-        LineChart<String, Number> lineChart =
-                new LineChart<String, Number>(xAxis, yAxis);
-
-        XYChart.Series series = new XYChart.Series();
-        series.setName("Impressions Over Time");
-
-        for (Entry<String, Integer> entry : impressionPairs.entrySet()) {
-            series.getData().add(new XYChart.Data(entry.getKey(), entry.getValue()));
-        }
-        lineChart.getData().add(series);
-
-        scene = new Scene(lineChart, 600, 300);
-        this.setScene(scene);
-
-    }
-
-    public void showUniqueChart(HashSet<ClickLog> hashSet) {
-        CategoryAxis xAxis = new CategoryAxis();
-        NumberAxis yAxis = new NumberAxis();
-        xAxis.setLabel("Date");
-
-
-        LinkedHashMap<String, Integer> uniquePairs = new LinkedHashMap<String, Integer>();
-        String date;
-
-        for (ClickLog click : hashSet) {
-            date = sdf.format(click.getDate());
-            if (!uniquePairs.containsKey(date)) {
-                uniquePairs.put(date, 1);
-            } else {
-                uniquePairs.put(date, uniquePairs.get(date) + 1);
-            }
-        }
-
-        LineChart<String, Number> lineChart =
-                new LineChart<String, Number>(xAxis, yAxis);
-
-        XYChart.Series series = new XYChart.Series();
-        series.setName("Unique Clicks Over Time");
-
-        for (Entry<String, Integer> entry : uniquePairs.entrySet()) {
-            series.getData().add(new XYChart.Data(entry.getKey(), entry.getValue()));
-        }
-        lineChart.getData().add(series);
-
-        scene = new Scene(lineChart, 600, 300);
-        this.setScene(scene);
-    }
-
-    public void showClicksChart(ArrayList<ClickLog> clickList) {
-        CategoryAxis xAxis = new CategoryAxis();
-        NumberAxis yAxis = new NumberAxis();
-        xAxis.setLabel("Date");
-
-
-        LinkedHashMap<String, Integer> clickPairs = new LinkedHashMap<String, Integer>();
-        String date;
-
+		for (Entry<String,Integer> entry : uniquePairs.entrySet()) {
+			series.getData().add(new XYChart.Data(entry.getKey(), entry.getValue()));
+		}
+		lineChart.getData().add(series);
+		
+		scene = new Scene(lineChart, 820, 370);
+		this.setScene(scene);
+	}
+ 
+	public void showClicksChart(ArrayList<ClickLog> clickList) {
+		CategoryAxis xAxis = new CategoryAxis();
+		NumberAxis yAxis = new NumberAxis();
+		xAxis.setLabel("Date");
+		
+		
+		LinkedHashMap<String,Integer> clickPairs = new LinkedHashMap<String,Integer>();
+		String date;
+		
 		
 		/* 'Counts' number of clicks per day */
-        for (ClickLog click : clickList) {
-            date = sdf.format(click.getDate());
-            if (!clickPairs.containsKey(date)) {
-                clickPairs.put(date, 1);
-            } else {
-                clickPairs.put(date, clickPairs.get(date) + 1);
-            }
-        }
+		/*TODO Implement granularity */
+		for (ClickLog click : clickList) {
+			date = sdf.format(click.getDate());
+			if (!clickPairs.containsKey(date)) {
+				clickPairs.put(date, 1);
+			} else {
+				clickPairs.put(date, clickPairs.get(date) + 1);
+			}
+		}
+		
+		
+		LineChart<String,Number> lineChart = 
+				new LineChart<String,Number>(xAxis,yAxis);
 
+		XYChart.Series series = new XYChart.Series();
+		series.setName("Clicks Over Time");
 
-        LineChart<String, Number> lineChart =
-                new LineChart<String, Number>(xAxis, yAxis);
-
-        XYChart.Series series = new XYChart.Series();
-        series.setName("Clicks Over Time");
-
-        for (Entry<String, Integer> entry : clickPairs.entrySet()) {
-            series.getData().add(new XYChart.Data(entry.getKey(), entry.getValue()));
-        }
-        lineChart.getData().add(series);
-
-        scene = new Scene(lineChart, 600, 300);
-        this.setScene(scene);
-    }
+		for (Entry<String,Integer> entry : clickPairs.entrySet()) {
+			series.getData().add(new XYChart.Data(entry.getKey(), entry.getValue()));
+		}
+		lineChart.getData().add(series);
+		
+		scene = new Scene(lineChart, 820, 370);
+		this.setScene(scene);
+	}
 
     public void showBounceChart(ArrayList<ServerLog> serverList, int bounce) {
     	CategoryAxis xAxis = new CategoryAxis();
