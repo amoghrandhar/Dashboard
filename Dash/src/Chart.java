@@ -130,7 +130,6 @@ public class Chart extends JFXPanel {
 
 		
 		/* 'Counts' number of clicks per day */
-		/*TODO Implement granularity */
         for (ClickLog click : clickList) {
             date = sdf.format(click.getDate());
             if (!clickPairs.containsKey(date)) {
@@ -156,4 +155,71 @@ public class Chart extends JFXPanel {
         this.setScene(scene);
     }
 
+    public void showBounceChart(ArrayList<ServerLog> serverList, int bounce) {
+    	CategoryAxis xAxis = new CategoryAxis();
+        NumberAxis yAxis = new NumberAxis();
+        xAxis.setLabel("Date");
+        
+        LinkedHashMap<String, Integer> bouncePairs = new LinkedHashMap<String, Integer>();
+        String date;
+        
+        for (ServerLog server : serverList) {
+        	date = sdf.format(server.getStartDate());
+        	if (server.getPagesViewed() < bounce) {
+        		if (!bouncePairs.containsKey(date)) {
+        			bouncePairs.put(date, 1);
+        		} else {
+        			bouncePairs.put(date, bouncePairs.get(date) + 1);
+        		}
+        	}
+        }
+        
+        LineChart<String, Number> lineChart =
+                new LineChart<String, Number>(xAxis, yAxis);
+
+        XYChart.Series series = new XYChart.Series();
+        series.setName("Bounces Over Time");
+
+        for (Entry<String, Integer> entry : bouncePairs.entrySet()) {
+            series.getData().add(new XYChart.Data(entry.getKey(), entry.getValue()));
+        }
+        lineChart.getData().add(series);
+
+        scene = new Scene(lineChart, 600, 300);
+        this.setScene(scene);
+    }
+    
+    public void showConversionChart(ArrayList<ServerLog> serverList) {
+    	CategoryAxis xAxis = new CategoryAxis();
+        NumberAxis yAxis = new NumberAxis();
+        xAxis.setLabel("Date");
+        
+        LinkedHashMap<String, Integer> convertPairs = new LinkedHashMap<String, Integer>();
+        String date;
+        
+        for (ServerLog server : serverList) {
+        	date = sdf.format(server.getStartDate());
+        	if (server.isConverted()) {
+        		if (!convertPairs.containsKey(date)) {
+        			convertPairs.put(date, 1);
+        		} else {
+        			convertPairs.put(date, convertPairs.get(date) + 1);
+        		}
+        	}
+        }
+        
+        LineChart<String, Number> lineChart =
+                new LineChart<String, Number>(xAxis, yAxis);
+
+        XYChart.Series series = new XYChart.Series();
+        series.setName("Conversions Over Time");
+
+        for (Entry<String, Integer> entry : convertPairs.entrySet()) {
+            series.getData().add(new XYChart.Data(entry.getKey(), entry.getValue()));
+        }
+        lineChart.getData().add(series);
+
+        scene = new Scene(lineChart, 600, 300);
+        this.setScene(scene);
+    }
 }

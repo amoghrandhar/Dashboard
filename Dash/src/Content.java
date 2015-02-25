@@ -142,6 +142,13 @@ public class Content extends JPanel {
                             case 2:
                                 chart.showUniqueChart(dashboard.dataAnalytics.uniqueClickSet(dashboard.getClickLogs()));
                                 break;
+                            case 3:
+                            	//TODO Get chosen bounce threshold from filters
+                            	chart.showBounceChart(dashboard.getServerLogs(), 5); // 5 = dummy value
+                            	break;
+                            case 4:
+                            	chart.showConversionChart(dashboard.getServerLogs());
+                            	break;
                             default:
                                 chart.showClicksChart(dashboard.getClickLogs());
                                 break;
