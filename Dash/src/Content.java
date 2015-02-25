@@ -10,20 +10,17 @@ import java.math.BigDecimal;
 
 public class Content extends JPanel{
 	
-	SimpleTableModel tableModel;
-
-	JPanel graphPanel, metricsPanel, headerPanel;
-	
-	JLabel clicksValueLabel, impressionsValueLabel, totalCostValueLabel;
-	
-	Dashboard dashboard;
-	
+	Dashboard dashboard;	
 	Chart chart;
+
+	JPanel graphPanel, metricsPanel, headerPanel;	
+	JLabel clicksValueLabel, impressionsValueLabel, totalCostValueLabel;
 	JComboBox<String> graphChoiceBox;
+	SimpleTableModel tableModel;
 
 	public Content(Dashboard d) {
 
-		dashboard = d;
+		this.dashboard = d;
 		init();
 
 	}
@@ -130,10 +127,13 @@ public class Content extends JPanel{
 		graphChoiceBox.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
+				
 				JComboBox<String> cb = (JComboBox) e.getSource();
                 final int item = cb.getSelectedIndex();
+                
                 Platform.runLater(new Runnable() {
                     public void run() {
+                    	
                         switch (item) {
                             case 1:
                                 chart.showImpressionsChart(dashboard.getImpressionLogs());
@@ -158,10 +158,12 @@ public class Content extends JPanel{
                                 chart.showClicksChart(dashboard.getClickLogs());
                                 break;
                         }
+                        
                     }
                 });
 
 			}
+			
 		});	
 		
 		JLabel graphChoiceLabel = new JLabel("Display graph");
@@ -226,56 +228,7 @@ public class Content extends JPanel{
         table.getColumnModel().getColumn(9).setMinWidth(60);
         table.getColumnModel().getColumn(10).setMinWidth(85);
 
-		table.setDefaultRenderer(Object.class, new TableCellRenderer(){
-
-			private DefaultTableCellRenderer DEFAULT_RENDERER = new DefaultTableCellRenderer();
-
-			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-
-				Component c = DEFAULT_RENDERER.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-
-				if (c instanceof JLabel) {
-					((JLabel) c).setHorizontalAlignment(JLabel.CENTER);
-				}
-
-				if (column%2 == 0){
-					c.setBackground(Color.WHITE);
-                } else {
-                    c.setBackground(Color.decode("#e6e6e6"));
-                }
-
-                if (!hasFocus) {
-                    c.setForeground(Color.BLACK);
-                } else {
-                    c.setForeground(Color.black);
-                    c.setBackground(Color.decode("#82e9ff"));
-                }
-
-                /*
-                For Future :---->
-
-                 //  Color row based on a cell value
-
-                 So Green color if that value is good , Red if its bad .
-
-                if (!isRowSelected(row))
-                {
-                    c.setBackground(getBackground());
-                    int modelRow = convertRowIndexToModel(row);
-                    String type = (String)getModel().getValueAt(modelRow, 0);
-                    if ("Buy".equals(type)) c.setBackground(Color.GREEN);
-                    if ("Sell".equals(type)) c.setBackground(Color.YELLOW);
-                }
-
-
-                 */
-
-
-				return c;
-
-			}
-
-		});
+		table.setDefaultRenderer(Object.class, new MetricsTableRenderer());
 
         table.setEnabled(true);
         table.setFillsViewportHeight(true);
@@ -323,78 +276,136 @@ public class Content extends JPanel{
 	}
 	
 	public void setHeaderMetrics(String clicks, String impressions, String cost) {
+		
 		this.clicksValueLabel.setText(clicks);
 		this.impressionsValueLabel.setText(impressions);
 		this.totalCostValueLabel.setText("\u00A3" + cost);
+		
 	}
 	
 	public void defaultChart() {
+		
 		chart.showClicksChart(dashboard.getClickLogs());
+		
 		class Worker extends SwingWorker<Void, Void> {
+			
 		    protected Void doInBackground() throws Exception {
 				graphChoiceBox.setEnabled(true);
 				return null;
 		    }
+		    
 		}
+		
         new Worker().execute();
-	}
-}
-
-@SuppressWarnings("serial")
-class SimpleTableModel extends AbstractTableModel {
-	
-	private String[][] rowData = {
-			{ "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0" },
-	};
-	
-	private String[] columnNames = { "Clicks", "Impressions", "Uniques", "Bounces", "Conversions", 
-			"Total Cost", "CTR", "CPA", "CPC", "CPM", "Bounce Rate" };
-
-	public String getColumnName(int col) {
-		
-		return columnNames[col].toString();
-		
-	}
-	public int getRowCount() {
-		
-		return rowData.length;
-		
+        
 	}
 	
-	public int getColumnCount() {
+	private class MetricsTableRenderer implements TableCellRenderer {
 		
-		return columnNames.length;
+		private DefaultTableCellRenderer DEFAULT_RENDERER = new DefaultTableCellRenderer();
+
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+
+			Component c = DEFAULT_RENDERER.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+			if (c instanceof JLabel) {
+				((JLabel) c).setHorizontalAlignment(JLabel.CENTER);
+			}
+
+			if (column%2 == 0){
+				c.setBackground(Color.WHITE);
+		    } else {
+		        c.setBackground(Color.decode("#e6e6e6"));
+		    }
+
+		    if (!hasFocus) {
+		        c.setForeground(Color.BLACK);
+		    } else {
+		        c.setForeground(Color.black);
+		        c.setBackground(Color.decode("#82e9ff"));
+		    }
+
+		    /*
+		    For Future :---->
+
+		     //  Color row based on a cell value
+
+		     So Green color if that value is good , Red if its bad .
+
+		    if (!isRowSelected(row))
+		    {
+		        c.setBackground(getBackground());
+		        int modelRow = convertRowIndexToModel(row);
+		        String type = (String)getModel().getValueAt(modelRow, 0);
+		        if ("Buy".equals(type)) c.setBackground(Color.GREEN);
+		        if ("Sell".equals(type)) c.setBackground(Color.YELLOW);
+		    }
+		    */
+
+
+			return c;
+
+		}
 		
 	}
 	
-	public Object getValueAt(int row, int col) {
+	private class SimpleTableModel extends AbstractTableModel {
 		
-		return rowData[row][col];
+		private String[][] rowData = {
+				{ "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0" },
+		};
 		
-	}
+		private String[] columnNames = { "Clicks", "Impressions", "Uniques", "Bounces", 
+				"Conversions", "Total Cost", "CTR", "CPA", "CPC", "CPM", "Bounce Rate" };
+
+		public String getColumnName(int col) {
+			
+			return columnNames[col].toString();
+			
+		}
+		
+		public int getRowCount() {
+			
+			return rowData.length;
+			
+		}
+		
+		public int getColumnCount() {
+			
+			return columnNames.length;
+			
+		}
+		
+		public Object getValueAt(int row, int col) {
+			
+			return rowData[row][col];
+			
+		}
 
 
-    public boolean isCellEditable(int rowIndex, int columnIndex) {
-        return false;
-    }
+	    public boolean isCellEditable(int rowIndex, int columnIndex) {
+	        return false;
+	    }
 
-    public void setValueAt(String value, int row, int col) {
+	    public void setValueAt(String value, int row, int col) {
+			
+			rowData[row][col] = value;
+			fireTableCellUpdated(row, col);
+			
+		}
 		
-		rowData[row][col] = value;
-		fireTableCellUpdated(row, col);
-		
-	}
-	
-	public void updateRow(int index, String[] values){
-		
-        for (int i = 0 ; i < values.length ; i++)
-            setValueAt(values[i],index,i);
+		public void updateRow(int index, String[] values){
+			
+	        for (int i = 0 ; i < values.length ; i++)
+	            setValueAt(values[i],index,i);
 
-    }
-	
-	public String round(double value, int scale){
+	    }
 		
-		return new BigDecimal(String.valueOf(value)).setScale(scale, BigDecimal.ROUND_HALF_UP).toString();
+		public String round(double value, int scale){
+			
+			return new BigDecimal(String.valueOf(value)).setScale(scale, BigDecimal.ROUND_HALF_UP).toString();
+			
+		}
 		
 	}
 	
