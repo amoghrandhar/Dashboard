@@ -149,6 +149,9 @@ public class Content extends JPanel {
                             case 4:
                             	chart.showConversionChart(dashboard.getServerLogs());
                             	break;
+                            case 5:
+                            	chart.showCumulativeCost(dashboard.getClickLogs());
+                            	break;
                             default:
                                 chart.showClicksChart(dashboard.getClickLogs());
                                 break;

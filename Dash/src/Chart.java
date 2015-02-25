@@ -222,4 +222,43 @@ public class Chart extends JFXPanel {
         scene = new Scene(lineChart, 600, 300);
         this.setScene(scene);
     }
+    
+    public void showCumulativeCost(ArrayList<ClickLog> clickList) {
+    	CategoryAxis xAxis = new CategoryAxis();
+        NumberAxis yAxis = new NumberAxis();
+        xAxis.setLabel("Date");
+        
+        LinkedHashMap<String, Double> costPairs = new LinkedHashMap<String, Double>();
+        String date, previous = null;
+        
+        
+        
+        for (ClickLog click : clickList) {
+        	date = sdf.format(click.getDate());
+        	if (!costPairs.containsKey(date)) {
+        		if (previous != null) {
+        			costPairs.put(date, click.getClickCost() + costPairs.get(previous));
+        		} else {
+        			costPairs.put(date, click.getClickCost());
+        		}
+        	} else {
+        		costPairs.put(date, costPairs.get(date) + click.getClickCost());
+        	}
+        	previous = date;
+        }
+        
+        LineChart<String, Number> lineChart =
+                new LineChart<String, Number>(xAxis, yAxis);
+
+        XYChart.Series series = new XYChart.Series();
+        series.setName("Cost Over Time");
+
+        for (Entry<String, Double> entry : costPairs.entrySet()) {
+            series.getData().add(new XYChart.Data(entry.getKey(), entry.getValue()));
+        }
+        lineChart.getData().add(series);
+
+        scene = new Scene(lineChart, 600, 300);
+        this.setScene(scene);
+    }
 }
