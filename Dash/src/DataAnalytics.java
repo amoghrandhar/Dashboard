@@ -53,7 +53,7 @@ public class DataAnalytics {
         //It tells the total no. of conversions which happened
         long total = 0;
         for (int i = 0; i < slog.size(); i++) {
-            if (slog.get(i).isConversation()) {
+            if (slog.get(i).isConverted()) {
                 total++;
             }
         }

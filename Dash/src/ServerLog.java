@@ -10,14 +10,14 @@ public class ServerLog implements Serializable {
     private Date eDate;
     private double ID;
     private int pagesViewed;
-    private boolean conversation;
+    private boolean conversion;
 
     ServerLog(Date sd, double id, Date ed, int pages, boolean conv) {
         this.sdate = sd;
         this.ID = id;
         this.eDate = ed;
         this.pagesViewed = pages;
-        this.conversation = conv;
+        this.conversion = conv;
     }
 
     public Date getEndDate() {
@@ -28,8 +28,8 @@ public class ServerLog implements Serializable {
         return pagesViewed;
     }
 
-    public boolean isConversation() {
-        return conversation;
+    public boolean isConverted() {
+        return conversion;
     }
 
     public Date getStartDate() {
