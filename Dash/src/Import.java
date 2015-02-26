@@ -1,6 +1,7 @@
 import javafx.application.Platform;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.dnd.*;
@@ -113,7 +114,7 @@ public class Import extends JFrame {
         c.insets = new Insets(-4, 0, 2, 0);
         container.add(panel3, c);
     }
-
+   
     class DragAndDropPanel extends JPanel {
 
         public DragAndDropPanel(String type) {
@@ -169,47 +170,71 @@ public class Import extends JFrame {
     }
 
     class ButtonListener implements ActionListener {
+    	
         Dashboard dashboard;
 
         public ButtonListener(Dashboard dashboard) {
             this.dashboard = dashboard;
         }
+        
+        public void showProcessingAnimation() {
+        	
+        	JPanel panel = new JPanel();
+        	panel.setLayout(new BorderLayout());
+        	ImageIcon icon = new ImageIcon(getClass().getResource("processing.GIF"));
+            Image img = icon.getImage();
+            icon = new ImageIcon(img);
+            panel.add(new JLabel(icon), BorderLayout.CENTER);
+        	panel.setOpaque(false);
+        	setGlassPane(panel);
+        	panel.setVisible(true);
+        	
+        }
 
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == openButton) {
-                if (clickLog != null && impressionLog != null && serverLog != null) {
-                    ClicklogParser clicklogParser = new ClicklogParser(clickLog.getAbsolutePath());
-                    ImpressionParser impressionParser = new ImpressionParser(impressionLog.getAbsolutePath());
-                    ServerlogParser serverlogParser = new ServerlogParser(serverLog.getAbsolutePath());
+                if (clickLog != null && impressionLog != null && serverLog != null) {	
+                	
+                	showProcessingAnimation();
+                	
+                	// running this in a thread to stop GUI hanging
+                	new Thread(new Runnable() {
+            	    	public void run()  {
+            	    		ClicklogParser clicklogParser = new ClicklogParser(clickLog.getAbsolutePath());
+                            ImpressionParser impressionParser = new ImpressionParser(impressionLog.getAbsolutePath());
+                            ServerlogParser serverlogParser = new ServerlogParser(serverLog.getAbsolutePath());
 
-                    try {
-                        //This will start the parsing of the csv log files and generate Arraylist of Data
-                        clicklogParser.generateClickLogs();
-                        impressionParser.generateImpressionsMethod1();
-                        serverlogParser.generateServerLogs();
-                    } catch (WrongFileException e1) {
-                        JOptionPane.showMessageDialog(Import.this, "Wrong File Passed for Processing \n" + e1.fileName, "Error",
-                                JOptionPane.ERROR_MESSAGE);
-                        e1.printStackTrace();
-                    }
-
-
-                    // This will update the ArrayList of datalogs with new data
-                    dashboard.updateClickLogs(clicklogParser.getClickLogs());
-                    dashboard.updateImpresssionLogs(impressionParser.getImpressions());
-                    dashboard.updateServerLogs(serverlogParser.getServerLogs());
-
-                    dashboard.updateMetrics();
-
-                    Platform.runLater(new Runnable() {
-                        public void run() {
-                            dashboard.defaultChart();
-                        }
-                    });
+                            try {
+                                //This will start the parsing of the csv log files and generate Arraylist of Data
+                                clicklogParser.generateClickLogs();
+                                impressionParser.generateImpressionsMethod1();
+                                serverlogParser.generateServerLogs();
+                            } catch (WrongFileException e1) {
+                                JOptionPane.showMessageDialog(Import.this, "Wrong File Passed for Processing \n" + e1.fileName, "Error",
+                                        JOptionPane.ERROR_MESSAGE);
+                                e1.printStackTrace();
+                            }
 
 
-                    setVisible(false);
-                    dispose();
+                            // This will update the ArrayList of datalogs with new data
+                            dashboard.updateClickLogs(clicklogParser.getClickLogs());
+                            dashboard.updateImpresssionLogs(impressionParser.getImpressions());
+                            dashboard.updateServerLogs(serverlogParser.getServerLogs());
+
+                            dashboard.updateMetrics();
+
+                            Platform.runLater(new Runnable() {
+                                public void run() {
+                                    dashboard.defaultChart();
+                                }
+                            });
+
+
+                            setVisible(false);
+                            dispose();
+            	    	}
+            	    }).start();
+            	          
                 } else {
                     JOptionPane.showMessageDialog(Import.this, "Please import all three\nfiles before continuing.", "Error",
                             JOptionPane.ERROR_MESSAGE);
