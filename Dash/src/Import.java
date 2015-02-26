@@ -170,6 +170,7 @@ public class Import extends JFrame {
     }
 
     class ButtonListener implements ActionListener {
+    	
         Dashboard dashboard;
 
         public ButtonListener(Dashboard dashboard) {
@@ -177,6 +178,7 @@ public class Import extends JFrame {
         }
         
         public void showProcessingAnimation() {
+        	
         	JPanel panel = new JPanel();
         	panel.setLayout(new BorderLayout());
         	ImageIcon icon = new ImageIcon(getClass().getResource("processing.GIF"));
@@ -186,7 +188,7 @@ public class Import extends JFrame {
         	panel.setOpaque(false);
         	setGlassPane(panel);
         	panel.setVisible(true);
-        	System.out.println("loading screen done");
+        	
         }
 
         public void actionPerformed(ActionEvent e) {
