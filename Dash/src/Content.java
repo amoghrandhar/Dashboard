@@ -1,4 +1,5 @@
 import javafx.application.Platform;
+
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -318,8 +319,8 @@ public class Content extends JPanel{
 		        c.setBackground(Color.decode("#e6e6e6"));
 		    }
 
-		    if (!hasFocus) {
-		        c.setForeground(Color.BLACK);
+            if (!isSelected) {
+                c.setForeground(Color.BLACK);
 		    } else {
 		        c.setForeground(Color.black);
 		        c.setBackground(Color.decode("#82e9ff"));
@@ -371,16 +372,16 @@ public class Content extends JPanel{
 		}
 		
 		public int getColumnCount() {
-			
-			return columnNames.length;
-			
-		}
-		
-		public Object getValueAt(int row, int col) {
-			
-			return rowData[row][col];
-			
-		}
+
+            return columnNames.length;
+
+        }
+
+        public Object getValueAt(int row, int col) {
+
+            return rowData[row][col];
+
+        }
 
 
 	    public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -388,25 +389,25 @@ public class Content extends JPanel{
 	    }
 
 	    public void setValueAt(String value, int row, int col) {
-			
-			rowData[row][col] = value;
+
+            rowData[row][col] = value;
 			fireTableCellUpdated(row, col);
-			
-		}
-		
-		public void updateRow(int index, String[] values){
-			
-	        for (int i = 0 ; i < values.length ; i++)
+
+        }
+
+        public void updateRow(int index, String[] values){
+
+            for (int i = 0 ; i < values.length ; i++)
 	            setValueAt(values[i],index,i);
 
 	    }
-		
-		public String round(double value, int scale){
-			
-			return new BigDecimal(String.valueOf(value)).setScale(scale, BigDecimal.ROUND_HALF_UP).toString();
-			
-		}
-		
-	}
-	
+
+        public String round(double value, int scale){
+
+            return new BigDecimal(String.valueOf(value)).setScale(scale, BigDecimal.ROUND_HALF_UP).toString();
+
+        }
+
+    }
+
 }
