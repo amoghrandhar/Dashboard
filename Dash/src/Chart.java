@@ -33,7 +33,7 @@ public class Chart extends JFXPanel{
 	public void initFX() {
 		CategoryAxis xAxis = new CategoryAxis();
 		NumberAxis yAxis = new NumberAxis();
-		xAxis.setLabel("Month");       
+		xAxis.setLabel("Day");       
 
 		final LineChart<String,Number> lineChart = 
 				new LineChart<String,Number>(xAxis,yAxis);
@@ -55,7 +55,7 @@ public class Chart extends JFXPanel{
 		series.getData().add(new XYChart.Data<String, Integer>("Oct", 17));
 		series.getData().add(new XYChart.Data<String, Integer>("Nov", 29));
 		series.getData().add(new XYChart.Data<String, Integer>("Dec", 25));
-		lineChart.getData().add(series);
+		//lineChart.getData().add(series);
 		
 		lineChart.setLegendVisible(false);
 
@@ -122,7 +122,6 @@ public class Chart extends JFXPanel{
                 //Adding class on hover
                 d.getNode().setOnMouseEntered(new EventHandler<javafx.event.Event>() {
 
-                    @Override
                     public void handle(javafx.event.Event event) {
                         d.getNode().getStyleClass().add("onHover");
                     }
@@ -132,7 +131,6 @@ public class Chart extends JFXPanel{
                 //Removing class on exit
                 d.getNode().setOnMouseExited(new EventHandler<javafx.event.Event>() {
 
-                    @Override
                     public void handle(javafx.event.Event event) {
                         d.getNode().getStyleClass().remove("onHover");
                     }
