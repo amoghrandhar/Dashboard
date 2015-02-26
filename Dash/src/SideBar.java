@@ -79,6 +79,7 @@ public class SideBar extends JPanel {
 		importButton.setFont(new Font("", Font.PLAIN, 12));
 		importButton.setPreferredSize(new Dimension(120, 46));
 		importButton.setFocusable(false);
+		importButton.setToolTipText("Import your campaign CSV files");
 		importButton.addActionListener(new ImportListener(dashboard));
 		filePanel.add(importButton, importC);
 

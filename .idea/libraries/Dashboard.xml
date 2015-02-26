@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Dashboard">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/Dash/src" />
+      <root url="file://$PROJECT_DIR$/DataParser" />
+    </SOURCES>
+    <jarDirectory url="file://$PROJECT_DIR$" recursive="false" />
+  </library>
+</component>

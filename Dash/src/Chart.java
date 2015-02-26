@@ -1,16 +1,20 @@
-import java.awt.Color;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.Map.Entry;
-import javax.swing.BorderFactory;
 import javafx.embed.swing.JFXPanel;
+import javafx.event.EventHandler;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Tooltip;
+
+import javax.swing.*;
+import java.awt.*;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.Map.Entry;
 
 
 @SuppressWarnings("serial")
@@ -54,10 +58,15 @@ public class Chart extends JFXPanel{
 		lineChart.getData().add(series);
 		
 		lineChart.setLegendVisible(false);
+
 		scene = new Scene(lineChart, xDim, yDim);
 		scene.getStylesheets().add("chartstyle.css");
 		this.setScene(scene);
-	}
+
+        lineChart.setCursor(Cursor.CROSSHAIR);
+        displayOnHover(lineChart);
+
+    }
 	
 	public void showImpressionsChart(ArrayList<ImpressionLog> impressionList) {
 		CategoryAxis xAxis = new CategoryAxis();
@@ -77,7 +86,7 @@ public class Chart extends JFXPanel{
 			}
 		}
 		
-		LineChart<String,Number> lineChart = 
+		LineChart<String,Number> lineChart =
 				new LineChart<String,Number>(xAxis,yAxis);
 
 		XYChart.Series series = new XYChart.Series();
@@ -87,23 +96,62 @@ public class Chart extends JFXPanel{
 			series.getData().add(new XYChart.Data(entry.getKey(), entry.getValue()));
 		}
 		lineChart.getData().add(series);
-		
+
+
+
+        lineChart.setCursor(Cursor.CROSSHAIR);
 		scene = new Scene(lineChart, xDim, yDim);
 		scene.getStylesheets().add("chartstyle.css");
 		this.setScene(scene);
-		
-	}
-	
-	public void showUniqueChart(HashSet<ClickLog> hashSet) {
+        displayOnHover(lineChart);
+
+
+    }
+
+    private void displayOnHover(LineChart<String, Number> lineChart) {
+        /**
+         * Browsing through the Data and applying ToolTip
+         * as well as the class on hover
+         */
+        for (XYChart.Series<String, Number> s : lineChart.getData()) {
+            for (final XYChart.Data<String, Number> d : s.getData()) {
+                Tooltip.install(d.getNode(), new Tooltip(
+                        d.getXValue().toString() + "\n" +
+                                "Number Of Events : " + d.getYValue()));
+
+                //Adding class on hover
+                d.getNode().setOnMouseEntered(new EventHandler<javafx.event.Event>() {
+
+                    @Override
+                    public void handle(javafx.event.Event event) {
+                        d.getNode().getStyleClass().add("onHover");
+                    }
+
+                });
+
+                //Removing class on exit
+                d.getNode().setOnMouseExited(new EventHandler<javafx.event.Event>() {
+
+                    @Override
+                    public void handle(javafx.event.Event event) {
+                        d.getNode().getStyleClass().remove("onHover");
+                    }
+
+                });
+            }
+        }
+    }
+
+    public void showUniqueChart(HashSet<ClickLog> hashSet) {
 		CategoryAxis xAxis = new CategoryAxis();
 		NumberAxis yAxis = new NumberAxis();
 		xAxis.setLabel("Date");
 		yAxis.setLabel("Number of Unique Clicks");
-		
-		
+
+
 		LinkedHashMap<String,Integer> uniquePairs = new LinkedHashMap<String,Integer>();
 		String date;
-		
+
 		for (ClickLog click : hashSet) {
 			date = sdf.format(click.getDate());
 			if (!uniquePairs.containsKey(date)) {
@@ -111,9 +159,9 @@ public class Chart extends JFXPanel{
 			} else {
 				uniquePairs.put(date, uniquePairs.get(date) + 1);
 			}
-		}	
-		
-		LineChart<String,Number> lineChart = 
+		}
+
+		LineChart<String,Number> lineChart =
 				new LineChart<String,Number>(xAxis,yAxis);
 
 		XYChart.Series series = new XYChart.Series();
@@ -127,6 +175,9 @@ public class Chart extends JFXPanel{
 		scene = new Scene(lineChart, xDim, yDim);
 		scene.getStylesheets().add("chartstyle.css");
 		this.setScene(scene);
+
+        lineChart.setCursor(Cursor.CROSSHAIR);
+        displayOnHover(lineChart);
 	}
  
 	public void showClicksChart(ArrayList<ClickLog> clickList) {
@@ -166,6 +217,9 @@ public class Chart extends JFXPanel{
 		scene = new Scene(lineChart, xDim, yDim);
 		scene.getStylesheets().add("chartstyle.css");
 		this.setScene(scene);
+
+        lineChart.setCursor(Cursor.CROSSHAIR);
+        displayOnHover(lineChart);
 	}
 
     public void showBounceChart(ArrayList<ServerLog> serverList, int bounce) {
@@ -202,6 +256,9 @@ public class Chart extends JFXPanel{
         scene = new Scene(lineChart, xDim, yDim);
         scene.getStylesheets().add("chartstyle.css");
         this.setScene(scene);
+
+        lineChart.setCursor(Cursor.CROSSHAIR);
+        displayOnHover(lineChart);
     }
     
     public void showConversionChart(ArrayList<ServerLog> serverList) {
@@ -238,6 +295,9 @@ public class Chart extends JFXPanel{
         scene = new Scene(lineChart, xDim, yDim);
         scene.getStylesheets().add("chartstyle.css");
         this.setScene(scene);
+
+        lineChart.setCursor(Cursor.CROSSHAIR);
+        displayOnHover(lineChart);
     }
     
     public void showCumulativeCost(ArrayList<ClickLog> clickList) {
@@ -277,6 +337,9 @@ public class Chart extends JFXPanel{
         scene = new Scene(lineChart, xDim, yDim);
         scene.getStylesheets().add("chartstyle.css");
         this.setScene(scene);
+
+        lineChart.setCursor(Cursor.CROSSHAIR);
+        displayOnHover(lineChart);
     }
     
     public void showCost(ArrayList<ClickLog> clickList) {
@@ -311,5 +374,8 @@ public class Chart extends JFXPanel{
         scene = new Scene(lineChart, xDim, yDim);
         scene.getStylesheets().add("chartstyle.css");
         this.setScene(scene);
+
+        lineChart.setCursor(Cursor.CROSSHAIR);
+        displayOnHover(lineChart);
     }
 }
