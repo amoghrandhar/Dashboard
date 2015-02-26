@@ -28,6 +28,7 @@ public class Import extends JFrame {
     }
 
     public void init() {
+    	this.dashboard.sidebar.importButton.setEnabled(false);
         container = this.getContentPane();
         container.setLayout(new GridBagLayout());
         c = new GridBagConstraints();
@@ -230,6 +231,8 @@ public class Import extends JFrame {
 
                             setVisible(false);
                             dispose();
+                        	dashboard.sidebar.importButton.setEnabled(true);
+
             	    	}
             	    }).start();
             	          
@@ -238,6 +241,7 @@ public class Import extends JFrame {
                             JOptionPane.ERROR_MESSAGE);
                 }
             } else if (e.getSource() == cancelButton) {
+            	this.dashboard.sidebar.importButton.setEnabled(true);
                 clickLog = null;
                 impressionLog = null;
                 serverLog = null;

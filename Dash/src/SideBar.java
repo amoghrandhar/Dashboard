@@ -596,6 +596,7 @@ class ImportListener implements ActionListener {
 
 		Import importFrame = new Import("Import Files", dashboard);
 		importFrame.init();
+		
 
 	}
 
