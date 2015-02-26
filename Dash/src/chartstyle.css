@@ -4,6 +4,11 @@
     -fx-stroke: #00d2ff;
 }
 
+/*.onHover{*/
+    /*-fx-background-color: #3200ff;*/
+/*}*/
+
 .default-color0.chart-line-symbol {
 	-fx-background-color: #00d2ff, white;
 }
+
