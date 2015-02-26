@@ -72,27 +72,38 @@ public class Dashboard extends JFrame {
     }
 
     public void updateMetrics() {
-
+    	
+    	long clicks = dataAnalytics.totalClicks(clickLogs);
+    	long impressions = dataAnalytics.noOfImpression(impressionLogs);
+    	long uniques = dataAnalytics.noOfUniques(clickLogs);
+    	long bounces = dataAnalytics.noOfBounces(serverLogs, 5);
+    	long conversions = dataAnalytics.noOfConversions(serverLogs);
+    	double totalCost = dataAnalytics.totalCost(impressionLogs, clickLogs);
+    	double CTR = dataAnalytics.getCTR(clickLogs, impressionLogs);
+    	double CPA = dataAnalytics.getCPA(impressionLogs, clickLogs, serverLogs);
+    	double CPC = dataAnalytics.getCPC(impressionLogs, clickLogs);
+    	double CPM = dataAnalytics.getCPM(impressionLogs, clickLogs);
+    	double bounceRate = dataAnalytics.bounceRate(5, clickLogs, serverLogs);
+    	
     	// Update metrics table
     	String[] rowData = {
-    			String.valueOf(dataAnalytics.totalClicks(clickLogs)),
-    			String.valueOf(dataAnalytics.noOfImpression(impressionLogs)),
-    			String.valueOf(dataAnalytics.noOfUniques(clickLogs)),
-    			String.valueOf(dataAnalytics.noOfBounces(serverLogs, 5)),
-    			String.valueOf(dataAnalytics.noOfConversions(serverLogs)),
-    			round(dataAnalytics.totalCost(impressionLogs, clickLogs).floatValue(), 2),
-    			round(dataAnalytics.getCTR(clickLogs, impressionLogs).floatValue(), 4),
-    			round(dataAnalytics.getCPA(impressionLogs, clickLogs, serverLogs).floatValue(), 4),
-    			round(dataAnalytics.getCPC(impressionLogs, clickLogs).floatValue(), 4),
-    			round(dataAnalytics.getCPM(impressionLogs, clickLogs).floatValue(), 4),
-    			round(dataAnalytics.bounceRate(5, clickLogs, serverLogs).floatValue(), 4)
+    			String.valueOf(clicks),
+    			String.valueOf(impressions),
+    			String.valueOf(uniques),
+    			String.valueOf(bounces),
+    			String.valueOf(conversions),
+    			round(totalCost, 2),
+    			round(CTR, 4),
+    			round(CPA, 4),
+    			round(CPC, 4),
+    			round(CPM, 4),
+    			round(bounceRate, 4)
     	};
     	content.setMetrics(0, rowData);
     	content.setHeaderMetrics(
-    			String.valueOf(dataAnalytics.totalClicks(clickLogs)), 
-    			String.valueOf(dataAnalytics.noOfImpression(impressionLogs)),
-    			round(dataAnalytics.totalCost(impressionLogs, clickLogs).floatValue(), 2)
-    			);
+    			String.valueOf(clicks), 
+    			String.valueOf(impressions),
+    			round(totalCost, 2));
         
     }
     
