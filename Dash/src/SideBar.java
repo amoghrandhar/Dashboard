@@ -3,7 +3,9 @@ import javax.swing.JFormattedTextField.AbstractFormatter;
 import javax.swing.border.*;
 import javax.swing.event.*;
 import javax.swing.text.DateFormatter;
+
 import org.jdatepicker.impl.*;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.text.ParseException;
@@ -92,6 +94,17 @@ public class SideBar extends JPanel {
 		exportButton.setFont(new Font("", Font.PLAIN, 12));
 		exportButton.setPreferredSize(new Dimension(120, 46));
 		exportButton.setFocusable(false);
+		
+		final JPopupMenu popUpMenu = new JPopupMenu("Menu");
+        popUpMenu.add("Export graph as PNG file");
+        popUpMenu.add("Export table as CSV file");
+        popUpMenu.addSeparator();
+        popUpMenu.add("Print graph");
+        exportButton.addActionListener( new ActionListener() {
+            public void actionPerformed(ActionEvent ae) {
+                popUpMenu.show(exportButton, exportButton.getWidth(), 2);
+            }
+        } );
 
 		// Menu Panel (Bottom)
 
@@ -136,14 +149,14 @@ public class SideBar extends JPanel {
 
 		filePanel.add(importButton, importC);
 		// TODO
-		//filePanel.add(exportButton, exportC);
+		filePanel.add(exportButton, exportC);
 
 		menuPanel.add(updatePanel);
 		menuPanel.add(accordion);
 
 		this.add(filePanel, BorderLayout.PAGE_START);
 		// TODO
-		//this.add(menuPanel, BorderLayout.PAGE_END);
+		this.add(menuPanel, BorderLayout.PAGE_END);
 
 	}
 
