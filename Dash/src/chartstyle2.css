@@ -5,6 +5,11 @@
     -fx-padding: 10px;
 }
 
+.chart-title {
+  -fx-text-fill: #000000;
+  -fx-font-size: 12px;
+}
+
 .data0.chart-pie { -fx-pie-color: #00d2ff; }
 .data1.chart-pie { -fx-pie-color: #fd55c0; }
 .data2.chart-pie { -fx-pie-color: cornflowerblue; }

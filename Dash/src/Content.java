@@ -18,7 +18,7 @@ public class Content extends JPanel{
 
 	JPanel graphPanel, metricsPanel, headerPanel, piePanel;	
 	JLabel clicksValueLabel, impressionsValueLabel, totalCostValueLabel;
-	JComboBox<String> graphChoiceBox;
+	JComboBox<String> graphChoiceBox, timeBox;
 	SimpleTableModel tableModel;
 	
 	JTabbedPane tabbedPane;
@@ -56,6 +56,8 @@ public class Content extends JPanel{
 		GridBagConstraints v3 = new GridBagConstraints();
 		GridBagConstraints graphChoiceBoxC = new GridBagConstraints();
 		GridBagConstraints graphChoiceLabelC = new GridBagConstraints();
+		GridBagConstraints timeBoxC = new GridBagConstraints();
+		GridBagConstraints timeLabelC = new GridBagConstraints();
 		
 		v1.gridx = 0;
 		v1.gridy = 0;
@@ -90,12 +92,22 @@ public class Content extends JPanel{
 		graphChoiceBoxC.gridx = 3;
 		graphChoiceBoxC.gridy = 1;
 		graphChoiceBoxC.anchor = GridBagConstraints.LINE_START;
-		graphChoiceBoxC.insets = new Insets(-4, 300, 0, 20);
+		graphChoiceBoxC.insets = new Insets(-4, 180, 0, 20);
 		 
 		graphChoiceLabelC.gridx = 3;
 		graphChoiceLabelC.gridy = 0;
 		graphChoiceLabelC.anchor = GridBagConstraints.LINE_START;
-		graphChoiceLabelC.insets = new Insets(0, 304, 0, 20);
+		graphChoiceLabelC.insets = new Insets(0, 184, 0, 20);
+		
+		timeBoxC.gridx = 4;
+		timeBoxC.gridy = 1;
+		timeBoxC.anchor = GridBagConstraints.LINE_START;
+		timeBoxC.insets = new Insets(-4, 10, 0, 20);
+		 
+		timeLabelC.gridx = 4;
+		timeLabelC.gridy = 0;
+		timeLabelC.anchor = GridBagConstraints.LINE_START;
+		timeLabelC.insets = new Insets(0, 14, 0, 20);
 		
 		// ######### Panels #########
 		
@@ -130,7 +142,7 @@ public class Content extends JPanel{
 				"Cumulative Cost", "Cost"/*, "CTR", "CPA", "CPC", "CPM", "Bounce Rate"*/ };
 		
 		graphChoiceBox = new JComboBox(graphChoices);
-		graphChoiceBox.setPrototypeDisplayValue("XXXXXXXXXXXX");
+		graphChoiceBox.setPrototypeDisplayValue("XXXXXXXXXX");
 		graphChoiceBox.setEnabled(false);		
 		graphChoiceBox.addActionListener(new ActionListener() {
 			
@@ -177,8 +189,49 @@ public class Content extends JPanel{
 		JLabel graphChoiceLabel = new JLabel("Display graph");
 		graphChoiceLabel.setFont(labelFont);
 		
+		String[] timeGranularities = { "Minutes", "Hours", "Days" };
+		
+		timeBox = new JComboBox(timeGranularities);
+		timeBox.setPrototypeDisplayValue("XXXXXXXXXX");
+		timeBox.setEnabled(false);	
+		timeBox.addActionListener(new ActionListener() {
+			
+			// TODO For OLIVER to implement time granularity changes
+			public void actionPerformed(ActionEvent e) {
+				
+				JComboBox<String> cb = (JComboBox) e.getSource();
+                final int item = cb.getSelectedIndex();
+                
+                Platform.runLater(new Runnable() {
+                    public void run() {
+                    	
+                        switch (item) {
+                            case 1:
+                                
+                                break;
+                            case 2:
+                            	
+                            	break;
+                            case 3:
+                            	
+                            	break;
+                        }
+                        
+                    }
+                });
+
+			}
+			
+		});
+		
+		JLabel timeLabel = new JLabel("Time Granularity");
+		graphChoiceLabel.setFont(labelFont);
+		
 		headerPanel.add(graphChoiceBox, graphChoiceBoxC);
 		headerPanel.add(graphChoiceLabel, graphChoiceLabelC);
+		
+		headerPanel.add(timeBox, timeBoxC);
+		headerPanel.add(timeLabel, timeLabelC);
 		
 		// ######### Graph Panel #########
 
@@ -321,6 +374,7 @@ public class Content extends JPanel{
 		tab1.add(graphPanel, BorderLayout.CENTER);
 		tab1.add(metricsPanel, BorderLayout.PAGE_END);
 		
+		tab2.setLayout(new BorderLayout());
 		tab2.add(piePanel, BorderLayout.CENTER);
 		
 		tabbedPane = new JTabbedPane();
@@ -330,7 +384,7 @@ public class Content extends JPanel{
 		
 		JPanel bodyPanel = new JPanel();
 		bodyPanel.setLayout(new BorderLayout());
-		bodyPanel.add( tabbedPane);
+		bodyPanel.add(tabbedPane);
 		
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		this.add(headerPanel);
@@ -362,6 +416,7 @@ public class Content extends JPanel{
 			
 		    protected Void doInBackground() throws Exception {
 				graphChoiceBox.setEnabled(true);
+				timeBox.setEnabled(true);
 				return null;
 		    }
 		    

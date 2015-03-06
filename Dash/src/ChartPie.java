@@ -51,8 +51,8 @@ public class ChartPie extends JFXPanel{
                 new PieChart.Data("Female", 44));
         final PieChart chart = new PieChart(pieChartData);
         
-        chart.setLabelsVisible(false);
         chart.setLegendSide(Side.LEFT);
+        chart.setLabelsVisible(false);
         
         tooltip = new Tooltip("");
 

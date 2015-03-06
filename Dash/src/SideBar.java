@@ -25,6 +25,8 @@ public class SideBar extends JPanel {
 	JPanel filePanel, menuPanel;
 
 	JButton importButton, exportButton, updateButton, resetButton;
+	JPopupMenu popUpMenu;
+	JMenuItem printItem, pngItem, jpegItem;
 	Calendar calendar;
 	UtilDateModel dateModel, dateModel2;
 	SpinnerDateModel timeModel, timeModel2;
@@ -96,16 +98,20 @@ public class SideBar extends JPanel {
 		exportButton.setPreferredSize(new Dimension(120, 46));
 		exportButton.setFocusable(false);
 		
-		final JPopupMenu popUpMenu = new JPopupMenu("Menu");
-        popUpMenu.add("Export graph as PNG file");
-        popUpMenu.add("Export table as CSV file");
+		pngItem = new JMenuItem("Export graph as PNG file");
+		pngItem.addActionListener(new PopupListener(dashboard));
+		jpegItem = new JMenuItem("Export graph as JPEG file");
+		jpegItem.addActionListener(new PopupListener(dashboard));
+		printItem = new JMenuItem("Print graph");
+		printItem.addActionListener(new PopupListener(dashboard));
+		
+		popUpMenu = new JPopupMenu("Menu");
+        popUpMenu.add(pngItem);
+        popUpMenu.add(jpegItem);
         popUpMenu.addSeparator();
-        popUpMenu.add("Print graph");
-        exportButton.addActionListener( new ActionListener() {
-            public void actionPerformed(ActionEvent ae) {
-                popUpMenu.show(exportButton, exportButton.getWidth(), 2);
-            }
-        } );
+        popUpMenu.add(printItem);
+              
+        exportButton.addActionListener( new ExportListener(dashboard) );
 
 		// Menu Panel (Bottom)
 
@@ -115,8 +121,7 @@ public class SideBar extends JPanel {
 		
 		updateButton = new JButton("Update");
 		updateButton.setFocusable(false);
-		updateButton.addActionListener(new UpdateListener(this));
-		
+		updateButton.addActionListener(new UpdateListener(this));		
 
 		JPanel updatePanel = new JPanel();
 		updatePanel.setLayout(new FlowLayout());
@@ -149,14 +154,12 @@ public class SideBar extends JPanel {
 		// Frame
 
 		filePanel.add(importButton, importC);
-		// TODO
 		filePanel.add(exportButton, exportC);
 
 		menuPanel.add(updatePanel);
 		menuPanel.add(accordion);
 
 		this.add(filePanel, BorderLayout.PAGE_START);
-		// TODO
 		this.add(menuPanel, BorderLayout.PAGE_END);
 
 	}
@@ -185,7 +188,7 @@ public class SideBar extends JPanel {
 						JDatePanelImpl datePanel2 = new JDatePanelImpl(dateModel2, p);
 						JDatePickerImpl startPicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
 						JDatePickerImpl endPicker = new JDatePickerImpl(datePanel2, new DateLabelFormatter());
-
+						
 						calendar = Calendar.getInstance();
 						calendar.set(Calendar.HOUR_OF_DAY, 24);
 						calendar.set(Calendar.MINUTE, 0);
@@ -417,49 +420,67 @@ public class SideBar extends JPanel {
 	}
 
 	public Date getChosenStartDate(){
+		
+		if(dateModel.getValue() != null){
 
-		Calendar temp = Calendar.getInstance();
-		//Date dA = new SimpleDateFormat("dd:hh:mm").parse(source); 
-		temp.setTime(timeModel.getDate());
-
-		Calendar date = Calendar.getInstance();
-		date.set(Calendar.YEAR, dateModel.getDay());
-		date.set(Calendar.MONTH, dateModel.getMonth());
-		date.set(Calendar.DAY_OF_MONTH, dateModel.getYear());
-		date.set(Calendar.HOUR_OF_DAY, temp.get(Calendar.HOUR_OF_DAY));
-		date.set(Calendar.MINUTE, temp.get(Calendar.MINUTE));
-		date.set(Calendar.SECOND, temp.get(Calendar.SECOND));
-
-		return date.getTime();
+			Calendar temp = Calendar.getInstance();
+			//Date dA = new SimpleDateFormat("dd:hh:mm").parse(source); 
+			temp.setTime(timeModel.getDate());
+	
+			Calendar date = Calendar.getInstance();
+			date.set(Calendar.YEAR, dateModel.getDay());
+			date.set(Calendar.MONTH, dateModel.getMonth());
+			date.set(Calendar.DAY_OF_MONTH, dateModel.getYear());
+			date.set(Calendar.HOUR_OF_DAY, temp.get(Calendar.HOUR_OF_DAY));
+			date.set(Calendar.MINUTE, temp.get(Calendar.MINUTE));
+			date.set(Calendar.SECOND, temp.get(Calendar.SECOND));
+	
+			return date.getTime();
+		
+		}
+		
+		else return null;
 
 	}
 
 	public Date getChosenEndDate(){
-
-		Calendar temp = Calendar.getInstance();
-		temp.setTime(timeModel2.getDate());
-
-		Calendar date = Calendar.getInstance();
-		date.set(Calendar.YEAR, dateModel2.getDay());
-		date.set(Calendar.MONTH, dateModel2.getMonth());
-		date.set(Calendar.DAY_OF_MONTH, dateModel2.getYear());
-		date.set(Calendar.HOUR_OF_DAY, temp.get(Calendar.HOUR_OF_DAY));
-		date.set(Calendar.MINUTE, temp.get(Calendar.MINUTE));
-		date.set(Calendar.SECOND, temp.get(Calendar.SECOND));
-
-		return date.getTime();
+		
+			if(dateModel2.getValue() != null){
+			
+			Calendar temp = Calendar.getInstance();
+			temp.setTime(timeModel2.getDate());
+	
+			Calendar date = Calendar.getInstance();
+			date.set(Calendar.YEAR, dateModel2.getDay());
+			date.set(Calendar.MONTH, dateModel2.getMonth());
+			date.set(Calendar.DAY_OF_MONTH, dateModel2.getYear());
+			date.set(Calendar.HOUR_OF_DAY, temp.get(Calendar.HOUR_OF_DAY));
+			date.set(Calendar.MINUTE, temp.get(Calendar.MINUTE));
+			date.set(Calendar.SECOND, temp.get(Calendar.SECOND));
+	
+			return date.getTime();
+		
+		}
+		
+		else return null;
 
 	}
 
 	public int getChosenAge(){
 
-		return ageSlider.getValue();
+		if(ageLabel.isSelected())
+			return ageSlider.getValue();
+		
+		else return -1;
 
 	}
 
 	public int getChosenIncome(){
 
-		return incomeSlider.getValue();
+		if(incomeLabel.isSelected())
+			return incomeSlider.getValue();
+		
+		else return -1;
 
 	}
 
@@ -467,8 +488,10 @@ public class SideBar extends JPanel {
 
 		if(male.isSelected())
 			return true;
+		
 		if(female.isSelected())
 			return false;
+		
 		else return null;
 
 	}
@@ -618,10 +641,64 @@ class ImportListener implements ActionListener {
 
 		Import importFrame = new Import("Import Files", dashboard);
 		importFrame.init();
-		
 
 	}
 
+}
+
+//Opens a new frame to import files
+class ExportListener implements ActionListener {
+
+	Dashboard dashboard;
+
+	public ExportListener (Dashboard dashboard){
+
+		this.dashboard = dashboard;
+
+	}
+
+	public void actionPerformed(ActionEvent e) {
+		
+         dashboard.sidebar.popUpMenu.show(dashboard.sidebar.exportButton, 
+        		 						  dashboard.sidebar.exportButton.getWidth(), 2);
+         
+    }
+
+}
+
+class PopupListener implements ActionListener {
+	
+	Dashboard dashboard;
+	
+	public PopupListener (Dashboard dashboard){
+		
+		this.dashboard = dashboard;
+		
+	}
+	
+	// TODO For GEORGE to implement what happens when each item is clicked
+	public void actionPerformed(ActionEvent event) {
+		
+		if(event.getSource() == dashboard.sidebar.pngItem){
+			
+			System.out.println(event.getActionCommand());
+			
+		}
+		
+		if(event.getSource() == dashboard.sidebar.jpegItem){
+			
+			System.out.println(event.getActionCommand());
+			
+		}
+		
+		if(event.getSource() == dashboard.sidebar.printItem){
+			
+			System.out.println(event.getActionCommand());
+			
+		}
+        
+	}
+	
 }
 
 // Collects all filter options and updates the graphs and metrics
@@ -644,8 +721,8 @@ class UpdateListener implements ActionListener {
 		int income = sidebar.getChosenIncome();
 		String context = sidebar.getChosenContext();
 
-		System.out.println(startDate.toString());
-		System.out.println(endDate.toString());
+		System.out.println(startDate);
+		System.out.println(endDate);
 		System.out.println(gender);
 		System.out.println(ageGroup);
 		System.out.println(income);
