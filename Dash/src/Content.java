@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,11 +14,14 @@ public class Content extends JPanel{
 	
 	Dashboard dashboard;	
 	Chart chart;
+	ChartPie pieChart1, pieChart2, pieChart3, pieChart4;
 
-	JPanel graphPanel, metricsPanel, headerPanel;	
+	JPanel graphPanel, metricsPanel, headerPanel, piePanel;	
 	JLabel clicksValueLabel, impressionsValueLabel, totalCostValueLabel;
 	JComboBox<String> graphChoiceBox;
 	SimpleTableModel tableModel;
+	
+	JTabbedPane tabbedPane;
 
 	public Content(Dashboard d) {
 
@@ -38,6 +42,9 @@ public class Content extends JPanel{
 
 		metricsPanel = new JPanel();
 		metricsPanel.setLayout(new GridBagLayout());
+		
+		piePanel = new JPanel();
+		piePanel.setLayout(new GridBagLayout());
 		
 		// ######### GridBagLayout Constraints #########
 		
@@ -249,9 +256,53 @@ public class Content extends JPanel{
 		JPanel tablePanel = new JPanel();
 		tablePanel.add(scrollPane);
 		
+		// ######### Graph Panel #########
+		
+		GridBagConstraints pc1 = new GridBagConstraints();
+		GridBagConstraints pc2 = new GridBagConstraints();
+		GridBagConstraints pc3 = new GridBagConstraints();
+		GridBagConstraints pc4 = new GridBagConstraints();
+		
+		pc1.gridx = 0;
+		pc1.gridy = 0;
+		pc1.insets = new Insets(16, 16, 16, 16);
+		
+		pc2.gridx = 1;
+		pc2.gridy = 0;
+		pc2.insets = new Insets(16, 16, 16, 16);
+		
+		pc3.gridx = 0;
+		pc3.gridy = 1;
+		pc3.insets = new Insets(16, 16, 16, 16);
+		
+		pc4.gridx = 1;
+		pc4.gridy = 1;
+		pc4.insets = new Insets(16, 16, 16, 16);
+
+		pieChart1 = new ChartPie();
+		pieChart2 = new ChartPie();
+		pieChart3 = new ChartPie();
+		pieChart4 = new ChartPie();
+
+		Platform.setImplicitExit(false);
+		Platform.runLater(new Runnable() {
+			public void run() {
+				pieChart1.initFX();
+				pieChart2.initFX();
+				pieChart3.initFX();
+				pieChart4.initFX();
+			}
+		});
+		
+		piePanel.add(pieChart1, pc1);
+		piePanel.add(pieChart2, pc2);
+		piePanel.add(pieChart3, pc3);
+		piePanel.add(pieChart4, pc4);
+		
 		// ######### Panels #########
 
-		headerPanel.setPreferredSize(new Dimension(800, 100));
+		headerPanel.setPreferredSize(new Dimension(800, 102));
+		headerPanel.setMaximumSize(new Dimension(800, 400));
 //		headerPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.gray));
 		
 		metricsPanel.add(metricsLabel, c1);
@@ -262,11 +313,30 @@ public class Content extends JPanel{
 //		headerPanel.setBackground(Color.decode("#ececec"));
 //		graphPanel.setBackground(Color.decode("#ececec"));
 //		metricsPanel.setBackground(Color.decode("#ececec"));
-
+		
+		JPanel tab1 = new JPanel();
+		JPanel tab2 = new JPanel();
+		
+		tab1.setLayout(new BorderLayout());
+		tab1.add(graphPanel, BorderLayout.CENTER);
+		tab1.add(metricsPanel, BorderLayout.PAGE_END);
+		
+		tab2.add(piePanel, BorderLayout.CENTER);
+		
+		tabbedPane = new JTabbedPane();
+		tabbedPane.addTab( "Metrics Display", tab1 );
+		tabbedPane.addTab( "Impressions Demographics", tab2 );
+		tabbedPane.setFocusable(false);
+		
+		JPanel bodyPanel = new JPanel();
+		bodyPanel.setLayout(new BorderLayout());
+		bodyPanel.add( tabbedPane);
+		
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		this.add(headerPanel);
-		this.add(graphPanel);
-		this.add(metricsPanel);
+		this.add(bodyPanel);
+//		this.add(graphPanel);
+//		this.add(metricsPanel);
 
 	}
 	

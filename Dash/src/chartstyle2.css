@@ -1,0 +1,12 @@
+.chart {
+    -fx-padding: 10px;
+}
+.chart-content {
+    -fx-padding: 10px;
+}
+
+.data0.chart-pie { -fx-pie-color: #00d2ff; }
+.data1.chart-pie { -fx-pie-color: #fd55c0; }
+.data2.chart-pie { -fx-pie-color: cornflowerblue; }
+.data3.chart-pie { -fx-pie-color: blue; }
+.data4.chart-pie { -fx-pie-color: cadetblue; }

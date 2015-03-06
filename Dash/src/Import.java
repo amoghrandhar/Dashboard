@@ -182,10 +182,10 @@ public class Import extends JFrame {
         	
         	JPanel panel = new JPanel();
         	panel.setLayout(new BorderLayout());
-        	ImageIcon icon = new ImageIcon(getClass().getResource("/loading.gif"));
-            Image img = icon.getImage();
-            icon = new ImageIcon(img);
-            panel.add(new JLabel(icon), BorderLayout.CENTER);
+        	//ImageIcon icon = new ImageIcon(getClass().getResource("/loading.gif"));
+            //Image img = icon.getImage();
+            //icon = new ImageIcon(img);
+            //panel.add(new JLabel(icon), BorderLayout.CENTER);
         	panel.setOpaque(false);
         	setGlassPane(panel);
         	panel.setVisible(true);

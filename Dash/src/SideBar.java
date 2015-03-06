@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Properties;
@@ -114,7 +115,7 @@ public class SideBar extends JPanel {
 		
 		updateButton = new JButton("Update");
 		updateButton.setFocusable(false);
-		updateButton.addActionListener(new UpdateListener(this.dashboard));
+		updateButton.addActionListener(new UpdateListener(this));
 		
 
 		JPanel updatePanel = new JPanel();
@@ -474,8 +475,15 @@ public class SideBar extends JPanel {
 
 	public String getChosenContext(){
 
-		return ((JLabel) contextGroup.getSelection()).getName();
+		Enumeration<AbstractButton> e = contextGroup.getElements();
 
+		while (e.hasMoreElements()) {
+			AbstractButton b =  e.nextElement();
+			if (b.isSelected()) return ((JRadioButton) b).getText();
+		}
+
+		return null;
+		
 	}
 
 }
@@ -506,7 +514,7 @@ abstract class AbstractExpansionPanel extends JPanel {
 				super.paintComponent(g);
 			}
 		};
-		label.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		label.setBorder(BorderFactory.createEmptyBorder(12, 10, 12, 10));
 
 		/*
 		label.addMouseListener(new MouseAdapter() {
@@ -619,18 +627,30 @@ class ImportListener implements ActionListener {
 // Collects all filter options and updates the graphs and metrics
 class UpdateListener implements ActionListener {
 
-	Dashboard dashboard;
+	SideBar sidebar;
 
-	public UpdateListener(Dashboard dashboard){
+	public UpdateListener(SideBar sidebar){
 
-		this.dashboard = dashboard;
+		this.sidebar = sidebar;
 
 	}
 
 	public void actionPerformed(ActionEvent e) {
 
-		
+		Date startDate = sidebar.getChosenStartDate();
+		Date endDate = sidebar.getChosenEndDate();
+		Boolean gender = sidebar.getChosenSex();
+		int ageGroup = sidebar.getChosenAge();
+		int income = sidebar.getChosenIncome();
+		String context = sidebar.getChosenContext();
 
+		System.out.println(startDate.toString());
+		System.out.println(endDate.toString());
+		System.out.println(gender);
+		System.out.println(ageGroup);
+		System.out.println(income);
+		System.out.println(context);
+		
 	}
 
 }
