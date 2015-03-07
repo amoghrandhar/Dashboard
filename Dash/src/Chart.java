@@ -7,6 +7,7 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Tooltip;
+
 import javax.swing.*;
 import java.awt.*;
 import java.text.SimpleDateFormat;

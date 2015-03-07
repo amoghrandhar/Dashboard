@@ -1,4 +1,6 @@
 import java.io.File;
+import java.util.Date;
+import java.util.function.Predicate;
 
 /**
  * Created by Amogh on 22-02-2015.
@@ -60,6 +62,12 @@ public class TestingParser {
         System.out.println("CPC : " + dataAnalytics.getCPC(ip.getImpressions(), clp.getClickLogs()).floatValue());
         System.out.println("CPM : " + dataAnalytics.getCPM(ip.getImpressions(), clp.getClickLogs()).floatValue());
         System.out.println("Bounce Rate : " + dataAnalytics.bounceRate(5, clp.getClickLogs(), slp.getServerLogs()).floatValue());
+
+
+        System.out.println(" Testing the filtering ::: - >");
+        Predicate<ClickLog> clickLogPredicate = clickLog -> clickLog.getDate().after(new Date());
+        System.out.println(dataAnalytics.filterClickLogs(clickLogPredicate , clp.getClickLogs()).size());
+
 
     }
 }

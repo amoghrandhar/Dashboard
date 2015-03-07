@@ -1,14 +1,13 @@
-            import javafx.application.Platform;
+import javafx.application.Platform;
 
-            import javax.swing.*;
-            
-            import java.awt.*;
-            import java.awt.datatransfer.DataFlavor;
-            import java.awt.dnd.*;
-            import java.awt.event.ActionEvent;
-            import java.awt.event.ActionListener;
-            import java.io.File;
-            import java.util.List;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.dnd.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.util.List;
 
             @SuppressWarnings("serial")
             public class Import extends JFrame {

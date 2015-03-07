@@ -1,22 +1,23 @@
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.UtilDateModel;
+
 import javax.swing.*;
 import javax.swing.JFormattedTextField.AbstractFormatter;
-import javax.swing.border.*;
-import javax.swing.event.*;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 import javax.swing.text.DateFormatter;
-
-import org.jdatepicker.impl.*;
-
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.Hashtable;
+import java.util.*;
 import java.util.List;
-import java.util.Properties;
+import java.util.function.Predicate;
 
 public class SideBar extends JPanel {
 
@@ -502,7 +503,7 @@ public class SideBar extends JPanel {
 
 		while (e.hasMoreElements()) {
 			AbstractButton b =  e.nextElement();
-			if (b.isSelected()) return ((JRadioButton) b).getText();
+			if (b.isSelected()) return b.getText();
 		}
 
 		return null;
@@ -659,8 +660,8 @@ class ExportListener implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		
-         dashboard.sidebar.popUpMenu.show(dashboard.sidebar.exportButton, 
-        		 						  dashboard.sidebar.exportButton.getWidth(), 2);
+         dashboard.sidebar.popUpMenu.show(dashboard.sidebar.exportButton,
+                 dashboard.sidebar.exportButton.getWidth(), 2);
          
     }
 
@@ -720,6 +721,7 @@ class UpdateListener implements ActionListener {
 		int ageGroup = sidebar.getChosenAge();
 		int income = sidebar.getChosenIncome();
 		String context = sidebar.getChosenContext();
+        int noOfPages ;
 
 		System.out.println(startDate);
 		System.out.println(endDate);
@@ -727,10 +729,67 @@ class UpdateListener implements ActionListener {
 		System.out.println(ageGroup);
 		System.out.println(income);
 		System.out.println(context);
-		
-	}
 
+        //Start Date Predicates
+        Predicate<ClickLog> clickLogStartDatePredicate;
+        Predicate<ImpressionLog> impressionLogStartDatePredicate;
+        Predicate<ServerLog> serverLogStartDatePredicate;
+        if (startDate != null) {
+            clickLogStartDatePredicate= click -> click.getDate().after(startDate);
+            impressionLogStartDatePredicate = imp -> imp.getDate().after(startDate);
+            serverLogStartDatePredicate = ser -> ser.getStartDate().after(startDate);
+        } else {
+            clickLogStartDatePredicate = click -> true;
+            impressionLogStartDatePredicate = imp -> true;
+            serverLogStartDatePredicate = ser -> true;
+        }
+
+        //End Date Predicates
+        Predicate<ServerLog> serverLogEndDatePredicate;
+        if (endDate != null) {
+            serverLogStartDatePredicate = ser -> ser.getStartDate().before(endDate);
+        } else {
+            serverLogStartDatePredicate = ser -> true;
+        }
+
+        //Gender Predicate
+        Predicate<ImpressionLog> impressionLogGenderPredicate;
+        if (gender != null) {
+            impressionLogGenderPredicate = imp -> imp.getGender()==gender;
+        } else {
+            impressionLogGenderPredicate = imp -> true;
+        }
+
+        //Age Group Predicate
+        Predicate<ImpressionLog> impressionAgePredicate;
+        if (ageGroup != -1) {
+            impressionAgePredicate = imp -> imp.getAgeGroup()==ageGroup;
+        } else {
+            impressionAgePredicate = imp -> true;
+        }
+
+        //Income Predicate
+        Predicate<ImpressionLog> impressionIncomePredicate;
+        if (income != -1) {
+            impressionIncomePredicate = imp -> imp.getIncomeGroup()==income;
+        } else {
+            impressionIncomePredicate = imp -> true;
+        }
+
+        //Context Predicate
+        Predicate<ImpressionLog> impressionContextPredicate;
+        if (context != null) {
+            impressionContextPredicate = imp -> imp.getContext().equals(context);
+        } else {
+            impressionContextPredicate = imp -> true;
+        }
+
+
+    }
+		
 }
+
+
 
 class ResetListener implements ActionListener {
 
@@ -746,7 +805,7 @@ class ResetListener implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 
-		sidebar.dateModel.setValue(null);
+        sidebar.dateModel.setValue(null);
 		sidebar.timeModel.setValue(sidebar.calendar.getTime());
 		sidebar.dateModel2.setValue(null);
 		sidebar.timeModel2.setValue(sidebar.calendar.getTime());

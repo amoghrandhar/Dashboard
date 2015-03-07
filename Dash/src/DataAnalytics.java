@@ -1,4 +1,8 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * Created by Amogh on 22-02-2015.
@@ -29,7 +33,7 @@ public class DataAnalytics {
     public LinkedHashSet<ClickLog> uniqueClickSet(ArrayList<ClickLog> clickLogArrayList) {
         //This will return a Hash Set of ClickLogs based on unique ID of the user
         //So it removes the repetition
-        return new LinkedHashSet<ClickLog>(clickLogArrayList);
+        return new LinkedHashSet(clickLogArrayList);
 
     }
 
@@ -41,8 +45,8 @@ public class DataAnalytics {
     public long noOfBounces(ArrayList<ServerLog> slog, int bounceProperty) {
         //It returns the total no bounces happened, compared and based on the bounce property
         long total = 0;
-        for (int i = 0; i < slog.size(); i++) {
-            if (slog.get(i).getPagesViewed() < bounceProperty) {
+        for (ServerLog aSlog : slog) {
+            if (aSlog.getPagesViewed() < bounceProperty) {
                 total++;
             }
         }
@@ -52,8 +56,8 @@ public class DataAnalytics {
     public long noOfConversions(ArrayList<ServerLog> slog) {
         //It tells the total no. of conversions which happened
         long total = 0;
-        for (int i = 0; i < slog.size(); i++) {
-            if (slog.get(i).isConverted()) {
+        for (ServerLog aSlog : slog) {
+            if (aSlog.isConverted()) {
                 total++;
             }
         }
@@ -64,8 +68,8 @@ public class DataAnalytics {
     public Double totalImpressionCost(ArrayList<ImpressionLog> impressionArrayList) {
         //Returns total money spent on impressions in Pounds
         double total = 0;
-        for (int i = 0; i < impressionArrayList.size(); i++) {
-            total = total + impressionArrayList.get(i).getImpression();
+        for (ImpressionLog anImpressionArrayList : impressionArrayList) {
+            total = total + anImpressionArrayList.getImpression();
         }
         return total / 100;
     }
@@ -74,23 +78,21 @@ public class DataAnalytics {
     public Double totalClickCost(ArrayList<ClickLog> clickLogArrayList) {
         //Returns total money spent on Clicks in Pounds
         double total = 0;
-        for (int i = 0; i < clickLogArrayList.size(); i++) {
-            total = total + clickLogArrayList.get(i).getClickCost();
+        for (ClickLog aClickLogArrayList : clickLogArrayList) {
+            total = total + aClickLogArrayList.getClickCost();
         }
         return total / 100;
     }
 
     public Double totalCost(ArrayList<ImpressionLog> impressionArrayList, ArrayList<ClickLog> clickLogArrayList) {
         // It returns the sum of the total cost  spent on impressions + clicks
-        double total = totalImpressionCost(impressionArrayList) + totalClickCost(clickLogArrayList);
-        return total;
+        return totalImpressionCost(impressionArrayList) + totalClickCost(clickLogArrayList);
     }
 
 
     public Double getCTR(ArrayList<ClickLog> clickLogArrayList, ArrayList<ImpressionLog> impressionArrayList) {
         //Returns the CTR
-        double ctr = ((double) totalClicks(clickLogArrayList)) / impressionArrayList.size();
-        return ctr;
+        return ((double) totalClicks(clickLogArrayList)) / impressionArrayList.size();
     }
 
 
@@ -125,27 +127,23 @@ public class DataAnalytics {
 
     public Double getCPA(ArrayList<ImpressionLog> impressionArrayList, ArrayList<ClickLog> clickLogArrayList, ArrayList<ServerLog> slog) {
         // This returns the CPA
-        double cpa = totalCost(impressionArrayList, clickLogArrayList) / noOfConversions(slog);
-        return cpa;
+        return totalCost(impressionArrayList, clickLogArrayList) / noOfConversions(slog);
     }
 
 
     public Double getCPC(ArrayList<ImpressionLog> impressionArrayList, ArrayList<ClickLog> clickLogArrayList) {
         // This returns the CPC
-        double cpc = totalCost(impressionArrayList, clickLogArrayList) / totalClicks(clickLogArrayList);
-        return cpc;
+        return totalCost(impressionArrayList, clickLogArrayList) / totalClicks(clickLogArrayList);
     }
 
     public Double getCPM(ArrayList<ImpressionLog> impressionArrayList, ArrayList<ClickLog> clickLogArrayList) {
         // This returns the CPM
-        double cpm = (totalCost(impressionArrayList, clickLogArrayList) / noOfImpression(impressionArrayList)) * 1000;
-        return cpm;
+        return (totalCost(impressionArrayList, clickLogArrayList) / noOfImpression(impressionArrayList)) * 1000;
     }
 
     public Double bounceRate(int bounceProperty, ArrayList<ClickLog> clickLogArrayList, ArrayList<ServerLog> slog) {
         // This returns the average bounceRate
-        double bRate = ((double) noOfBounces(slog, bounceProperty)) / totalClicks(clickLogArrayList);
-        return bRate;
+        return ((double) noOfBounces(slog, bounceProperty)) / totalClicks(clickLogArrayList);
     }
 
 
@@ -155,21 +153,62 @@ public class DataAnalytics {
 
      */
 
-    public ArrayList<Map<Date, Long>> getDateVsClick(ArrayList<ClickLog> clickLogs) {
-
-        //AbstractMap.SimpleEntry dateLongSimpleEntry = new AbstractMap.SimpleEntry<Date, Long>(new Date(), new Long(45));
-
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(clickLogs.get(0).getDate());
-
-        int hr = cal.get(Calendar.DAY_OF_MONTH);
-
-//        for (int i = 0 ; i < clickLogs.size() ; i++){
-//            if(clickLogs.get(i).getDate())
-//        }
 
 
-        return null;
+
+
+    /*
+
+    ---------> Filtering Data
+
+     */
+
+
+    /**
+     * This Will filter the Clicklogs on the basis of DatePredicate
+     * @param datePred
+     * @param clickLogs
+     * @return filtered Clicklogs
+     */
+    public List<ClickLog> filterClickLogs(Predicate<ClickLog> datePred ,  ArrayList<ClickLog> clickLogs ){
+        return clickLogs.stream().filter(datePred).collect(Collectors.<ClickLog>toList());
+
     }
+
+    /**
+     * This will Filter ImpressionLogs on the basis of following predicates
+     * @param datePredicate
+     * @param genderPredicate
+     * @param agePredicate
+     * @param incomePredicate
+     * @param contextPredicate
+     * @param impressionLogs
+     * @return filtered list
+     */
+    public List<ImpressionLog> filterImpressionLogs(Predicate<ImpressionLog> datePredicate , Predicate<ImpressionLog> genderPredicate
+            , Predicate<ImpressionLog> agePredicate , Predicate<ImpressionLog> incomePredicate
+            , Predicate<ImpressionLog> contextPredicate , ArrayList<ImpressionLog> impressionLogs){
+
+
+        return impressionLogs.stream().filter(datePredicate).filter(genderPredicate).filter(agePredicate).filter(incomePredicate).filter(contextPredicate).collect(Collectors.<ImpressionLog>toList());
+    }
+
+    /**
+     * This will filter Impression Logs on the basis of following Predicate
+     * @param beforeDate
+     * @param afterDate
+     * @param pagesV
+     * @param conV
+     * @param serverLogs
+     * @return
+     */
+    public List<ServerLog> filterServerLogs(Predicate<ServerLog> beforeDate, Predicate<ServerLog> afterDate
+            , Predicate<ServerLog> pagesV , Predicate<ServerLog> conV
+            ,ArrayList<ServerLog> serverLogs){
+
+        return serverLogs.stream().filter(beforeDate).filter(afterDate).filter(pagesV).filter(conV).collect(Collectors.<ServerLog>toList());
+    }
+
+
 
 }
