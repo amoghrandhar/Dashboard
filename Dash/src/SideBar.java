@@ -720,7 +720,10 @@ public class SideBar extends JPanel {
             int noOfPages;
 
             System.out.println(startDate);
+
+            /*
             System.out.println("Start Year after today " + startDate.after(new Date()));
+            */
             System.out.println(endDate);
             System.out.println(gender);
             System.out.println(ageGroup);
