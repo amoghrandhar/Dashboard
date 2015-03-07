@@ -172,7 +172,6 @@ public class DataAnalytics {
      */
     public List<ClickLog> filterClickLogs(Predicate<ClickLog> datePred ,  ArrayList<ClickLog> clickLogs ){
         return clickLogs.stream().filter(datePred).collect(Collectors.<ClickLog>toList());
-
     }
 
     /**

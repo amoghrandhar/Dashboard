@@ -10,10 +10,10 @@ public class Main {
                 () -> {
                     try {
 
-                        LookAndFeelInfo[] la = UIManager.getInstalledLookAndFeels();
-                        for (LookAndFeelInfo l : la) {
-                            System.out.println(l.getName());
-                        }
+//                        LookAndFeelInfo[] la = UIManager.getInstalledLookAndFeels();
+//                        for (LookAndFeelInfo l : la) {
+//                            System.out.println(l.getName());
+//                        }
 
                         for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                             if ("Nimbus".equals(info.getName())) {

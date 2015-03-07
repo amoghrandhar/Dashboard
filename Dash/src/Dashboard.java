@@ -109,9 +109,13 @@ public class Dashboard extends JFrame {
     }
     
     public String round(double value, int scale){
-		
-		return new BigDecimal(String.valueOf(value)).setScale(scale, BigDecimal.ROUND_HALF_UP).toString();
-		
-	}
+
+      if(Double.isFinite(value)){
+          return new BigDecimal(String.valueOf(value)).setScale(scale, BigDecimal.ROUND_HALF_UP).toString();
+      }
+        else {
+          return "0";
+      }
+    }
     
 }
