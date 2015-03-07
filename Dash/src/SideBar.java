@@ -746,6 +746,7 @@ public class SideBar extends JPanel {
             //Gender Predicate
             Predicate<ImpressionLog> impressionLogGenderPredicate = imp -> true;
             if (gender != null) {
+                System.out.println("UpdateListener.actionPerformed  : Gender Predicate Selected " );
                 impressionLogGenderPredicate = imp -> imp.getGender() == gender;
             }
 
@@ -783,6 +784,9 @@ public class SideBar extends JPanel {
 
 
             dashboard.updateClickLogs((ArrayList<ClickLog>) dataAnalytics.filterClickLogs(clickLogStartDatePredicate , dashboard.getClickLogs()));
+
+            dashboard.updateImpresssionLogs((ArrayList<ImpressionLog>) dataAnalytics.filterImpressionLogs(impressionLogStartDatePredicate,impressionLogGenderPredicate,impressionAgePredicate,impressionIncomePredicate,impressionContextPredicate,dashboard.getImpressionLogs()));
+
             dashboard.updateMetrics();
 
         }
