@@ -25,7 +25,7 @@ public class Dashboard extends JFrame {
     // Display login panel
     public void init() {
 
-        sidebar = new SideBar(this);
+        sidebar = new SideBar(this , dataAnalytics);
         sidebar.setPreferredSize(new Dimension(200, 700));
         
         content = new Content(this);
@@ -44,6 +44,7 @@ public class Dashboard extends JFrame {
     }
 
     public void updateClickLogs(ArrayList<ClickLog> clickLogArrayList) {
+        System.out.println("Dashboard.updateClickLogs :  Called  " + clickLogArrayList.size());
         clickLogs = clickLogArrayList;
     }
 
