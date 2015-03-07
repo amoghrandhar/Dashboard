@@ -740,7 +740,7 @@ public class SideBar extends JPanel {
             //End Date Predicates
             Predicate<ServerLog> serverLogEndDatePredicate = ser -> true;
             if (endDate != null) {
-                serverLogStartDatePredicate = ser -> ser.getStartDate().before(endDate);
+                serverLogStartDatePredicate = ser -> ser.getEndDate() != null && ser.getEndDate().before(endDate);
             }
 
             //Gender Predicate
