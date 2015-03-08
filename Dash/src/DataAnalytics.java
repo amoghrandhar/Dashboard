@@ -7,6 +7,9 @@ import java.util.stream.Collectors;
  */
 public class DataAnalytics {
 
+
+
+
     public long noOfImpression(ArrayList<ImpressionLog> impressionArrayList) {
         //This returns the total no. of impressions
         return impressionArrayList.size();
@@ -24,18 +27,16 @@ public class DataAnalytics {
 //
 //        return total;
 
+
+
         return clickLogArrayList.size();
 
     }
 
-    public LinkedHashSet<ClickLog> uniqueClickSet(ArrayList<ClickLog> clickLogArrayList) {
+    public HashSet<ClickLog> uniqueClickSet(ArrayList<ClickLog> clickLogArrayList) {
         //This will return a Hash Set of ClickLogs based on unique ID of the user
         //So it removes the repetition
-
-        HashSet set = new LinkedHashSet(clickLogArrayList);
-
-        return new LinkedHashSet(clickLogArrayList);
-
+        return new HashSet(clickLogArrayList);
     }
 
     public long noOfUniques(ArrayList<ClickLog> clickLogArrayList) {

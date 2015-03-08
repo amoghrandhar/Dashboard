@@ -52,6 +52,9 @@ public class ImpressionLog implements Serializable {
         return context;
     }
 
+    public Boolean isSameID ( Double id ){
+        return this.ID == id.doubleValue();
+    }
 
     @Override
     public boolean equals(Object obj) {

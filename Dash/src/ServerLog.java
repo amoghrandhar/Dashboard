@@ -40,6 +40,10 @@ public class ServerLog implements Serializable {
         return ID;
     }
 
+    public Boolean isSameID ( Double id ){
+        return this.ID == id.doubleValue();
+    }
+
 
     @Override
     public boolean equals(Object obj) {

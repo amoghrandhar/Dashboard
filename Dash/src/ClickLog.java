@@ -29,6 +29,10 @@ public class ClickLog implements Serializable {
         return clickCost;
     }
 
+    public Boolean isSameID ( Double id ){
+        return this.ID == id.doubleValue();
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj != null && obj instanceof ClickLog) {

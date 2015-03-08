@@ -18,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class SideBar extends JPanel {
 
@@ -792,6 +793,22 @@ public class SideBar extends JPanel {
             }
 
             dashboard.resetLogs();
+
+            ArrayList<ClickLog> clickLogArrayList = dashboard.getClickLogs();
+            ArrayList<ImpressionLog> impressionLogs = dashboard.getImpressionLogs();
+            ArrayList<ServerLog> serverLogArrayList = dashboard.getServerLogs();
+
+
+            HashSet<Double> idSet = new HashSet<Double>();
+            for (ImpressionLog impressionLog : impressionLogs) {
+                idSet.add(impressionLog.getID());
+            }
+
+            Predicate<ClickLog> checkClicks = clp -> idSet.contains(clp.getID());
+            Predicate<ServerLog> checkServers = sp -> idSet.contains(sp.getID());
+
+            clickLogs = (ArrayList<ClickLog>) clickLogArrayList.parallelStream().filter(checkClicks).collect(Collectors.<ClickLog>toList());
+            serverLogs = (ArrayList<ServerLog>) serverLogArrayList.parallelStream().filter(checkServers).collect(Collectors.<ServerLog>toList());
 
             dashboard.updateClickLogs(
             		(ArrayList<ClickLog>) dataAnalytics.filterClickLogs(

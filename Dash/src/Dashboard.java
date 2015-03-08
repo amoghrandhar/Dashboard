@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 
 public class Dashboard extends JFrame {
@@ -10,14 +11,15 @@ public class Dashboard extends JFrame {
     public Content content;
     public DataAnalytics dataAnalytics;
 
-
     private ArrayList<ClickLog> clickLogs;
     private ArrayList<ImpressionLog> impressionLogs;
     private ArrayList<ServerLog> serverLogs;
+    private HashSet<ImpressionLog> impressionSet;
 
     private ArrayList<ClickLog> originalClickLogs;
     private ArrayList<ImpressionLog> originalImpressionLogs;
     private ArrayList<ServerLog> originalServerLogs;
+    private HashSet<ImpressionLog> originalImpressionSet;
 
     //Default Bounce Rate is 5
 
@@ -58,34 +60,25 @@ public class Dashboard extends JFrame {
         originalClickLogs = clickLogs;
         originalImpressionLogs = impressionLogs;
         originalServerLogs = serverLogs;
-
-        updateClickLogs(clickLogs);
-        updateImpresssionLogs(impressionLogs);
-        updateServerLogs(serverLogs);
+        updateLogs(clickLogs, impressionLogs, serverLogs);
     }
 
     /**
      * This will reset the log files.
      */
     public void resetLogs() {
-        updateClickLogs(originalClickLogs);
-        updateImpresssionLogs(originalImpressionLogs);
-        updateServerLogs(originalServerLogs);
+        updateLogs(originalClickLogs, originalImpressionLogs, originalServerLogs);
     }
 
 
-    public void updateClickLogs(ArrayList<ClickLog> clickLogArrayList) {
-        System.out.println("Dashboard.updateClickLogs :  Called  " + clickLogArrayList.size());
-        clickLogs = clickLogArrayList;
-    }
-
-    public void updateImpresssionLogs(ArrayList<ImpressionLog> impressionArrayList) {
+    public void updateLogs(ArrayList<ClickLog> clickLogArrayList,ArrayList<ImpressionLog> impressionArrayList
+            , ArrayList<ServerLog> serverLogArrayList ){
         impressionLogs = impressionArrayList;
+        impressionSet = new HashSet<ImpressionLog>(impressionLogs);
+
+
     }
 
-    public void updateServerLogs(ArrayList<ServerLog> serverLogArrayList) {
-        serverLogs = serverLogArrayList;
-    }
 
     public ArrayList<ClickLog> getClickLogs() {
         return clickLogs;
