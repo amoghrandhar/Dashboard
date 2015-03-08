@@ -824,6 +824,7 @@ public class SideBar extends JPanel {
             sidebar.bounceSpinner.setValue(0);
 
             dashboard.resetLogs();
+            dashboard.updateMetrics();
 
         }
 
