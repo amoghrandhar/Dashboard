@@ -2,7 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashSet;
 
 
 public class Dashboard extends JFrame {
@@ -14,14 +13,11 @@ public class Dashboard extends JFrame {
     private ArrayList<ClickLog> clickLogs;
     private ArrayList<ImpressionLog> impressionLogs;
     private ArrayList<ServerLog> serverLogs;
-    private HashSet<ImpressionLog> impressionSet;
 
     private ArrayList<ClickLog> originalClickLogs;
     private ArrayList<ImpressionLog> originalImpressionLogs;
     private ArrayList<ServerLog> originalServerLogs;
-    private HashSet<ImpressionLog> originalImpressionSet;
 
-    //Default Bounce Rate is 5
 
     public Dashboard(String title) {
         super(title);
@@ -74,9 +70,6 @@ public class Dashboard extends JFrame {
     public void updateLogs(ArrayList<ClickLog> clickLogArrayList,ArrayList<ImpressionLog> impressionArrayList
             , ArrayList<ServerLog> serverLogArrayList ){
         impressionLogs = impressionArrayList;
-        impressionSet = new HashSet<ImpressionLog>(impressionLogs);
-
-
     }
 
 
@@ -98,17 +91,17 @@ public class Dashboard extends JFrame {
 
     public void updateMetrics() {
 
-        long clicks = dataAnalytics.totalClicks(clickLogs);
-        long impressions = dataAnalytics.noOfImpression(impressionLogs);
-        long uniques = dataAnalytics.noOfUniques(clickLogs);
-        long bounces = originalServerLogs.size() - dataAnalytics.noOfBounces(serverLogs);
-        long conversions = dataAnalytics.noOfConversions(serverLogs);
-        double totalCost = dataAnalytics.totalCost(impressionLogs, clickLogs);
-        double CTR = dataAnalytics.getCTR(clickLogs, impressionLogs);
-        double CPA = dataAnalytics.getCPA(impressionLogs, clickLogs, serverLogs);
-        double CPC = dataAnalytics.getCPC(impressionLogs, clickLogs);
-        double CPM = dataAnalytics.getCPM(impressionLogs, clickLogs);
-        double bounceRate = dataAnalytics.bounceRate(clickLogs, serverLogs);
+        long clicks = DataAnalytics.totalClicks(clickLogs);
+        long impressions = DataAnalytics.noOfImpression(impressionLogs);
+        long uniques = DataAnalytics.noOfUniques(clickLogs);
+        long bounces = originalServerLogs.size() - DataAnalytics.noOfBounces(serverLogs);
+        long conversions = DataAnalytics.noOfConversions(serverLogs);
+        double totalCost = DataAnalytics.totalCost(impressionLogs, clickLogs);
+        double CTR = DataAnalytics.getCTR(clickLogs, impressionLogs);
+        double CPA = DataAnalytics.getCPA(impressionLogs, clickLogs, serverLogs);
+        double CPC = DataAnalytics.getCPC(impressionLogs, clickLogs);
+        double CPM = DataAnalytics.getCPM(impressionLogs, clickLogs);
+        double bounceRate = DataAnalytics.bounceRate(clickLogs, serverLogs);
 
         // Update metrics table
         String[] rowData = {

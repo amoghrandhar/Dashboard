@@ -18,7 +18,6 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 public class SideBar extends JPanel {
 
@@ -800,36 +799,29 @@ public class SideBar extends JPanel {
 
             dashboard.resetLogs();
 
-            ArrayList<ClickLog> clickLogArrayList = dashboard.getClickLogs();
             ArrayList<ImpressionLog> impressionLogs = dashboard.getImpressionLogs();
+            ArrayList<ClickLog> clickLogArrayList = dashboard.getClickLogs();
             ArrayList<ServerLog> serverLogArrayList = dashboard.getServerLogs();
-
 
             HashSet<Double> idSet = new HashSet<Double>();
             for (ImpressionLog impressionLog : impressionLogs) {
                 idSet.add(impressionLog.getID());
             }
 
-            Predicate<ClickLog> checkClicks = clp -> idSet.contains(clp.getID());
-            Predicate<ServerLog> checkServers = sp -> idSet.contains(sp.getID());
+            impressionLogs = (ArrayList <ImpressionLog>) DataAnalytics.filterImpressionLogs(
+                    impressionLogStartDatePredicate,
+                    impressionLogGenderPredicate,
+                    impressionAgePredicate,
+                    impressionIncomePredicate,
+                    impressionContextPredicate,
+                    impressionLogs);
 
-            clickLogs = (ArrayList<ClickLog>) clickLogArrayList.parallelStream().filter(checkClicks).collect(Collectors.<ClickLog>toList());
-            serverLogs = (ArrayList<ServerLog>) serverLogArrayList.parallelStream().filter(checkServers).collect(Collectors.<ServerLog>toList());
+            clickLogArrayList = (ArrayList <ClickLog>) DataAnalytics.filterClickLogs(clickLogStartDatePredicate,clickLogArrayList,idSet);
+            serverLogArrayList = (ArrayList<ServerLog>) DataAnalytics.filterServerLogs(serverLogStartDatePredicate,serverLogEndDatePredicate ,
+                    serverLogNoPredicate,serverConversationPredicate,serverTimeSpentPredicate,serverLogArrayList,idSet);
 
-            dashboard.updateClickLogs(
-            		(ArrayList<ClickLog>) dataAnalytics.filterClickLogs(
-            				clickLogStartDatePredicate, 
-            				dashboard.getClickLogs()));
 
-            dashboard.updateImpresssionLogs(
-            		(ArrayList<ImpressionLog>) dataAnalytics.filterImpressionLogs(
-            				impressionLogStartDatePredicate, 
-            				impressionLogGenderPredicate, 
-            				impressionAgePredicate, 
-            				impressionIncomePredicate, 
-            				impressionContextPredicate, 
-            				dashboard.getImpressionLogs()));
-
+            dashboard.updateLogs(clickLogArrayList,impressionLogs,serverLogArrayList);
             dashboard.updateMetrics();
 
         }

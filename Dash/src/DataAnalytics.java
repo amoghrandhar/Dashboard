@@ -7,15 +7,12 @@ import java.util.stream.Collectors;
  */
 public class DataAnalytics {
 
-
-
-
-    public long noOfImpression(ArrayList<ImpressionLog> impressionArrayList) {
+    public  static  long noOfImpression(ArrayList<ImpressionLog> impressionArrayList) {
         //This returns the total no. of impressions
         return impressionArrayList.size();
     }
 
-    public long totalClicks(ArrayList<ClickLog> clickLogArrayList) {
+    public  static  long totalClicks(ArrayList<ClickLog> clickLogArrayList) {
         //This will tell you total no. of click records
         //Its based on if the Click cost is greater than zero.
 //        int total = 0;
@@ -26,32 +23,29 @@ public class DataAnalytics {
 //        }
 //
 //        return total;
-
-
-
         return clickLogArrayList.size();
 
     }
 
-    public HashSet<ClickLog> uniqueClickSet(ArrayList<ClickLog> clickLogArrayList) {
+    public  static HashSet<ClickLog> uniqueClickSet(ArrayList<ClickLog> clickLogArrayList) {
         //This will return a Hash Set of ClickLogs based on unique ID of the user
         //So it removes the repetition
         return new HashSet(clickLogArrayList);
     }
 
-    public long noOfUniques(ArrayList<ClickLog> clickLogArrayList) {
+    public static  long noOfUniques(ArrayList<ClickLog> clickLogArrayList) {
         //It tells the no. of unique users who clicked
         return (uniqueClickSet(clickLogArrayList)).size();
     }
 
-    public long noOfBounces(ArrayList<ServerLog> slog) {
+    public static  long noOfBounces(ArrayList<ServerLog> slog) {
         //It returns the total no bounces happened, compared and based on the bounce property
         
         return slog.size();
         
     }
 
-    public long noOfConversions(ArrayList<ServerLog> slog) {
+    public static  long noOfConversions(ArrayList<ServerLog> slog) {
         //It tells the total no. of conversions which happened
         long total = 0;
         for (ServerLog aSlog : slog) {
@@ -63,7 +57,7 @@ public class DataAnalytics {
     }
 
 
-    public Double totalImpressionCost(ArrayList<ImpressionLog> impressionArrayList) {
+    public static  Double totalImpressionCost(ArrayList<ImpressionLog> impressionArrayList) {
         //Returns total money spent on impressions in Pounds
         double total = 0;
         for (ImpressionLog anImpressionArrayList : impressionArrayList) {
@@ -73,7 +67,7 @@ public class DataAnalytics {
     }
 
 
-    public Double totalClickCost(ArrayList<ClickLog> clickLogArrayList) {
+    public  static Double totalClickCost(ArrayList<ClickLog> clickLogArrayList) {
         //Returns total money spent on Clicks in Pounds
         double total = 0;
         for (ClickLog aClickLogArrayList : clickLogArrayList) {
@@ -82,13 +76,13 @@ public class DataAnalytics {
         return total / 100;
     }
 
-    public Double totalCost(ArrayList<ImpressionLog> impressionArrayList, ArrayList<ClickLog> clickLogArrayList) {
+    public static  Double totalCost(ArrayList<ImpressionLog> impressionArrayList, ArrayList<ClickLog> clickLogArrayList) {
         // It returns the sum of the total cost  spent on impressions + clicks
         return (totalImpressionCost(impressionArrayList) + totalClickCost(clickLogArrayList));
     }
 
 
-    public Double getCTR(ArrayList<ClickLog> clickLogArrayList, ArrayList<ImpressionLog> impressionArrayList) {
+    public static  Double getCTR(ArrayList<ClickLog> clickLogArrayList, ArrayList<ImpressionLog> impressionArrayList) {
         //Returns the CTR
         return ((double) totalClicks(clickLogArrayList)) / impressionArrayList.size();
     }
@@ -123,23 +117,23 @@ public class DataAnalytics {
     }
     */
 
-    public Double getCPA(ArrayList<ImpressionLog> impressionArrayList, ArrayList<ClickLog> clickLogArrayList, ArrayList<ServerLog> slog) {
+    public static  Double getCPA(ArrayList<ImpressionLog> impressionArrayList, ArrayList<ClickLog> clickLogArrayList, ArrayList<ServerLog> slog) {
         // This returns the CPA
         return totalCost(impressionArrayList, clickLogArrayList) / noOfConversions(slog);
     }
 
 
-    public Double getCPC(ArrayList<ImpressionLog> impressionArrayList, ArrayList<ClickLog> clickLogArrayList) {
+    public static  Double getCPC(ArrayList<ImpressionLog> impressionArrayList, ArrayList<ClickLog> clickLogArrayList) {
         // This returns the CPC
         return totalCost(impressionArrayList, clickLogArrayList) / totalClicks(clickLogArrayList);
     }
 
-    public Double getCPM(ArrayList<ImpressionLog> impressionArrayList, ArrayList<ClickLog> clickLogArrayList) {
+    public static  Double getCPM(ArrayList<ImpressionLog> impressionArrayList, ArrayList<ClickLog> clickLogArrayList) {
         // This returns the CPM
         return (totalCost(impressionArrayList, clickLogArrayList) / noOfImpression(impressionArrayList)) * 1000;
     }
 
-    public Double bounceRate( ArrayList<ClickLog> clickLogArrayList, ArrayList<ServerLog> slog) {
+    public static Double bounceRate( ArrayList<ClickLog> clickLogArrayList, ArrayList<ServerLog> slog) {
         // This returns the average bounceRate
         return ((double) noOfBounces(slog)) / totalClicks(clickLogArrayList);
     }
@@ -160,27 +154,27 @@ public class DataAnalytics {
      * @param impressionLogs
      * @return Map
      */
-    public HashMap<Boolean, Long> sexRatioDivision(ArrayList<ImpressionLog> impressionLogs) {
+    public static  HashMap<Boolean, Long> sexRatioDivision(ArrayList<ImpressionLog> impressionLogs) {
         HashMap<Boolean, Long> counted = impressionLogs.parallelStream()
                 .collect(Collectors.groupingBy(imp -> imp.getGender(), HashMap::new, Collectors.counting()));
         return counted;
     }
 
 
-    public HashMap<Integer, Long> ageGroupDivision(ArrayList<ImpressionLog> impressionLogs) {
+    public static  HashMap<Integer, Long> ageGroupDivision(ArrayList<ImpressionLog> impressionLogs) {
         HashMap<Integer, Long> counted = impressionLogs.parallelStream()
                 .collect(Collectors.groupingBy(imp -> imp.getAgeGroup(), HashMap::new, Collectors.counting()));
         return counted;
     }
 
-    public HashMap<Integer, Long> incomeGroupDivision(ArrayList<ImpressionLog> impressionLogs) {
+    public static  HashMap<Integer, Long> incomeGroupDivision(ArrayList<ImpressionLog> impressionLogs) {
         HashMap<Integer, Long> counted = impressionLogs.parallelStream()
                 .collect(Collectors.groupingBy(imp -> imp.getIncomeGroup(), HashMap::new, Collectors.counting()));
         return counted;
     }
 
 
-    public HashMap<String, Long> contextGroupDivision(ArrayList<ImpressionLog> impressionLogs) {
+    public static  HashMap<String, Long> contextGroupDivision(ArrayList<ImpressionLog> impressionLogs) {
         HashMap<String, Long> counted = impressionLogs.parallelStream()
                 .collect(Collectors.groupingBy(imp -> imp.getContext(), HashMap::new, Collectors.counting()));
         return counted;
@@ -198,17 +192,6 @@ public class DataAnalytics {
 
 
     /**
-     * This Will filter the Clicklogs on the basis of DatePredicate
-     *
-     * @param datePred
-     * @param clickLogs
-     * @return filtered Clicklogs
-     */
-    public List<ClickLog> filterClickLogs(Predicate<ClickLog> datePred, ArrayList<ClickLog> clickLogs) {
-        return clickLogs.stream().filter(datePred).collect(Collectors.<ClickLog>toList());
-    }
-
-    /**
      * This will Filter ImpressionLogs on the basis of following predicates
      *
      * @param datePredicate
@@ -219,7 +202,7 @@ public class DataAnalytics {
      * @param impressionLogs
      * @return filtered list
      */
-    public List<ImpressionLog> filterImpressionLogs(Predicate<ImpressionLog> datePredicate, Predicate<ImpressionLog> genderPredicate
+    public  static List<ImpressionLog> filterImpressionLogs(Predicate<ImpressionLog> datePredicate, Predicate<ImpressionLog> genderPredicate
             , Predicate<ImpressionLog> agePredicate, Predicate<ImpressionLog> incomePredicate
             , Predicate<ImpressionLog> contextPredicate, ArrayList<ImpressionLog> impressionLogs) {
 
@@ -233,6 +216,21 @@ public class DataAnalytics {
         		.collect(Collectors.<ImpressionLog>toList());
     }
 
+
+
+    /**
+     * This Will filter the Clicklogs on the basis of DatePredicate
+     *@param idCheck
+     * @param datePred
+     * @param clickLogs
+     * @return filtered Clicklogs
+     */
+    public static  List<ClickLog> filterClickLogs(Predicate<ClickLog> datePred, ArrayList<ClickLog> clickLogs , Set<Double> idCheck) {
+        Predicate<ClickLog> checkClicks = clp -> idCheck.contains(clp.getID());
+        return clickLogs.parallelStream().filter(checkClicks).filter(datePred).collect(Collectors.<ClickLog>toList());
+    }
+
+
     /**
      * This will filter Impression Logs on the basis of following Predicate
      *
@@ -243,11 +241,14 @@ public class DataAnalytics {
      * @param serverLogs
      * @return
      */
-    public List<ServerLog> filterServerLogs(Predicate<ServerLog> beforeDate, Predicate<ServerLog> afterDate
+    public static  List<ServerLog> filterServerLogs(Predicate<ServerLog> beforeDate, Predicate<ServerLog> afterDate
             , Predicate<ServerLog> pagesV, Predicate<ServerLog> conV , Predicate<ServerLog> timeSpent
-            , ArrayList<ServerLog> serverLogs) {
+            , ArrayList<ServerLog> serverLogs , Set<Double> idCheck) {
+
+        Predicate<ServerLog> checkServers = sp -> idCheck.contains(sp.getID());
 
         return serverLogs.stream()
+                .filter(checkServers)
         		.filter(beforeDate)
         		.filter(afterDate)
         		.filter(pagesV)
