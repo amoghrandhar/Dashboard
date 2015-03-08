@@ -36,9 +36,9 @@ public class SideBar extends JPanel {
     JRadioButton ageLabel, incomeLabel;
     JSlider ageSlider, incomeSlider;
     ModifiedButtonGroup sexGroup, contextGroup;
-    JComboBox bounceBox;
-    JLabel bounceLabel;
-    JSpinner bounceSpinner;
+    JLabel pagesLabel, timeLabel;
+    JCheckBox pagesCheckBox, timeCheckBox;
+    JSpinner pagesSpinner, timeSpinner;
 
     Color SECONDARY = Color.decode("#fafafa");
 
@@ -360,58 +360,49 @@ public class SideBar extends JPanel {
 
                         JPanel pnl = new JPanel(new GridBagLayout());
 
-                        GridBagConstraints bounceBoxC = new GridBagConstraints();
-                        GridBagConstraints bounceLabelC = new GridBagConstraints();
-                        GridBagConstraints bounceSpinnerC = new GridBagConstraints();
+                        GridBagConstraints pagesCheckBoxC = new GridBagConstraints();
+                        GridBagConstraints pagesSpinnerC = new GridBagConstraints();
+                        GridBagConstraints timeCheckBoxC = new GridBagConstraints();
+                        GridBagConstraints timeSpinnerC = new GridBagConstraints();
 
-                        bounceBoxC.gridx = 0;
-                        bounceBoxC.gridy = 0;
-                        bounceBoxC.gridwidth = 2;
-                        bounceBoxC.insets = new Insets(0, 0, 12, 0);
+                        pagesCheckBoxC.gridx = 0;
+                        pagesCheckBoxC.gridy = 0;
+                        pagesCheckBoxC.anchor = GridBagConstraints.LINE_START;
+                        pagesCheckBoxC.insets = new Insets(0, 0, 0, 24);
 
-                        bounceLabelC.gridx = 0;
-                        bounceLabelC.gridy = 1;
-                        bounceLabelC.insets = new Insets(0, 6, 0, 0);
-
-                        bounceSpinnerC.gridx = 1;
-                        bounceSpinnerC.gridy = 1;
-                        bounceSpinnerC.anchor = GridBagConstraints.LINE_END;
-
-                        String[] bounceOptions = {"Number of pages visited", "Time spent on website"};
-                        bounceBox = new JComboBox(bounceOptions);
-
-                        bounceLabel = new JLabel("Pages:");
-
+                        pagesSpinnerC.gridx = 1;
+                        pagesSpinnerC.gridy = 0;
+                        
+                        timeCheckBoxC.gridx = 0;
+                        timeCheckBoxC.gridy = 1;
+                        timeCheckBoxC.anchor = GridBagConstraints.WEST;
+                        pagesCheckBoxC.insets = new Insets(0, 0, 0, 24);
+                        
+                        timeSpinnerC.gridx = 1;
+                        timeSpinnerC.gridy = 1;
+                        
                         SpinnerModel spinnerModel = new SpinnerNumberModel(0, 0, 60, 1);
-                        bounceSpinner = new JSpinner(spinnerModel);
+                        
+                        pagesCheckBox = new JCheckBox("Pages visited");
+                        pagesSpinner = new JSpinner(spinnerModel);
 
-                        JComponent editor = bounceSpinner.getEditor();
+                        JComponent editor = pagesSpinner.getEditor();
                         JFormattedTextField tf = ((JSpinner.DefaultEditor) editor).getTextField();
-                        tf.setColumns(7);
+                        tf.setColumns(2);
+                        
+                        SpinnerModel spinnerModel2 = new SpinnerNumberModel(0, 0, 60, 1);
+                        
+                        timeCheckBox = new JCheckBox("Time spent (s)");
+                        timeSpinner = new JSpinner(spinnerModel2);
+                        
+                        JComponent editor2 = timeSpinner.getEditor();
+                        JFormattedTextField tf2 = ((JSpinner.DefaultEditor) editor2).getTextField();
+                        tf2.setColumns(2);
 
-                        bounceBox.addActionListener(new ActionListener() {
-
-                            public void actionPerformed(ActionEvent e) {
-
-                                JComboBox<String> cb = (JComboBox) e.getSource();
-                                final int item = cb.getSelectedIndex();
-
-                                if (item == 0) {
-                                    bounceLabel.setText("Pages:");
-                                    bounceSpinner.setValue(0);
-                                }
-                                if (item == 1) {
-                                    bounceLabel.setText("Minutes:");
-                                    bounceSpinner.setValue(0);
-                                }
-
-                            }
-
-                        });
-
-                        pnl.add(bounceBox, bounceBoxC);
-                        pnl.add(bounceLabel, bounceLabelC);
-                        pnl.add(bounceSpinner, bounceSpinnerC);
+                        pnl.add(pagesCheckBox, pagesCheckBoxC);
+                        pnl.add(pagesSpinner, pagesSpinnerC);
+                        pnl.add(timeCheckBox, timeCheckBoxC);
+                        pnl.add(timeSpinner, timeSpinnerC);
 
                         return pnl;
 
@@ -508,7 +499,24 @@ public class SideBar extends JPanel {
         return null;
 
     }
-
+    
+    public int getChosenPages(){
+    	
+    	if(pagesCheckBox.isSelected())
+    		return (int) pagesSpinner.getValue();
+    	
+    	else return -1;
+    	
+    }
+    
+    public int getChosenTime(){
+    	
+    	if(timeCheckBox.isSelected())
+    		return (int) timeSpinner.getValue();
+    	
+    	else return -1;
+    	
+    }
 
     abstract class AbstractExpansionPanel extends JPanel {
 
@@ -718,7 +726,8 @@ public class SideBar extends JPanel {
             int ageGroup = sidebar.getChosenAge();
             int income = sidebar.getChosenIncome();
             String context = sidebar.getChosenContext();
-            int noOfPages;
+            int pages = sidebar.getChosenPages();
+            int time = sidebar.getChosenTime();
 
             System.out.println(startDate);
 
@@ -731,6 +740,8 @@ public class SideBar extends JPanel {
             System.out.println(ageGroup);
             System.out.println(income);
             System.out.println(context);
+            System.out.println(pages);
+            System.out.println(time);
 
             //Start Date Predicates
             Predicate<ClickLog> clickLogStartDatePredicate = click -> true;
@@ -780,8 +791,8 @@ public class SideBar extends JPanel {
             //Bounce Predicate
             //No of pages viewed
             Predicate<ServerLog> serverLogNoPredicate = ser -> true;
-            if (false) {
-                serverLogNoPredicate = ser -> ser.getPagesViewed() > 5;
+            if (pages != -1) {
+                serverLogNoPredicate = ser -> ser.getPagesViewed() >= pages;
             }
 
             //Whether the conversion took place or not
@@ -792,9 +803,9 @@ public class SideBar extends JPanel {
             
             //Time spent on website
             Predicate<ServerLog> serverTimeSpentPredicate = ser -> true;
-            if (false) {
+            if (time != -1) {
             	serverTimeSpentPredicate = ser -> (ser.getEndDate() != null ? 
-            			(ser.getEndDate().getTime() - ser.getStartDate().getTime()) >= ( 1 * 1000) : true );
+            			(ser.getEndDate().getTime() - ser.getStartDate().getTime()) >= ( time * 1000) : true );
             }
 
             dashboard.resetLogs();
@@ -841,9 +852,10 @@ public class SideBar extends JPanel {
             sidebar.ageLabel.setSelected(false);
             sidebar.incomeLabel.setSelected(false);
             sidebar.contextGroup.clearSelection();
-            sidebar.bounceBox.setSelectedIndex(0);
-            sidebar.bounceLabel.setText("Pages:");
-            sidebar.bounceSpinner.setValue(0);
+            sidebar.pagesCheckBox.setSelected(false);
+            sidebar.pagesSpinner.setValue(0);
+            sidebar.timeCheckBox.setSelected(false);
+            sidebar.timeSpinner.setValue(0);
 
             dashboard.resetLogs();
             dashboard.updateMetrics();
