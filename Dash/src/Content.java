@@ -91,12 +91,12 @@ public class Content extends JPanel {
         graphChoiceBoxC.gridx = 3;
         graphChoiceBoxC.gridy = 1;
         graphChoiceBoxC.anchor = GridBagConstraints.LINE_START;
-        graphChoiceBoxC.insets = new Insets(-4, 180, 0, 20);
+        graphChoiceBoxC.insets = new Insets(-4, 160, 0, 20);
 
         graphChoiceLabelC.gridx = 3;
         graphChoiceLabelC.gridy = 0;
         graphChoiceLabelC.anchor = GridBagConstraints.LINE_START;
-        graphChoiceLabelC.insets = new Insets(0, 184, 0, 20);
+        graphChoiceLabelC.insets = new Insets(0, 164, 0, 20);
 
         timeBoxC.gridx = 4;
         timeBoxC.gridy = 1;

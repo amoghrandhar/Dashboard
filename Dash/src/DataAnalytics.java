@@ -44,15 +44,11 @@ public class DataAnalytics {
         return (uniqueClickSet(clickLogArrayList)).size();
     }
 
-    public long noOfBounces(ArrayList<ServerLog> slog, int bounceProperty) {
+    public long noOfBounces(ArrayList<ServerLog> slog) {
         //It returns the total no bounces happened, compared and based on the bounce property
-        long total = 0;
-        for (ServerLog aSlog : slog) {
-            if (aSlog.getPagesViewed() < bounceProperty) {
-                total++;
-            }
-        }
-        return total;
+        
+        return slog.size();
+        
     }
 
     public long noOfConversions(ArrayList<ServerLog> slog) {
@@ -143,9 +139,9 @@ public class DataAnalytics {
         return (totalCost(impressionArrayList, clickLogArrayList) / noOfImpression(impressionArrayList)) * 1000;
     }
 
-    public Double bounceRate(int bounceProperty, ArrayList<ClickLog> clickLogArrayList, ArrayList<ServerLog> slog) {
+    public Double bounceRate( ArrayList<ClickLog> clickLogArrayList, ArrayList<ServerLog> slog) {
         // This returns the average bounceRate
-        return ((double) noOfBounces(slog, bounceProperty)) / totalClicks(clickLogArrayList);
+        return ((double) noOfBounces(slog)) / totalClicks(clickLogArrayList);
     }
 
 
@@ -228,7 +224,13 @@ public class DataAnalytics {
             , Predicate<ImpressionLog> contextPredicate, ArrayList<ImpressionLog> impressionLogs) {
 
 
-        return impressionLogs.parallelStream().filter(datePredicate).filter(genderPredicate).filter(agePredicate).filter(incomePredicate).filter(contextPredicate).collect(Collectors.<ImpressionLog>toList());
+        return impressionLogs.parallelStream()
+        		.filter(datePredicate)
+        		.filter(genderPredicate)
+        		.filter(agePredicate)
+        		.filter(incomePredicate)
+        		.filter(contextPredicate)
+        		.collect(Collectors.<ImpressionLog>toList());
     }
 
     /**
@@ -242,10 +244,17 @@ public class DataAnalytics {
      * @return
      */
     public List<ServerLog> filterServerLogs(Predicate<ServerLog> beforeDate, Predicate<ServerLog> afterDate
-            , Predicate<ServerLog> pagesV, Predicate<ServerLog> conV
+            , Predicate<ServerLog> pagesV, Predicate<ServerLog> conV , Predicate<ServerLog> timeSpent
             , ArrayList<ServerLog> serverLogs) {
 
-        return serverLogs.stream().filter(beforeDate).filter(afterDate).filter(pagesV).filter(conV).collect(Collectors.<ServerLog>toList());
+        return serverLogs.stream()
+        		.filter(beforeDate)
+        		.filter(afterDate)
+        		.filter(pagesV)
+        		.filter(conV)
+        		.filter(timeSpent)
+        		.collect(Collectors.<ServerLog>toList());
+        
     }
 
 

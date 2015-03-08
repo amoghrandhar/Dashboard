@@ -16,7 +16,7 @@ public class Main {
 //                        }
 
                         for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                            if ("Nimbus".equals(info.getName())) {
+                            if ("Mac OS X".equals(info.getName())) {
                                 UIManager.setLookAndFeel(info.getClassName());
                                 break;
                             }

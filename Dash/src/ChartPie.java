@@ -116,7 +116,7 @@ public class ChartPie extends JFXPanel {
 						new PieChart.Data("Blog", map.get("Blog")));
 		chart = new PieChart(pieChartData);
 
-		initFX("Gender Distribution");
+		initFX("Context Distribution");
 
 	}
 

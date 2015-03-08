@@ -772,7 +772,6 @@ public class SideBar extends JPanel {
 
             //Context Predicate
             Predicate<ImpressionLog> impressionContextPredicate = imp -> true;
-            ;
             if (context != null) {
                 impressionContextPredicate = imp -> imp.getContext().equals(context);
             }
@@ -786,10 +785,17 @@ public class SideBar extends JPanel {
                 serverLogNoPredicate = ser -> ser.getPagesViewed() > 5;
             }
 
-            //No of pages viewed
+            //Whether the conversion took place or not
             Predicate<ServerLog> serverConversationPredicate = ser -> true;
             if (false) {
                 serverConversationPredicate = ser -> ser.isConverted();
+            }
+            
+            //Time spent on website
+            Predicate<ServerLog> serverTimeSpentPredicate = ser -> true;
+            if (false) {
+            	serverTimeSpentPredicate = ser -> (ser.getEndDate() != null ? 
+            			(ser.getEndDate().getTime() - ser.getStartDate().getTime()) >= ( 1 * 1000) : true );
             }
 
             dashboard.resetLogs();
