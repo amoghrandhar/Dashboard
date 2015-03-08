@@ -221,7 +221,6 @@ public class Import extends JFrame {
 
                     // This will update the ArrayList of data logs with new data
                     dashboard.setOriginalLogs(clicklogParser.getClickLogs(), impressionParser.getImpressions(), serverlogParser.getServerLogs());
-
                     dashboard.updateMetrics();
 
                     Platform.runLater(dashboard::defaultChart);

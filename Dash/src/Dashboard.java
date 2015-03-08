@@ -70,6 +70,9 @@ public class Dashboard extends JFrame {
     public void updateLogs(ArrayList<ClickLog> clickLogArrayList,ArrayList<ImpressionLog> impressionArrayList
             , ArrayList<ServerLog> serverLogArrayList ){
         impressionLogs = impressionArrayList;
+        clickLogs = clickLogArrayList;
+        serverLogs = serverLogArrayList;
+
     }
 
 

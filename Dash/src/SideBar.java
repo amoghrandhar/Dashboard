@@ -813,6 +813,7 @@ public class SideBar extends JPanel {
             for (ImpressionLog impressionLog : impressionLogs) {
                 idSet.add(impressionLog.getID());
             }
+            System.out.println("UpdateListener.actionPerformed" + idSet.size());
 
             impressionLogs = (ArrayList <ImpressionLog>) DataAnalytics.filterImpressionLogs(
                     impressionLogStartDatePredicate,
