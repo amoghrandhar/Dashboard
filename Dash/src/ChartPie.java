@@ -34,18 +34,14 @@ public class ChartPie extends JFXPanel {
         this.dashboard = dashboard;
     }
 
-    public void initFX() {
-    	
-    	HashMap<Boolean,Long> sexMap = dashboard.dataAnalytics.sexRatioDivision(dashboard.getImpressionLogs());
-    	
-        ObservableList<PieChart.Data> pieChartData =
-                FXCollections.observableArrayList(
-                        new PieChart.Data("Male", sexMap.get(true)),
-                        new PieChart.Data("Female", sexMap.get(false)));
-        final PieChart chart = new PieChart(pieChartData);
+    public void initFX(String title) {
+
+
+       final PieChart chart = new PieChart();
 
         chart.setLegendSide(Side.LEFT);
         chart.setLabelsVisible(false);
+        chart.setTitle(title);
 
         tooltip = new Tooltip("");
 
@@ -59,6 +55,32 @@ public class ChartPie extends JFXPanel {
         scene.getStylesheets().add("chartstyle2.css");
         this.setScene(scene);
 
+    }
+
+    public void showGenderPie() {
+        HashMap<Boolean,Long> sexMap = dashboard.dataAnalytics.sexRatioDivision(dashboard.getImpressionLogs());
+
+        ObservableList<PieChart.Data> pieChartData =
+                FXCollections.observableArrayList(
+                        new PieChart.Data("Male", sexMap.get(true)),
+                        new PieChart.Data("Female", sexMap.get(false)));
+        final PieChart chart = new PieChart(pieChartData);
+
+        chart.setLegendSide(Side.LEFT);
+        chart.setLabelsVisible(false);
+        chart.setTitle("Gender Division");
+
+        tooltip = new Tooltip("");
+
+
+        for (final PieChart.Data data : chart.getData()) {
+            Tooltip.install(data.getNode(), tooltip);
+            applyMouseEvents(data);
+        }
+
+        scene = new Scene(chart, xDim, yDim);
+        scene.getStylesheets().add("chartstyle2.css");
+        this.setScene(scene);
     }
 
     private void applyMouseEvents(final PieChart.Data data) {

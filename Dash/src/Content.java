@@ -324,10 +324,10 @@ public class Content extends JPanel {
 
         Platform.setImplicitExit(false);
         Platform.runLater(() -> {
-            pieChart1.initFX();
-            pieChart2.initFX();
-            pieChart3.initFX();
-            pieChart4.initFX();
+            pieChart1.initFX("Gender Chart");
+            pieChart2.initFX("Age Division");
+            pieChart3.initFX("Income Division");
+            pieChart4.initFX("Context Division");
         });
 
         piePanel.add(pieChart1, pc1);
@@ -394,7 +394,7 @@ public class Content extends JPanel {
     public void defaultChart() {
 
         chart.showClicksChart(dashboard.getClickLogs());
-        pieChart1.initFX();
+        pieChart1.showGenderPie();
 
         class Worker extends SwingWorker<Void, Void> {
 

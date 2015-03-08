@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -34,6 +31,9 @@ public class DataAnalytics {
     public LinkedHashSet<ClickLog> uniqueClickSet(ArrayList<ClickLog> clickLogArrayList) {
         //This will return a Hash Set of ClickLogs based on unique ID of the user
         //So it removes the repetition
+
+        HashSet set = new LinkedHashSet(clickLogArrayList);
+
         return new LinkedHashSet(clickLogArrayList);
 
     }
