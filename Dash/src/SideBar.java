@@ -120,10 +120,12 @@ public class SideBar extends JPanel {
 
         resetButton = new JButton("Reset");
         resetButton.setFocusable(false);
+        resetButton.setEnabled(false);
         resetButton.addActionListener(new ResetListener(this));
 
         updateButton = new JButton("Update");
         updateButton.setFocusable(false);
+        updateButton.setEnabled(false);
         updateButton.addActionListener(new UpdateListener(this));
 
         JPanel updatePanel = new JPanel();
