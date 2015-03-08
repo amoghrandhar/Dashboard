@@ -416,6 +416,8 @@ public class Content extends JPanel{
 		    protected Void doInBackground() throws Exception {
 				graphChoiceBox.setEnabled(true);
 				timeBox.setEnabled(true);
+				dashboard.sidebar.updateButton.setEnabled(true);
+				dashboard.sidebar.resetButton.setEnabled(true);
 				return null;
 		    }
 		    
