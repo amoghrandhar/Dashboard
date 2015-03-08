@@ -13,18 +13,7 @@ public class DataAnalytics {
     }
 
     public  static  long totalClicks(ArrayList<ClickLog> clickLogArrayList) {
-        //This will tell you total no. of click records
-        //Its based on if the Click cost is greater than zero.
-//        int total = 0;
-//        for (int i = 0; i < clickLogArrayList.size(); i++) {
-//            if (clickLogArrayList.get(i).getClickCost() > 0) {
-//                total++;
-//            }
-//        }
-//
-//        return total;
         return clickLogArrayList.size();
-
     }
 
     public  static HashSet<ClickLog> uniqueClickSet(ArrayList<ClickLog> clickLogArrayList) {
@@ -226,6 +215,7 @@ public class DataAnalytics {
      * @return filtered Clicklogs
      */
     public static  List<ClickLog> filterClickLogs(Predicate<ClickLog> datePred, ArrayList<ClickLog> clickLogs , Set<Double> idCheck) {
+
         Predicate<ClickLog> checkClicks = clp -> idCheck.contains(clp.getID());
         return clickLogs.parallelStream().filter(checkClicks).filter(datePred).collect(Collectors.<ClickLog>toList());
     }
@@ -246,7 +236,7 @@ public class DataAnalytics {
 
         Predicate<ServerLog> checkServers = sp -> idCheck.contains(sp.getID());
 
-        return serverLogs.stream()
+        return serverLogs.parallelStream()
                 .filter(checkServers)
         		.filter(beforeDate)
         		.filter(afterDate)

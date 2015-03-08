@@ -1,6 +1,4 @@
 import java.io.File;
-import java.util.Date;
-import java.util.function.Predicate;
 
 /**
  * Created by Amogh on 22-02-2015.
@@ -72,10 +70,10 @@ public class TestingParser {
         System.out.println("Context Group : " + dataAnalytics.contextGroupDivision(ip.getImpressions()));
 
 
-        System.out.println("\n\n Testing the filtering ::: - >");
-        Predicate<ClickLog> clickLogPredicate = clickLog -> clickLog.getDate().after(new Date());
-        System.out.println(dataAnalytics.filterClickLogs(clickLogPredicate, clp.getClickLogs()).size());
-
+//        System.out.println("\n\n Testing the filtering ::: - >");
+//        Predicate<ClickLog> clickLogPredicate = clickLog -> clickLog.getDate().after(new Date());
+//        System.out.println(dataAnalytics.filterClickLogs(clickLogPredicate, clp.getClickLogs()).size());
+//
 
     }
 }

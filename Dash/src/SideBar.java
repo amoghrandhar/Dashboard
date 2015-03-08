@@ -809,11 +809,6 @@ public class SideBar extends JPanel {
             ArrayList<ClickLog> clickLogArrayList = dashboard.getClickLogs();
             ArrayList<ServerLog> serverLogArrayList = dashboard.getServerLogs();
 
-            HashSet<Double> idSet = new HashSet<Double>();
-            for (ImpressionLog impressionLog : impressionLogs) {
-                idSet.add(impressionLog.getID());
-            }
-            System.out.println("UpdateListener.actionPerformed" + idSet.size());
 
             impressionLogs = (ArrayList <ImpressionLog>) DataAnalytics.filterImpressionLogs(
                     impressionLogStartDatePredicate,
@@ -822,6 +817,12 @@ public class SideBar extends JPanel {
                     impressionIncomePredicate,
                     impressionContextPredicate,
                     impressionLogs);
+
+            HashSet<Double> idSet = new HashSet<Double>();
+            for (ImpressionLog impressionLog : impressionLogs) {
+                idSet.add(impressionLog.getID());
+            }
+            System.out.println("UpdateListener.actionPerformed" + idSet.size());
 
             clickLogArrayList = (ArrayList <ClickLog>) DataAnalytics.filterClickLogs(clickLogStartDatePredicate,clickLogArrayList,idSet);
             serverLogArrayList = (ArrayList<ServerLog>) DataAnalytics.filterServerLogs(serverLogStartDatePredicate,serverLogEndDatePredicate ,
