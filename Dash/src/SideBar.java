@@ -805,8 +805,6 @@ public class SideBar extends JPanel {
 
         public ResetListener(SideBar sidebar) {
 
-
-            dashboard.resetLogs();
             this.sidebar = sidebar;
 
         }
@@ -824,6 +822,8 @@ public class SideBar extends JPanel {
             sidebar.bounceBox.setSelectedIndex(0);
             sidebar.bounceLabel.setText("Pages:");
             sidebar.bounceSpinner.setValue(0);
+
+            dashboard.resetLogs();
 
         }
 
