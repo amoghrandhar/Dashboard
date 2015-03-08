@@ -337,13 +337,12 @@ public class SideBar extends JPanel {
                         contextGroup = new ModifiedButtonGroup();
                         JRadioButton b1 = new JRadioButton("News");
                         JRadioButton b2 = new JRadioButton("Shopping");
-                        JRadioButton b3 = new JRadioButton("Social");
-                        JRadioButton b4 = new JRadioButton("Media");
+                        JRadioButton b3 = new JRadioButton("Social Media");
                         JRadioButton b5 = new JRadioButton("Blog");
                         JRadioButton b6 = new JRadioButton("Hobbies");
                         JRadioButton b7 = new JRadioButton("Travel");
 
-                        for (JRadioButton b : Arrays.asList(b1, b2, b3, b4, b5, b6, b7)) {
+                        for (JRadioButton b : Arrays.asList(b1, b2, b3, b5, b6, b7)) {
                             b.setBorder(BorderFactory.createEmptyBorder(4, 0, 4, 0));
                             b.setOpaque(false);
                             contextGroup.add(b);

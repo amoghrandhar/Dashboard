@@ -19,99 +19,136 @@ import java.util.HashMap;
 @SuppressWarnings("serial")
 public class ChartPie extends JFXPanel {
 
-    private int xDim = 390;
-    private int yDim = 250;
-    private Scene scene;
+	private int xDim = 390;
+	private int yDim = 250;
+	private Scene scene;
 
-    private PieChart.Data selectedData;
-    private Tooltip tooltip;
-    
-    private Dashboard dashboard;
+	private PieChart chart;
+	private PieChart.Data selectedData;
+	private Tooltip tooltip;
 
-    public ChartPie(Dashboard dashboard) {
-        super();
-        this.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.gray));
-        this.dashboard = dashboard;
-    }
+	private Dashboard dashboard;
 
-    public void initFX(String title) {
+	public ChartPie(Dashboard dashboard) {
 
+		super();
+		this.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.gray));
+		this.dashboard = dashboard;
+		this.chart = new PieChart();
 
-       final PieChart chart = new PieChart();
+	}
 
-        chart.setLegendSide(Side.LEFT);
-        chart.setLabelsVisible(false);
-        chart.setTitle(title);
+	public void initFX(String title){
 
-        tooltip = new Tooltip("");
+		chart.setLegendSide(Side.LEFT);
+		chart.setLabelsVisible(false);
+		chart.setTitle(title);
 
-
-        for (final PieChart.Data data : chart.getData()) {
-            Tooltip.install(data.getNode(), tooltip);
-            applyMouseEvents(data);
-        }
-
-        scene = new Scene(chart, xDim, yDim);
-        scene.getStylesheets().add("chartstyle2.css");
-        this.setScene(scene);
-
-    }
-
-    public void showGenderPie() {
-        HashMap<Boolean,Long> sexMap = dashboard.dataAnalytics.sexRatioDivision(dashboard.getImpressionLogs());
-
-        ObservableList<PieChart.Data> pieChartData =
-                FXCollections.observableArrayList(
-                        new PieChart.Data("Male", sexMap.get(true)),
-                        new PieChart.Data("Female", sexMap.get(false)));
-        final PieChart chart = new PieChart(pieChartData);
-
-        chart.setLegendSide(Side.LEFT);
-        chart.setLabelsVisible(false);
-        chart.setTitle("Gender Division");
-
-        tooltip = new Tooltip("");
+		tooltip = new Tooltip("");
 
 
-        for (final PieChart.Data data : chart.getData()) {
-            Tooltip.install(data.getNode(), tooltip);
-            applyMouseEvents(data);
-        }
+		for (final PieChart.Data data : chart.getData()) {
+			Tooltip.install(data.getNode(), tooltip);
+			applyMouseEvents(data);
+		}
 
-        scene = new Scene(chart, xDim, yDim);
-        scene.getStylesheets().add("chartstyle2.css");
-        this.setScene(scene);
-    }
+		scene = new Scene(chart, xDim, yDim);
+		scene.getStylesheets().add("chartstyle2.css");
+		this.setScene(scene);
 
-    private void applyMouseEvents(final PieChart.Data data) {
+	}
 
-        final Node node = data.getNode();
+	public void showGenderPie() {
 
-        node.setOnMouseEntered(new EventHandler<MouseEvent>() {
+		HashMap<Boolean,Long> map = dashboard.dataAnalytics.sexRatioDivision(dashboard.getImpressionLogs());
 
-            public void handle(MouseEvent arg0) {
-                node.setEffect(new Glow());
-                String styleString = "-fx-border-color: white; -fx-border-width: 3; -fx-border-style: dashed;";
-                node.setStyle(styleString);
-                tooltip.setText(String.valueOf(data.getName() + "\n" + (int) data.getPieValue()));
-            }
-        });
+		ObservableList<PieChart.Data> pieChartData =
+				FXCollections.observableArrayList(
+						new PieChart.Data("Male", map.get(true)),
+						new PieChart.Data("Female", map.get(false)));
+		chart = new PieChart(pieChartData);
 
-        node.setOnMouseExited(new EventHandler<MouseEvent>() {
+		initFX("Gender Distribution");
 
-            public void handle(MouseEvent arg0) {
-                node.setEffect(null);
-                node.setStyle("");
-            }
-        });
+	}
 
-        node.setOnMouseReleased(new EventHandler<MouseEvent>() {
+	public void showAgeGroupPie() {
 
-            public void handle(MouseEvent mouseEvent) {
-                selectedData = data;
-                System.out.println("Selected data " + selectedData.toString());
-            }
-        });
-    }
+		HashMap<Integer, Long> map = dashboard.dataAnalytics.ageGroupDivision(dashboard.getImpressionLogs());
+
+		ObservableList<PieChart.Data> pieChartData =
+				FXCollections.observableArrayList(
+						new PieChart.Data("<25", map.get(0)),
+						new PieChart.Data("25-34", map.get(1)),
+						new PieChart.Data("35-44", map.get(2)),
+						new PieChart.Data("45-54", map.get(3)),
+						new PieChart.Data(">55", map.get(4)));
+		chart = new PieChart(pieChartData);
+
+		initFX("Age Distribution");
+
+	}
+
+	public void showIncomePie() {
+
+		HashMap<Integer, Long> map = dashboard.dataAnalytics.incomeGroupDivision(dashboard.getImpressionLogs());
+
+		ObservableList<PieChart.Data> pieChartData =
+				FXCollections.observableArrayList(
+						new PieChart.Data("Low", map.get(0)),
+						new PieChart.Data("Medium", map.get(1)),
+						new PieChart.Data("High", map.get(2)));
+		chart = new PieChart(pieChartData);
+
+		initFX("Income Distribution");
+
+	}
+
+	public void showContextPie() {
+
+		HashMap<String, Long> map = dashboard.dataAnalytics.contextGroupDivision(dashboard.getImpressionLogs());
+
+		ObservableList<PieChart.Data> pieChartData =
+				FXCollections.observableArrayList(
+						new PieChart.Data("News", map.get("News")),
+						new PieChart.Data("Shopping", map.get("Shopping")),
+						new PieChart.Data("Social Media", map.get("Social Media")),
+						new PieChart.Data("Blog", map.get("Blog")));
+		chart = new PieChart(pieChartData);
+
+		initFX("Gender Distribution");
+
+	}
+
+	private void applyMouseEvents(final PieChart.Data data) {
+
+		final Node node = data.getNode();
+
+		node.setOnMouseEntered(new EventHandler<MouseEvent>() {
+
+			public void handle(MouseEvent arg0) {
+				node.setEffect(new Glow());
+				String styleString = "-fx-border-color: white; -fx-border-width: 3; -fx-border-style: dashed;";
+				node.setStyle(styleString);
+				tooltip.setText(String.valueOf(data.getName() + "\n" + (int) data.getPieValue()));
+			}
+		});
+
+		node.setOnMouseExited(new EventHandler<MouseEvent>() {
+
+			public void handle(MouseEvent arg0) {
+				node.setEffect(null);
+				node.setStyle("");
+			}
+		});
+
+		node.setOnMouseReleased(new EventHandler<MouseEvent>() {
+
+			public void handle(MouseEvent mouseEvent) {
+				selectedData = data;
+				System.out.println("Selected data " + selectedData.toString());
+			}
+		});
+	}
 
 }

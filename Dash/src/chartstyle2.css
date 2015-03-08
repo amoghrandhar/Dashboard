@@ -18,15 +18,3 @@
 .data1.chart-pie {
     -fx-pie-color: #fd55c0;
 }
-
-.data2.chart-pie {
-    -fx-pie-color: cornflowerblue;
-}
-
-.data3.chart-pie {
-    -fx-pie-color: blue;
-}
-
-.data4.chart-pie {
-    -fx-pie-color: cadetblue;
-}

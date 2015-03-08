@@ -395,6 +395,9 @@ public class Content extends JPanel {
 
         chart.showClicksChart(dashboard.getClickLogs());
         pieChart1.showGenderPie();
+        pieChart2.showAgeGroupPie();
+        pieChart3.showIncomePie();
+        pieChart4.showContextPie();
 
         class Worker extends SwingWorker<Void, Void> {
 
