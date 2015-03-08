@@ -1,13 +1,13 @@
 import javafx.application.Platform;
 
-import javax.swing.*;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableCellRenderer;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.math.BigDecimal;
+        import javax.swing.*;
+        import javax.swing.table.AbstractTableModel;
+        import javax.swing.table.DefaultTableCellRenderer;
+        import javax.swing.table.TableCellRenderer;
+        import java.awt.*;
+        import java.awt.event.ActionEvent;
+        import java.awt.event.ActionListener;
+        import java.math.BigDecimal;
 
 public class Content extends JPanel {
 
@@ -143,42 +143,37 @@ public class Content extends JPanel {
         graphChoiceBox = new JComboBox(graphChoices);
         graphChoiceBox.setPrototypeDisplayValue("XXXXXXXXXX");
         graphChoiceBox.setEnabled(false);
-        graphChoiceBox.addActionListener(new ActionListener() {
+        graphChoiceBox.addActionListener(e -> {
+            JComboBox<String> cb = (JComboBox) e.getSource();
+            final int item = cb.getSelectedIndex();
 
-            public void actionPerformed(ActionEvent e) {
+            Platform.runLater(() -> {
+                switch (item) {
+                    case 1:
+                        chart.showImpressionsChart(dashboard.getImpressionLogs());
+                        break;
+                    case 2:
+                        chart.showUniqueChart(dashboard.dataAnalytics.uniqueClickSet(dashboard.getClickLogs()));
+                        break;
+                    case 3:
+                        //TODO Get chosen bounce threshold from filters
+                        chart.showBounceChart(dashboard.getServerLogs(), 5); // 5 = dummy value
+                        break;
+                    case 4:
+                        chart.showConversionChart(dashboard.getServerLogs());
+                        break;
+                    case 5:
+                        chart.showCumulativeCost(dashboard.getClickLogs());
+                        break;
+                    case 6:
+                        chart.showCost(dashboard.getClickLogs());
+                        break;
+                    default:
+                        chart.showClicksChart(dashboard.getClickLogs());
+                        break;
+                }
 
-                JComboBox<String> cb = (JComboBox) e.getSource();
-                final int item = cb.getSelectedIndex();
-
-                Platform.runLater(() -> {
-                    switch (item) {
-                        case 1:
-                            chart.showImpressionsChart(dashboard.getImpressionLogs());
-                            break;
-                        case 2:
-                            chart.showUniqueChart(dashboard.dataAnalytics.uniqueClickSet(dashboard.getClickLogs()));
-                            break;
-                        case 3:
-                            //TODO Get chosen bounce threshold from filters
-                            chart.showBounceChart(dashboard.getServerLogs(), 5); // 5 = dummy value
-                            break;
-                        case 4:
-                            chart.showConversionChart(dashboard.getServerLogs());
-                            break;
-                        case 5:
-                            chart.showCumulativeCost(dashboard.getClickLogs());
-                            break;
-                        case 6:
-                            chart.showCost(dashboard.getClickLogs());
-                            break;
-                        default:
-                            chart.showClicksChart(dashboard.getClickLogs());
-                            break;
-                    }
-
-                });
-
-            }
+            });
 
         });
 
@@ -198,22 +193,20 @@ public class Content extends JPanel {
                 JComboBox<String> cb = (JComboBox) e.getSource();
                 final int item = cb.getSelectedIndex();
 
-                Platform.runLater(new Runnable() {
-                    public void run() {
+                Platform.runLater(() -> {
 
-                        switch (item) {
-                            case 1:
+                    switch (item) {
+                        case 1:
 
-                                break;
-                            case 2:
+                            break;
+                        case 2:
 
-                                break;
-                            case 3:
+                            break;
+                        case 3:
 
-                                break;
-                        }
-
+                            break;
                     }
+
                 });
 
             }
@@ -234,11 +227,7 @@ public class Content extends JPanel {
         chart = new Chart();
 
         Platform.setImplicitExit(false);
-        Platform.runLater(new Runnable() {
-            public void run() {
-                chart.initFX();
-            }
-        });
+        Platform.runLater(() -> chart.initFX());
 
         graphPanel.add(chart);
 
@@ -334,13 +323,11 @@ public class Content extends JPanel {
         pieChart4 = new ChartPie(dashboard);
 
         Platform.setImplicitExit(false);
-        Platform.runLater(new Runnable() {
-            public void run() {
-                pieChart1.initFX();
-                pieChart2.initFX();
-                pieChart3.initFX();
-                pieChart4.initFX();
-            }
+        Platform.runLater(() -> {
+            pieChart1.initFX();
+            pieChart2.initFX();
+            pieChart3.initFX();
+            pieChart4.initFX();
         });
 
         piePanel.add(pieChart1, pc1);
@@ -392,7 +379,7 @@ public class Content extends JPanel {
 
     public void setMetrics(int rowIndex, String[] rowValues) {
 
-        tableModel.updateRow(0, rowValues);
+        tableModel.updateRow(rowIndex, rowValues);
 
     }
 
@@ -484,21 +471,15 @@ public class Content extends JPanel {
                 "Conversions", "Total Cost", "CTR", "CPA", "CPC", "CPM", "Bounce Rate"};
 
         public String getColumnName(int col) {
-
-            return columnNames[col].toString();
-
+            return columnNames[col];
         }
 
         public int getRowCount() {
-
             return rowData.length;
-
         }
 
         public int getColumnCount() {
-
             return columnNames.length;
-
         }
 
         public Object getValueAt(int row, int col) {
