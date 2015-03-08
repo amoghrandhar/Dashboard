@@ -790,10 +790,21 @@ public class SideBar extends JPanel {
                 serverConversationPredicate = ser -> ser.isConverted();
             }
 
+            dashboard.resetLogs();
 
-            dashboard.updateClickLogs((ArrayList<ClickLog>) dataAnalytics.filterClickLogs(clickLogStartDatePredicate, dashboard.getClickLogs()));
+            dashboard.updateClickLogs(
+            		(ArrayList<ClickLog>) dataAnalytics.filterClickLogs(
+            				clickLogStartDatePredicate, 
+            				dashboard.getClickLogs()));
 
-            dashboard.updateImpresssionLogs((ArrayList<ImpressionLog>) dataAnalytics.filterImpressionLogs(impressionLogStartDatePredicate, impressionLogGenderPredicate, impressionAgePredicate, impressionIncomePredicate, impressionContextPredicate, dashboard.getImpressionLogs()));
+            dashboard.updateImpresssionLogs(
+            		(ArrayList<ImpressionLog>) dataAnalytics.filterImpressionLogs(
+            				impressionLogStartDatePredicate, 
+            				impressionLogGenderPredicate, 
+            				impressionAgePredicate, 
+            				impressionIncomePredicate, 
+            				impressionContextPredicate, 
+            				dashboard.getImpressionLogs()));
 
             dashboard.updateMetrics();
 

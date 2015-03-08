@@ -168,7 +168,6 @@ public class DataAnalytics {
     public HashMap<Boolean, Long> sexRatioDivision(ArrayList<ImpressionLog> impressionLogs) {
         HashMap<Boolean, Long> counted = impressionLogs.parallelStream()
                 .collect(Collectors.groupingBy(imp -> imp.getGender(), HashMap::new, Collectors.counting()));
-
         return counted;
     }
 
