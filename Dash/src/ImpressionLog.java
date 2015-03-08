@@ -40,11 +40,11 @@ public class ImpressionLog implements Serializable {
         return gender;
     }
 
-    public int getAgeGroup() {
+    public Integer getAgeGroup() {
         return ageGroup;
     }
 
-    public int getIncomeGroup() {
+    public Integer getIncomeGroup() {
         return incomeGroup;
     }
 
@@ -68,4 +68,6 @@ public class ImpressionLog implements Serializable {
     public int hashCode() {
         return Double.hashCode(ID);
     }
+
+
 }

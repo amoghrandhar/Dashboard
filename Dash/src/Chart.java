@@ -18,91 +18,90 @@ import java.util.Map.Entry;
 
 
 @SuppressWarnings("serial")
-public class Chart extends JFXPanel{
-	
-	private int xDim = 820;
-	private int yDim = 370;
-	private Scene scene;
-	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-	
-	public Chart() {
-		super();
-		this.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.gray));
-	}
-	
-	public void initFX() {
-		CategoryAxis xAxis = new CategoryAxis();
-		NumberAxis yAxis = new NumberAxis();
-		xAxis.setLabel("Day");       
+public class Chart extends JFXPanel {
 
-		final LineChart<String,Number> lineChart = 
-				new LineChart<String,Number>(xAxis,yAxis);
+    private int xDim = 820;
+    private int yDim = 370;
+    private Scene scene;
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-		//lineChart.setTitle("Stock Monitoring, 2010");
+    public Chart() {
+        super();
+        this.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.gray));
+    }
 
-		XYChart.Series series = new XYChart.Series();
-		//series.setName("My portfolio");
+    public void initFX() {
+        CategoryAxis xAxis = new CategoryAxis();
+        NumberAxis yAxis = new NumberAxis();
+        xAxis.setLabel("Day");
 
-		series.getData().add(new XYChart.Data<String, Integer>("Jan", 23));
-		series.getData().add(new XYChart.Data<String, Integer>("Feb", 14));
-		series.getData().add(new XYChart.Data<String, Integer>("Mar", 15));
-		series.getData().add(new XYChart.Data<String, Integer>("Apr", 24));
-		series.getData().add(new XYChart.Data<String, Integer>("May", 34));
-		series.getData().add(new XYChart.Data<String, Integer>("Jun", 36));
-		series.getData().add(new XYChart.Data<String, Integer>("Jul", 22));
-		series.getData().add(new XYChart.Data<String, Integer>("Aug", 45));
-		series.getData().add(new XYChart.Data<String, Integer>("Sep", 43));
-		series.getData().add(new XYChart.Data<String, Integer>("Oct", 17));
-		series.getData().add(new XYChart.Data<String, Integer>("Nov", 29));
-		series.getData().add(new XYChart.Data<String, Integer>("Dec", 25));
-		//lineChart.getData().add(series);
-		
-		lineChart.setLegendVisible(false);
+        final LineChart<String, Number> lineChart =
+                new LineChart<String, Number>(xAxis, yAxis);
 
-		scene = new Scene(lineChart, xDim, yDim);
-		scene.getStylesheets().add("chartstyle.css");
-		this.setScene(scene);
+        //lineChart.setTitle("Stock Monitoring, 2010");
+
+        XYChart.Series series = new XYChart.Series();
+        //series.setName("My portfolio");
+
+        series.getData().add(new XYChart.Data<String, Integer>("Jan", 23));
+        series.getData().add(new XYChart.Data<String, Integer>("Feb", 14));
+        series.getData().add(new XYChart.Data<String, Integer>("Mar", 15));
+        series.getData().add(new XYChart.Data<String, Integer>("Apr", 24));
+        series.getData().add(new XYChart.Data<String, Integer>("May", 34));
+        series.getData().add(new XYChart.Data<String, Integer>("Jun", 36));
+        series.getData().add(new XYChart.Data<String, Integer>("Jul", 22));
+        series.getData().add(new XYChart.Data<String, Integer>("Aug", 45));
+        series.getData().add(new XYChart.Data<String, Integer>("Sep", 43));
+        series.getData().add(new XYChart.Data<String, Integer>("Oct", 17));
+        series.getData().add(new XYChart.Data<String, Integer>("Nov", 29));
+        series.getData().add(new XYChart.Data<String, Integer>("Dec", 25));
+        //lineChart.getData().add(series);
+
+        lineChart.setLegendVisible(false);
+
+        scene = new Scene(lineChart, xDim, yDim);
+        scene.getStylesheets().add("chartstyle.css");
+        this.setScene(scene);
 
         lineChart.setCursor(Cursor.CROSSHAIR);
         displayOnHover(lineChart);
 
     }
-	
-	public void showImpressionsChart(ArrayList<ImpressionLog> impressionList) {
-		CategoryAxis xAxis = new CategoryAxis();
-		NumberAxis yAxis = new NumberAxis();
-		xAxis.setLabel("Date");
-		yAxis.setLabel("Number of Impressions");
-		
-		LinkedHashMap<String,Integer> impressionPairs = new LinkedHashMap<String,Integer>();
-		String date;
-		
-		for (ImpressionLog impression : impressionList) {
-			date = sdf.format(impression.getDate());
-			if (!impressionPairs.containsKey(date)) {
-				impressionPairs.put(date, 1);
-			} else {
-				impressionPairs.put(date, impressionPairs.get(date) + 1);
-			}
-		}
-		
-		LineChart<String,Number> lineChart =
-				new LineChart<String,Number>(xAxis,yAxis);
 
-		XYChart.Series series = new XYChart.Series();
-		series.setName("Impressions Over Time");
+    public void showImpressionsChart(ArrayList<ImpressionLog> impressionList) {
+        CategoryAxis xAxis = new CategoryAxis();
+        NumberAxis yAxis = new NumberAxis();
+        xAxis.setLabel("Date");
+        yAxis.setLabel("Number of Impressions");
 
-		for (Entry<String,Integer> entry : impressionPairs.entrySet()) {
-			series.getData().add(new XYChart.Data(entry.getKey(), entry.getValue()));
-		}
-		lineChart.getData().add(series);
+        LinkedHashMap<String, Integer> impressionPairs = new LinkedHashMap<String, Integer>();
+        String date;
 
+        for (ImpressionLog impression : impressionList) {
+            date = sdf.format(impression.getDate());
+            if (!impressionPairs.containsKey(date)) {
+                impressionPairs.put(date, 1);
+            } else {
+                impressionPairs.put(date, impressionPairs.get(date) + 1);
+            }
+        }
+
+        LineChart<String, Number> lineChart =
+                new LineChart<String, Number>(xAxis, yAxis);
+
+        XYChart.Series series = new XYChart.Series();
+        series.setName("Impressions Over Time");
+
+        for (Entry<String, Integer> entry : impressionPairs.entrySet()) {
+            series.getData().add(new XYChart.Data(entry.getKey(), entry.getValue()));
+        }
+        lineChart.getData().add(series);
 
 
         lineChart.setCursor(Cursor.CROSSHAIR);
-		scene = new Scene(lineChart, xDim, yDim);
-		scene.getStylesheets().add("chartstyle.css");
-		this.setScene(scene);
+        scene = new Scene(lineChart, xDim, yDim);
+        scene.getStylesheets().add("chartstyle.css");
+        this.setScene(scene);
         displayOnHover(lineChart);
 
 
@@ -141,105 +140,105 @@ public class Chart extends JFXPanel{
     }
 
     public void showUniqueChart(HashSet<ClickLog> hashSet) {
-		CategoryAxis xAxis = new CategoryAxis();
-		NumberAxis yAxis = new NumberAxis();
-		xAxis.setLabel("Date");
-		yAxis.setLabel("Number of Unique Clicks");
+        CategoryAxis xAxis = new CategoryAxis();
+        NumberAxis yAxis = new NumberAxis();
+        xAxis.setLabel("Date");
+        yAxis.setLabel("Number of Unique Clicks");
 
 
-		LinkedHashMap<String,Integer> uniquePairs = new LinkedHashMap<String,Integer>();
-		String date;
+        LinkedHashMap<String, Integer> uniquePairs = new LinkedHashMap<String, Integer>();
+        String date;
 
-		for (ClickLog click : hashSet) {
-			date = sdf.format(click.getDate());
-			if (!uniquePairs.containsKey(date)) {
-				uniquePairs.put(date, 1);
-			} else {
-				uniquePairs.put(date, uniquePairs.get(date) + 1);
-			}
-		}
+        for (ClickLog click : hashSet) {
+            date = sdf.format(click.getDate());
+            if (!uniquePairs.containsKey(date)) {
+                uniquePairs.put(date, 1);
+            } else {
+                uniquePairs.put(date, uniquePairs.get(date) + 1);
+            }
+        }
 
-		LineChart<String,Number> lineChart =
-				new LineChart<String,Number>(xAxis,yAxis);
+        LineChart<String, Number> lineChart =
+                new LineChart<String, Number>(xAxis, yAxis);
 
-		XYChart.Series series = new XYChart.Series();
-		series.setName("Unique Clicks Over Time");
+        XYChart.Series series = new XYChart.Series();
+        series.setName("Unique Clicks Over Time");
 
-		for (Entry<String,Integer> entry : uniquePairs.entrySet()) {
-			series.getData().add(new XYChart.Data(entry.getKey(), entry.getValue()));
-		}
-		lineChart.getData().add(series);
-		
-		scene = new Scene(lineChart, xDim, yDim);
-		scene.getStylesheets().add("chartstyle.css");
-		this.setScene(scene);
+        for (Entry<String, Integer> entry : uniquePairs.entrySet()) {
+            series.getData().add(new XYChart.Data(entry.getKey(), entry.getValue()));
+        }
+        lineChart.getData().add(series);
+
+        scene = new Scene(lineChart, xDim, yDim);
+        scene.getStylesheets().add("chartstyle.css");
+        this.setScene(scene);
 
         lineChart.setCursor(Cursor.CROSSHAIR);
         displayOnHover(lineChart);
-	}
- 
-	public void showClicksChart(ArrayList<ClickLog> clickList) {
-		CategoryAxis xAxis = new CategoryAxis();
-		NumberAxis yAxis = new NumberAxis();
-		xAxis.setLabel("Date");
-		yAxis.setLabel("Number of Clicks");
-		
-		
-		LinkedHashMap<String,Integer> clickPairs = new LinkedHashMap<String,Integer>();
-		String date;
-		
+    }
+
+    public void showClicksChart(ArrayList<ClickLog> clickList) {
+        CategoryAxis xAxis = new CategoryAxis();
+        NumberAxis yAxis = new NumberAxis();
+        xAxis.setLabel("Date");
+        yAxis.setLabel("Number of Clicks");
+
+
+        LinkedHashMap<String, Integer> clickPairs = new LinkedHashMap<String, Integer>();
+        String date;
+
 		
 		/* 'Counts' number of clicks per day */
 		/*TODO Implement granularity */
-		for (ClickLog click : clickList) {
-			date = sdf.format(click.getDate());
-			if (!clickPairs.containsKey(date)) {
-				clickPairs.put(date, 1);
-			} else {
-				clickPairs.put(date, clickPairs.get(date) + 1);
-			}
-		}
-		
-		
-		LineChart<String,Number> lineChart = 
-				new LineChart<String,Number>(xAxis,yAxis);
+        for (ClickLog click : clickList) {
+            date = sdf.format(click.getDate());
+            if (!clickPairs.containsKey(date)) {
+                clickPairs.put(date, 1);
+            } else {
+                clickPairs.put(date, clickPairs.get(date) + 1);
+            }
+        }
 
-		XYChart.Series series = new XYChart.Series();
-		series.setName("Clicks Over Time");
 
-		for (Entry<String,Integer> entry : clickPairs.entrySet()) {
-			series.getData().add(new XYChart.Data(entry.getKey(), entry.getValue()));
-		}
-		lineChart.getData().add(series);
-		
-		scene = new Scene(lineChart, xDim, yDim);
-		scene.getStylesheets().add("chartstyle.css");
-		this.setScene(scene);
+        LineChart<String, Number> lineChart =
+                new LineChart<String, Number>(xAxis, yAxis);
+
+        XYChart.Series series = new XYChart.Series();
+        series.setName("Clicks Over Time");
+
+        for (Entry<String, Integer> entry : clickPairs.entrySet()) {
+            series.getData().add(new XYChart.Data(entry.getKey(), entry.getValue()));
+        }
+        lineChart.getData().add(series);
+
+        scene = new Scene(lineChart, xDim, yDim);
+        scene.getStylesheets().add("chartstyle.css");
+        this.setScene(scene);
 
         lineChart.setCursor(Cursor.CROSSHAIR);
         displayOnHover(lineChart);
-	}
+    }
 
     public void showBounceChart(ArrayList<ServerLog> serverList, int bounce) {
-    	CategoryAxis xAxis = new CategoryAxis();
+        CategoryAxis xAxis = new CategoryAxis();
         NumberAxis yAxis = new NumberAxis();
         xAxis.setLabel("Date");
         yAxis.setLabel("Number of Bounces");
-        
+
         LinkedHashMap<String, Integer> bouncePairs = new LinkedHashMap<String, Integer>();
         String date;
-        
+
         for (ServerLog server : serverList) {
-        	date = sdf.format(server.getStartDate());
-        	if (server.getPagesViewed() < bounce) {
-        		if (!bouncePairs.containsKey(date)) {
-        			bouncePairs.put(date, 1);
-        		} else {
-        			bouncePairs.put(date, bouncePairs.get(date) + 1);
-        		}
-        	}
+            date = sdf.format(server.getStartDate());
+            if (server.getPagesViewed() < bounce) {
+                if (!bouncePairs.containsKey(date)) {
+                    bouncePairs.put(date, 1);
+                } else {
+                    bouncePairs.put(date, bouncePairs.get(date) + 1);
+                }
+            }
         }
-        
+
         LineChart<String, Number> lineChart =
                 new LineChart<String, Number>(xAxis, yAxis);
 
@@ -258,27 +257,27 @@ public class Chart extends JFXPanel{
         lineChart.setCursor(Cursor.CROSSHAIR);
         displayOnHover(lineChart);
     }
-    
+
     public void showConversionChart(ArrayList<ServerLog> serverList) {
-    	CategoryAxis xAxis = new CategoryAxis();
+        CategoryAxis xAxis = new CategoryAxis();
         NumberAxis yAxis = new NumberAxis();
         xAxis.setLabel("Date");
         yAxis.setLabel("Number of Conversions");
-        
+
         LinkedHashMap<String, Integer> convertPairs = new LinkedHashMap<String, Integer>();
         String date;
-        
+
         for (ServerLog server : serverList) {
-        	date = sdf.format(server.getStartDate());
-        	if (server.isConverted()) {
-        		if (!convertPairs.containsKey(date)) {
-        			convertPairs.put(date, 1);
-        		} else {
-        			convertPairs.put(date, convertPairs.get(date) + 1);
-        		}
-        	}
+            date = sdf.format(server.getStartDate());
+            if (server.isConverted()) {
+                if (!convertPairs.containsKey(date)) {
+                    convertPairs.put(date, 1);
+                } else {
+                    convertPairs.put(date, convertPairs.get(date) + 1);
+                }
+            }
         }
-        
+
         LineChart<String, Number> lineChart =
                 new LineChart<String, Number>(xAxis, yAxis);
 
@@ -297,30 +296,30 @@ public class Chart extends JFXPanel{
         lineChart.setCursor(Cursor.CROSSHAIR);
         displayOnHover(lineChart);
     }
-    
+
     public void showCumulativeCost(ArrayList<ClickLog> clickList) {
-    	CategoryAxis xAxis = new CategoryAxis();
+        CategoryAxis xAxis = new CategoryAxis();
         NumberAxis yAxis = new NumberAxis();
         xAxis.setLabel("Date");
         yAxis.setLabel("Cumulative Cost (pence)");
-        
+
         LinkedHashMap<String, Double> costPairs = new LinkedHashMap<String, Double>();
         String date, previous = null;
-           
+
         for (ClickLog click : clickList) {
-        	date = sdf.format(click.getDate());
-        	if (!costPairs.containsKey(date)) {
-        		if (previous != null) {
-        			costPairs.put(date, click.getClickCost() + costPairs.get(previous));
-        		} else {
-        			costPairs.put(date, click.getClickCost());
-        		}
-        	} else {
-        		costPairs.put(date, costPairs.get(date) + click.getClickCost());
-        	}
-        	previous = date;
+            date = sdf.format(click.getDate());
+            if (!costPairs.containsKey(date)) {
+                if (previous != null) {
+                    costPairs.put(date, click.getClickCost() + costPairs.get(previous));
+                } else {
+                    costPairs.put(date, click.getClickCost());
+                }
+            } else {
+                costPairs.put(date, costPairs.get(date) + click.getClickCost());
+            }
+            previous = date;
         }
-        
+
         LineChart<String, Number> lineChart =
                 new LineChart<String, Number>(xAxis, yAxis);
 
@@ -339,25 +338,25 @@ public class Chart extends JFXPanel{
         lineChart.setCursor(Cursor.CROSSHAIR);
         displayOnHover(lineChart);
     }
-    
+
     public void showCost(ArrayList<ClickLog> clickList) {
-    	CategoryAxis xAxis = new CategoryAxis();
+        CategoryAxis xAxis = new CategoryAxis();
         NumberAxis yAxis = new NumberAxis();
         xAxis.setLabel("Date");
         yAxis.setLabel("Cost (pence)");
-        
+
         LinkedHashMap<String, Double> costPairs = new LinkedHashMap<String, Double>();
         String date;
-           
+
         for (ClickLog click : clickList) {
-        	date = sdf.format(click.getDate());
-        	if (!costPairs.containsKey(date)) {
-        			costPairs.put(date, click.getClickCost());
-        	} else {
-        		costPairs.put(date, costPairs.get(date) + click.getClickCost());
-        	}
+            date = sdf.format(click.getDate());
+            if (!costPairs.containsKey(date)) {
+                costPairs.put(date, click.getClickCost());
+            } else {
+                costPairs.put(date, costPairs.get(date) + click.getClickCost());
+            }
         }
-        
+
         LineChart<String, Number> lineChart =
                 new LineChart<String, Number>(xAxis, yAxis);
 

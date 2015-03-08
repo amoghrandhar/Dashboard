@@ -42,7 +42,7 @@ public class SideBar extends JPanel {
 
     Color SECONDARY = Color.decode("#fafafa");
 
-    public SideBar(Dashboard dashboard , DataAnalytics dataAnalytics) {
+    public SideBar(Dashboard dashboard, DataAnalytics dataAnalytics) {
 
         this.dashboard = dashboard;
         this.dataAnalytics = dataAnalytics;
@@ -435,7 +435,7 @@ public class SideBar extends JPanel {
             Calendar date = Calendar.getInstance();
             date.set(Calendar.YEAR, dateModel.getYear());
             date.set(Calendar.MONTH, dateModel.getMonth());
-            date.set(Calendar.DAY_OF_MONTH,dateModel.getDay() );
+            date.set(Calendar.DAY_OF_MONTH, dateModel.getDay());
             date.set(Calendar.HOUR_OF_DAY, temp.get(Calendar.HOUR_OF_DAY));
             date.set(Calendar.MINUTE, temp.get(Calendar.MINUTE));
             date.set(Calendar.SECOND, temp.get(Calendar.SECOND));
@@ -454,7 +454,7 @@ public class SideBar extends JPanel {
             temp.setTime(timeModel2.getDate());
 
             Calendar date = Calendar.getInstance();
-            date.set(Calendar.YEAR,dateModel2.getYear() );
+            date.set(Calendar.YEAR, dateModel2.getYear());
             date.set(Calendar.MONTH, dateModel2.getMonth());
             date.set(Calendar.DAY_OF_MONTH, dateModel2.getDay());
             date.set(Calendar.HOUR_OF_DAY, temp.get(Calendar.HOUR_OF_DAY));
@@ -513,11 +513,9 @@ public class SideBar extends JPanel {
 
     abstract class AbstractExpansionPanel extends JPanel {
 
-        private final String title;
         public final JLabel label;
         public final JPanel panel;
-
-        public abstract JPanel makePanel();
+        private final String title;
 
         public AbstractExpansionPanel(String title) {
 
@@ -540,7 +538,7 @@ public class SideBar extends JPanel {
             label.setBorder(BorderFactory.createEmptyBorder(12, 10, 12, 10));
 
 		/*
-		label.addMouseListener(new MouseAdapter() {
+        label.addMouseListener(new MouseAdapter() {
 			@Override public void mousePressed(MouseEvent e) {
 				initPanel();
 			}
@@ -558,6 +556,8 @@ public class SideBar extends JPanel {
             this.add(panel);
 
         }
+
+        public abstract JPanel makePanel();
 
         public Dimension getPreferredSize() {
 
@@ -736,7 +736,8 @@ public class SideBar extends JPanel {
             //Start Date Predicates
             Predicate<ClickLog> clickLogStartDatePredicate = click -> true;
             Predicate<ImpressionLog> impressionLogStartDatePredicate = imp -> true;
-            Predicate<ServerLog> serverLogStartDatePredicate = ser -> true;;
+            Predicate<ServerLog> serverLogStartDatePredicate = ser -> true;
+            ;
             if (startDate != null) {
                 clickLogStartDatePredicate = click -> click.getDate().after(startDate);
                 impressionLogStartDatePredicate = imp -> imp.getDate().after(startDate);
@@ -752,46 +753,47 @@ public class SideBar extends JPanel {
             //Gender Predicate
             Predicate<ImpressionLog> impressionLogGenderPredicate = imp -> true;
             if (gender != null) {
-                System.out.println("UpdateListener.actionPerformed  : Gender Predicate Selected " );
+                System.out.println("UpdateListener.actionPerformed  : Gender Predicate Selected ");
                 impressionLogGenderPredicate = imp -> imp.getGender() == gender;
             }
 
             //Age Group Predicate
-            Predicate<ImpressionLog> impressionAgePredicate  = imp -> true;
+            Predicate<ImpressionLog> impressionAgePredicate = imp -> true;
             if (ageGroup != -1) {
                 impressionAgePredicate = imp -> imp.getAgeGroup() == ageGroup;
             }
 
             //Income Predicate
-            Predicate<ImpressionLog> impressionIncomePredicate = imp -> true;;
+            Predicate<ImpressionLog> impressionIncomePredicate = imp -> true;
+            ;
             if (income != -1) {
                 impressionIncomePredicate = imp -> imp.getIncomeGroup() == income;
             }
 
             //Context Predicate
-            Predicate<ImpressionLog> impressionContextPredicate  = imp -> true;;
+            Predicate<ImpressionLog> impressionContextPredicate = imp -> true;
+            ;
             if (context != null) {
                 impressionContextPredicate = imp -> imp.getContext().equals(context);
             }
 
             //Bounce Predicate
             //No of pages viewed
-            Predicate<ServerLog> serverLogNoPredicate = ser -> true;;
+            Predicate<ServerLog> serverLogNoPredicate = ser -> true;
             if (false) {
                 serverLogNoPredicate = ser -> ser.getPagesViewed() > 5;
             }
 
             //No of pages viewed
-            Predicate<ServerLog> serverConversationPredicate = ser -> true;;
+            Predicate<ServerLog> serverConversationPredicate = ser -> true;
             if (false) {
                 serverConversationPredicate = ser -> ser.isConverted();
             }
 
 
+            dashboard.updateClickLogs((ArrayList<ClickLog>) dataAnalytics.filterClickLogs(clickLogStartDatePredicate, dashboard.getClickLogs()));
 
-            dashboard.updateClickLogs((ArrayList<ClickLog>) dataAnalytics.filterClickLogs(clickLogStartDatePredicate , dashboard.getClickLogs()));
-
-            dashboard.updateImpresssionLogs((ArrayList<ImpressionLog>) dataAnalytics.filterImpressionLogs(impressionLogStartDatePredicate,impressionLogGenderPredicate,impressionAgePredicate,impressionIncomePredicate,impressionContextPredicate,dashboard.getImpressionLogs()));
+            dashboard.updateImpresssionLogs((ArrayList<ImpressionLog>) dataAnalytics.filterImpressionLogs(impressionLogStartDatePredicate, impressionLogGenderPredicate, impressionAgePredicate, impressionIncomePredicate, impressionContextPredicate, dashboard.getImpressionLogs()));
 
             dashboard.updateMetrics();
 

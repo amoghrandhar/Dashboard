@@ -11,6 +11,7 @@ import java.util.List;
 
 @SuppressWarnings("serial")
 public class Import extends JFrame {
+    final JFileChooser fc;
     private File clickLog, impressionLog, serverLog;
     private Container container;
     private GridBagConstraints c;
@@ -18,7 +19,6 @@ public class Import extends JFrame {
     private JButton cancelButton, openButton;
     private DragAndDropPanel panel1, panel2, panel3;
     private Dashboard dashboard;
-    final JFileChooser fc;
 
     public Import(String title, Dashboard dashboard) {
         super(title);
@@ -160,13 +160,17 @@ public class Import extends JFrame {
             event.dropComplete(true);
         }
 
-        public void dragEnter(DropTargetDragEvent dtde) {}
+        public void dragEnter(DropTargetDragEvent dtde) {
+        }
 
-        public void dragOver(DropTargetDragEvent dtde) {}
+        public void dragOver(DropTargetDragEvent dtde) {
+        }
 
-        public void dropActionChanged(DropTargetDragEvent dtde) {}
+        public void dropActionChanged(DropTargetDragEvent dtde) {
+        }
 
-        public void dragExit(DropTargetEvent dte) {}
+        public void dragExit(DropTargetEvent dte) {
+        }
     }
 
     class ButtonListener implements ActionListener {
@@ -216,7 +220,7 @@ public class Import extends JFrame {
 
 
                     // This will update the ArrayList of data logs with new data
-                    dashboard.setOriginalLogs(clicklogParser.getClickLogs(),impressionParser.getImpressions(),serverlogParser.getServerLogs());
+                    dashboard.setOriginalLogs(clicklogParser.getClickLogs(), impressionParser.getImpressions(), serverlogParser.getServerLogs());
 
                     dashboard.updateMetrics();
 

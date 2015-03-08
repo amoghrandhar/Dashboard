@@ -10,7 +10,7 @@ public class Dashboard extends JFrame {
     public Content content;
     public DataAnalytics dataAnalytics;
 
-    
+
     private ArrayList<ClickLog> clickLogs;
     private ArrayList<ImpressionLog> impressionLogs;
     private ArrayList<ServerLog> serverLogs;
@@ -29,9 +29,9 @@ public class Dashboard extends JFrame {
     // Display login panel
     public void init() {
 
-        sidebar = new SideBar(this , dataAnalytics);
+        sidebar = new SideBar(this, dataAnalytics);
         sidebar.setPreferredSize(new Dimension(200, 700));
-        
+
         content = new Content(this);
         content.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0, Color.gray));
 
@@ -49,11 +49,12 @@ public class Dashboard extends JFrame {
 
     /**
      * This is used to set the original log files.
+     *
      * @param clickLogs
      * @param impressionLogs
      * @param serverLogs
      */
-    public void setOriginalLogs(ArrayList<ClickLog> clickLogs , ArrayList<ImpressionLog> impressionLogs , ArrayList<ServerLog> serverLogs){
+    public void setOriginalLogs(ArrayList<ClickLog> clickLogs, ArrayList<ImpressionLog> impressionLogs, ArrayList<ServerLog> serverLogs) {
         originalClickLogs = clickLogs;
         originalImpressionLogs = impressionLogs;
         originalServerLogs = serverLogs;
@@ -66,7 +67,7 @@ public class Dashboard extends JFrame {
     /**
      * This will reset the log files.
      */
-    public void resetLogs(){
+    public void resetLogs() {
         updateClickLogs(originalClickLogs);
         updateImpresssionLogs(originalImpressionLogs);
         updateServerLogs(originalServerLogs);
@@ -85,67 +86,66 @@ public class Dashboard extends JFrame {
     public void updateServerLogs(ArrayList<ServerLog> serverLogArrayList) {
         serverLogs = serverLogArrayList;
     }
-    
+
     public ArrayList<ClickLog> getClickLogs() {
-    	return clickLogs;
+        return clickLogs;
     }
-    
+
     public ArrayList<ImpressionLog> getImpressionLogs() {
-    	return impressionLogs;
+        return impressionLogs;
     }
-    
+
     public ArrayList<ServerLog> getServerLogs() {
-    	return serverLogs;
+        return serverLogs;
     }
-    
+
     public void defaultChart() {
-    	content.defaultChart();
+        content.defaultChart();
     }
 
     public void updateMetrics() {
-    	
-    	long clicks = dataAnalytics.totalClicks(clickLogs);
-    	long impressions = dataAnalytics.noOfImpression(impressionLogs);
-    	long uniques = dataAnalytics.noOfUniques(clickLogs);
-    	long bounces = dataAnalytics.noOfBounces(serverLogs, 5);
-    	long conversions = dataAnalytics.noOfConversions(serverLogs);
-    	double totalCost = dataAnalytics.totalCost(impressionLogs, clickLogs);
-    	double CTR = dataAnalytics.getCTR(clickLogs, impressionLogs);
-    	double CPA = dataAnalytics.getCPA(impressionLogs, clickLogs, serverLogs);
-    	double CPC = dataAnalytics.getCPC(impressionLogs, clickLogs);
-    	double CPM = dataAnalytics.getCPM(impressionLogs, clickLogs);
-    	double bounceRate = dataAnalytics.bounceRate(5, clickLogs, serverLogs);
-    	
-    	// Update metrics table
-    	String[] rowData = {
-    			String.valueOf(clicks),
-    			String.valueOf(impressions),
-    			String.valueOf(uniques),
-    			String.valueOf(bounces),
-    			String.valueOf(conversions),
-    			round(totalCost, 2),
-    			round(CTR, 4),
-    			round(CPA, 4),
-    			round(CPC, 4),
-    			round(CPM, 4),
-    			round(bounceRate, 4)
-    	};
-    	content.setMetrics(0, rowData);
-    	content.setHeaderMetrics(
-    			String.valueOf(clicks), 
-    			String.valueOf(impressions),
-    			round(totalCost, 2));
-        
-    }
-    
-    public String round(double value, int scale){
 
-      if(Double.isFinite(value)){
-          return new BigDecimal(String.valueOf(value)).setScale(scale, BigDecimal.ROUND_HALF_UP).toString();
-      }
-        else {
-          return "0";
-      }
+        long clicks = dataAnalytics.totalClicks(clickLogs);
+        long impressions = dataAnalytics.noOfImpression(impressionLogs);
+        long uniques = dataAnalytics.noOfUniques(clickLogs);
+        long bounces = dataAnalytics.noOfBounces(serverLogs, 5);
+        long conversions = dataAnalytics.noOfConversions(serverLogs);
+        double totalCost = dataAnalytics.totalCost(impressionLogs, clickLogs);
+        double CTR = dataAnalytics.getCTR(clickLogs, impressionLogs);
+        double CPA = dataAnalytics.getCPA(impressionLogs, clickLogs, serverLogs);
+        double CPC = dataAnalytics.getCPC(impressionLogs, clickLogs);
+        double CPM = dataAnalytics.getCPM(impressionLogs, clickLogs);
+        double bounceRate = dataAnalytics.bounceRate(5, clickLogs, serverLogs);
+
+        // Update metrics table
+        String[] rowData = {
+                String.valueOf(clicks),
+                String.valueOf(impressions),
+                String.valueOf(uniques),
+                String.valueOf(bounces),
+                String.valueOf(conversions),
+                round(totalCost, 2),
+                round(CTR, 4),
+                round(CPA, 4),
+                round(CPC, 4),
+                round(CPM, 4),
+                round(bounceRate, 4)
+        };
+        content.setMetrics(0, rowData);
+        content.setHeaderMetrics(
+                String.valueOf(clicks),
+                String.valueOf(impressions),
+                round(totalCost, 2));
+
     }
-    
+
+    public String round(double value, int scale) {
+
+        if (Double.isFinite(value)) {
+            return new BigDecimal(String.valueOf(value)).setScale(scale, BigDecimal.ROUND_HALF_UP).toString();
+        } else {
+            return "0";
+        }
+    }
+
 }

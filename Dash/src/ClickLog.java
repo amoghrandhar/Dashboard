@@ -2,7 +2,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
-* Created by Amogh on 22-02-2015 in Project ${PROJECT_NAME}
+ * Created by Amogh on 22-02-2015 in Project ${PROJECT_NAME}
  */
 
 public class ClickLog implements Serializable {

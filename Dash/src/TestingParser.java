@@ -64,9 +64,17 @@ public class TestingParser {
         System.out.println("Bounce Rate : " + dataAnalytics.bounceRate(5, clp.getClickLogs(), slp.getServerLogs()).floatValue());
 
 
-        System.out.println(" Testing the filtering ::: - >");
+        System.out.println("\n\n\n");
+        System.out.println("Pie Charts");
+        System.out.println("Gender Group : " + dataAnalytics.sexRatioDivision(ip.getImpressions()));
+        System.out.println("Age Group : " + dataAnalytics.ageGroupDivision(ip.getImpressions()));
+        System.out.println("Income Group : " + dataAnalytics.incomeGroupDivision(ip.getImpressions()));
+        System.out.println("Context Group : " + dataAnalytics.contextGroupDivision(ip.getImpressions()));
+
+
+        System.out.println("\n\n Testing the filtering ::: - >");
         Predicate<ClickLog> clickLogPredicate = clickLog -> clickLog.getDate().after(new Date());
-        System.out.println(dataAnalytics.filterClickLogs(clickLogPredicate , clp.getClickLogs()).size());
+        System.out.println(dataAnalytics.filterClickLogs(clickLogPredicate, clp.getClickLogs()).size());
 
 
     }

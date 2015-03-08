@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.function.Predicate;
@@ -147,11 +148,49 @@ public class DataAnalytics {
     }
 
 
+
+
     /*
 
-    ---------> The Graph Methods Starts Here.
+    ---------> Pie Chart Data
 
      */
+
+
+
+
+    /**
+     * This will tell the no of males and no of females present.
+     *
+     * @param impressionLogs
+     * @return Map
+     */
+    public HashMap<Boolean, Long> sexRatioDivision(ArrayList<ImpressionLog> impressionLogs) {
+        HashMap<Boolean, Long> counted = impressionLogs.parallelStream()
+                .collect(Collectors.groupingBy(imp -> imp.getGender(), HashMap::new, Collectors.counting()));
+
+        return counted;
+    }
+
+
+    public HashMap<Integer, Long> ageGroupDivision(ArrayList<ImpressionLog> impressionLogs) {
+        HashMap<Integer, Long> counted = impressionLogs.parallelStream()
+                .collect(Collectors.groupingBy(imp -> imp.getAgeGroup(), HashMap::new, Collectors.counting()));
+        return counted;
+    }
+
+    public HashMap<Integer, Long> incomeGroupDivision(ArrayList<ImpressionLog> impressionLogs) {
+        HashMap<Integer, Long> counted = impressionLogs.parallelStream()
+                .collect(Collectors.groupingBy(imp -> imp.getIncomeGroup(), HashMap::new, Collectors.counting()));
+        return counted;
+    }
+
+
+    public HashMap<String, Long> contextGroupDivision(ArrayList<ImpressionLog> impressionLogs) {
+        HashMap<String, Long> counted = impressionLogs.parallelStream()
+                .collect(Collectors.groupingBy(imp -> imp.getContext(), HashMap::new, Collectors.counting()));
+        return counted;
+    }
 
 
 
@@ -166,16 +205,18 @@ public class DataAnalytics {
 
     /**
      * This Will filter the Clicklogs on the basis of DatePredicate
+     *
      * @param datePred
      * @param clickLogs
      * @return filtered Clicklogs
      */
-    public List<ClickLog> filterClickLogs(Predicate<ClickLog> datePred ,  ArrayList<ClickLog> clickLogs ){
+    public List<ClickLog> filterClickLogs(Predicate<ClickLog> datePred, ArrayList<ClickLog> clickLogs) {
         return clickLogs.stream().filter(datePred).collect(Collectors.<ClickLog>toList());
     }
 
     /**
      * This will Filter ImpressionLogs on the basis of following predicates
+     *
      * @param datePredicate
      * @param genderPredicate
      * @param agePredicate
@@ -184,9 +225,9 @@ public class DataAnalytics {
      * @param impressionLogs
      * @return filtered list
      */
-    public List<ImpressionLog> filterImpressionLogs(Predicate<ImpressionLog> datePredicate , Predicate<ImpressionLog> genderPredicate
-            , Predicate<ImpressionLog> agePredicate , Predicate<ImpressionLog> incomePredicate
-            , Predicate<ImpressionLog> contextPredicate , ArrayList<ImpressionLog> impressionLogs){
+    public List<ImpressionLog> filterImpressionLogs(Predicate<ImpressionLog> datePredicate, Predicate<ImpressionLog> genderPredicate
+            , Predicate<ImpressionLog> agePredicate, Predicate<ImpressionLog> incomePredicate
+            , Predicate<ImpressionLog> contextPredicate, ArrayList<ImpressionLog> impressionLogs) {
 
 
         return impressionLogs.parallelStream().filter(datePredicate).filter(genderPredicate).filter(agePredicate).filter(incomePredicate).filter(contextPredicate).collect(Collectors.<ImpressionLog>toList());
@@ -194,6 +235,7 @@ public class DataAnalytics {
 
     /**
      * This will filter Impression Logs on the basis of following Predicate
+     *
      * @param beforeDate
      * @param afterDate
      * @param pagesV
@@ -202,12 +244,11 @@ public class DataAnalytics {
      * @return
      */
     public List<ServerLog> filterServerLogs(Predicate<ServerLog> beforeDate, Predicate<ServerLog> afterDate
-            , Predicate<ServerLog> pagesV , Predicate<ServerLog> conV
-            ,ArrayList<ServerLog> serverLogs){
+            , Predicate<ServerLog> pagesV, Predicate<ServerLog> conV
+            , ArrayList<ServerLog> serverLogs) {
 
         return serverLogs.stream().filter(beforeDate).filter(afterDate).filter(pagesV).filter(conV).collect(Collectors.<ServerLog>toList());
     }
-
 
 
 }

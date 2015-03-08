@@ -21,6 +21,7 @@ public class RangeSlider extends JSlider {
     public RangeSlider() {
         this(0, 100);
     }
+
     public RangeSlider(int min, int max) {
         super(min, max);
         rangeVisible = true;
