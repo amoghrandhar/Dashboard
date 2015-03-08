@@ -795,11 +795,6 @@ public class SideBar extends JPanel {
                 serverLogNoPredicate = ser -> ser.getPagesViewed() >= pages;
             }
 
-            //Whether the conversion took place or not
-            Predicate<ServerLog> serverConversationPredicate = ser -> true;
-            if (false) {
-                serverConversationPredicate = ser -> ser.isConverted();
-            }
             
             //Time spent on website
             Predicate<ServerLog> serverTimeSpentPredicate = ser -> true;
@@ -829,7 +824,7 @@ public class SideBar extends JPanel {
 
             clickLogArrayList = (ArrayList <ClickLog>) DataAnalytics.filterClickLogs(clickLogStartDatePredicate,clickLogArrayList,idSet);
             serverLogArrayList = (ArrayList<ServerLog>) DataAnalytics.filterServerLogs(serverLogStartDatePredicate,serverLogEndDatePredicate ,
-                    serverLogNoPredicate,serverConversationPredicate,serverTimeSpentPredicate,serverLogArrayList,idSet);
+                    serverLogNoPredicate,serverTimeSpentPredicate,serverLogArrayList,idSet);
 
 
             dashboard.updateLogs(clickLogArrayList,impressionLogs,serverLogArrayList);
