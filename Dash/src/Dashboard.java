@@ -108,14 +108,14 @@ public class Dashboard extends JFrame {
         long clicks = dataAnalytics.totalClicks(clickLogs);
         long impressions = dataAnalytics.noOfImpression(impressionLogs);
         long uniques = dataAnalytics.noOfUniques(clickLogs);
-        long bounces = dataAnalytics.noOfBounces(serverLogs, 5);
+        long bounces = originalServerLogs.size() - dataAnalytics.noOfBounces(serverLogs);
         long conversions = dataAnalytics.noOfConversions(serverLogs);
         double totalCost = dataAnalytics.totalCost(impressionLogs, clickLogs);
         double CTR = dataAnalytics.getCTR(clickLogs, impressionLogs);
         double CPA = dataAnalytics.getCPA(impressionLogs, clickLogs, serverLogs);
         double CPC = dataAnalytics.getCPC(impressionLogs, clickLogs);
         double CPM = dataAnalytics.getCPM(impressionLogs, clickLogs);
-        double bounceRate = dataAnalytics.bounceRate(5, clickLogs, serverLogs);
+        double bounceRate = dataAnalytics.bounceRate(clickLogs, serverLogs);
 
         // Update metrics table
         String[] rowData = {
