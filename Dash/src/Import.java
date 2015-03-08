@@ -215,10 +215,8 @@ import java.util.List;
             }
 
 
-            // This will update the ArrayList of datalogs with new data
-            dashboard.updateClickLogs(clicklogParser.getClickLogs());
-            dashboard.updateImpresssionLogs(impressionParser.getImpressions());
-            dashboard.updateServerLogs(serverlogParser.getServerLogs());
+            // This will update the ArrayList of data logs with new data
+            dashboard.setOriginalLogs(clicklogParser.getClickLogs(),impressionParser.getImpressions(),serverlogParser.getServerLogs());
 
             dashboard.updateMetrics();
 

@@ -812,6 +812,7 @@ public class SideBar extends JPanel {
         public ResetListener(SideBar sidebar) {
 
 
+
             this.sidebar = sidebar;
 
         }

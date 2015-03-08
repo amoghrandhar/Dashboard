@@ -15,6 +15,10 @@ public class Dashboard extends JFrame {
     private ArrayList<ImpressionLog> impressionLogs;
     private ArrayList<ServerLog> serverLogs;
 
+    private ArrayList<ClickLog> originalClickLogs;
+    private ArrayList<ImpressionLog> originalImpressionLogs;
+    private ArrayList<ServerLog> originalServerLogs;
+
     //Default Bounce Rate is 5
 
     public Dashboard(String title) {
@@ -42,6 +46,32 @@ public class Dashboard extends JFrame {
         this.setVisible(true);
 
     }
+
+    /**
+     * This is used to set the original log files.
+     * @param clickLogs
+     * @param impressionLogs
+     * @param serverLogs
+     */
+    public void setOriginalLogs(ArrayList<ClickLog> clickLogs , ArrayList<ImpressionLog> impressionLogs , ArrayList<ServerLog> serverLogs){
+        originalClickLogs = clickLogs;
+        originalImpressionLogs = impressionLogs;
+        originalServerLogs = serverLogs;
+
+        updateClickLogs(clickLogs);
+        updateImpresssionLogs(impressionLogs);
+        updateServerLogs(serverLogs);
+    }
+
+    /**
+     * This will reset the log files.
+     */
+    public void resetLogs(){
+        updateClickLogs(originalClickLogs);
+        updateImpresssionLogs(originalImpressionLogs);
+        updateServerLogs(originalServerLogs);
+    }
+
 
     public void updateClickLogs(ArrayList<ClickLog> clickLogArrayList) {
         System.out.println("Dashboard.updateClickLogs :  Called  " + clickLogArrayList.size());
