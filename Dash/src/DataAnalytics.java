@@ -86,7 +86,7 @@ public class DataAnalytics {
 
     public Double totalCost(ArrayList<ImpressionLog> impressionArrayList, ArrayList<ClickLog> clickLogArrayList) {
         // It returns the sum of the total cost  spent on impressions + clicks
-        return totalImpressionCost(impressionArrayList) + totalClickCost(clickLogArrayList);
+        return (totalImpressionCost(impressionArrayList) + totalClickCost(clickLogArrayList));
     }
 
 

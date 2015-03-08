@@ -13,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -431,9 +432,9 @@ public class SideBar extends JPanel {
             temp.setTime(timeModel.getDate());
 
             Calendar date = Calendar.getInstance();
-            date.set(Calendar.YEAR, dateModel.getDay());
+            date.set(Calendar.YEAR, dateModel.getYear());
             date.set(Calendar.MONTH, dateModel.getMonth());
-            date.set(Calendar.DAY_OF_MONTH, dateModel.getYear());
+            date.set(Calendar.DAY_OF_MONTH,dateModel.getDay() );
             date.set(Calendar.HOUR_OF_DAY, temp.get(Calendar.HOUR_OF_DAY));
             date.set(Calendar.MINUTE, temp.get(Calendar.MINUTE));
             date.set(Calendar.SECOND, temp.get(Calendar.SECOND));
@@ -452,9 +453,9 @@ public class SideBar extends JPanel {
             temp.setTime(timeModel2.getDate());
 
             Calendar date = Calendar.getInstance();
-            date.set(Calendar.YEAR, dateModel2.getDay());
+            date.set(Calendar.YEAR,dateModel2.getYear() );
             date.set(Calendar.MONTH, dateModel2.getMonth());
-            date.set(Calendar.DAY_OF_MONTH, dateModel2.getYear());
+            date.set(Calendar.DAY_OF_MONTH, dateModel2.getDay());
             date.set(Calendar.HOUR_OF_DAY, temp.get(Calendar.HOUR_OF_DAY));
             date.set(Calendar.MINUTE, temp.get(Calendar.MINUTE));
             date.set(Calendar.SECOND, temp.get(Calendar.SECOND));
@@ -724,6 +725,12 @@ public class SideBar extends JPanel {
             /*
             System.out.println("Start Year after today " + startDate.after(new Date()));
             */
+
+            DateFormat dateFormatter;
+
+            dateFormatter = DateFormat.getDateInstance(DateFormat.DEFAULT, new Locale("en","US"));
+            System.out.println(dateFormatter.format(startDate));
+
             System.out.println(endDate);
             System.out.println(gender);
             System.out.println(ageGroup);
