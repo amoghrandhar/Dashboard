@@ -189,7 +189,7 @@ public class DataAnalytics {
             , Predicate<ImpressionLog> contextPredicate , ArrayList<ImpressionLog> impressionLogs){
 
 
-        return impressionLogs.stream().filter(datePredicate).filter(genderPredicate).filter(agePredicate).filter(incomePredicate).filter(contextPredicate).collect(Collectors.<ImpressionLog>toList());
+        return impressionLogs.parallelStream().filter(datePredicate).filter(genderPredicate).filter(agePredicate).filter(incomePredicate).filter(contextPredicate).collect(Collectors.<ImpressionLog>toList());
     }
 
     /**
