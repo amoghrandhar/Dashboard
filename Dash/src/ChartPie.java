@@ -11,7 +11,9 @@ import javafx.scene.effect.Glow;
 import javafx.scene.input.MouseEvent;
 
 import javax.swing.*;
+
 import java.awt.*;
+import java.util.HashMap;
 
 
 @SuppressWarnings("serial")
@@ -23,18 +25,23 @@ public class ChartPie extends JFXPanel {
 
     private PieChart.Data selectedData;
     private Tooltip tooltip;
+    
+    private Dashboard dashboard;
 
-    public ChartPie() {
+    public ChartPie(Dashboard dashboard) {
         super();
         this.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.gray));
+        this.dashboard = dashboard;
     }
 
     public void initFX() {
-
+    	
+    	HashMap<Boolean,Long> sexMap = dashboard.dataAnalytics.sexRatioDivision(dashboard.getImpressionLogs());
+    	
         ObservableList<PieChart.Data> pieChartData =
                 FXCollections.observableArrayList(
-                        new PieChart.Data("Male", 56),
-                        new PieChart.Data("Female", 44));
+                        new PieChart.Data("Male", sexMap.get(true)),
+                        new PieChart.Data("Female", sexMap.get(false)));
         final PieChart chart = new PieChart(pieChartData);
 
         chart.setLegendSide(Side.LEFT);

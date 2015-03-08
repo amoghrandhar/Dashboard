@@ -331,10 +331,10 @@ public class Content extends JPanel {
         pc4.gridy = 1;
         pc4.insets = new Insets(16, 16, 16, 16);
 
-        pieChart1 = new ChartPie();
-        pieChart2 = new ChartPie();
-        pieChart3 = new ChartPie();
-        pieChart4 = new ChartPie();
+        pieChart1 = new ChartPie(dashboard);
+        pieChart2 = new ChartPie(dashboard);
+        pieChart3 = new ChartPie(dashboard);
+        pieChart4 = new ChartPie(dashboard);
 
         Platform.setImplicitExit(false);
         Platform.runLater(new Runnable() {
@@ -410,6 +410,7 @@ public class Content extends JPanel {
     public void defaultChart() {
 
         chart.showClicksChart(dashboard.getClickLogs());
+        pieChart1.initFX();
 
         class Worker extends SwingWorker<Void, Void> {
 

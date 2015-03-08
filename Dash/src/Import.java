@@ -226,7 +226,6 @@ public class Import extends JFrame {
 
                     Platform.runLater(dashboard::defaultChart);
 
-
                     setVisible(false);
                     dispose();
                     dashboard.sidebar.importButton.setEnabled(true);
