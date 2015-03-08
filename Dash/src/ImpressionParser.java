@@ -54,7 +54,7 @@ public class ImpressionParser implements Runnable {
 
                     if (row[4].equals("Low")) {
                         row[4] = "0";
-                    } else if (row[3].equals("Medium")) {
+                    } else if (row[4].equals("Medium")) {
                         row[4] = "1";
                     } else {
                         row[4] = "2";

@@ -150,35 +150,32 @@ public class Content extends JPanel {
                 JComboBox<String> cb = (JComboBox) e.getSource();
                 final int item = cb.getSelectedIndex();
 
-                Platform.runLater(new Runnable() {
-                    public void run() {
-
-                        switch (item) {
-                            case 1:
-                                chart.showImpressionsChart(dashboard.getImpressionLogs());
-                                break;
-                            case 2:
-                                chart.showUniqueChart(dashboard.dataAnalytics.uniqueClickSet(dashboard.getClickLogs()));
-                                break;
-                            case 3:
-                                //TODO Get chosen bounce threshold from filters
-                                chart.showBounceChart(dashboard.getServerLogs(), 5); // 5 = dummy value
-                                break;
-                            case 4:
-                                chart.showConversionChart(dashboard.getServerLogs());
-                                break;
-                            case 5:
-                                chart.showCumulativeCost(dashboard.getClickLogs());
-                                break;
-                            case 6:
-                                chart.showCost(dashboard.getClickLogs());
-                                break;
-                            default:
-                                chart.showClicksChart(dashboard.getClickLogs());
-                                break;
-                        }
-
+                Platform.runLater(() -> {
+                    switch (item) {
+                        case 1:
+                            chart.showImpressionsChart(dashboard.getImpressionLogs());
+                            break;
+                        case 2:
+                            chart.showUniqueChart(dashboard.dataAnalytics.uniqueClickSet(dashboard.getClickLogs()));
+                            break;
+                        case 3:
+                            //TODO Get chosen bounce threshold from filters
+                            chart.showBounceChart(dashboard.getServerLogs(), 5); // 5 = dummy value
+                            break;
+                        case 4:
+                            chart.showConversionChart(dashboard.getServerLogs());
+                            break;
+                        case 5:
+                            chart.showCumulativeCost(dashboard.getClickLogs());
+                            break;
+                        case 6:
+                            chart.showCost(dashboard.getClickLogs());
+                            break;
+                        default:
+                            chart.showClicksChart(dashboard.getClickLogs());
+                            break;
                     }
+
                 });
 
             }

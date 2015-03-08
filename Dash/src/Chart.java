@@ -189,7 +189,7 @@ public class Chart extends JFXPanel {
 
 		
 		/* 'Counts' number of clicks per day */
-		/*TODO Implement granularity */
+        /*TODO Implement granularity */
         for (ClickLog click : clickList) {
             date = sdf.format(click.getDate());
             if (!clickPairs.containsKey(date)) {

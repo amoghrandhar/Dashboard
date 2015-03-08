@@ -777,6 +777,8 @@ public class SideBar extends JPanel {
                 impressionContextPredicate = imp -> imp.getContext().equals(context);
             }
 
+            Predicate<Integer> integerPredicate = kel -> kel.intValue() == 4;
+
             //Bounce Predicate
             //No of pages viewed
             Predicate<ServerLog> serverLogNoPredicate = ser -> true;

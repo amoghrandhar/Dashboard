@@ -157,8 +157,6 @@ public class DataAnalytics {
      */
 
 
-
-
     /**
      * This will tell the no of males and no of females present.
      *
