@@ -21,12 +21,11 @@ public class ChartPie extends JFXPanel {
 
 	private int xDim = 390;
 	private int yDim = 250;
-	private Scene scene;
 
+	private Scene scene;
 	private PieChart chart;
 	private PieChart.Data selectedData;
 	private Tooltip tooltip;
-
 	private Dashboard dashboard;
 
 	public ChartPie(Dashboard dashboard) {
@@ -78,11 +77,11 @@ public class ChartPie extends JFXPanel {
 
 		ObservableList<PieChart.Data> pieChartData =
 				FXCollections.observableArrayList(
-						new PieChart.Data("<25", map.get(0)),
+						new PieChart.Data("< 25", map.get(0)),
 						new PieChart.Data("25-34", map.get(1)),
 						new PieChart.Data("35-44", map.get(2)),
 						new PieChart.Data("45-54", map.get(3)),
-						new PieChart.Data(">55", map.get(4)));
+						new PieChart.Data("> 55", map.get(4)));
 		chart = new PieChart(pieChartData);
 
 		initFX("Age Distribution");
@@ -149,6 +148,7 @@ public class ChartPie extends JFXPanel {
 				System.out.println("Selected data " + selectedData.toString());
 			}
 		});
+
 	}
 
 }

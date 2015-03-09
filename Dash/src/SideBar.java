@@ -135,6 +135,7 @@ public class SideBar extends JPanel {
         Border b1 = BorderFactory.createEmptyBorder(6, 0, 6, 0);
         Border b2 = (BorderFactory.createMatteBorder(0, 0, 1, 0, Color.gray));
         updatePanel.setBorder(new CompoundBorder(b2, b1));
+        updatePanel.setMaximumSize(new Dimension(200, 100));
 
         Box accordion = Box.createVerticalBox();
         accordion.setOpaque(true);
@@ -160,12 +161,14 @@ public class SideBar extends JPanel {
 
         filePanel.add(importButton, importC);
         filePanel.add(exportButton, exportC);
+        filePanel.setMaximumSize(new Dimension(200, 200));
 
         menuPanel.add(updatePanel);
         menuPanel.add(accordion);
 
+        this.setLayout(new BorderLayout());
         this.add(filePanel, BorderLayout.PAGE_START);
-        this.add(menuPanel, BorderLayout.PAGE_END);
+        this.add(menuPanel, BorderLayout.LINE_END);
 
     }
 
@@ -824,10 +827,12 @@ public class SideBar extends JPanel {
             }
             System.out.println("UpdateListener.actionPerformed" + idSet.size());
 
-            clickLogArrayList = (ArrayList <ClickLog>) DataAnalytics.filterClickLogs(clickLogStartDatePredicate,clickLogArrayList,idSet);
-            serverLogArrayList = (ArrayList<ServerLog>) DataAnalytics.filterServerLogs(serverLogStartDatePredicate,serverLogEndDatePredicate ,
+            clickLogArrayList = (ArrayList <ClickLog>) DataAnalytics
+            		.filterClickLogs(clickLogStartDatePredicate, clickLogArrayList, idSet);
+            
+            serverLogArrayList = (ArrayList<ServerLog>) DataAnalytics
+            		.filterServerLogs(serverLogStartDatePredicate,serverLogEndDatePredicate,
                     serverLogNoPredicate,serverTimeSpentPredicate,serverLogArrayList,idSet);
-
 
             dashboard.updateLogs(clickLogArrayList,impressionLogs,serverLogArrayList);
             dashboard.updateMetrics();
@@ -838,7 +843,6 @@ public class SideBar extends JPanel {
 
 
     class ResetListener implements ActionListener {
-
 
         SideBar sidebar;
 

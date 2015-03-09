@@ -180,7 +180,7 @@ public class Content extends JPanel {
         JLabel graphChoiceLabel = new JLabel("Display graph");
         graphChoiceLabel.setFont(labelFont);
 
-        String[] timeGranularities = {"Minutes", "Hours", "Days"};
+        String[] timeGranularities = {"Hour", "Day", "Week"};
 
         timeBox = new JComboBox(timeGranularities);
         timeBox.setPrototypeDisplayValue("XXXXXXXXXX");
@@ -222,7 +222,7 @@ public class Content extends JPanel {
         headerPanel.add(timeBox, timeBoxC);
         headerPanel.add(timeLabel, timeLabelC);
 
-        // ######### Graph Panel #########
+        // ######### Tab 1 #########
 
         chart = new Chart();
 
@@ -230,8 +230,6 @@ public class Content extends JPanel {
         Platform.runLater(() -> chart.initFX());
 
         graphPanel.add(chart);
-
-        // ######### Header Panel #########
 
         GridBagConstraints c1 = new GridBagConstraints();
         GridBagConstraints c2 = new GridBagConstraints();
@@ -294,7 +292,7 @@ public class Content extends JPanel {
         JPanel tablePanel = new JPanel();
         tablePanel.add(scrollPane);
 
-        // ######### Graph Panel #########
+        // ######### Tab 2 #########
 
         GridBagConstraints pc1 = new GridBagConstraints();
         GridBagConstraints pc2 = new GridBagConstraints();
@@ -343,15 +341,12 @@ public class Content extends JPanel {
 
         metricsPanel.add(metricsLabel, c1);
         metricsPanel.add(tablePanel, c2);
-        //metricsPanel.setPreferredSize(new Dimension(800, 200));
+//		metricsPanel.setPreferredSize(new Dimension(800, 200));
 //		metricsPanel.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, Color.gray));
-
-//		headerPanel.setBackground(Color.decode("#ececec"));
-//		graphPanel.setBackground(Color.decode("#ececec"));
-//		metricsPanel.setBackground(Color.decode("#ececec"));
 
         JPanel tab1 = new JPanel();
         JPanel tab2 = new JPanel();
+        JPanel tab3 = new JPanel();
 
         tab1.setLayout(new BorderLayout());
         tab1.add(graphPanel, BorderLayout.CENTER);
