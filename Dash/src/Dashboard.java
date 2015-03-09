@@ -56,8 +56,8 @@ public class Dashboard extends JFrame {
      * @param serverLogs
      */
     public void setOriginalLogs(ArrayList<ClickLog> clickLogs, ArrayList<ImpressionLog> impressionLogs, ArrayList<ServerLog> serverLogs) {
-        originalClickLogs = clickLogs;
-//        originalImpressionLogs = impressionLogs;
+//        originalClickLogs = clickLogs;
+        originalImpressionLogs = impressionLogs;
 //        originalServerLogs = serverLogs;
 
 
