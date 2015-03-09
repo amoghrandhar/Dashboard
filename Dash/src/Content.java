@@ -441,13 +441,25 @@ public class Content extends JPanel {
 	    @Override
 	    public void mousePressed(MouseEvent e) {
 	      if (screenShotMode) {
-	        if (e.getSource() == chart)
+
+              //Get "absolute" coordinates of root pane
+              Point rootPaneOrigin =
+                      chart.getRootPane().getContentPane().getLocationOnScreen();
+
+              //Get "absolute" coordinates of chart
+              Point pGraph = chart.getLocationOnScreen();
+
+              //Get "absolute" coordinates of Table
+              Point pTable = table.getLocationOnScreen();
+
+
+              if (e.getSource() == chart)
 	        {
-	          drawSquare(230, 160, chart.getWidth(), chart.getHeight());
+	          drawSquare( pGraph.x - rootPaneOrigin.x, pGraph.y - rootPaneOrigin.y ,chart.getWidth(),chart.getHeight());
 	        }
 	        else if (e.getSource() == table)
 	        {
-	          drawSquare(230, 605, table.getWidth(), table.getHeight() + 23);
+	          drawSquare(pTable.x - rootPaneOrigin.x, pTable.y - rootPaneOrigin.y ,table.getWidth(),table.getHeight() + 23);
 	        }
 	      }
 	    }
