@@ -2,12 +2,15 @@ import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
+import javafx.application.Platform;
+
 import javax.swing.*;
 import javax.swing.JFormattedTextField.AbstractFormatter;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.DateFormatter;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -836,6 +839,33 @@ public class SideBar extends JPanel {
 
             dashboard.updateLogs(clickLogArrayList,impressionLogs,serverLogArrayList);
             dashboard.updateMetrics();
+            
+            Platform.runLater(() -> {
+            	switch (dashboard.content.graphChoiceBox.getSelectedIndex()) {
+            	case 1:
+            		dashboard.content.chart.showImpressionsChart(dashboard.getImpressionLogs());
+            		break;
+            	case 2:
+            		dashboard.content.chart.showUniqueChart(dashboard.dataAnalytics.uniqueClickSet(dashboard.getClickLogs()));
+            		break;
+            	case 3:
+            		//TODO Get chosen bounce threshold from filters
+            		dashboard.content.chart.showBounceChart(dashboard.getServerLogs(), 5); // 5 = dummy value
+            		break;
+            	case 4:
+            		dashboard.content.chart.showConversionChart(dashboard.getServerLogs());
+            		break;
+            	case 5:
+            		dashboard.content.chart.showCumulativeCost(dashboard.getClickLogs());
+            		break;
+            	case 6:
+            		dashboard.content.chart.showCost(dashboard.getClickLogs());
+            		break;
+            	default:
+            		dashboard.content.chart.showClicksChart(dashboard.getClickLogs());
+            		break;
+            	}
+            });
 
         }
 
