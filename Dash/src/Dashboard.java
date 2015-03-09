@@ -56,7 +56,20 @@ public class Dashboard extends JFrame {
         originalClickLogs = clickLogs;
         originalImpressionLogs = impressionLogs;
         originalServerLogs = serverLogs;
-        updateLogs(clickLogs, impressionLogs, serverLogs);
+
+
+//        HashSet<Double> idSet = new HashSet<Double>();
+//        for (ImpressionLog impressionLog : impressionLogs) {
+//            idSet.add(impressionLog.getID());
+//        }
+//
+//        Predicate<ClickLog> checkClicks = clp -> idSet.contains(clp.getID());
+//        Predicate<ServerLog> checkServers = sp -> idSet.contains(sp.getID());
+//
+//        originalClickLogs = (ArrayList <ClickLog>) clickLogs.parallelStream().filter(checkClicks).collect(Collectors.toList());
+//        originalServerLogs = (ArrayList<ServerLog>) serverLogs.parallelStream().filter(checkServers).collect(Collectors.toList());
+
+        updateLogs(originalClickLogs , originalImpressionLogs, originalServerLogs);
     }
 
     /**
