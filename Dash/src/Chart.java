@@ -4,6 +4,7 @@ import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.BarChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Tooltip;
@@ -24,10 +25,22 @@ public class Chart extends JFXPanel {
     private int yDim = 370;
     private Scene scene;
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
+    
     public Chart() {
         super();
         this.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.gray));
+    }
+    
+    public void setSDFFormat(String s) {
+    	try {
+    		sdf = new SimpleDateFormat(s);
+    	} catch (NullPointerException e) {
+    		System.err.println("SDF argument cannot be null");
+    		e.printStackTrace();
+    	} catch (IllegalArgumentException e) {
+    		System.err.println("SDF argument is not of the valid format");
+    		e.printStackTrace();
+    	}
     }
 
     public void initFX() {
@@ -357,22 +370,24 @@ public class Chart extends JFXPanel {
             }
         }
 
-        LineChart<String, Number> lineChart =
-                new LineChart<String, Number>(xAxis, yAxis);
+        BarChart<String, Number> barChart =
+                new BarChart<String, Number>(xAxis, yAxis);
 
         XYChart.Series series = new XYChart.Series();
         series.setName("Cost Over Time");
+        
+        barChart.setBarGap(0);
 
         for (Entry<String, Double> entry : costPairs.entrySet()) {
             series.getData().add(new XYChart.Data(entry.getKey(), entry.getValue()));
         }
-        lineChart.getData().add(series);
+        barChart.getData().add(series);
 
-        scene = new Scene(lineChart, xDim, yDim);
+        scene = new Scene(barChart, xDim, yDim);
         scene.getStylesheets().add("chartstyle.css");
         this.setScene(scene);
 
-        lineChart.setCursor(Cursor.CROSSHAIR);
-        displayOnHover(lineChart);
+       // barChart.setCursor(Cursor.CROSSHAIR);
+       // displayOnHover(barChart);
     }
 }
