@@ -24,10 +24,22 @@ public class Chart extends JFXPanel {
     private int yDim = 370;
     private Scene scene;
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
+    
     public Chart() {
         super();
         this.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.gray));
+    }
+    
+    public void setSDFFormat(String s) {
+    	try {
+    		sdf = new SimpleDateFormat(s);
+    	} catch (NullPointerException e) {
+    		System.err.println("SDF argument cannot be null");
+    		e.printStackTrace();
+    	} catch (IllegalArgumentException e) {
+    		System.err.println("SDF argument is not of the valid format");
+    		e.printStackTrace();
+    	}
     }
 
     public void initFX() {
