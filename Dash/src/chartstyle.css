@@ -10,7 +10,7 @@
 
 .default-color0.chart-line-symbol {
     -fx-background-color: #00d2ff, white;
-    -fx-background-radius: 2px;
+    -fx-background-radius: 0px;
     -fx-padding: 3px;
 }
 
