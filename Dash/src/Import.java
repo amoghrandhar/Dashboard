@@ -185,7 +185,7 @@ public class Import extends JFrame {
 
             JPanel panel = new JPanel();
             panel.setLayout(new BorderLayout());
-            ImageIcon icon = new ImageIcon(getClass().getResource("/loading.gif"));
+            ImageIcon icon = new ImageIcon(getClass().getResource("loading.gif"));
             Image img = icon.getImage();
             icon = new ImageIcon(img);
             panel.add(new JLabel(icon), BorderLayout.CENTER);
@@ -202,33 +202,33 @@ public class Import extends JFrame {
                     showProcessingAnimation();
 
 //                                // running this in a thread to stop GUI hanging
-//                                new Thread(() -> {
-                    ClicklogParser clicklogParser = new ClicklogParser(clickLog.getAbsolutePath());
-                    ImpressionParser impressionParser = new ImpressionParser(impressionLog.getAbsolutePath());
-                    ServerlogParser serverlogParser = new ServerlogParser(serverLog.getAbsolutePath());
-
-                    try {
-                        //This will start the parsing of the csv log files and generate Arraylist of Data
-                        clicklogParser.generateClickLogs();
-                        impressionParser.generateImpressionsMethod1();
-                        serverlogParser.generateServerLogs();
-                    } catch (WrongFileException e1) {
-                        JOptionPane.showMessageDialog(Import.this, "Wrong File Passed for Processing \n" + e1.fileName, "Error",
-                                JOptionPane.ERROR_MESSAGE);
-                        e1.printStackTrace();
-                    }
-
-
-                    // This will update the ArrayList of data logs with new data
-                    dashboard.setOriginalLogs(clicklogParser.getClickLogs(), impressionParser.getImpressions(), serverlogParser.getServerLogs());
-                    dashboard.updateMetrics();
-
-                    Platform.runLater(dashboard::defaultChart);
-
-                    setVisible(false);
-                    dispose();
-                    dashboard.sidebar.importButton.setEnabled(true);
-//                                }).start();
+                    new Thread(() -> {
+	                    ClicklogParser clicklogParser = new ClicklogParser(clickLog.getAbsolutePath());
+	                    ImpressionParser impressionParser = new ImpressionParser(impressionLog.getAbsolutePath());
+	                    ServerlogParser serverlogParser = new ServerlogParser(serverLog.getAbsolutePath());
+	
+	                    try {
+	                        //This will start the parsing of the csv log files and generate Arraylist of Data
+	                        clicklogParser.generateClickLogs();
+	                        impressionParser.generateImpressionsMethod1();
+	                        serverlogParser.generateServerLogs();
+	                    } catch (WrongFileException e1) {
+	                        JOptionPane.showMessageDialog(Import.this, "Wrong File Passed for Processing \n" + e1.fileName, "Error",
+	                                JOptionPane.ERROR_MESSAGE);
+	                        e1.printStackTrace();
+	                    }
+	
+	
+	                    // This will update the ArrayList of data logs with new data
+	                    dashboard.setOriginalLogs(clicklogParser.getClickLogs(), impressionParser.getImpressions(), serverlogParser.getServerLogs());
+	                    dashboard.updateMetrics();
+	
+	                    Platform.runLater(dashboard::defaultChart);
+	
+	                    setVisible(false);
+	                    dispose();
+	                    dashboard.sidebar.importButton.setEnabled(true);
+                    }).start();
 
                 } else {
                     JOptionPane.showMessageDialog(Import.this, "Please import all three\nfiles before continuing.", "Error",

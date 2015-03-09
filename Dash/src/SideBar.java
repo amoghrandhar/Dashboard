@@ -688,6 +688,7 @@ public class SideBar extends JPanel {
             if (event.getSource() == dashboard.sidebar.pngItem) {
 
                 System.out.println(event.getActionCommand());
+                this.dashboard.content.screenShotMode = true;    
 
             }
 

@@ -1,13 +1,19 @@
 import javafx.application.Platform;
 
+import javax.imageio.ImageIO;
         import javax.swing.*;
-        import javax.swing.table.AbstractTableModel;
-        import javax.swing.table.DefaultTableCellRenderer;
-        import javax.swing.table.TableCellRenderer;
-        import java.awt.*;
-        import java.awt.event.ActionEvent;
-        import java.awt.event.ActionListener;
-        import java.math.BigDecimal;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellRenderer;
+
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.math.BigDecimal;
 
 public class Content extends JPanel {
 
@@ -21,6 +27,14 @@ public class Content extends JPanel {
     SimpleTableModel tableModel;
 
     JTabbedPane tabbedPane;
+    
+    JPanel tablePanel;
+    JTable table;
+
+    JPanel glassPanel;
+    boolean clicked;
+    boolean screenShotMode;
+    int x, y, width, height;
 
     public Content(Dashboard d) {
 
@@ -225,6 +239,7 @@ public class Content extends JPanel {
         // ######### Graph Panel #########
 
         chart = new Chart();
+        chart.addMouseListener(new PrintScreenListener());
 
         Platform.setImplicitExit(false);
         Platform.runLater(() -> chart.initFX());
@@ -256,7 +271,8 @@ public class Content extends JPanel {
 
         tableModel = new SimpleTableModel();
 
-        JTable table = new JTable(tableModel);
+        table = new JTable(tableModel);
+        table.addMouseListener(new PrintScreenListener());
         TableCellRenderer rendererFromHeader = table.getTableHeader().getDefaultRenderer();
         JLabel headerLabel = (JLabel) rendererFromHeader;
         headerLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -374,6 +390,17 @@ public class Content extends JPanel {
         this.add(bodyPanel);
 //		this.add(graphPanel);
 //		this.add(metricsPanel);
+        
+        glassPanel = new JPanel() {  
+        	 public void paintComponent(Graphics g)  
+        	 { 			
+        	     if (clicked) {
+        	       Graphics2D g2d = (Graphics2D) g;
+        	      g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
+        	      g2d.fillRect(x, y, width, height);
+        	     }
+        	 }  
+        };
 
     }
 
@@ -413,6 +440,87 @@ public class Content extends JPanel {
 
         new Worker().execute();
 
+    }
+    
+    class PrintScreenListener implements MouseListener
+    {
+	    @Override
+	    public void mousePressed(MouseEvent e) {
+	      if (screenShotMode) {
+	        if (e.getSource() == chart)
+	        {
+	          drawSquare(230, 160, chart.getWidth(), chart.getHeight());
+	        }
+	        else if (e.getSource() == table)
+	        {
+	          drawSquare(230, 605, table.getWidth(), table.getHeight() + 23);
+	        }
+	      }
+	    }
+	
+	    private void drawSquare(int _x, int _y, int _width, int _height) {
+	        x = _x;
+	        y = _y;
+	        width = _width;
+	        height = _height;
+	        clicked = !clicked;	
+	        glassPanel.setOpaque(false);  
+	        dashboard.setGlassPane(glassPanel);  
+	        glassPanel.setVisible(clicked);
+	        glassPanel.repaint();
+	    }
+	
+	    @Override
+	    public void mouseReleased(MouseEvent e) {
+	
+	      if (screenShotMode) {
+	        if (e.getSource() == chart)
+	        {
+	          drawSquare(230, 160, chart.getWidth(), chart.getHeight());
+	            JFileChooser fc = new JFileChooser();
+	            int retrival = fc.showSaveDialog(null);
+	            if (retrival == JFileChooser.APPROVE_OPTION) {
+	                File file = fc.getSelectedFile();
+	                BufferedImage bufImage = new BufferedImage(graphPanel.getSize().width, graphPanel.getSize().height,BufferedImage.TYPE_INT_RGB);
+	                graphPanel.paint(bufImage.createGraphics());
+	                File imageFile = new File((file.getAbsolutePath() + ".png"));
+	                try {
+	                  imageFile.createNewFile();
+	                  ImageIO.write(bufImage, "png", imageFile);
+	                } catch(Exception ex) {
+	                  ex.printStackTrace();
+	                }
+	            }
+	        }
+	        else if (e.getSource() == table)
+	        {
+	          drawSquare(230, 605, table.getWidth(), table.getHeight() + 23);
+	            JFileChooser fc = new JFileChooser();
+	            int retrival = fc.showSaveDialog(null);
+	            if (retrival == JFileChooser.APPROVE_OPTION) {
+	                File file = fc.getSelectedFile();
+	                BufferedImage bufImage = new BufferedImage(tablePanel.getSize().width, tablePanel.getSize().height,BufferedImage.TYPE_INT_RGB);
+	                tablePanel.paint(bufImage.createGraphics());
+	                File imageFile = new File((file.getAbsolutePath() + ".png"));
+	                try {
+	                  imageFile.createNewFile();
+	                  ImageIO.write(bufImage, "png", imageFile);
+	                } catch(Exception ex) {
+	                  ex.printStackTrace();
+	                }
+	            }				}
+	        screenShotMode = false;
+	      }
+	    }
+	
+	    @Override
+	    public void mouseClicked(MouseEvent e) {}
+	
+	    @Override
+	    public void mouseEntered(MouseEvent e) {}
+	
+	    @Override
+	    public void mouseExited(MouseEvent e) {}   	
     }
 
     private class MetricsTableRenderer implements TableCellRenderer {
