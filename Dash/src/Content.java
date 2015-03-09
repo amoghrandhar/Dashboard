@@ -217,7 +217,7 @@ public class Content extends JPanel {
                         	chart.setSDFFormat("yyyy-ww");
                             break;
                         default:
-                        	chart.setSDFFormat("yyyy-MM-dd-HH");
+                        	chart.setSDFFormat("yyyy-MM-dd : HH");
                             break;
                     }
 
