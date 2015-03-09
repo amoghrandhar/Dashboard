@@ -1,7 +1,7 @@
 import javafx.application.Platform;
 
 import javax.imageio.ImageIO;
-        import javax.swing.*;
+import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
@@ -196,7 +196,7 @@ public class Content extends JPanel {
 
         String[] timeGranularities = {"Hour", "Day", "Week"};
 
-        timeBox = new JComboBox(timeGranularities);
+        timeBox = new JComboBox<String>(timeGranularities);
         timeBox.setPrototypeDisplayValue("XXXXXXXXXX");
         timeBox.setEnabled(false);
         timeBox.addActionListener(new ActionListener() {
@@ -211,13 +211,13 @@ public class Content extends JPanel {
 
                     switch (item) {
                         case 1:
-
+                        	chart.setSDFFormat("yyyy-MM-dd");
                             break;
                         case 2:
-
+                        	chart.setSDFFormat("yyyy-ww");
                             break;
-                        case 3:
-
+                        default:
+                        	chart.setSDFFormat("yyyy-MM-dd-HH");
                             break;
                     }
 
