@@ -152,11 +152,10 @@ public class Content extends JPanel {
         headerPanel.add(totalCostLabel, l3);
 
         String[] graphChoices = {"Clicks", "Impressions", "Uniques", "Bounces", "Conversions",
-                "Cumulative Cost", "Cost"/*, "CTR", "CPA", "CPC", "CPM", "Bounce Rate"*/};
+                "Cumulative Cost", "Cost Histogram"};
 
         graphChoiceBox = new JComboBox(graphChoices);
         graphChoiceBox.setPrototypeDisplayValue("XXXXXXXXXX");
-        graphChoiceBox.setEnabled(false);
         graphChoiceBox.addActionListener(e -> {
             JComboBox<String> cb = (JComboBox) e.getSource();
             final int item = cb.getSelectedIndex();
@@ -198,7 +197,7 @@ public class Content extends JPanel {
 
         timeBox = new JComboBox<String>(timeGranularities);
         timeBox.setPrototypeDisplayValue("XXXXXXXXXX");
-        timeBox.setEnabled(false);
+        timeBox.setSelectedIndex(1);
         timeBox.addActionListener(new ActionListener() {
 
             // TODO For OLIVER to implement time granularity changes
