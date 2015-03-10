@@ -16,6 +16,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -651,8 +653,13 @@ public class SideBar extends JPanel {
 
         public void actionPerformed(ActionEvent e) {
 
-            Import importFrame = new Import("Import Files", dashboard);
-            importFrame.init();
+        	Import importFrame = new Import("Import Files", dashboard);
+        	importFrame.init();
+        	importFrame.addWindowListener(new WindowAdapter() {
+        		public void windowClosing(WindowEvent e) {
+        			dashboard.sidebar.importButton.setEnabled(true);
+        		}
+        	});
 
         }
 
