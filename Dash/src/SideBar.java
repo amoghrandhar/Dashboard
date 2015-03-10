@@ -38,7 +38,7 @@ public class SideBar extends JPanel {
     UtilDateModel dateModel, dateModel2;
     SpinnerDateModel timeModel, timeModel2;
     JToggleButton male, female;
-    JRadioButton ageLabel, incomeLabel;
+    JCheckBox ageLabel, incomeLabel;
     JSlider ageSlider, incomeSlider;
     ModifiedButtonGroup sexGroup, contextGroup;
     JLabel pagesLabel, timeLabel;
@@ -115,7 +115,7 @@ public class SideBar extends JPanel {
 
         popUpMenu = new JPopupMenu("Menu");
         popUpMenu.add(pngItem);
-        popUpMenu.add(jpegItem);
+        //popUpMenu.add(jpegItem);
         popUpMenu.addSeparator();
         popUpMenu.add(printItem);
 
@@ -268,7 +268,7 @@ public class SideBar extends JPanel {
                         // ######### Age Group SLider #########
 
                         //JLabel ageLabel = new JLabel("Age");
-                        ageLabel = new JRadioButton("Age");
+                        ageLabel = new JCheckBox("Age");
 
                         JLabel age0 = new JLabel("<25");
                         JLabel age1 = new JLabel("25-34");
@@ -302,7 +302,7 @@ public class SideBar extends JPanel {
                         // ######### Income SLider #########
 
                         //JLabel incomeLabel = new JLabel("Income");
-                        incomeLabel = new JRadioButton("Income");
+                        incomeLabel = new JCheckBox("Income");
 
                         Hashtable<Integer, JLabel> labels2 = new Hashtable<Integer, JLabel>();
                         labels2.put(0, new JLabel("Low"));
@@ -700,21 +700,17 @@ public class SideBar extends JPanel {
 
             if (event.getSource() == dashboard.sidebar.pngItem) {
 
-                System.out.println(event.getActionCommand());
                 this.dashboard.content.screenShotMode = true;    
 
             }
 
             if (event.getSource() == dashboard.sidebar.jpegItem) {
 
-                System.out.println(event.getActionCommand());
-
             }
 
             if (event.getSource() == dashboard.sidebar.printItem) {
 
             	PrintSupport.printComponent(dashboard.content.chart);
-                System.out.println(event.getActionCommand());
 
             }
 

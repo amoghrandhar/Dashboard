@@ -94,9 +94,9 @@ public class ChartPie extends JFXPanel {
         }
         if(map.containsKey(3)){
             PieChart.Data d = new PieChart.Data("45-54", map.get(3));
-            d.getNode().setStyle(
-                    "-fx-pie-color: " + pieColors[i % pieColors.length] + ";"
-            );
+//            d.getNode().setStyle(
+//                    "-fx-pie-color: " + pieColors[i % pieColors.length] + ";"
+//            );
             pieChartData.add(d);
         }
         if(map.containsKey(4)){
