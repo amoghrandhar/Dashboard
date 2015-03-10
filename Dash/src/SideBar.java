@@ -706,6 +706,7 @@ public class SideBar extends JPanel {
 
             if (event.getSource() == dashboard.sidebar.printItem) {
 
+            	PrintSupport.printComponent(dashboard.content.chart);
                 System.out.println(event.getActionCommand());
 
             }

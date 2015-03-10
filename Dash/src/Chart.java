@@ -10,7 +10,11 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Tooltip;
 
 import javax.swing.*;
+
 import java.awt.*;
+import java.awt.print.PageFormat;
+import java.awt.print.Printable;
+import java.awt.print.PrinterException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -19,7 +23,7 @@ import java.util.Map.Entry;
 
 
 @SuppressWarnings("serial")
-public class Chart extends JFXPanel {
+public class Chart extends JFXPanel implements Printable {
 
     private int xDim = 820;
     private int yDim = 370;
@@ -390,4 +394,11 @@ public class Chart extends JFXPanel {
        // barChart.setCursor(Cursor.CROSSHAIR);
        // displayOnHover(barChart);
     }
+
+	@Override
+	public int print(Graphics graphics, PageFormat pageFormat, int pageIndex)
+			throws PrinterException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
