@@ -656,10 +656,10 @@ public class SideBar extends JPanel {
         	Import importFrame = new Import("Import Files", dashboard);
         	importFrame.init();
         	importFrame.addWindowListener(new WindowAdapter() {
-        		public void windowClosing(WindowEvent e) {
-        			dashboard.sidebar.importButton.setEnabled(true);
-        		}
-        	});
+                public void windowClosing(WindowEvent e) {
+                    dashboard.sidebar.importButton.setEnabled(true);
+                }
+            });
 
         }
 
@@ -748,8 +748,6 @@ public class SideBar extends JPanel {
 
             /*
             System.out.println("Start Year after today " + startDate.after(new Date()));
-            */
-
             System.out.println(endDate);
             System.out.println(gender);
             System.out.println(ageGroup);
@@ -757,6 +755,8 @@ public class SideBar extends JPanel {
             System.out.println(context);
             System.out.println(pages);
             System.out.println(time);
+            */
+
 
             //Start Date Predicates
             Predicate<ClickLog> clickLogStartDatePredicate = click -> true;
@@ -875,6 +875,13 @@ public class SideBar extends JPanel {
             	}
             });
 
+            Platform.runLater(() -> {
+               dashboard.content.pieChart1.showGenderPie();
+                dashboard.content.pieChart2.showAgeGroupPie();
+                dashboard.content.pieChart3.showIncomePie();
+                dashboard.content.pieChart4.showContextPie();
+            });
+
         }
 
     }
@@ -933,6 +940,13 @@ public class SideBar extends JPanel {
             		dashboard.content.chart.showClicksChart(dashboard.getClickLogs());
             		break;
             	}
+            });
+
+            Platform.runLater(() -> {
+                dashboard.content.pieChart1.showGenderPie();
+                dashboard.content.pieChart2.showAgeGroupPie();
+                dashboard.content.pieChart3.showIncomePie();
+                dashboard.content.pieChart4.showContextPie();
             });
 
         }

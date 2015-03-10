@@ -62,9 +62,15 @@ public class ChartPie extends JFXPanel {
 		HashMap<Boolean,Long> map = dashboard.dataAnalytics.sexRatioDivision(dashboard.getImpressionLogs());
 
 		ObservableList<PieChart.Data> pieChartData =
-				FXCollections.observableArrayList(
-						new PieChart.Data("Male", map.get(true)),
-						new PieChart.Data("Female", map.get(false)));
+				FXCollections.observableArrayList();
+
+        if(map.containsKey(true)){
+            pieChartData.add(new PieChart.Data("Male", map.get(true)));
+        }
+        if(map.containsKey(false)){
+            pieChartData.add(new PieChart.Data("Female", map.get(false)));
+        }
+
 		chart = new PieChart(pieChartData);
 
 		initFX("Gender Distribution");
@@ -76,12 +82,23 @@ public class ChartPie extends JFXPanel {
 		HashMap<Integer, Long> map = dashboard.dataAnalytics.ageGroupDivision(dashboard.getImpressionLogs());
 
 		ObservableList<PieChart.Data> pieChartData =
-				FXCollections.observableArrayList(
-						new PieChart.Data("< 25", map.get(0)),
-						new PieChart.Data("25-34", map.get(1)),
-						new PieChart.Data("35-44", map.get(2)),
-						new PieChart.Data("45-54", map.get(3)),
-						new PieChart.Data("> 55", map.get(4)));
+				FXCollections.observableArrayList();
+
+        if(map.containsKey(0)){
+            pieChartData.add(new PieChart.Data("< 25", map.get(0)));
+        }
+        if(map.containsKey(1)){
+            pieChartData.add(new PieChart.Data("25-34", map.get(1)));
+        }
+        if(map.containsKey(2)){
+            pieChartData.add(new PieChart.Data("35-44", map.get(2)));
+        }
+        if(map.containsKey(3)){
+            pieChartData.add(new PieChart.Data("45-54", map.get(3)));
+        }
+        if(map.containsKey(4)){
+            pieChartData.add(new PieChart.Data("> 55", map.get(4)));
+        }
 		chart = new PieChart(pieChartData);
 
 		initFX("Age Distribution");
@@ -93,10 +110,17 @@ public class ChartPie extends JFXPanel {
 		HashMap<Integer, Long> map = dashboard.dataAnalytics.incomeGroupDivision(dashboard.getImpressionLogs());
 
 		ObservableList<PieChart.Data> pieChartData =
-				FXCollections.observableArrayList(
-						new PieChart.Data("Low", map.get(0)),
-						new PieChart.Data("Medium", map.get(1)),
-						new PieChart.Data("High", map.get(2)));
+				FXCollections.observableArrayList();
+
+        if(map.containsKey(0)){
+            pieChartData.add(new PieChart.Data("Low", map.get(0)));
+        }
+        if(map.containsKey(1)){
+            pieChartData.add(new PieChart.Data("Medium", map.get(1)));
+        }
+        if(map.containsKey(2)){
+            pieChartData.add(new PieChart.Data("High", map.get(2)));
+        }
 		chart = new PieChart(pieChartData);
 
 		initFX("Income Distribution");
@@ -108,11 +132,21 @@ public class ChartPie extends JFXPanel {
 		HashMap<String, Long> map = dashboard.dataAnalytics.contextGroupDivision(dashboard.getImpressionLogs());
 
 		ObservableList<PieChart.Data> pieChartData =
-				FXCollections.observableArrayList(
-						new PieChart.Data("News", map.get("News")),
-						new PieChart.Data("Shopping", map.get("Shopping")),
-						new PieChart.Data("Social Media", map.get("Social Media")),
-						new PieChart.Data("Blog", map.get("Blog")));
+				FXCollections.observableArrayList();
+
+        if(map.containsKey("News")){
+            pieChartData.add(new PieChart.Data("News", map.get("News")));
+        }
+        if(map.containsKey("Shopping")){
+            pieChartData.add(new PieChart.Data("Shopping", map.get("Shopping")));
+        }
+        if(map.containsKey("Social Media")){
+            pieChartData.add(new PieChart.Data("Social Media", map.get("Social Media")));
+        }
+        if(map.containsKey("Blog")){
+            pieChartData.add(new PieChart.Data("Blog", map.get("Blog")));
+        }
+
 		chart = new PieChart(pieChartData);
 
 		initFX("Context Distribution");
