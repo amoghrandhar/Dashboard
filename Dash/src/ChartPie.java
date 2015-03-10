@@ -51,7 +51,7 @@ public class ChartPie extends JFXPanel {
 		}
 
 		scene = new Scene(chart, xDim, yDim);
-		scene.getStylesheets().add("chartstyle2.css");
+//		scene.getStylesheets().add("chartstyle2.css");
 		this.setScene(scene);
 
 	}
@@ -64,10 +64,18 @@ public class ChartPie extends JFXPanel {
 				FXCollections.observableArrayList();
 
         if(map.containsKey(true)){
-            pieChartData.add(new PieChart.Data("Male", map.get(true)));
+            PieChart.Data d = new PieChart.Data("Male", map.get(true));
+//            d.getNode().setStyle(
+//                    "-fx-pie-color: #00dcff ;"
+//            );
+            pieChartData.add(d);
         }
         if(map.containsKey(false)){
-            pieChartData.add(new PieChart.Data("Female", map.get(false)));
+            PieChart.Data d = new PieChart.Data("Female", map.get(false));
+//            d.getNode().setStyle(
+//                    "-fx-pie-color: #ff00b5 ;"
+//            );
+            pieChartData.add(d);
         }
 
 		chart = new PieChart(pieChartData);
@@ -84,23 +92,30 @@ public class ChartPie extends JFXPanel {
 				FXCollections.observableArrayList();
 
         if(map.containsKey(0)){
-            pieChartData.add(new PieChart.Data("< 25", map.get(0)));
-        }
-        if(map.containsKey(1)){
-            pieChartData.add(new PieChart.Data("25-34", map.get(1)));
-        }
-        if(map.containsKey(2)){
-            pieChartData.add(new PieChart.Data("35-44", map.get(2)));
-        }
-        if(map.containsKey(3)){
-            PieChart.Data d = new PieChart.Data("45-54", map.get(3));
+            PieChart.Data d = new PieChart.Data("< 25", map.get(0));
 //            d.getNode().setStyle(
-//                    "-fx-pie-color: " + pieColors[i % pieColors.length] + ";"
+//                    "-fx-pie-color: #00ccff ;"
 //            );
             pieChartData.add(d);
         }
+        if(map.containsKey(1)){
+            PieChart.Data d = new PieChart.Data("25-34", map.get(1));
+//            d.getNode().setStyle(
+//                    "-fx-pie-color: #00ccff ;"
+//            );
+            pieChartData.add(d);
+        }
+        if(map.containsKey(2)){
+            PieChart.Data d = new PieChart.Data("35-44", map.get(2));
+            pieChartData.add(d);
+        }
+        if(map.containsKey(3)){
+            PieChart.Data d = new PieChart.Data("45-54", map.get(3));
+            pieChartData.add(d);
+        }
         if(map.containsKey(4)){
-            pieChartData.add(new PieChart.Data("> 55", map.get(4)));
+            PieChart.Data d = new PieChart.Data("> 55", map.get(4));
+            pieChartData.add(d);
         }
 		chart = new PieChart(pieChartData);
 
@@ -128,13 +143,16 @@ public class ChartPie extends JFXPanel {
 				FXCollections.observableArrayList();
 
         if(map.containsKey(0)){
-            pieChartData.add(new PieChart.Data("Low", map.get(0)));
+            PieChart.Data d = new PieChart.Data("Low", map.get(0));
+            pieChartData.add(d);
         }
         if(map.containsKey(1)){
-            pieChartData.add(new PieChart.Data("Medium", map.get(1)));
+            PieChart.Data d = new PieChart.Data("Medium", map.get(1));
+            pieChartData.add(d);
         }
-        if(map.containsKey(2)){
-            pieChartData.add(new PieChart.Data("High", map.get(2)));
+        if(map.containsKey(2)) {
+            PieChart.Data d = new PieChart.Data("High", map.get(2));
+            pieChartData.add(d);
         }
 		chart = new PieChart(pieChartData);
 
@@ -150,16 +168,28 @@ public class ChartPie extends JFXPanel {
 				FXCollections.observableArrayList();
 
         if(map.containsKey("News")){
-            pieChartData.add(new PieChart.Data("News", map.get("News")));
+            PieChart.Data d = new PieChart.Data("News", map.get("News"));
+            pieChartData.add(d);
         }
         if(map.containsKey("Shopping")){
-            pieChartData.add(new PieChart.Data("Shopping", map.get("Shopping")));
+            PieChart.Data d = new PieChart.Data("Shopping", map.get("Shopping"));
+            pieChartData.add(d);
         }
         if(map.containsKey("Social Media")){
-            pieChartData.add(new PieChart.Data("Social Media", map.get("Social Media")));
+            PieChart.Data d = new PieChart.Data("Social Media", map.get("Social Media"));
+            pieChartData.add(d);
         }
         if(map.containsKey("Blog")){
-            pieChartData.add(new PieChart.Data("Blog", map.get("Blog")));
+            PieChart.Data d = new PieChart.Data("Blog", map.get("Blog"));
+            pieChartData.add(d);
+        }
+        if(map.containsKey("Hobbies")){
+            PieChart.Data d = new PieChart.Data("Hobbies", map.get("Hobbies"));
+            pieChartData.add(d);
+        }
+        if(map.containsKey("Travel")){
+            PieChart.Data d = new PieChart.Data("Travel", map.get("Travel"));
+            pieChartData.add(d);
         }
 
 		chart = new PieChart(pieChartData);

@@ -12,8 +12,8 @@
 }
 
 .data0.chart-pie {
-    -fx-pie-color: #00ccff;
-}
+     -fx-pie-color: #00ccff;
+ }
 
 .data1.chart-pie {
     -fx-pie-color: #fe405b;
