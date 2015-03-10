@@ -32,7 +32,6 @@ public class PrintSupport implements Printable {
         PrinterResolution pr = new PrinterResolution(300, 300, PrinterResolution.DPI);
         aset.add(pr);
         aset.add(PrintQuality.HIGH);
-
         PageFormat pf = printJob.defaultPage();
         pf.setOrientation(PageFormat.LANDSCAPE); 
         printJob.setPrintable(this, pf);
@@ -47,7 +46,7 @@ public class PrintSupport implements Printable {
  
     @Override
     public int print(Graphics g, PageFormat pf, int pageNumber) {
-    	// TODO Auto-generated method stub
+
         if (pageNumber > 0) {
             return Printable.NO_SUCH_PAGE;
         }
@@ -58,7 +57,7 @@ public class PrintSupport implements Printable {
         print_component.setSize(compSize);
         // Get the the print size
         Dimension printSize = new Dimension();
-        printSize.setSize(pf.getImageableWidth(), pf.getImageableHeight());
+        printSize.setSize(pf.getImageableWidth()-50, pf.getImageableHeight()-50);
 
         // Calculate the scale factor
         double scaleFactor = getScaleFactorToFit(compSize, printSize);
@@ -67,7 +66,7 @@ public class PrintSupport implements Printable {
             scaleFactor = 1d;
         }
 
-        // Calcaulte the scaled size...
+        // Calculate the scaled size...
         double scaleWidth = compSize.width * scaleFactor;
         double scaleHeight = compSize.height * scaleFactor;
 
@@ -94,6 +93,7 @@ public class PrintSupport implements Printable {
         g2.dispose();
         print_component.revalidate();
         return Printable.PAGE_EXISTS;
+        
     }
  
     public static void disableDoubleBuffering(Component c) {

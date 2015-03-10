@@ -29,6 +29,7 @@ public class Content extends JPanel {
 	SimpleTableModel tableModel;
 
 	JTabbedPane tabbedPane;
+	JPanel tab1, tab2, tab3;
 
 	JPanel tablePanel;
 	JTable table;
@@ -371,10 +372,10 @@ public class Content extends JPanel {
 
 		Platform.setImplicitExit(false);
 		Platform.runLater(() -> {
-			pieChart1.initFX("Gender Chart");
-			pieChart2.initFX("Age Division");
-			pieChart3.initFX("Income Division");
-			pieChart4.initFX("Context Division");
+			pieChart1.initFX("Gender Distribution");
+			pieChart2.initFX("Age Distribution");
+			pieChart3.initFX("Income Distribution");
+			pieChart4.initFX("Context Distribution");
 		});
 
 		piePanel.add(pieChart1, pc1);
@@ -393,9 +394,9 @@ public class Content extends JPanel {
 		//		metricsPanel.setPreferredSize(new Dimension(800, 200));
 		//		metricsPanel.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, Color.gray));
 
-		JPanel tab1 = new JPanel();
-		JPanel tab2 = new JPanel();
-		JPanel tab3 = new JPanel();
+		tab1 = new JPanel();
+		tab2 = new JPanel();
+		tab3 = new JPanel();
 
 		tab1.setLayout(new BorderLayout());
 		tab1.add(graphPanel, BorderLayout.CENTER);
