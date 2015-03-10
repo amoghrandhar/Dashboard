@@ -899,6 +899,33 @@ public class SideBar extends JPanel {
 
             dashboard.resetLogs();
             dashboard.updateMetrics();
+            
+            Platform.runLater(() -> {
+            	switch (dashboard.content.graphChoiceBox.getSelectedIndex()) {
+            	case 1:
+            		dashboard.content.chart.showImpressionsChart(dashboard.getImpressionLogs());
+            		break;
+            	case 2:
+            		dashboard.content.chart.showUniqueChart(dashboard.dataAnalytics.uniqueClickSet(dashboard.getClickLogs()));
+            		break;
+            	case 3:
+            		//TODO Get chosen bounce threshold from filters
+            		dashboard.content.chart.showBounceChart(dashboard.getServerLogs(), 5); // 5 = dummy value
+            		break;
+            	case 4:
+            		dashboard.content.chart.showConversionChart(dashboard.getServerLogs());
+            		break;
+            	case 5:
+            		dashboard.content.chart.showCumulativeCost(dashboard.getClickLogs());
+            		break;
+            	case 6:
+            		dashboard.content.chart.showCost(dashboard.getClickLogs());
+            		break;
+            	default:
+            		dashboard.content.chart.showClicksChart(dashboard.getClickLogs());
+            		break;
+            	}
+            });
 
         }
 
