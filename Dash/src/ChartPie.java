@@ -11,7 +11,6 @@ import javafx.scene.effect.Glow;
 import javafx.scene.input.MouseEvent;
 
 import javax.swing.*;
-
 import java.awt.*;
 import java.util.HashMap;
 
@@ -94,7 +93,11 @@ public class ChartPie extends JFXPanel {
             pieChartData.add(new PieChart.Data("35-44", map.get(2)));
         }
         if(map.containsKey(3)){
-            pieChartData.add(new PieChart.Data("45-54", map.get(3)));
+            PieChart.Data d = new PieChart.Data("45-54", map.get(3));
+            d.getNode().setStyle(
+                    "-fx-pie-color: " + pieColors[i % pieColors.length] + ";"
+            );
+            pieChartData.add(d);
         }
         if(map.containsKey(4)){
             pieChartData.add(new PieChart.Data("> 55", map.get(4)));
@@ -104,6 +107,18 @@ public class ChartPie extends JFXPanel {
 		initFX("Age Distribution");
 
 	}
+
+    private void applyCustomColorSequence(
+            ObservableList<PieChart.Data> pieChartData,
+            String... pieColors) {
+        int i = 0;
+        for (PieChart.Data data : pieChartData) {
+            data.getNode().setStyle(
+                    "-fx-pie-color: " + pieColors[i % pieColors.length] + ";"
+            );
+            i++;
+        }
+    }
 
 	public void showIncomePie() {
 
