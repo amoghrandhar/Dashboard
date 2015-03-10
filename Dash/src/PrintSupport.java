@@ -8,6 +8,11 @@ import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 
+import javax.print.attribute.HashPrintJobAttributeSet;
+import javax.print.attribute.HashPrintRequestAttributeSet;
+import javax.print.attribute.PrintRequestAttributeSet;
+import javax.print.attribute.standard.PrintQuality;
+import javax.print.attribute.standard.PrinterResolution;
 import javax.swing.RepaintManager;
  
 /**
@@ -28,6 +33,11 @@ public class PrintSupport implements Printable {
  
     public void doPrint() {
         PrinterJob printJob = PrinterJob.getPrinterJob();
+        PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
+        PrinterResolution pr = new PrinterResolution(300, 300, PrinterResolution.DPI);
+        aset.add(pr);
+        aset.add(PrintQuality.HIGH);
+        
         PageFormat pf = printJob.defaultPage();  
         pf.setOrientation(PageFormat.LANDSCAPE); 
         printJob.setPrintable(this, pf);
