@@ -1,22 +1,17 @@
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import javax.print.attribute.HashPrintRequestAttributeSet;
+import javax.print.attribute.PrintRequestAttributeSet;
+import javax.print.attribute.standard.PrintQuality;
+import javax.print.attribute.standard.PrinterResolution;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
-
-import javax.print.attribute.HashPrintJobAttributeSet;
-import javax.print.attribute.HashPrintRequestAttributeSet;
-import javax.print.attribute.PrintRequestAttributeSet;
-import javax.print.attribute.standard.PrintQuality;
-import javax.print.attribute.standard.PrinterResolution;
-import javax.swing.RepaintManager;
  
 /**
- *
+ * // \\anywhere
  * @author User
  */
 public class PrintSupport implements Printable {
@@ -37,8 +32,8 @@ public class PrintSupport implements Printable {
         PrinterResolution pr = new PrinterResolution(300, 300, PrinterResolution.DPI);
         aset.add(pr);
         aset.add(PrintQuality.HIGH);
-        
-        PageFormat pf = printJob.defaultPage();  
+
+        PageFormat pf = printJob.defaultPage();
         pf.setOrientation(PageFormat.LANDSCAPE); 
         printJob.setPrintable(this, pf);
         if (printJob.printDialog()) {
@@ -130,7 +125,7 @@ public class PrintSupport implements Printable {
 
     public static double getScaleFactor(int iMasterSize, int iTargetSize) {
 
-        double dScale = 1;
+        double dScale;
         if (iMasterSize > iTargetSize) {
 
             dScale = (double) iTargetSize / (double) iMasterSize;
