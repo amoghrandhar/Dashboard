@@ -78,6 +78,9 @@ public class Dashboard extends JFrame {
 
     }
 
+    public ArrayList<ServerLog> getOriginalServerLogs() {
+    	return originalServerLogs;
+    }
 
     public ArrayList<ClickLog> getClickLogs() {
         return clickLogs;

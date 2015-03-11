@@ -16,6 +16,7 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 
 public class Content extends JPanel {
 
@@ -33,6 +34,7 @@ public class Content extends JPanel {
 
 	JPanel tablePanel;
 	JTable table;
+	JScrollPane scrollPane;
 
 	JPanel glassPanel;
 	boolean clicked;
@@ -155,7 +157,7 @@ public class Content extends JPanel {
 		headerPanel.add(totalCostLabel, l3);
 
 		String[] graphChoices = {"Clicks", "Impressions", "Uniques", "Bounces", "Conversions",
-				"Cumulative Cost", "Cost Histogram"};
+				"Cumulative Cost", "Click Costs"};
 
 		graphChoiceBox = new JComboBox(graphChoices);
 		graphChoiceBox.setPrototypeDisplayValue("XXXXXXXXXX");
@@ -173,8 +175,9 @@ public class Content extends JPanel {
 					chart.showUniqueChart(dashboard.dataAnalytics.uniqueClickSet(dashboard.getClickLogs()));
 					break;
 				case 3:
-					//TODO Get chosen bounce threshold from filters
-					chart.showBounceChart(dashboard.getServerLogs(), 5); // 5 = dummy value
+					ArrayList<ServerLog> bounceLog = (ArrayList<ServerLog>) dashboard.getOriginalServerLogs().clone();
+					bounceLog.removeAll(dashboard.getServerLogs());
+					chart.showBounceChart(bounceLog);
 					break;
 				case 4:
 					chart.showConversionChart(dashboard.getServerLogs());
@@ -233,8 +236,9 @@ public class Content extends JPanel {
 						chart.showUniqueChart(dashboard.dataAnalytics.uniqueClickSet(dashboard.getClickLogs()));
 						break;
 					case 3:
-						//TODO Get chosen bounce threshold from filters
-						chart.showBounceChart(dashboard.getServerLogs(), 5); // 5 = dummy value
+						ArrayList<ServerLog> bounceLog = (ArrayList<ServerLog>) dashboard.getOriginalServerLogs().clone();
+						bounceLog.removeAll(dashboard.getServerLogs());
+						chart.showBounceChart(bounceLog);
 						break;
 					case 4:
 						chart.showConversionChart(dashboard.getServerLogs());
@@ -326,7 +330,7 @@ public class Content extends JPanel {
 		table.setPreferredScrollableViewportSize(table.getPreferredSize());
 		table.setCellSelectionEnabled(true);
 
-		JScrollPane scrollPane = new JScrollPane(table);
+		scrollPane = new JScrollPane(table);
 		scrollPane.setPreferredSize(new Dimension(
 				826,
 				(int) table.getPreferredSize().getHeight() + 30
@@ -472,8 +476,8 @@ public class Content extends JPanel {
 
 	}
 
-	class PrintScreenListener implements MouseListener
-	{
+	class PrintScreenListener implements MouseListener{
+		
 		@Override
 		public void mousePressed(MouseEvent e) {
 
@@ -568,8 +572,8 @@ public class Content extends JPanel {
 					int retrival = fc.showSaveDialog(null);
 					if (retrival == JFileChooser.APPROVE_OPTION) {
 						File file = fc.getSelectedFile();
-						BufferedImage bufImage = new BufferedImage(tablePanel.getSize().width, tablePanel.getSize().height,BufferedImage.TYPE_INT_RGB);
-						tablePanel.paint(bufImage.createGraphics());
+						BufferedImage bufImage = new BufferedImage(scrollPane.getSize().width, scrollPane.getSize().height,BufferedImage.TYPE_INT_RGB);
+						scrollPane.paint(bufImage.createGraphics());
 						File imageFile = new File((file.getAbsolutePath() + ".png"));
 						try {
 							imageFile.createNewFile();

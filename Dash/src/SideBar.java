@@ -854,9 +854,10 @@ public class SideBar extends JPanel {
             		dashboard.content.chart.showUniqueChart(dashboard.dataAnalytics.uniqueClickSet(dashboard.getClickLogs()));
             		break;
             	case 3:
-            		//TODO Get chosen bounce threshold from filters
-            		dashboard.content.chart.showBounceChart(dashboard.getServerLogs(), 5); // 5 = dummy value
-            		break;
+            		ArrayList<ServerLog> bounceLog = (ArrayList<ServerLog>) dashboard.getOriginalServerLogs().clone();
+					bounceLog.removeAll(dashboard.getServerLogs());
+					dashboard.content.chart.showBounceChart(bounceLog);
+					break;
             	case 4:
             		dashboard.content.chart.showConversionChart(dashboard.getServerLogs());
             		break;
@@ -921,9 +922,10 @@ public class SideBar extends JPanel {
             		dashboard.content.chart.showUniqueChart(dashboard.dataAnalytics.uniqueClickSet(dashboard.getClickLogs()));
             		break;
             	case 3:
-            		//TODO Get chosen bounce threshold from filters
-            		dashboard.content.chart.showBounceChart(dashboard.getServerLogs(), 5); // 5 = dummy value
-            		break;
+            		ArrayList<ServerLog> bounceLog = (ArrayList<ServerLog>) dashboard.getOriginalServerLogs().clone();
+					bounceLog.removeAll(dashboard.getServerLogs());
+					dashboard.content.chart.showBounceChart(bounceLog);
+					break;
             	case 4:
             		dashboard.content.chart.showConversionChart(dashboard.getServerLogs());
             		break;
