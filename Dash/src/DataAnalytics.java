@@ -128,7 +128,9 @@ public class DataAnalytics {
 
     public static Double bounceRate( ArrayList<ClickLog> clickLogArrayList, ArrayList<ServerLog> slog, int n) {
         // This returns the average bounceRate
-        return ((double) noOfBounces(slog, n)) / totalClicks(clickLogArrayList);
+
+        return 1 - ((double) noOfBounces(slog, n)) / totalClicks(clickLogArrayList);
+
     }
 
 
