@@ -881,7 +881,7 @@ public class SideBar extends JPanel {
             		dashboard.content.chart.showCumulativeCost(dashboard.getClickLogs());
             		break;
             	case 6:
-            		dashboard.content.chart.showCost(dashboard.getClickLogs());
+            		dashboard.content.chart.showClickCosts(dashboard.getClickLogs());
             		break;
             	default:
             		dashboard.content.chart.showClicksChart(dashboard.getClickLogs());
@@ -948,7 +948,7 @@ public class SideBar extends JPanel {
             		dashboard.content.chart.showCumulativeCost(dashboard.getClickLogs());
             		break;
             	case 6:
-            		dashboard.content.chart.showCost(dashboard.getClickLogs());
+            		dashboard.content.chart.showClickCosts(dashboard.getClickLogs());
             		break;
             	default:
             		dashboard.content.chart.showClicksChart(dashboard.getClickLogs());

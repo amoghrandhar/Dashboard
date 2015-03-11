@@ -33,6 +33,7 @@ public class Content extends JPanel {
 
 	JPanel tablePanel;
 	JTable table;
+	JScrollPane scrollPane;
 
 	JPanel glassPanel;
 	boolean clicked;
@@ -155,7 +156,7 @@ public class Content extends JPanel {
 		headerPanel.add(totalCostLabel, l3);
 
 		String[] graphChoices = {"Clicks", "Impressions", "Uniques", "Bounces", "Conversions",
-				"Cumulative Cost", "Cost Histogram"};
+				"Cumulative Cost", "Click Costs"};
 
 		graphChoiceBox = new JComboBox(graphChoices);
 		graphChoiceBox.setPrototypeDisplayValue("XXXXXXXXXX");
@@ -183,7 +184,7 @@ public class Content extends JPanel {
 					chart.showCumulativeCost(dashboard.getClickLogs());
 					break;
 				case 6:
-					chart.showCost(dashboard.getClickLogs());
+					chart.showClickCosts(dashboard.getClickLogs());
 					break;
 				default:
 					chart.showClicksChart(dashboard.getClickLogs());
@@ -243,7 +244,7 @@ public class Content extends JPanel {
 						chart.showCumulativeCost(dashboard.getClickLogs());
 						break;
 					case 6:
-						chart.showCost(dashboard.getClickLogs());
+						chart.showClickCosts(dashboard.getClickLogs());
 						break;
 					default:
 						chart.showClicksChart(dashboard.getClickLogs());
@@ -326,7 +327,7 @@ public class Content extends JPanel {
 		table.setPreferredScrollableViewportSize(table.getPreferredSize());
 		table.setCellSelectionEnabled(true);
 
-		JScrollPane scrollPane = new JScrollPane(table);
+		scrollPane = new JScrollPane(table);
 		scrollPane.setPreferredSize(new Dimension(
 				826,
 				(int) table.getPreferredSize().getHeight() + 30
@@ -409,7 +410,7 @@ public class Content extends JPanel {
 		tabbedPane.addTab("Metrics Display", tab1);
 		tabbedPane.addTab("Impressions Demographics", tab2);
 		tabbedPane.setFocusable(false);
-		tabbedPane.setSelectedComponent(tab2);
+		tabbedPane.setSelectedComponent(tab1);
 
 		JPanel bodyPanel = new JPanel();
 		bodyPanel.setLayout(new BorderLayout());
@@ -568,8 +569,8 @@ public class Content extends JPanel {
 					int retrival = fc.showSaveDialog(null);
 					if (retrival == JFileChooser.APPROVE_OPTION) {
 						File file = fc.getSelectedFile();
-						BufferedImage bufImage = new BufferedImage(tablePanel.getSize().width, tablePanel.getSize().height,BufferedImage.TYPE_INT_RGB);
-						tablePanel.paint(bufImage.createGraphics());
+						BufferedImage bufImage = new BufferedImage(scrollPane.getSize().width, scrollPane.getSize().height,BufferedImage.TYPE_INT_RGB);
+						scrollPane.paint(bufImage.createGraphics());
 						File imageFile = new File((file.getAbsolutePath() + ".png"));
 						try {
 							imageFile.createNewFile();
