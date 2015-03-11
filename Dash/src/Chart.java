@@ -2,15 +2,10 @@ import javafx.embed.swing.JFXPanel;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.BarChart;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
+import javafx.scene.chart.*;
 import javafx.scene.control.Tooltip;
 
 import javax.swing.*;
-
 import java.awt.*;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
@@ -21,7 +16,6 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 
-
 @SuppressWarnings("serial")
 public class Chart extends JFXPanel implements Printable {
 
@@ -29,7 +23,11 @@ public class Chart extends JFXPanel implements Printable {
     private int yDim = 370;
     private Scene scene;
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-    
+
+
+
+    double initXLowerBound = 0, initXUpperBound = 0, initYLowerBound = 0, initYUpperBound = 0;
+
     public Chart() {
         super();
         this.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.gray));
@@ -60,10 +58,10 @@ public class Chart extends JFXPanel implements Printable {
         XYChart.Series series = new XYChart.Series();
         //series.setName("My portfolio");
 
-        series.getData().add(new XYChart.Data<String, Integer>("Jan", 23));
-        series.getData().add(new XYChart.Data<String, Integer>("Feb", 14));
-        series.getData().add(new XYChart.Data<String, Integer>("Mar", 15));
-        series.getData().add(new XYChart.Data<String, Integer>("Apr", 24));
+        series.getData().add(new XYChart.Data<String, Integer>("2013-04-01", 23));
+        series.getData().add(new XYChart.Data<String, Integer>("2013-04-02", 14));
+        series.getData().add(new XYChart.Data<String, Integer>("2013-04-03", 15));
+        series.getData().add(new XYChart.Data<String, Integer>("2013-04-04", 24));
         series.getData().add(new XYChart.Data<String, Integer>("May", 34));
         series.getData().add(new XYChart.Data<String, Integer>("Jun", 36));
         series.getData().add(new XYChart.Data<String, Integer>("Jul", 22));
@@ -72,7 +70,7 @@ public class Chart extends JFXPanel implements Printable {
         series.getData().add(new XYChart.Data<String, Integer>("Oct", 17));
         series.getData().add(new XYChart.Data<String, Integer>("Nov", 29));
         series.getData().add(new XYChart.Data<String, Integer>("Dec", 25));
-        //lineChart.getData().add(series);
+//        lineChart.getData().add(series);
 
         lineChart.setLegendVisible(false);
 
@@ -105,7 +103,7 @@ public class Chart extends JFXPanel implements Printable {
 
         LineChart<String, Number> lineChart =
                 new LineChart<String, Number>(xAxis, yAxis);
-
+        lineChart.setAnimated(true);
         XYChart.Series series = new XYChart.Series();
         series.setName("Impressions Over Time");
 
