@@ -8,7 +8,7 @@
 
 .chart-title {
     -fx-text-fill: #000000;
-    -fx-font-size: 12px;
+    -fx-font-size: 10px;
 }
 
 .data0.chart-pie {

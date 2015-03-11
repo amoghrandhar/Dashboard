@@ -33,7 +33,7 @@ public class SideBar extends JPanel {
 
     JButton importButton, exportButton, updateButton, resetButton;
     JPopupMenu popUpMenu;
-    JMenuItem printItem, pngItem, jpegItem, piesItem;
+    JMenuItem printItem, pngItem, jpegItem, piesItem, multiItem;
     Calendar calendar;
     UtilDateModel dateModel, dateModel2;
     SpinnerDateModel timeModel, timeModel2;
@@ -106,12 +106,14 @@ public class SideBar extends JPanel {
         exportButton.setPreferredSize(new Dimension(120, 46));
         exportButton.setFocusable(false);
 
-        pngItem = new JMenuItem("Export graph as PNG file");
+        pngItem = new JMenuItem("Export as PNG");
         pngItem.addActionListener(new PopupListener(dashboard));
         jpegItem = new JMenuItem("Export graph as JPEG file");
         jpegItem.addActionListener(new PopupListener(dashboard));
         printItem = new JMenuItem("Print main graph");
         printItem.addActionListener(new PopupListener(dashboard));
+        multiItem = new JMenuItem("Print graph and table");
+        multiItem.addActionListener(new PopupListener(dashboard));
         piesItem = new JMenuItem("Print pie charts");
         piesItem.addActionListener(new PopupListener(dashboard));
 
@@ -120,6 +122,7 @@ public class SideBar extends JPanel {
         //popUpMenu.add(jpegItem);
         popUpMenu.addSeparator();
         popUpMenu.add(printItem);
+        popUpMenu.add(multiItem);
         popUpMenu.add(piesItem);
 
         exportButton.addActionListener(new ExportListener(dashboard));
@@ -714,6 +717,12 @@ public class SideBar extends JPanel {
             if (event.getSource() == dashboard.sidebar.printItem) {
 
             	PrintSupport.printComponent(dashboard.content.chart);
+
+            }
+            
+            if (event.getSource() == dashboard.sidebar.multiItem) {
+
+            	PrintSupport.printComponent(dashboard.content.tab1);
 
             }
             
