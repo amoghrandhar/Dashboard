@@ -27,11 +27,15 @@ public class DataAnalytics {
         return (uniqueClickSet(clickLogArrayList)).size();
     }
 
-    public static  long noOfBounces(ArrayList<ServerLog> slog) {
+    public static  long noOfBounces(ArrayList<ServerLog> slog, int n) {
         //It returns the total no bounces happened, compared and based on the bounce property
-        
-        return slog.size();
-        
+    	long total = 0;
+    	       for (ServerLog aSlog : slog) {
+    	            if (aSlog.getPagesViewed() <= n) {
+    	                total++;
+    	            }
+    	        }
+    	        return total;        
     }
 
     public static  long noOfConversions(ArrayList<ServerLog> slog) {
@@ -122,9 +126,9 @@ public class DataAnalytics {
         return (totalCost(impressionArrayList, clickLogArrayList) / noOfImpression(impressionArrayList)) * 1000;
     }
 
-    public static Double bounceRate( ArrayList<ClickLog> clickLogArrayList, ArrayList<ServerLog> slog) {
+    public static Double bounceRate( ArrayList<ClickLog> clickLogArrayList, ArrayList<ServerLog> slog, int n) {
         // This returns the average bounceRate
-        return ((double) noOfBounces(slog)) / totalClicks(clickLogArrayList);
+        return ((double) noOfBounces(slog, n)) / totalClicks(clickLogArrayList);
     }
 
 

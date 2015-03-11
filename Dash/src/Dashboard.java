@@ -75,6 +75,9 @@ public class Dashboard extends JFrame {
 
     }
 
+    public ArrayList<ServerLog> getOriginalServerLogs() {
+    	return originalServerLogs;
+    }
 
     public ArrayList<ClickLog> getClickLogs() {
         return clickLogs;
@@ -97,14 +100,14 @@ public class Dashboard extends JFrame {
         long clicks = DataAnalytics.totalClicks(clickLogs);
         long impressions = DataAnalytics.noOfImpression(impressionLogs);
         long uniques = DataAnalytics.noOfUniques(clickLogs);
-        long bounces = originalServerLogs.size() - DataAnalytics.noOfBounces(serverLogs);
+        long bounces = /*originalServerLogs.size() - */DataAnalytics.noOfBounces(serverLogs, sidebar.getChosenPages());
         long conversions = DataAnalytics.noOfConversions(serverLogs);
         double totalCost = DataAnalytics.totalCost(impressionLogs, clickLogs);
         double CTR = DataAnalytics.getCTR(clickLogs, impressionLogs);
         double CPA = DataAnalytics.getCPA(impressionLogs, clickLogs, serverLogs);
         double CPC = DataAnalytics.getCPC(impressionLogs, clickLogs);
         double CPM = DataAnalytics.getCPM(impressionLogs, clickLogs);
-        double bounceRate = DataAnalytics.bounceRate(clickLogs, serverLogs);
+        double bounceRate = DataAnalytics.bounceRate(clickLogs, serverLogs, sidebar.getChosenPages());
 
         // Update metrics table
         String[] rowData = {

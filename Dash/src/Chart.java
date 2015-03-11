@@ -234,7 +234,7 @@ public class Chart extends JFXPanel implements Printable {
         displayOnHover(lineChart);
     }
 
-    public void showBounceChart(ArrayList<ServerLog> serverList, int bounce) {
+    public void showBounceChart(ArrayList<ServerLog> serverList) {
         CategoryAxis xAxis = new CategoryAxis();
         NumberAxis yAxis = new NumberAxis();
         xAxis.setLabel("Date");
@@ -245,13 +245,13 @@ public class Chart extends JFXPanel implements Printable {
 
         for (ServerLog server : serverList) {
             date = sdf.format(server.getStartDate());
-            if (server.getPagesViewed() < bounce) {
+            //if (server.getPagesViewed() < bounce) {
                 if (!bouncePairs.containsKey(date)) {
                     bouncePairs.put(date, 1);
                 } else {
                     bouncePairs.put(date, bouncePairs.get(date) + 1);
                 }
-            }
+          //  }
         }
 
         LineChart<String, Number> lineChart =

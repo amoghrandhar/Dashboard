@@ -16,6 +16,7 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 
 public class Content extends JPanel {
 
@@ -173,8 +174,9 @@ public class Content extends JPanel {
 					chart.showUniqueChart(dashboard.dataAnalytics.uniqueClickSet(dashboard.getClickLogs()));
 					break;
 				case 3:
-					//TODO Get chosen bounce threshold from filters
-					chart.showBounceChart(dashboard.getServerLogs(), 5); // 5 = dummy value
+					ArrayList<ServerLog> bounceLog = (ArrayList<ServerLog>) dashboard.getOriginalServerLogs().clone();
+					bounceLog.removeAll(dashboard.getServerLogs());
+					chart.showBounceChart(bounceLog);
 					break;
 				case 4:
 					chart.showConversionChart(dashboard.getServerLogs());
@@ -233,8 +235,9 @@ public class Content extends JPanel {
 						chart.showUniqueChart(dashboard.dataAnalytics.uniqueClickSet(dashboard.getClickLogs()));
 						break;
 					case 3:
-						//TODO Get chosen bounce threshold from filters
-						chart.showBounceChart(dashboard.getServerLogs(), 5); // 5 = dummy value
+						ArrayList<ServerLog> bounceLog = (ArrayList<ServerLog>) dashboard.getOriginalServerLogs().clone();
+						bounceLog.removeAll(dashboard.getServerLogs());
+						chart.showBounceChart(bounceLog);
 						break;
 					case 4:
 						chart.showConversionChart(dashboard.getServerLogs());
