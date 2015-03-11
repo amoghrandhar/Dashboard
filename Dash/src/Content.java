@@ -2,12 +2,9 @@ import javafx.application.Platform;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -271,7 +268,7 @@ public class Content extends JPanel {
 
 		// ######### Tab 1 #########
 
-		chart = new Chart();
+        chart = new Chart();
 		chart.addMouseListener(new PrintScreenListener());
 
 		Platform.setImplicitExit(false);

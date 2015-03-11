@@ -32,11 +32,11 @@ public class DataAnalytics {
         long bounces = 0;
         for (ServerLog aSlog : slog) {
             if (aSlog.getEndDate() != null) {
-                if ((aSlog.getEndDate().getTime() - aSlog.getStartDate().getTime() <= (timeSpent * 1000)) || aSlog.getPagesViewed() < pagesV) {
+                if ((aSlog.getEndDate().getTime() - aSlog.getStartDate().getTime() <= (timeSpent * 1000)) || aSlog.getPagesViewed() <= pagesV) {
                     bounces++;
                 }
             } else {
-                if (aSlog.getPagesViewed() < pagesV) {
+                if (aSlog.getPagesViewed() <= pagesV) {
                     bounces++;
                 }
             }

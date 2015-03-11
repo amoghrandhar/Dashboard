@@ -22,6 +22,7 @@ public class Chart extends JFXPanel implements Printable {
     private int xDim = 820;
     private int yDim = 370;
     private Scene scene;
+    private javafx.scene.control.ScrollPane scrollPane;
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
 
@@ -88,6 +89,8 @@ public class Chart extends JFXPanel implements Printable {
 
         lineChart.setCursor(Cursor.CROSSHAIR);
         displayOnHover(lineChart);
+
+
 
     }
 
