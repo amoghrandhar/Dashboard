@@ -12,7 +12,7 @@ public class TestingParser {
         System.out.println("Test Files Location\t" + new File(".").getAbsolutePath());
 
         System.out.println("\nImpression Log Parser");
-        ImpressionParser ip = new ImpressionParser("impression_log.csv");
+        ImpressionParser ip = new ImpressionParser("Test/impression_log.csv");
         ip.generateImpressionsMethod1();
         System.out.println("Impression Log Parsed!");
         if (ip.getImpressions().size() == 39) {
@@ -23,7 +23,7 @@ public class TestingParser {
 
 
         System.out.println("\nClick Log Parser");
-        ClicklogParser clp = new ClicklogParser("click_log.csv");
+        ClicklogParser clp = new ClicklogParser("Test/click_log.csv");
         clp.generateClickLogs();
         System.out.println("Click Log Parsed!");
         if (clp.getClickLogs().size() == 13) {
@@ -33,7 +33,7 @@ public class TestingParser {
         }
 
         System.out.println("\nServer Log Parser");
-        ServerlogParser slp = new ServerlogParser("server_log.csv");
+        ServerlogParser slp = new ServerlogParser("Test/server_log.csv");
         slp.generateServerLogs();
         System.out.println("Server Log Parsed!");
         if (clp.getClickLogs().size() == 13) {
@@ -47,8 +47,8 @@ public class TestingParser {
         System.out.println("Data Analytics Test");
         DataAnalytics dataAnalytics = new DataAnalytics();
 
-        System.out.println("Total Clicks : " + dataAnalytics.totalClicks(clp.getClickLogs()));
-        System.out.println("No. of Impressions : " + dataAnalytics.noOfImpression(ip.getImpressions()));
+        System.out.println("Total Clicks : " + DataAnalytics.totalClicks(clp.getClickLogs()));
+        System.out.println("No. of Impressions : " + DataAnalytics.noOfImpression(ip.getImpressions()));
         System.out.println("No. of Uniques : " + dataAnalytics.noOfUniques(clp.getClickLogs()));
         System.out.println("No. of Bounces for property 5 : " + dataAnalytics.noOfBounces(slp.getServerLogs()));
         System.out.println("No. of Conversions : " + dataAnalytics.noOfConversions(slp.getServerLogs()));
