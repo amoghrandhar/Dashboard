@@ -44,7 +44,6 @@ public class ChartPie extends JFXPanel {
 
 		tooltip = new Tooltip("");
 
-
 		for (final PieChart.Data data : chart.getData()) {
 			Tooltip.install(data.getNode(), tooltip);
 			applyMouseEvents(data);
