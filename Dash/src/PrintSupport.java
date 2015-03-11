@@ -9,7 +9,7 @@ import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
- 
+
 /**
  * // \\anywhere
  * @author User
@@ -74,6 +74,13 @@ public class PrintSupport implements Printable {
         // the graphics context without begin worried about what effects
         // it might have once we're finished
         Graphics2D g2 = (Graphics2D) g.create();
+
+        RenderingHints rh = new RenderingHints(
+                RenderingHints.KEY_TEXT_ANTIALIASING,
+                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+
+        g2.setRenderingHints(rh);
+
         // Calculate the x/y position of the component, this will center
         // the result on the page if it can
         double x = ((pf.getImageableWidth() - scaleWidth) / 2d) + pf.getImageableX();

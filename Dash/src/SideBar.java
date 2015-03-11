@@ -817,7 +817,7 @@ public class SideBar extends JPanel {
 
             Predicate<Integer> integerPredicate = kel -> kel.intValue() == 4;
 
-            //Bounce Predicate
+            //Not Bounce Predicate
             //No of pages viewed
             Predicate<ServerLog> serverLogNoPredicate = ser -> true;
             if (pages != -1) {
