@@ -25,8 +25,16 @@ public class Chart extends JFXPanel implements Printable {
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
 
-
-    double initXLowerBound = 0, initXUpperBound = 0, initYLowerBound = 0, initYUpperBound = 0;
+//    Rectangle rect;
+//    SimpleDoubleProperty rectinitX = new SimpleDoubleProperty();
+//    SimpleDoubleProperty rectinitY = new SimpleDoubleProperty();
+//    SimpleDoubleProperty rectX = new SimpleDoubleProperty();
+//    SimpleDoubleProperty rectY = new SimpleDoubleProperty();
+//
+//
+//    double initYLowerBound = 0, initYUpperBound = 0;
+//    Date initXLowerBound = new Date();
+//    Date initXUpperBound = new Date();
 
     public Chart() {
         super();
