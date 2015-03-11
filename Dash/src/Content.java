@@ -410,7 +410,7 @@ public class Content extends JPanel {
 		tabbedPane.addTab("Metrics Display", tab1);
 		tabbedPane.addTab("Impressions Demographics", tab2);
 		tabbedPane.setFocusable(false);
-		tabbedPane.setSelectedComponent(tab1);
+		tabbedPane.setSelectedComponent(tab2);
 
 		JPanel bodyPanel = new JPanel();
 		bodyPanel.setLayout(new BorderLayout());
@@ -473,8 +473,8 @@ public class Content extends JPanel {
 
 	}
 
-	class PrintScreenListener implements MouseListener
-	{
+	class PrintScreenListener implements MouseListener{
+		
 		@Override
 		public void mousePressed(MouseEvent e) {
 

@@ -151,10 +151,8 @@ public class Chart extends JFXPanel {
 		xAxis.setLabel("Date");
 		yAxis.setLabel("Number of Clicks");
 
-
 		LinkedHashMap<String, Integer> clickPairs = new LinkedHashMap<String, Integer>();
 		String date;
-
 
 		/* 'Counts' number of clicks per day */
 		/*TODO Implement granularity */
@@ -166,7 +164,6 @@ public class Chart extends JFXPanel {
 				clickPairs.put(date, clickPairs.get(date) + 1);
 			}
 		}
-
 
 		LineChart<String, Number> lineChart =
 				new LineChart<String, Number>(xAxis, yAxis);

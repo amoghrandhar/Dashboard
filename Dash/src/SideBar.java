@@ -821,7 +821,7 @@ public class SideBar extends JPanel {
             //No of pages viewed
             Predicate<ServerLog> serverLogNoPredicate = ser -> true;
             if (pages != -1) {
-                serverLogNoPredicate = ser -> ser.getPagesViewed() >= pages;
+                serverLogNoPredicate = ser -> ser.getPagesViewed() > pages;
             }
 
             
