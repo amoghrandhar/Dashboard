@@ -27,10 +27,37 @@ public class DataAnalytics {
         return (uniqueClickSet(clickLogArrayList)).size();
     }
 
-    public static  long noOfBounces(ArrayList<ServerLog> slog) {
+    public static long noOfBounces(ArrayList<ServerLog> slog, int pagesV , int timeSpent) {
         //It returns the total no bounces happened, compared and based on the bounce property
-        
-        return slog.size();
+        long bounces = 0;
+        for (ServerLog aSlog : slog) {
+            if (aSlog.getEndDate() != null) {
+                if ((aSlog.getEndDate().getTime() - aSlog.getStartDate().getTime() <= (timeSpent * 1000)) || aSlog.getPagesViewed() < pagesV) {
+                    bounces++;
+                }
+            } else {
+                if (aSlog.getPagesViewed() < pagesV) {
+                    bounces++;
+                }
+            }
+
+
+//            //Not Bounce Predicate
+//            //No of pages viewed
+//            Predicate<ServerLog> serverLogNoPredicate = ser -> true;
+//            if (pages != -1) {
+//                serverLogNoPredicate = ser -> ser.getPagesViewed() >= pages;
+//            }
+//
+//
+//            //Time spent on website
+//            Predicate<ServerLog> serverTimeSpentPredicate = ser -> true;
+//            if (time != -1) {
+//                serverTimeSpentPredicate = ser -> (ser.getEndDate() != null ?
+//                        (ser.getEndDate().getTime() - ser.getStartDate().getTime()) >= ( time * 1000) : true );
+//            }
+        }
+        return bounces;
         
     }
 
@@ -122,9 +149,9 @@ public class DataAnalytics {
         return (totalCost(impressionArrayList, clickLogArrayList) / noOfImpression(impressionArrayList)) * 1000;
     }
 
-    public static Double bounceRate( ArrayList<ClickLog> clickLogArrayList, ArrayList<ServerLog> slog) {
+    public static Double bounceRate( ArrayList<ClickLog> clickLogArrayList, ArrayList<ServerLog> slog , int pagesV , int timeSpent) {
         // This returns the average bounceRate
-        return ((double) noOfBounces(slog)) / totalClicks(clickLogArrayList);
+        return ((double) noOfBounces(slog , pagesV , timeSpent)) / totalClicks(clickLogArrayList);
     }
 
 
@@ -226,12 +253,10 @@ public class DataAnalytics {
      *
      * @param beforeDate
      * @param afterDate
-     * @param pagesV
      * @param serverLogs
      * @return
      */
     public static  List<ServerLog> filterServerLogs(Predicate<ServerLog> beforeDate, Predicate<ServerLog> afterDate
-            , Predicate<ServerLog> pagesV, Predicate<ServerLog> timeSpent
             , ArrayList<ServerLog> serverLogs , Set<Double> idCheck) {
 
         Predicate<ServerLog> checkServers = sp -> idCheck.contains(sp.getID());
@@ -240,8 +265,6 @@ public class DataAnalytics {
                 .filter(checkServers)
         		.filter(beforeDate)
         		.filter(afterDate)
-        		.filter(pagesV)
-        		.filter(timeSpent)
         		.collect(Collectors.<ServerLog>toList());
         
     }

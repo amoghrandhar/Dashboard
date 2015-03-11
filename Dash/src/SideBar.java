@@ -815,23 +815,6 @@ public class SideBar extends JPanel {
                 impressionContextPredicate = imp -> imp.getContext().equals(context);
             }
 
-            Predicate<Integer> integerPredicate = kel -> kel.intValue() == 4;
-
-            //Not Bounce Predicate
-            //No of pages viewed
-            Predicate<ServerLog> serverLogNoPredicate = ser -> true;
-            if (pages != -1) {
-                serverLogNoPredicate = ser -> ser.getPagesViewed() >= pages;
-            }
-
-            
-            //Time spent on website
-            Predicate<ServerLog> serverTimeSpentPredicate = ser -> true;
-            if (time != -1) {
-            	serverTimeSpentPredicate = ser -> (ser.getEndDate() != null ? 
-            			(ser.getEndDate().getTime() - ser.getStartDate().getTime()) >= ( time * 1000) : true );
-            }
-
             dashboard.resetLogs();
 
             ArrayList<ImpressionLog> impressionLogs = dashboard.getImpressionLogs();
@@ -857,10 +840,10 @@ public class SideBar extends JPanel {
             
             serverLogArrayList = (ArrayList<ServerLog>) DataAnalytics
             		.filterServerLogs(serverLogStartDatePredicate,serverLogEndDatePredicate,
-                    serverLogNoPredicate,serverTimeSpentPredicate,serverLogArrayList,idSet);
+                    serverLogArrayList,idSet);
 
             dashboard.updateLogs(clickLogArrayList,impressionLogs,serverLogArrayList);
-            dashboard.updateMetrics();
+            dashboard.updateMetrics(pages , time);
             
             Platform.runLater(() -> {
             	switch (dashboard.content.graphChoiceBox.getSelectedIndex()) {
@@ -927,7 +910,7 @@ public class SideBar extends JPanel {
             sidebar.timeSpinner.setValue(0);
 
             dashboard.resetLogs();
-            dashboard.updateMetrics();
+            dashboard.updateMetrics(dashboard.DEFAULT_BOUNCE_PAGES_PROP,dashboard.DEFAULT_BOUNCE_TIME_PROP);
             
             Platform.runLater(() -> {
             	switch (dashboard.content.graphChoiceBox.getSelectedIndex()) {

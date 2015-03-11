@@ -145,7 +145,7 @@ public class DashboardTest {
 
         serverLogs = (ArrayList<ServerLog>) DataAnalytics
                 .filterServerLogs(serverLogStartDatePredicate,serverLogEndDatePredicate,
-                        serverLogNoPredicate,serverTimeSpentPredicate,serverLogs,idSet);
+                        serverLogs,idSet);
 
     }
 

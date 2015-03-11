@@ -50,7 +50,7 @@ public class TestingParser {
         System.out.println("Total Clicks : " + DataAnalytics.totalClicks(clp.getClickLogs()));
         System.out.println("No. of Impressions : " + DataAnalytics.noOfImpression(ip.getImpressions()));
         System.out.println("No. of Uniques : " + dataAnalytics.noOfUniques(clp.getClickLogs()));
-        System.out.println("No. of Bounces for property 5 : " + dataAnalytics.noOfBounces(slp.getServerLogs()));
+        System.out.println("No. of Bounces for property 5 : " + dataAnalytics.noOfBounces(slp.getServerLogs(),-1,-1));
         System.out.println("No. of Conversions : " + dataAnalytics.noOfConversions(slp.getServerLogs()));
         System.out.println("Total Imprression Cost : " + dataAnalytics.totalImpressionCost(ip.getImpressions()));
         System.out.println("Total Click  Cost : " + dataAnalytics.totalClickCost(clp.getClickLogs()));
@@ -59,7 +59,7 @@ public class TestingParser {
         System.out.println("CTR : " + dataAnalytics.getCTR(clp.getClickLogs(), ip.getImpressions()).floatValue());
         System.out.println("CPC : " + dataAnalytics.getCPC(ip.getImpressions(), clp.getClickLogs()).floatValue());
         System.out.println("CPM : " + dataAnalytics.getCPM(ip.getImpressions(), clp.getClickLogs()).floatValue());
-        System.out.println("Bounce Rate : " + dataAnalytics.bounceRate(clp.getClickLogs(), slp.getServerLogs()).floatValue());
+        System.out.println("Bounce Rate : " + dataAnalytics.bounceRate(clp.getClickLogs(), slp.getServerLogs(),-1,-1).floatValue());
 
 
         System.out.println("\n\n\n");
