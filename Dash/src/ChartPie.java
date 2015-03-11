@@ -51,7 +51,7 @@ public class ChartPie extends JFXPanel {
 		}
 
 		scene = new Scene(chart, xDim, yDim);
-//		scene.getStylesheets().add("chartstyle2.css");
+		scene.getStylesheets().add("chartstyle2.css");
 		this.setScene(scene);
 
 	}
