@@ -253,12 +253,10 @@ public class DataAnalytics {
      *
      * @param beforeDate
      * @param afterDate
-     * @param pagesV
      * @param serverLogs
      * @return
      */
     public static  List<ServerLog> filterServerLogs(Predicate<ServerLog> beforeDate, Predicate<ServerLog> afterDate
-            , Predicate<ServerLog> pagesV, Predicate<ServerLog> timeSpent
             , ArrayList<ServerLog> serverLogs , Set<Double> idCheck) {
 
         Predicate<ServerLog> checkServers = sp -> idCheck.contains(sp.getID());
@@ -267,8 +265,6 @@ public class DataAnalytics {
                 .filter(checkServers)
         		.filter(beforeDate)
         		.filter(afterDate)
-        		.filter(pagesV)
-        		.filter(timeSpent)
         		.collect(Collectors.<ServerLog>toList());
         
     }
