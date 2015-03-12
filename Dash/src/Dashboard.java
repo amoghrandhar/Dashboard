@@ -10,8 +10,8 @@ public class Dashboard extends JFrame {
     public Content content;
     public DataAnalytics dataAnalytics;
 
-    public final int DEFAULT_BOUNCE_PAGES_PROP = -1;
-    public final int DEFAULT_BOUNCE_TIME_PROP = -1;
+    public final int DEFAULT_BOUNCE_PAGES_PROP = 3;
+    public final int DEFAULT_BOUNCE_TIME_PROP = 3;
 
     private ArrayList<ClickLog> clickLogs;
     private ArrayList<ImpressionLog> impressionLogs;

@@ -395,7 +395,7 @@ public class SideBar extends JPanel {
                         timeSpinnerC.gridx = 1;
                         timeSpinnerC.gridy = 1;
                         
-                        SpinnerModel spinnerModel = new SpinnerNumberModel(0, 0, 60, 1);
+                        SpinnerModel spinnerModel = new SpinnerNumberModel(3, 0, 60, 1);
                         
                         pagesCheckBox = new JCheckBox("Pages visited");
                         pagesSpinner = new JSpinner(spinnerModel);
@@ -404,7 +404,7 @@ public class SideBar extends JPanel {
                         JFormattedTextField tf = ((JSpinner.DefaultEditor) editor).getTextField();
                         tf.setColumns(2);
                         
-                        SpinnerModel spinnerModel2 = new SpinnerNumberModel(0, 0, 60, 1);
+                        SpinnerModel spinnerModel2 = new SpinnerNumberModel(3, 0, 60, 1);
                         
                         timeCheckBox = new JCheckBox("Time spent (s)");
                         timeSpinner = new JSpinner(spinnerModel2);
