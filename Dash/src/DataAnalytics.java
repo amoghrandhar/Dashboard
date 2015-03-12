@@ -32,15 +32,14 @@ public class DataAnalytics {
         //It returns the total no bounces happened, compared and based on the bounce property
         long bounces = 0;
         for (ServerLog aSlog : slog) {
+        	// If there is end date
             if (aSlog.getEndDate() != null) {
                 if ((aSlog.getEndDate().getTime() - aSlog.getStartDate().getTime() <= (timeSpent * 1000)) || aSlog.getPagesViewed() <= pagesV) {
                     bounces++;
                 }
             } 
-            else {
-                if (aSlog.getPagesViewed() <= pagesV) {
+            else if (aSlog.getPagesViewed() <= pagesV) {
                     bounces++;
-                }
             }
 
 
