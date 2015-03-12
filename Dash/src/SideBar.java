@@ -856,18 +856,17 @@ public class SideBar extends JPanel {
             		dashboard.content.chart.showUniqueChart(dashboard.dataAnalytics.uniqueClickSet(dashboard.getClickLogs()));
             		break;
             	case 3:
-            		ArrayList<ServerLog> bounceLog = (ArrayList<ServerLog>) dashboard.getOriginalServerLogs().clone();
-					bounceLog.removeAll(dashboard.getServerLogs());
-					dashboard.content.chart.showBounceChart(bounceLog);
+					dashboard.content.chart.showBounceChart(dashboard.dataAnalytics.getFilteredServerLogOnBounce(dashboard.getServerLogs(), 
+							dashboard.sidebar.getChosenPages(), dashboard.sidebar.getChosenTime()));
 					break;
             	case 4:
             		dashboard.content.chart.showConversionChart(dashboard.getServerLogs());
             		break;
             	case 5:
-            		dashboard.content.chart.showCumulativeCost(dashboard.getClickLogs());
+            		dashboard.content.chart.showCumulativeCostChart(dashboard.getClickLogs(),dashboard.getImpressionLogs());
             		break;
             	case 6:
-            		dashboard.content.chart.showCost(dashboard.getClickLogs());
+            		dashboard.content.chart.showClickCostsHistogram(dashboard.getClickLogs());
             		break;
             	default:
             		dashboard.content.chart.showClicksChart(dashboard.getClickLogs());
@@ -924,18 +923,17 @@ public class SideBar extends JPanel {
             		dashboard.content.chart.showUniqueChart(dashboard.dataAnalytics.uniqueClickSet(dashboard.getClickLogs()));
             		break;
             	case 3:
-            		ArrayList<ServerLog> bounceLog = (ArrayList<ServerLog>) dashboard.getOriginalServerLogs().clone();
-					bounceLog.removeAll(dashboard.getServerLogs());
-					dashboard.content.chart.showBounceChart(bounceLog);
+					dashboard.content.chart.showBounceChart(dashboard.dataAnalytics.getFilteredServerLogOnBounce(dashboard.getServerLogs(), 
+							dashboard.sidebar.getChosenPages(), dashboard.sidebar.getChosenTime()));
 					break;
             	case 4:
             		dashboard.content.chart.showConversionChart(dashboard.getServerLogs());
             		break;
             	case 5:
-            		dashboard.content.chart.showCumulativeCost(dashboard.getClickLogs());
+            		dashboard.content.chart.showCumulativeCostChart(dashboard.getClickLogs(),dashboard.getImpressionLogs());
             		break;
             	case 6:
-            		dashboard.content.chart.showCost(dashboard.getClickLogs());
+            		dashboard.content.chart.showClickCostsHistogram(dashboard.getClickLogs());
             		break;
             	default:
             		dashboard.content.chart.showClicksChart(dashboard.getClickLogs());

@@ -1,13 +1,11 @@
 import javafx.application.Platform;
+import javafx.scene.chart.XYChart;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,7 +14,6 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 
 public class Content extends JPanel {
 
@@ -110,12 +107,12 @@ public class Content extends JPanel {
 		graphChoiceBoxC.gridx = 3;
 		graphChoiceBoxC.gridy = 1;
 		graphChoiceBoxC.anchor = GridBagConstraints.LINE_START;
-		graphChoiceBoxC.insets = new Insets(-4, 160, 0, 20);
+		graphChoiceBoxC.insets = new Insets(-4, 150, 0, 20);
 
 		graphChoiceLabelC.gridx = 3;
 		graphChoiceLabelC.gridy = 0;
 		graphChoiceLabelC.anchor = GridBagConstraints.LINE_START;
-		graphChoiceLabelC.insets = new Insets(0, 164, 0, 20);
+		graphChoiceLabelC.insets = new Insets(0, 154, 0, 20);
 
 		timeBoxC.gridx = 4;
 		timeBoxC.gridy = 1;
@@ -156,11 +153,11 @@ public class Content extends JPanel {
 		headerPanel.add(impressionsLabel, l2);
 		headerPanel.add(totalCostLabel, l3);
 
-		String[] graphChoices = {"Clicks", "Impressions", "Uniques", "Bounces", "Conversions",
-				"Cumulative Cost", "Click Costs"};
+		String[] graphChoices = {"Number of Clicks", "Impressions", "Uniques", "Bounces", "Conversions",
+				"Cumulative Cost", "Click Cost Distribution"};
 
 		graphChoiceBox = new JComboBox(graphChoices);
-		graphChoiceBox.setPrototypeDisplayValue("XXXXXXXXXX");
+		graphChoiceBox.setPrototypeDisplayValue("XXXXXXXXXXXXXX");
 		graphChoiceBox.setEnabled(false);
 		graphChoiceBox.addActionListener(e -> {
 			JComboBox<String> cb = (JComboBox) e.getSource();
@@ -175,18 +172,17 @@ public class Content extends JPanel {
 					chart.showUniqueChart(dashboard.dataAnalytics.uniqueClickSet(dashboard.getClickLogs()));
 					break;
 				case 3:
-					ArrayList<ServerLog> bounceLog = (ArrayList<ServerLog>) dashboard.getOriginalServerLogs().clone();
-					bounceLog.removeAll(dashboard.getServerLogs());
-					chart.showBounceChart(bounceLog);
+					chart.showBounceChart(dashboard.dataAnalytics.getFilteredServerLogOnBounce(dashboard.getServerLogs(), 
+							dashboard.sidebar.getChosenPages(), dashboard.sidebar.getChosenTime()));
 					break;
 				case 4:
 					chart.showConversionChart(dashboard.getServerLogs());
 					break;
 				case 5:
-					chart.showCumulativeCost(dashboard.getClickLogs());
+					chart.showCumulativeCostChart(dashboard.getClickLogs(),dashboard.getImpressionLogs());
 					break;
 				case 6:
-					chart.showCost(dashboard.getClickLogs());
+					chart.showClickCostsHistogram(dashboard.getClickLogs());
 					break;
 				default:
 					chart.showClicksChart(dashboard.getClickLogs());
@@ -236,18 +232,17 @@ public class Content extends JPanel {
 						chart.showUniqueChart(dashboard.dataAnalytics.uniqueClickSet(dashboard.getClickLogs()));
 						break;
 					case 3:
-						ArrayList<ServerLog> bounceLog = (ArrayList<ServerLog>) dashboard.getOriginalServerLogs().clone();
-						bounceLog.removeAll(dashboard.getServerLogs());
-						chart.showBounceChart(bounceLog);
+						chart.showBounceChart(dashboard.dataAnalytics.getFilteredServerLogOnBounce(dashboard.getServerLogs(), 
+								dashboard.sidebar.getChosenPages(), dashboard.sidebar.getChosenTime()));
 						break;
 					case 4:
 						chart.showConversionChart(dashboard.getServerLogs());
 						break;
 					case 5:
-						chart.showCumulativeCost(dashboard.getClickLogs());
+						chart.showCumulativeCostChart(dashboard.getClickLogs(),dashboard.getImpressionLogs());
 						break;
 					case 6:
-						chart.showCost(dashboard.getClickLogs());
+						chart.showClickCostsHistogram(dashboard.getClickLogs());
 						break;
 					default:
 						chart.showClicksChart(dashboard.getClickLogs());
@@ -271,11 +266,11 @@ public class Content extends JPanel {
 
 		// ######### Tab 1 #########
 
-		chart = new Chart();
+        chart = new Chart();
 		chart.addMouseListener(new PrintScreenListener());
 
 		Platform.setImplicitExit(false);
-		Platform.runLater(() -> chart.initFX());
+		Platform.runLater(() -> chart.initFX(new XYChart.Series(), "No data"));
 
 		graphPanel.add(chart);
 
