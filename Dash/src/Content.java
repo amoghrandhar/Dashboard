@@ -107,12 +107,12 @@ public class Content extends JPanel {
 		graphChoiceBoxC.gridx = 3;
 		graphChoiceBoxC.gridy = 1;
 		graphChoiceBoxC.anchor = GridBagConstraints.LINE_START;
-		graphChoiceBoxC.insets = new Insets(-4, 160, 0, 20);
+		graphChoiceBoxC.insets = new Insets(-4, 150, 0, 20);
 
 		graphChoiceLabelC.gridx = 3;
 		graphChoiceLabelC.gridy = 0;
 		graphChoiceLabelC.anchor = GridBagConstraints.LINE_START;
-		graphChoiceLabelC.insets = new Insets(0, 164, 0, 20);
+		graphChoiceLabelC.insets = new Insets(0, 154, 0, 20);
 
 		timeBoxC.gridx = 4;
 		timeBoxC.gridy = 1;
@@ -153,11 +153,11 @@ public class Content extends JPanel {
 		headerPanel.add(impressionsLabel, l2);
 		headerPanel.add(totalCostLabel, l3);
 
-		String[] graphChoices = {"Clicks", "Impressions", "Uniques", "Bounces", "Conversions",
-				"Cumulative Cost", "Click Costs"};
+		String[] graphChoices = {"Number of Clicks", "Impressions", "Uniques", "Bounces", "Conversions",
+				"Cumulative Cost", "Click Cost Distribution"};
 
 		graphChoiceBox = new JComboBox(graphChoices);
-		graphChoiceBox.setPrototypeDisplayValue("XXXXXXXXXX");
+		graphChoiceBox.setPrototypeDisplayValue("XXXXXXXXXXXXXX");
 		graphChoiceBox.setEnabled(false);
 		graphChoiceBox.addActionListener(e -> {
 			JComboBox<String> cb = (JComboBox) e.getSource();
