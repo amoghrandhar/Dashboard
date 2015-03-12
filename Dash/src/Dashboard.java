@@ -107,9 +107,9 @@ public class Dashboard extends JFrame {
         long conversions = DataAnalytics.noOfConversions(serverLogs);
         double totalCost = DataAnalytics.totalCost(impressionLogs, clickLogs);
         double CTR = DataAnalytics.getCTR(clickLogs, impressionLogs);
-        double CPA = DataAnalytics.getCPA(impressionLogs, clickLogs, serverLogs);
-        double CPC = DataAnalytics.getCPC(impressionLogs, clickLogs);
-        double CPM = DataAnalytics.getCPM(impressionLogs, clickLogs);
+        double CPA = DataAnalytics.getCPA(serverLogs , totalCost);
+        double CPC = DataAnalytics.getCPC(clickLogs,totalCost);
+        double CPM = DataAnalytics.getCPM(impressionLogs, totalCost);
         double bounceRate = DataAnalytics.bounceRate(clickLogs, serverLogs , pagesView,timeSpent);
 
         // Update metrics table

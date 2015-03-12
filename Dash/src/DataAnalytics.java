@@ -1,3 +1,4 @@
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -148,21 +149,36 @@ public class DataAnalytics {
     }
     */
 
+
     public static  Double getCPA(ArrayList<ImpressionLog> impressionArrayList, ArrayList<ClickLog> clickLogArrayList, ArrayList<ServerLog> slog) {
         // This returns the CPA
         return totalCost(impressionArrayList, clickLogArrayList) / noOfConversions(slog);
     }
 
+    public static  Double getCPA(ArrayList<ServerLog> slog, Double totalCost) {
+        // This returns the CPA
+        return totalCost / noOfConversions(slog);
+    }
 
     public static  Double getCPC(ArrayList<ImpressionLog> impressionArrayList, ArrayList<ClickLog> clickLogArrayList) {
         // This returns the CPC
         return totalCost(impressionArrayList, clickLogArrayList) / totalClicks(clickLogArrayList);
+    }
+    public static  Double getCPC(ArrayList<ClickLog> clickLogArrayList , Double totalCost) {
+        // This returns the CPC
+        return totalCost / totalClicks(clickLogArrayList);
     }
 
     public static  Double getCPM(ArrayList<ImpressionLog> impressionArrayList, ArrayList<ClickLog> clickLogArrayList) {
         // This returns the CPM
         return (totalCost(impressionArrayList, clickLogArrayList) / noOfImpression(impressionArrayList)) * 1000;
     }
+
+    public static  Double getCPM(ArrayList<ImpressionLog> impressionArrayList, Double totalC) {
+        // This returns the CPM
+        return (totalC / noOfImpression(impressionArrayList)) * 1000;
+    }
+
 
     public static Double bounceRate( ArrayList<ClickLog> clickLogArrayList, ArrayList<ServerLog> slog , int pagesV , int timeSpent) {
         // This returns the average bounceRate
@@ -284,5 +300,13 @@ public class DataAnalytics {
         
     }
 
+    public static String round(double value, int scale) {
+
+        if (Double.isFinite(value)) {
+            return new BigDecimal(String.valueOf(value)).setScale(scale, BigDecimal.ROUND_HALF_UP).toString();
+        } else {
+            return "0";
+        }
+    }
 
 }
