@@ -6,7 +6,6 @@ import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,7 +14,6 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 
 public class Content extends JPanel {
 
@@ -181,7 +179,7 @@ public class Content extends JPanel {
 					chart.showConversionChart(dashboard.getServerLogs());
 					break;
 				case 5:
-					chart.showCumulativeCostChart(dashboard.getClickLogs());
+					chart.showCumulativeCostChart(dashboard.getClickLogs(),dashboard.getImpressionLogs());
 					break;
 				case 6:
 					chart.showClickCostsHistogram(dashboard.getClickLogs());
@@ -241,7 +239,7 @@ public class Content extends JPanel {
 						chart.showConversionChart(dashboard.getServerLogs());
 						break;
 					case 5:
-						chart.showCumulativeCostChart(dashboard.getClickLogs());
+						chart.showCumulativeCostChart(dashboard.getClickLogs(),dashboard.getImpressionLogs());
 						break;
 					case 6:
 						chart.showClickCostsHistogram(dashboard.getClickLogs());

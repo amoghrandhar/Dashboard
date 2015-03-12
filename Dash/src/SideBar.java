@@ -861,7 +861,7 @@ public class SideBar extends JPanel {
             		dashboard.content.chart.showConversionChart(dashboard.getServerLogs());
             		break;
             	case 5:
-            		dashboard.content.chart.showCumulativeCostChart(dashboard.getClickLogs());
+            		dashboard.content.chart.showCumulativeCostChart(dashboard.getClickLogs(),dashboard.getImpressionLogs());
             		break;
             	case 6:
             		dashboard.content.chart.showClickCostsHistogram(dashboard.getClickLogs());
@@ -928,7 +928,7 @@ public class SideBar extends JPanel {
             		dashboard.content.chart.showConversionChart(dashboard.getServerLogs());
             		break;
             	case 5:
-            		dashboard.content.chart.showCumulativeCostChart(dashboard.getClickLogs());
+            		dashboard.content.chart.showCumulativeCostChart(dashboard.getClickLogs(),dashboard.getImpressionLogs());
             		break;
             	case 6:
             		dashboard.content.chart.showClickCostsHistogram(dashboard.getClickLogs());

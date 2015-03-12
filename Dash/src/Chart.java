@@ -208,7 +208,7 @@ public class Chart extends JFXPanel {
 
 	}
 
-	public void showCumulativeCostChart(ArrayList<ClickLog> clickList) {
+	public void showCumulativeCostChart(ArrayList<ClickLog> clickList , ArrayList<ImpressionLog> impressionLogs) {
 
 		xAxis.setLabel("Date");
 		yAxis.setLabel("Cumulative Cost (pence)");
@@ -217,21 +217,28 @@ public class Chart extends JFXPanel {
 		String date, previous = null;
 
 		for (ClickLog click : clickList) {
-			
 			date = sdf.format(click.getDate());
-			
 			if (!costPairs.containsKey(date)) {
 				if (previous != null)
 					costPairs.put(date, click.getClickCost() + costPairs.get(previous));
 				else 
 					costPairs.put(date, click.getClickCost());
 			}
-			
 			else costPairs.put(date, costPairs.get(date) + click.getClickCost());
-			
 			previous = date;
-			
 		}
+
+        for (ImpressionLog impression : impressionLogs) {
+            date = sdf.format(impression.getDate());
+            if (!costPairs.containsKey(date)) {
+                if (previous != null)
+                    costPairs.put(date, impression.getImpression() + costPairs.get(previous));
+                else
+                    costPairs.put(date, impression.getImpression());
+            }
+            else costPairs.put(date, costPairs.get(date) + impression.getImpression());
+            previous = date;
+        }
 
 		XYChart.Series series = new XYChart.Series();
 
