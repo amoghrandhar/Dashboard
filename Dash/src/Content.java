@@ -1,10 +1,12 @@
 import javafx.application.Platform;
+import javafx.scene.chart.XYChart;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -172,18 +174,17 @@ public class Content extends JPanel {
 					chart.showUniqueChart(dashboard.dataAnalytics.uniqueClickSet(dashboard.getClickLogs()));
 					break;
 				case 3:
-					ArrayList<ServerLog> bounceLog = (ArrayList<ServerLog>) dashboard.getOriginalServerLogs().clone();
-					bounceLog.removeAll(dashboard.getServerLogs());
-					chart.showBounceChart(bounceLog);
+					chart.showBounceChart(dashboard.dataAnalytics.getFilteredServerLogOnBounce(dashboard.getServerLogs(), 
+							dashboard.sidebar.getChosenPages(), dashboard.sidebar.getChosenTime()));
 					break;
 				case 4:
 					chart.showConversionChart(dashboard.getServerLogs());
 					break;
 				case 5:
-					chart.showCumulativeCost(dashboard.getClickLogs());
+					chart.showCumulativeCostChart(dashboard.getClickLogs());
 					break;
 				case 6:
-					chart.showCost(dashboard.getClickLogs());
+					chart.showClickCostsHistogram(dashboard.getClickLogs());
 					break;
 				default:
 					chart.showClicksChart(dashboard.getClickLogs());
@@ -233,18 +234,17 @@ public class Content extends JPanel {
 						chart.showUniqueChart(dashboard.dataAnalytics.uniqueClickSet(dashboard.getClickLogs()));
 						break;
 					case 3:
-						ArrayList<ServerLog> bounceLog = (ArrayList<ServerLog>) dashboard.getOriginalServerLogs().clone();
-						bounceLog.removeAll(dashboard.getServerLogs());
-						chart.showBounceChart(bounceLog);
+						chart.showBounceChart(dashboard.dataAnalytics.getFilteredServerLogOnBounce(dashboard.getServerLogs(), 
+								dashboard.sidebar.getChosenPages(), dashboard.sidebar.getChosenTime()));
 						break;
 					case 4:
 						chart.showConversionChart(dashboard.getServerLogs());
 						break;
 					case 5:
-						chart.showCumulativeCost(dashboard.getClickLogs());
+						chart.showCumulativeCostChart(dashboard.getClickLogs());
 						break;
 					case 6:
-						chart.showCost(dashboard.getClickLogs());
+						chart.showClickCostsHistogram(dashboard.getClickLogs());
 						break;
 					default:
 						chart.showClicksChart(dashboard.getClickLogs());
@@ -272,7 +272,7 @@ public class Content extends JPanel {
 		chart.addMouseListener(new PrintScreenListener());
 
 		Platform.setImplicitExit(false);
-		Platform.runLater(() -> chart.initFX());
+		Platform.runLater(() -> chart.initFX(new XYChart.Series(), "No data"));
 
 		graphPanel.add(chart);
 
