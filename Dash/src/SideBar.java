@@ -44,6 +44,8 @@ public class SideBar extends JPanel {
     JLabel pagesLabel, timeLabel;
     JCheckBox pagesCheckBox, timeCheckBox;
     JSpinner pagesSpinner, timeSpinner;
+    
+    ImageIcon exportIcon;
 
     Color SECONDARY = Color.decode("#fafafa");
 
@@ -96,7 +98,7 @@ public class SideBar extends JPanel {
         importButton.addActionListener(new ImportListener(dashboard));
         filePanel.add(importButton, importC);
 
-        ImageIcon exportIcon = new ImageIcon(getClass().getResource("download.png"));
+        exportIcon = new ImageIcon(getClass().getResource("download.png"));
         Image img2 = exportIcon.getImage();
         Image newimg2 = img2.getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH);
         exportIcon = new ImageIcon(newimg2);
@@ -684,9 +686,18 @@ public class SideBar extends JPanel {
 
         public void actionPerformed(ActionEvent e) {
 
-            dashboard.sidebar.popUpMenu.show(dashboard.sidebar.exportButton,
-                    dashboard.sidebar.exportButton.getWidth(), 2);
+        	if (exportButton.getText() == " Export ") {
+	        	dashboard.sidebar.popUpMenu.show(dashboard.sidebar.exportButton,
+	                    dashboard.sidebar.exportButton.getWidth(), 2);
 
+        	} else {          	            		
+                this.dashboard.content.screenShotMode = false;  
+                this.dashboard.content.glassPanel.setVisible(false);
+                this.dashboard.content.glassPanel.repaint();
+                exportButton.setText(" Export ");
+                exportButton.setIcon(exportIcon);
+                exportButton.setBackground(UIManager.getColor("Button.background"));             
+        	}
         }
 
     }
@@ -702,14 +713,17 @@ public class SideBar extends JPanel {
         }
 
         public void actionPerformed(ActionEvent event) {
-
-            if (event.getSource() == dashboard.sidebar.pngItem) {
+        	
+    		if (event.getSource() == dashboard.sidebar.pngItem) {
 
                 this.dashboard.content.screenShotMode = true;  
                 this.dashboard.content.glassPanel.setOpaque(false);  
                 this.dashboard.content.dashboard.setGlassPane(this.dashboard.content.glassPanel);  
                 this.dashboard.content.glassPanel.setVisible(true);
                 this.dashboard.content.glassPanel.repaint();
+                exportButton.setText(" Cancel ");
+                exportButton.setIcon(null);
+                exportButton.setBackground(Color.RED);
             }
 
             if (event.getSource() == dashboard.sidebar.jpegItem) {
@@ -731,7 +745,6 @@ public class SideBar extends JPanel {
             if (event.getSource() == dashboard.sidebar.piesItem) {
 
             	PrintSupport.printComponent(dashboard.content.tab2);
-
             }
 
         }
