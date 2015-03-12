@@ -21,9 +21,5 @@
 
 
 .chart-bar {
-    -fx-background-color: rgba(0,168,355,0.05);
-    -fx-border-color: rgba(0,168,355,0.3) rgb(67, 255, 4)
-    transparent rgba(232, 21, 2, 0.98);
-    -fx-background-radius: 0;
-    -fx-background-position: left center;
+    -fx-background-color: #00d2ff;
 }
