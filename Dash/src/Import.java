@@ -228,6 +228,7 @@ public class Import extends JFrame {
 	                    setVisible(false);
 	                    dispose();
 	                    dashboard.sidebar.importButton.setEnabled(true);
+	                    dashboard.sidebar.exportButton.setEnabled(true);
                     }).start();
 
                 } else {

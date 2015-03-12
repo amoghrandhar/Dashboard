@@ -107,6 +107,7 @@ public class SideBar extends JPanel {
         exportButton.setFont(new Font("", Font.PLAIN, 12));
         exportButton.setPreferredSize(new Dimension(120, 46));
         exportButton.setFocusable(false);
+        exportButton.setEnabled(false);
 
         pngItem = new JMenuItem("Export as PNG");
         pngItem.addActionListener(new PopupListener(dashboard));
