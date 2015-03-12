@@ -395,7 +395,7 @@ public class SideBar extends JPanel {
                         timeSpinnerC.gridx = 1;
                         timeSpinnerC.gridy = 1;
                         
-                        SpinnerModel spinnerModel = new SpinnerNumberModel(3, 0, 60, 1);
+                        SpinnerModel spinnerModel = new SpinnerNumberModel(dashboard.DEFAULT_BOUNCE_PAGES_PROP, 0, 60, 1);
                         
                         pagesCheckBox = new JCheckBox("Pages visited");
                         pagesSpinner = new JSpinner(spinnerModel);
@@ -404,7 +404,7 @@ public class SideBar extends JPanel {
                         JFormattedTextField tf = ((JSpinner.DefaultEditor) editor).getTextField();
                         tf.setColumns(2);
                         
-                        SpinnerModel spinnerModel2 = new SpinnerNumberModel(3, 0, 60, 1);
+                        SpinnerModel spinnerModel2 = new SpinnerNumberModel(dashboard.DEFAULT_BOUNCE_TIME_PROP, 0, 60, 1);
                         
                         timeCheckBox = new JCheckBox("Time spent (s)");
                         timeSpinner = new JSpinner(spinnerModel2);
@@ -519,7 +519,7 @@ public class SideBar extends JPanel {
     	if(pagesCheckBox.isSelected())
     		return (int) pagesSpinner.getValue();
     	
-    	else return -1;
+    	else return dashboard.DEFAULT_BOUNCE_PAGES_PROP;
     	
     }
     
@@ -528,7 +528,7 @@ public class SideBar extends JPanel {
     	if(timeCheckBox.isSelected())
     		return (int) timeSpinner.getValue();
     	
-    	else return -1;
+    	else return dashboard.DEFAULT_BOUNCE_TIME_PROP;
     	
     }
 
@@ -857,7 +857,7 @@ public class SideBar extends JPanel {
             		break;
             	case 3:
 					dashboard.content.chart.showBounceChart(dashboard.dataAnalytics.getFilteredServerLogOnBounce(dashboard.getServerLogs(), 
-							dashboard.sidebar.getChosenPages(), dashboard.sidebar.getChosenTime()));
+							getChosenPages(), getChosenTime()));
 					break;
             	case 4:
             		dashboard.content.chart.showConversionChart(dashboard.getServerLogs());
@@ -907,9 +907,9 @@ public class SideBar extends JPanel {
             sidebar.incomeLabel.setSelected(false);
             sidebar.contextGroup.clearSelection();
             sidebar.pagesCheckBox.setSelected(false);
-            sidebar.pagesSpinner.setValue(0);
+            sidebar.pagesSpinner.setValue(dashboard.DEFAULT_BOUNCE_PAGES_PROP);
             sidebar.timeCheckBox.setSelected(false);
-            sidebar.timeSpinner.setValue(0);
+            sidebar.timeSpinner.setValue(dashboard.DEFAULT_BOUNCE_TIME_PROP);
 
             dashboard.resetLogs();
             dashboard.updateMetrics(dashboard.DEFAULT_BOUNCE_PAGES_PROP,dashboard.DEFAULT_BOUNCE_TIME_PROP);
@@ -924,7 +924,7 @@ public class SideBar extends JPanel {
             		break;
             	case 3:
 					dashboard.content.chart.showBounceChart(dashboard.dataAnalytics.getFilteredServerLogOnBounce(dashboard.getServerLogs(), 
-							dashboard.sidebar.getChosenPages(), dashboard.sidebar.getChosenTime()));
+							dashboard.DEFAULT_BOUNCE_PAGES_PROP, dashboard.DEFAULT_BOUNCE_TIME_PROP));
 					break;
             	case 4:
             		dashboard.content.chart.showConversionChart(dashboard.getServerLogs());
