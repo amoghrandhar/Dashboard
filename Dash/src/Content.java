@@ -621,7 +621,6 @@ public class Content extends JPanel {
 				{
 					drawSquare(chart.getWidth(), chart.getHeight(), chart.getWidth(), chart.getHeight());
 					JFileChooser fc = new JFileChooser();
-                    fc.setFileFilter( new ImageFilter("PNG", new String[] { "PNG" }));
 					int retrival = fc.showSaveDialog(null);
 					if (retrival == JFileChooser.APPROVE_OPTION) {
 						File file = fc.getSelectedFile();
@@ -664,22 +663,16 @@ public class Content extends JPanel {
                     fc.setFileFilter(f1);
                     fc.addChoosableFileFilter(f1);
                     fc.addChoosableFileFilter(f2);
-
-                    int retrival=fc.showSaveDialog(null);
-
+                    int retrival = fc.showSaveDialog(null);
                     if (retrival == fc.APPROVE_OPTION) {
-
                         String ext = "";
-
                         String extension = fc.getFileFilter().getDescription();
-
                         if (extension.equals("JPG")) {
                             ext = ".jpg";
                         }
                         if (extension.equals("PNG")) {
                             ext = ".png";
                         }
-
                         File file = fc.getSelectedFile();
                         BufferedImage bufImage = new BufferedImage(pieChart1.getSize().width, pieChart1.getSize().height,BufferedImage.TYPE_INT_RGB);
                         pieChart1.paint(bufImage.createGraphics());
@@ -690,7 +683,6 @@ public class Content extends JPanel {
                         } catch(Exception ex) {
                             ex.printStackTrace();
                         }
-
                     }
 
 				}
