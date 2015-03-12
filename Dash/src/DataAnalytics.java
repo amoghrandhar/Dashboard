@@ -71,8 +71,7 @@ public class DataAnalytics {
             Predicate<ServerLog> serverTimeSpentPredicate = ser -> (ser.getEndDate() == null || (ser.getEndDate().getTime() - ser.getStartDate().getTime()) <= (timeSpent * 1000));
 
         return (ArrayList<ServerLog>)serverLogs.parallelStream()
-                .filter(serverLogNoPredicate)
-                .filter(serverTimeSpentPredicate)
+                .filter(serverLogNoPredicate.or(serverTimeSpentPredicate))
                 .collect(Collectors.<ServerLog>toList());
 
     }
