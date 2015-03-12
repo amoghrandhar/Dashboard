@@ -6,6 +6,7 @@ import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -456,7 +457,7 @@ public class Content extends JPanel {
 						g2d.drawString("Click on the table to export", tableRect.x + 20, tableRect.y + 20);
 					}
 					
-					if(tabbedPane.getSelectedIndex() == 1) {
+					if (tabbedPane.getSelectedIndex() == 1) {
 					
 						Point rootPaneOrigin = pieChart1.getRootPane().getContentPane().getLocationOnScreen();
 						
@@ -565,7 +566,7 @@ public class Content extends JPanel {
 						drawSquare( pGraph.x - rootPaneOrigin.x, pGraph.y - rootPaneOrigin.y, chart.getWidth(), chart.getHeight());
 
 					if (e.getSource() == table)
-						drawSquare(pTable.x - rootPaneOrigin.x, pTable.y - rootPaneOrigin.y, table.getWidth(), table.getHeight());
+						drawSquare(pTable.x - rootPaneOrigin.x, pTable.y - rootPaneOrigin.y - 22, table.getWidth(), table.getHeight() + 22);
 
 				}
 
@@ -605,7 +606,12 @@ public class Content extends JPanel {
 			dashboard.setGlassPane(glassPanel);  
 			glassPanel.setVisible(clicked);
 			glassPanel.repaint();
-		}
+			
+			//screenShotMode = false;  
+			dashboard.sidebar.exportButton.setText(" Export ");
+			dashboard.sidebar.exportButton.setIcon(dashboard.sidebar.exportIcon);
+			dashboard.sidebar.exportButton.setBackground(UIManager.getColor("Button.background")); 
+         }
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
