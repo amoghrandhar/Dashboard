@@ -61,6 +61,21 @@ public class DataAnalytics {
         
     }
 
+
+    public static ArrayList<ServerLog> getFilteredServerLogOnBounce(ArrayList<ServerLog> serverLogs, int pagesV , int timeSpent){
+             //No of pages viewed
+            Predicate<ServerLog> serverLogNoPredicate = ser -> ser.getPagesViewed() <= pagesV;
+
+            //Time spent on website
+            Predicate<ServerLog> serverTimeSpentPredicate = ser -> (ser.getEndDate() == null || (ser.getEndDate().getTime() - ser.getStartDate().getTime()) <= (timeSpent * 1000));
+
+        return (ArrayList<ServerLog>)serverLogs.parallelStream()
+                .filter(serverLogNoPredicate)
+                .filter(serverTimeSpentPredicate)
+                .collect(Collectors.<ServerLog>toList());
+
+    }
+
     public static  long noOfConversions(ArrayList<ServerLog> slog) {
         //It tells the total no. of conversions which happened
         long total = 0;
