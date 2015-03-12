@@ -7,9 +7,7 @@ import javafx.scene.control.Tooltip;
 import javax.swing.*;
 import java.awt.*;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
+import java.util.*;
 import java.util.Map.Entry;
 
 @SuppressWarnings("serial")
@@ -251,31 +249,59 @@ public class Chart extends JFXPanel {
 
 	public void showClickCostsHistogram(ArrayList<ClickLog> clickList) {
 
-		xAxis.setLabel("Date");
+		xAxis.setLabel("Cost Division");
+       // xAxis.setLabel("Date");
 		yAxis.setLabel("Cost (pence)");
+
+        int modVal = 100 ;
+        int temp ;
 
 		LinkedHashMap<String, Double> costPairs = new LinkedHashMap<String, Double>();
 		String date;
 
-		for (ClickLog click : clickList) {
-			
-			date = sdf.format(click.getDate());
-			
-			if (!costPairs.containsKey(date))
-				costPairs.put(date, click.getClickCost());
-			else 
-				costPairs.put(date, costPairs.get(date) + click.getClickCost());
+//		for (ClickLog click : clickList) {
+//			date = sdf.format(click.getDate());
+//			if (!costPairs.containsKey(date))
+//				costPairs.put(date, click.getClickCost());
+//			else
+//				costPairs.put(date, costPairs.get(date) + click.getClickCost());
+//
+//		}
 
-		}
+        for (ClickLog click : clickList) {
+            temp = click.getClickCost().intValue() % 100;
+            date = String.valueOf(temp);
+
+            if (!costPairs.containsKey(date)) {
+                System.out.println(date);
+                costPairs.put(date, 1.0);
+            }
+            else
+                costPairs.put(date, costPairs.get(date) + 1.0);
+
+        }
+
+        TreeMap<String,Double> costDivi = new TreeMap<String,Double>(new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                Integer a = Integer.parseInt(o1);
+                Integer b = Integer.parseInt(o2);
+               return a.compareTo(b);
+            }
+        });
+
+        costDivi.putAll(costPairs);
+
 
 		BarChart<String, Number> barChart = new BarChart<String, Number>(xAxis, yAxis);
 
 		XYChart.Series series = new XYChart.Series();
 
-		for (Entry<String, Double> entry : costPairs.entrySet())
-			series.getData().add(new XYChart.Data(entry.getKey(), entry.getValue()));
+		for (Entry<String, Double> entry : costDivi.entrySet())
+			series.getData().add(new XYChart.Data(entry.getKey().concat(" - ").concat(String.valueOf(Integer.parseInt(entry.getKey()) + 1)), entry.getValue()));
 
-		series.setName("Cost Over Time");
+//		series.setName("Cost Over Time");
+        series.setName("Cost Over Cost Division");
 		barChart.getData().add(series);
 		barChart.setAnimated(true);
 		barChart.setCursor(Cursor.CROSSHAIR);		
@@ -283,7 +309,7 @@ public class Chart extends JFXPanel {
 		barChart.setCategoryGap(0);
 
 		scene = new Scene(barChart, xDim, yDim);
-		//scene.getStylesheets().add("chartstyle.css");
+		scene.getStylesheets().add("chartstyle2.css");
 		this.setScene(scene);
 
 	}

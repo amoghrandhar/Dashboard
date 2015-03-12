@@ -21,11 +21,11 @@ public class ClickLog implements Serializable {
         return date;
     }
 
-    public double getID() {
+    public Double getID() {
         return ID;
     }
 
-    public double getClickCost() {
+    public Double getClickCost() {
         return clickCost;
     }
 
