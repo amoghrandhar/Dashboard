@@ -10,8 +10,8 @@ public class Dashboard extends JFrame {
     public Content content;
     public DataAnalytics dataAnalytics;
 
-    public final int DEFAULT_BOUNCE_PAGES_PROP = 3;
-    public final int DEFAULT_BOUNCE_TIME_PROP = 3;
+    public final int DEFAULT_BOUNCE_PAGES_PROP = -1;
+    public final int DEFAULT_BOUNCE_TIME_PROP = -1;
 
     private ArrayList<ClickLog> clickLogs;
     private ArrayList<ImpressionLog> impressionLogs;
@@ -99,18 +99,21 @@ public class Dashboard extends JFrame {
     }
 
     public void updateMetrics(int pagesView , int timeSpent) {
+    	
+    	System.out.println(pagesView);
+    	System.out.println(timeSpent);
 
         long clicks = DataAnalytics.totalClicks(clickLogs);
         long impressions = DataAnalytics.noOfImpression(impressionLogs);
         long uniques = DataAnalytics.noOfUniques(clickLogs);
-        long bounces = DataAnalytics.noOfBounces(serverLogs,pagesView,timeSpent);
+        long bounces = DataAnalytics.noOfBounces(serverLogs,pagesView, timeSpent);
         long conversions = DataAnalytics.noOfConversions(serverLogs);
         double totalCost = DataAnalytics.totalCost(impressionLogs, clickLogs);
         double CTR = DataAnalytics.getCTR(clickLogs, impressionLogs);
         double CPA = DataAnalytics.getCPA(serverLogs , totalCost);
         double CPC = DataAnalytics.getCPC(clickLogs,totalCost);
         double CPM = DataAnalytics.getCPM(impressionLogs, totalCost);
-        double bounceRate = DataAnalytics.bounceRate(clickLogs, serverLogs , pagesView,timeSpent);
+        double bounceRate = DataAnalytics.bounceRate(clickLogs, serverLogs , pagesView, timeSpent);
 
         // Update metrics table
         String[] rowData = {
