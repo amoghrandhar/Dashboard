@@ -70,10 +70,5 @@ public class TestingParser {
         System.out.println("Context Group : " + dataAnalytics.contextGroupDivision(ip.getImpressions()));
 
 
-//        System.out.println("\n\n Testing the filtering ::: - >");
-//        Predicate<ClickLog> clickLogPredicate = clickLog -> clickLog.getDate().after(new Date());
-//        System.out.println(dataAnalytics.filterClickLogs(clickLogPredicate, clp.getClickLogs()).size());
-//
-
     }
 }

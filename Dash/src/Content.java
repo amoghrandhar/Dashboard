@@ -3,10 +3,10 @@ import javafx.scene.chart.XYChart;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -621,6 +621,7 @@ public class Content extends JPanel {
 				{
 					drawSquare(chart.getWidth(), chart.getHeight(), chart.getWidth(), chart.getHeight());
 					JFileChooser fc = new JFileChooser();
+                    fc.setFileFilter( new ImageFilter("PNG", new String[] { "PNG" }));
 					int retrival = fc.showSaveDialog(null);
 					if (retrival == JFileChooser.APPROVE_OPTION) {
 						File file = fc.getSelectedFile();
@@ -639,6 +640,7 @@ public class Content extends JPanel {
 				{
 					drawSquare(table.getWidth(), table.getHeight(), table.getWidth(), table.getHeight());
 					JFileChooser fc = new JFileChooser();
+                    fc.setFileFilter( new ImageFilter("PNG", new String[] { "PNG" }));
 					int retrival = fc.showSaveDialog(null);
 					if (retrival == JFileChooser.APPROVE_OPTION) {
 						File file = fc.getSelectedFile();
@@ -657,24 +659,46 @@ public class Content extends JPanel {
 				{
 					drawSquare(pieChart1.getWidth(), pieChart1.getHeight(), pieChart1.getWidth(), pieChart1.getHeight());
 					JFileChooser fc = new JFileChooser();
-					int retrival = fc.showSaveDialog(null);
-					if (retrival == JFileChooser.APPROVE_OPTION) {
-						File file = fc.getSelectedFile();
-						BufferedImage bufImage = new BufferedImage(pieChart1.getSize().width, pieChart1.getSize().height,BufferedImage.TYPE_INT_RGB);
-						pieChart1.paint(bufImage.createGraphics());
-						File imageFile = new File((file.getAbsolutePath() + ".png"));
-						try {
-							imageFile.createNewFile();
-							ImageIO.write(bufImage, "png", imageFile);
-						} catch(Exception ex) {
-							ex.printStackTrace();
-						}
-					}				
+                    FileFilter f1 = new ImageFilter("JPG", new String[]{"JPG"});
+                    FileFilter f2 = new ImageFilter("PNG", new String[]{"PNG"});
+                    fc.setFileFilter(f1);
+                    fc.addChoosableFileFilter(f1);
+                    fc.addChoosableFileFilter(f2);
+
+                    int retrival=fc.showSaveDialog(null);
+
+                    if (retrival == fc.APPROVE_OPTION) {
+
+                        String ext = "";
+
+                        String extension = fc.getFileFilter().getDescription();
+
+                        if (extension.equals("JPG")) {
+                            ext = ".jpg";
+                        }
+                        if (extension.equals("PNG")) {
+                            ext = ".png";
+                        }
+
+                        File file = fc.getSelectedFile();
+                        BufferedImage bufImage = new BufferedImage(pieChart1.getSize().width, pieChart1.getSize().height,BufferedImage.TYPE_INT_RGB);
+                        pieChart1.paint(bufImage.createGraphics());
+                        File imageFile = new File((file.getAbsolutePath() + ext));
+                        try {
+                            imageFile.createNewFile();
+                            ImageIO.write(bufImage, extension, imageFile);
+                        } catch(Exception ex) {
+                            ex.printStackTrace();
+                        }
+
+                    }
+
 				}
 				else if (e.getSource() == pieChart2)
 				{
 					drawSquare(pieChart2.getWidth(), pieChart2.getHeight(), pieChart2.getWidth(), pieChart2.getHeight());
 					JFileChooser fc = new JFileChooser();
+                    fc.setFileFilter( new ImageFilter("PNG", new String[] { "PNG" }));
 					int retrival = fc.showSaveDialog(null);
 					if (retrival == JFileChooser.APPROVE_OPTION) {
 						File file = fc.getSelectedFile();
@@ -693,6 +717,7 @@ public class Content extends JPanel {
 				{
 					drawSquare(pieChart3.getWidth(), pieChart3.getHeight(), pieChart3.getWidth(), pieChart3.getHeight());
 					JFileChooser fc = new JFileChooser();
+                    fc.setFileFilter( new ImageFilter("PNG", new String[] { "PNG" }));
 					int retrival = fc.showSaveDialog(null);
 					if (retrival == JFileChooser.APPROVE_OPTION) {
 						File file = fc.getSelectedFile();
@@ -712,6 +737,7 @@ public class Content extends JPanel {
 					drawSquare(pieChart4.getWidth(), pieChart4.getHeight(), pieChart4.getWidth(), pieChart4.getHeight());
 					JFileChooser fc = new JFileChooser();
 					int retrival = fc.showSaveDialog(null);
+                    fc.setFileFilter( new ImageFilter("PNG", new String[] { "PNG" }));
 					if (retrival == JFileChooser.APPROVE_OPTION) {
 						File file = fc.getSelectedFile();
 						BufferedImage bufImage = new BufferedImage(pieChart4.getSize().width, pieChart4.getSize().height,BufferedImage.TYPE_INT_RGB);
