@@ -723,7 +723,7 @@ public class SideBar extends JPanel {
                 this.dashboard.content.glassPanel.repaint();
                 exportButton.setText(" Cancel ");
                 exportButton.setIcon(null);
-                exportButton.setBackground(Color.RED);
+                exportButton.setBackground(Color.decode("#c54343"));
             }
 
             if (event.getSource() == dashboard.sidebar.jpegItem) {
