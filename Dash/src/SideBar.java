@@ -109,7 +109,7 @@ public class SideBar extends JPanel {
         exportButton.setFocusable(false);
         exportButton.setEnabled(false);
 
-        pngItem = new JMenuItem("Export as PNG");
+        pngItem = new JMenuItem("Export as Image");
         pngItem.addActionListener(new PopupListener(dashboard));
         jpegItem = new JMenuItem("Export graph as JPEG file");
         jpegItem.addActionListener(new PopupListener(dashboard));
@@ -697,7 +697,7 @@ public class SideBar extends JPanel {
                 this.dashboard.content.glassPanel.repaint();
                 exportButton.setText(" Export ");
                 exportButton.setIcon(exportIcon);
-                exportButton.setBackground(UIManager.getColor("Button.background"));             
+                exportButton.setBackground(UIManager.getColor("Button.background"));
         	}
         }
 
@@ -718,6 +718,7 @@ public class SideBar extends JPanel {
     		if (event.getSource() == dashboard.sidebar.pngItem) {
 
                 this.dashboard.content.screenShotMode = true;  
+                this.dashboard.content.table.setCellSelectionEnabled(false);
                 this.dashboard.content.glassPanel.setOpaque(false);  
                 this.dashboard.content.dashboard.setGlassPane(this.dashboard.content.glassPanel);  
                 this.dashboard.content.glassPanel.setVisible(true);
