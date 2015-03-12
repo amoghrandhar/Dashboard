@@ -433,6 +433,77 @@ public class Content extends JPanel {
 					g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
 					g2d.fillRect(x, y, width, height);
 				}
+				else if (screenShotMode)
+				{
+					if(tabbedPane.getSelectedIndex() == 0) {
+
+						Point rootPaneOrigin = chart.getRootPane().getContentPane().getLocationOnScreen();
+						Point pGraph = chart.getLocationOnScreen();
+						Point pTable = table.getLocationOnScreen();
+						
+						Graphics2D g2d = (Graphics2D) g;
+						g2d.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+						g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
+						
+						Rectangle chartRect = new Rectangle(pGraph.x - rootPaneOrigin.x + (chart.getWidth() / 2) - 85, 
+								pGraph.y - rootPaneOrigin.y + (chart.getHeight() / 2) - 40, 170, 80);
+						Rectangle tableRect = new Rectangle(pTable.x - rootPaneOrigin.x + (table.getWidth() / 2) - 140, 
+								pTable.y - rootPaneOrigin.y + 5, 280, 30);
+						
+						g2d.fillRoundRect(chartRect.x, chartRect.y, chartRect.width, chartRect.height, 30, 30);
+						g2d.fillRoundRect(tableRect.x, tableRect.y, tableRect.width, tableRect.height, 30, 30);
+	
+						g2d.setFont(new Font("Arial", Font.PLAIN, 20));
+	       	    	 	g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
+						g2d.setColor(Color.WHITE);
+						g2d.drawString("Click on the", chartRect.x + 33, chartRect.y + 35);
+						g2d.drawString("graph to export", chartRect.x + 20, chartRect.y + 55);	
+						g2d.drawString("Click on the table to export", tableRect.x + 20, tableRect.y + 20);
+					}
+					
+					if(tabbedPane.getSelectedIndex() == 1) {
+					
+						Point rootPaneOrigin = pieChart1.getRootPane().getContentPane().getLocationOnScreen();
+						
+						Point pPie1 = pieChart1.getLocationOnScreen();
+						Point pPie2 = pieChart2.getLocationOnScreen();
+						Point pPie3 = pieChart3.getLocationOnScreen();
+						Point pPie4 = pieChart4.getLocationOnScreen();
+						
+						Graphics2D g2d = (Graphics2D) g;
+						g2d.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+						g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
+						
+						
+						Rectangle pie1Rect = new Rectangle(pPie1.x - rootPaneOrigin.x + (pieChart1.getWidth() / 2) - 85, 
+								pPie1.y - rootPaneOrigin.y + (pieChart1.getHeight() / 2) - 40, 170, 80);
+						Rectangle pie2Rect = new Rectangle(pPie2.x - rootPaneOrigin.x + (pieChart2.getWidth() / 2) - 85, 
+								pPie2.y - rootPaneOrigin.y + (pieChart2.getHeight() / 2) - 40, 170, 80);
+						Rectangle pie3Rect = new Rectangle(pPie3.x - rootPaneOrigin.x + (pieChart3.getWidth() / 2) - 85, 
+								pPie3.y - rootPaneOrigin.y + (pieChart3.getHeight() / 2) - 40, 170, 80);
+						Rectangle pie4Rect = new Rectangle(pPie4.x - rootPaneOrigin.x + (pieChart4.getWidth() / 2) - 85, 
+								pPie4.y - rootPaneOrigin.y + (pieChart4.getHeight() / 2) - 40, 170, 80);
+			
+						g2d.fillRoundRect(pie1Rect.x, pie1Rect.y, pie1Rect.width, pie1Rect.height, 30, 30);
+						g2d.fillRoundRect(pie2Rect.x, pie2Rect.y, pie2Rect.width, pie2Rect.height, 30, 30);
+						g2d.fillRoundRect(pie3Rect.x, pie3Rect.y, pie3Rect.width, pie3Rect.height, 30, 30);
+						g2d.fillRoundRect(pie4Rect.x, pie4Rect.y, pie4Rect.width, pie4Rect.height, 30, 30);
+
+	
+						g2d.setFont(new Font("Arial", Font.PLAIN, 20));
+	       	    	 	g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
+						g2d.setColor(Color.WHITE);
+						g2d.drawString("Click on the", pie1Rect.x + 33, pie1Rect.y + 35);
+						g2d.drawString("chart to export", pie1Rect.x + 20, pie1Rect.y + 55);	
+						g2d.drawString("Click on the", pie2Rect.x + 33, pie2Rect.y + 35);
+						g2d.drawString("chart to export", pie2Rect.x + 20, pie2Rect.y + 55);
+						g2d.drawString("Click on the", pie3Rect.x + 33, pie3Rect.y + 35);
+						g2d.drawString("chart to export", pie3Rect.x + 20, pie3Rect.y + 55);
+						g2d.drawString("Click on the", pie4Rect.x + 33, pie4Rect.y + 35);
+						g2d.drawString("chart to export", pie4Rect.x + 20, pie4Rect.y + 55);
+					}
+				}
+				
 			}  
 		};
 
@@ -483,7 +554,7 @@ public class Content extends JPanel {
 
 			if (screenShotMode) {
 
-				if(tabbedPane.getSelectedIndex() == 0){
+				if(tabbedPane.getSelectedIndex() == 0) {
 
 					//Get "absolute" coordinates of root pane
 					Point rootPaneOrigin =
@@ -496,14 +567,14 @@ public class Content extends JPanel {
 					Point pTable = table.getLocationOnScreen();
 
 					if (e.getSource() == chart)
-						drawSquare( pGraph.x - rootPaneOrigin.x, pGraph.y - rootPaneOrigin.y,chart.getWidth(),chart.getHeight());
+						drawSquare( pGraph.x - rootPaneOrigin.x, pGraph.y - rootPaneOrigin.y, chart.getWidth(), chart.getHeight());
 
 					if (e.getSource() == table)
-						drawSquare(pTable.x - rootPaneOrigin.x, pTable.y - rootPaneOrigin.y ,table.getWidth(),table.getHeight());
+						drawSquare(pTable.x - rootPaneOrigin.x, pTable.y - rootPaneOrigin.y, table.getWidth(), table.getHeight());
 
 				}
 
-				if(tabbedPane.getSelectedIndex() == 1){
+				if(tabbedPane.getSelectedIndex() == 1) {
 
 					//Get "absolute" coordinates of root pane
 					Point rootPaneOrigin =
@@ -526,9 +597,7 @@ public class Content extends JPanel {
 					if (e.getSource() == pieChart4)
 						drawSquare( pPie4.x - rootPaneOrigin.x, pPie4.y - rootPaneOrigin.y ,pieChart4.getWidth(),pieChart4.getHeight());
 				}
-
 			}
-			
 		}
 
 		private void drawSquare(int _x, int _y, int _width, int _height) {

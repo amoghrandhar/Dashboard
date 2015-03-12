@@ -701,13 +701,15 @@ public class SideBar extends JPanel {
 
         }
 
-        // TODO For GEORGE to implement what happens when each item is clicked
         public void actionPerformed(ActionEvent event) {
 
             if (event.getSource() == dashboard.sidebar.pngItem) {
 
-                this.dashboard.content.screenShotMode = true;    
-
+                this.dashboard.content.screenShotMode = true;  
+                this.dashboard.content.glassPanel.setOpaque(false);  
+                this.dashboard.content.dashboard.setGlassPane(this.dashboard.content.glassPanel);  
+                this.dashboard.content.glassPanel.setVisible(true);
+                this.dashboard.content.glassPanel.repaint();
             }
 
             if (event.getSource() == dashboard.sidebar.jpegItem) {
