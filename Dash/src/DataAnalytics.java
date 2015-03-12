@@ -36,7 +36,8 @@ public class DataAnalytics {
                 if ((aSlog.getEndDate().getTime() - aSlog.getStartDate().getTime() <= (timeSpent * 1000)) || aSlog.getPagesViewed() <= pagesV) {
                     bounces++;
                 }
-            } else {
+            } 
+            else {
                 if (aSlog.getPagesViewed() <= pagesV) {
                     bounces++;
                 }
