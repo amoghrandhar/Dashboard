@@ -1,16 +1,13 @@
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
-
 import javafx.application.Platform;
-
 import javax.swing.*;
 import javax.swing.JFormattedTextField.AbstractFormatter;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.DateFormatter;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -51,11 +48,13 @@ public class SideBar extends JPanel {
     JLabel compareLabel, selectedLabel;
     JToggleButton compareButton;
     JComboBox compareBox;
+    Integer selectedSeries;
 
     public SideBar(Dashboard dashboard, DataAnalytics dataAnalytics) {
 
         this.dashboard = dashboard;
         this.dataAnalytics = dataAnalytics;
+        this.selectedSeries = 1;
         init();
 
     }
@@ -171,6 +170,15 @@ public class SideBar extends JPanel {
 		compareBox = new JComboBox(graphChoices);
 		compareBox.setPrototypeDisplayValue("XXXXXXX");
 		compareBox.setEnabled(true);
+		compareBox.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {				
+				selectedSeries = compareBox.getSelectedIndex() + 1;
+				System.out.println(selectedSeries);
+			}
+			
+		});
         
         comparePanel = new JPanel();
         comparePanel.setLayout(new GridBagLayout());

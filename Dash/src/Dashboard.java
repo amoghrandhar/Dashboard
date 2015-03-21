@@ -130,16 +130,33 @@ public class Dashboard extends JFrame {
                 round(CPM, 4),
                 round(bounceRate, 4)
         };
-        content.setMetrics(0, rowData);
         
-        if(content.comparing)
+        if(sidebar.selectedSeries == 1)
+        	content.setMetrics(0, rowData);
+        
+        if(sidebar.selectedSeries == 2)
         	content.setMetrics(1, rowData);
         
-        content.setHeaderMetrics(
-                String.valueOf(clicks),
-                String.valueOf(impressions),
-                round(totalCost, 2));
+        // TODO Header with two series does not make sense
+        
+//        content.setHeaderMetrics(
+//                String.valueOf(clicks),
+//                String.valueOf(impressions),
+//                round(totalCost, 2));
 
+    }
+    
+    public void updateHeader(){
+    	
+    	long clicks = DataAnalytics.totalClicks(clickLogs);
+        long impressions = DataAnalytics.noOfImpression(impressionLogs);
+        double totalCost = DataAnalytics.totalCost(impressionLogs, clickLogs);
+    	
+    	content.setHeaderMetrics(
+              String.valueOf(clicks),
+              String.valueOf(impressions),
+              round(totalCost, 2));
+    	
     }
     
     public void updateComparing(Boolean comparing){
