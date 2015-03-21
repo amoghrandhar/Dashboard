@@ -29,7 +29,7 @@ public class SideBar extends JPanel {
     Dashboard dashboard;
     DataAnalytics dataAnalytics;
 
-    JPanel filePanel, menuPanel;
+    JPanel filePanel, menuPanel, comparePanel;
 
     JButton importButton, exportButton, updateButton, resetButton;
     JPopupMenu popUpMenu;
@@ -45,9 +45,12 @@ public class SideBar extends JPanel {
     JCheckBox pagesCheckBox, timeCheckBox;
     JSpinner pagesSpinner, timeSpinner;
     
-    ImageIcon exportIcon;
-
+    ImageIcon importIcon, exportIcon;
     Color SECONDARY = Color.decode("#fafafa");
+    
+    JLabel compareLabel, selectedLabel;
+    JToggleButton compareButton;
+    JComboBox compareBox;
 
     public SideBar(Dashboard dashboard, DataAnalytics dataAnalytics) {
 
@@ -85,7 +88,7 @@ public class SideBar extends JPanel {
 
         // File Panel (Top)
 
-        ImageIcon importIcon = new ImageIcon(getClass().getResource("plus.png"));
+        importIcon = new ImageIcon(getClass().getResource("plus.png"));
         Image img = importIcon.getImage();
         Image newimg = img.getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH);
         importIcon = new ImageIcon(newimg);
@@ -129,8 +132,59 @@ public class SideBar extends JPanel {
         popUpMenu.add(piesItem);
 
         exportButton.addActionListener(new ExportListener(dashboard));
-
+        
         // Menu Panel (Bottom)
+        
+        GridBagConstraints gc1 = new GridBagConstraints();
+        GridBagConstraints gc2 = new GridBagConstraints();
+        GridBagConstraints gc3 = new GridBagConstraints();
+        GridBagConstraints gc4 = new GridBagConstraints();
+        
+        gc1.gridy = 0;
+        gc1.anchor = GridBagConstraints.LINE_START;
+        gc1.insets = new Insets(4, 0, 4, 0);
+
+        gc2.gridy = 0;
+        gc2.anchor = GridBagConstraints.LINE_END;
+        gc2.insets = new Insets(4, 0, 4, 0);
+        
+        gc3.gridy = 1;
+        gc3.anchor = GridBagConstraints.LINE_START;
+        gc3.insets = new Insets(4, 0, 4, 0);
+        
+        gc4.gridy = 1;
+        gc4.anchor = GridBagConstraints.LINE_END;
+        gc4.insets = new Insets(4, 0, 4, 0);
+        
+        compareLabel = new JLabel("Comparison:   ");
+        
+        compareButton = new JToggleButton("OFF");
+        compareButton.setPreferredSize(new Dimension(50, compareButton.getPreferredSize().height));
+        compareButton.setFocusable(false);
+        compareButton.setEnabled(false);
+        compareButton.addActionListener(new ComparingListener(dashboard));
+        
+        String[] graphChoices = {"Series 1", "Series 2"};
+        
+        selectedLabel = new JLabel("Selected:   ");
+
+		compareBox = new JComboBox(graphChoices);
+		compareBox.setPrototypeDisplayValue("XXXXXXX");
+		compareBox.setEnabled(true);
+        
+        comparePanel = new JPanel();
+        comparePanel.setLayout(new GridBagLayout());
+        Border bb1 = BorderFactory.createEmptyBorder(6, 0, 6, 0);
+        Border bb2 = (BorderFactory.createMatteBorder(0, 0, 1, 0, Color.gray));
+        comparePanel.setBorder(new CompoundBorder(bb2, bb1));
+        comparePanel.setMaximumSize(new Dimension(200, 140));
+        comparePanel.add(compareLabel, gc1);
+        comparePanel.add(compareButton, gc2);
+        comparePanel.add(selectedLabel, gc3);
+        comparePanel.add(compareBox, gc4);
+        
+        selectedLabel.setVisible(false);
+        compareBox.setVisible(false);
 
         resetButton = new JButton("Reset");
         resetButton.setFocusable(false);
@@ -165,6 +219,7 @@ public class SideBar extends JPanel {
         accordion.add(Box.createVerticalGlue());
         accordion.setPreferredSize(new Dimension(200, 499));
 
+        comparePanel.setBackground(Color.decode("#c4c7cc"));
         updatePanel.setBackground(Color.decode("#c4c7cc"));
         accordion.setBackground(Color.decode("#c4c7cc"));
         filePanel.setBackground(Color.decode("#c4c7cc"));
@@ -177,6 +232,7 @@ public class SideBar extends JPanel {
         filePanel.add(exportButton, exportC);
         filePanel.setMaximumSize(new Dimension(200, 200));
 
+        menuPanel.add(comparePanel);
         menuPanel.add(updatePanel);
         menuPanel.add(accordion);
 
@@ -752,6 +808,37 @@ public class SideBar extends JPanel {
         }
 
     }
+    
+    class ComparingListener implements ActionListener{
+    	
+    	Dashboard dashboard;
+    	
+    	public ComparingListener(Dashboard dashboard){
+    		
+    		this.dashboard = dashboard;
+    		
+    	}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+
+			if(compareButton.isSelected()){
+				compareButton.setText("ON");
+				selectedLabel.setVisible(true);
+				compareBox.setVisible(true);
+				dashboard.updateComparing(true);
+			}
+
+			else{
+				compareButton.setText("OFF");
+				selectedLabel.setVisible(false);
+				compareBox.setVisible(false);
+				dashboard.updateComparing(false);
+			}
+
+		}
+
+	}
 
     // Collects all filter options and updates the graphs and metrics
     class UpdateListener implements ActionListener {

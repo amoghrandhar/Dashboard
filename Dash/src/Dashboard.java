@@ -1,4 +1,5 @@
 import javax.swing.*;
+
 import java.awt.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -130,11 +131,58 @@ public class Dashboard extends JFrame {
                 round(bounceRate, 4)
         };
         content.setMetrics(0, rowData);
+        
+        if(content.comparing)
+        	content.setMetrics(1, rowData);
+        
         content.setHeaderMetrics(
                 String.valueOf(clicks),
                 String.valueOf(impressions),
                 round(totalCost, 2));
 
+    }
+    
+    public void updateComparing(Boolean comparing){
+    	
+    	if(comparing){
+
+			content.comparing = true;
+
+			content.tablePanel.remove(content.scrollPane);
+
+			content.table = content.createTable2(content.rowData2);	
+			content.setMetrics(0, content.row1);
+			content.setMetrics(1, content.row1);
+			content.scrollPane = new JScrollPane(content.table);
+			content.scrollPane.setPreferredSize(new Dimension(
+					826,
+					(int) content.table.getPreferredSize().getHeight() + 28
+					));
+
+			content.tablePanel.add(content.scrollPane);
+
+			repaint();
+		}
+
+		else{
+
+			content.comparing = false;
+
+			content.tablePanel.remove(content.scrollPane);
+
+			content.table = content.createTable(content.rowData);
+			content.setMetrics(0, content.row1);
+			content.scrollPane = new JScrollPane(content.table);
+			content.scrollPane.setPreferredSize(new Dimension(
+					826,
+					(int) content.table.getPreferredSize().getHeight() + 28
+					));
+
+			content.tablePanel.add(content.scrollPane);
+
+			repaint();
+		}
+    	
     }
 
     public String round(double value, int scale) {
@@ -144,6 +192,7 @@ public class Dashboard extends JFrame {
         } else {
             return "0";
         }
+        
     }
 
 }

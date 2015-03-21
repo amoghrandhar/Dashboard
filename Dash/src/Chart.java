@@ -305,7 +305,7 @@ public class Chart extends JFXPanel {
 		barChart.getData().add(series);
 		barChart.setAnimated(true);
 		barChart.setCursor(Cursor.CROSSHAIR);		
-		barChart.setBarGap(0);
+		barChart.setBarGap(1);
 		barChart.setCategoryGap(0);
 
 		scene = new Scene(barChart, xDim, yDim);

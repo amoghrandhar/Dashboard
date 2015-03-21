@@ -7,6 +7,7 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,6 +16,8 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.LinkedList;
 
 public class Content extends JPanel {
 
@@ -39,9 +42,24 @@ public class Content extends JPanel {
 	boolean screenShotMode;
 	int x, y, width, height;
 
+	
+	
+	String[] row1, row2;
+	Boolean comparing;
+	
+	String[][] rowData = {
+			{"0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0"},
+	};
+
+	String[][] rowData2 = {
+			{"0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0"},
+			{"0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0"},
+	};
+
 	public Content(Dashboard d) {
 
 		this.dashboard = d;
+		comparing = false;
 		init();
 
 	}
@@ -205,7 +223,6 @@ public class Content extends JPanel {
 		timeBox.setSelectedIndex(1);
 		timeBox.addActionListener(new ActionListener() {
 
-			// TODO For OLIVER to implement time granularity changes
 			public void actionPerformed(ActionEvent e) {
 
 				JComboBox<String> cb = (JComboBox) e.getSource();
@@ -267,7 +284,7 @@ public class Content extends JPanel {
 
 		// ######### Tab 1 #########
 
-        chart = new Chart();
+		chart = new Chart();
 		chart.addMouseListener(new PrintScreenListener());
 
 		Platform.setImplicitExit(false);
@@ -282,11 +299,11 @@ public class Content extends JPanel {
 		c1.gridx = 0;
 		c1.gridy = 0;
 		c1.anchor = GridBagConstraints.LINE_START;
-		c1.insets = new Insets(10, 8, 10, 0);
+		c1.insets = new Insets(0, 8, 10, 0);
 
 		c2.gridx = 0;
 		c2.gridy = 1;
-		c2.insets = new Insets(0, 0, 40, 0);
+		c2.insets = new Insets(0, 0, 20, 0);
 
 		c3.gridx = 0;
 		c3.gridy = 2;
@@ -296,45 +313,15 @@ public class Content extends JPanel {
 		JLabel metricsLabel = new JLabel("Detailed Metrics");
 		metricsLabel.setFont(metricsLabelFont);
 
-		tableModel = new SimpleTableModel();
-
-		table = new JTable(tableModel);
-		table.addMouseListener(new PrintScreenListener());
-		TableCellRenderer rendererFromHeader = table.getTableHeader().getDefaultRenderer();
-		JLabel headerLabel = (JLabel) rendererFromHeader;
-		headerLabel.setHorizontalAlignment(JLabel.CENTER);
-
-		table.setRowHeight(40);
-		table.getColumnModel().getColumn(0).setMinWidth(65);
-		table.getColumnModel().getColumn(1).setMinWidth(85);
-		table.getColumnModel().getColumn(2).setMinWidth(70);
-		table.getColumnModel().getColumn(3).setMinWidth(70);
-		table.getColumnModel().getColumn(4).setMinWidth(85);
-		table.getColumnModel().getColumn(5).setMinWidth(70);
-		table.getColumnModel().getColumn(6).setMinWidth(60);
-		table.getColumnModel().getColumn(7).setMinWidth(60);
-		table.getColumnModel().getColumn(8).setMinWidth(60);
-		table.getColumnModel().getColumn(9).setMinWidth(60);
-		table.getColumnModel().getColumn(10).setMinWidth(85);
-
-		table.setDefaultRenderer(Object.class, new MetricsTableRenderer());
-
-		table.setEnabled(true);
-		table.setFillsViewportHeight(true);
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-		table.setToolTipText(" Table showing the Key Metrics. ");
-		table.setPreferredScrollableViewportSize(table.getPreferredSize());
-		table.setCellSelectionEnabled(true);
+		table = createTable(rowData);
 
 		scrollPane = new JScrollPane(table);
 		scrollPane.setPreferredSize(new Dimension(
 				826,
-				(int) table.getPreferredSize().getHeight() + 30
+				(int) table.getPreferredSize().getHeight() + 28
 				));
 
-		//table.getTableHeader().setMinimumSize(new Dimension(scrollPane.getWidth(), 30));
-
-		JPanel tablePanel = new JPanel();
+		tablePanel = new JPanel();
 		tablePanel.add(scrollPane);
 
 		// ######### Tab 2 #########
@@ -436,41 +423,41 @@ public class Content extends JPanel {
 						Point rootPaneOrigin = chart.getRootPane().getContentPane().getLocationOnScreen();
 						Point pGraph = chart.getLocationOnScreen();
 						Point pTable = table.getLocationOnScreen();
-						
+
 						Graphics2D g2d = (Graphics2D) g;
 						g2d.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 						g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
-						
+
 						Rectangle chartRect = new Rectangle(pGraph.x - rootPaneOrigin.x + (chart.getWidth() / 2) - 85, 
 								pGraph.y - rootPaneOrigin.y + (chart.getHeight() / 2) - 40, 170, 80);
 						Rectangle tableRect = new Rectangle(pTable.x - rootPaneOrigin.x + (table.getWidth() / 2) - 140, 
 								pTable.y - rootPaneOrigin.y + 5, 280, 30);
-						
+
 						g2d.fillRoundRect(chartRect.x, chartRect.y, chartRect.width, chartRect.height, 30, 30);
 						g2d.fillRoundRect(tableRect.x, tableRect.y, tableRect.width, tableRect.height, 30, 30);
-	
+
 						g2d.setFont(new Font("Arial", Font.PLAIN, 20));
-	       	    	 	g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
+						g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
 						g2d.setColor(Color.WHITE);
 						g2d.drawString("Click on the", chartRect.x + 33, chartRect.y + 35);
 						g2d.drawString("graph to export", chartRect.x + 20, chartRect.y + 55);	
 						g2d.drawString("Click on the table to export", tableRect.x + 20, tableRect.y + 20);
 					}
-					
+
 					if (tabbedPane.getSelectedIndex() == 1) {
-					
+
 						Point rootPaneOrigin = pieChart1.getRootPane().getContentPane().getLocationOnScreen();
-						
+
 						Point pPie1 = pieChart1.getLocationOnScreen();
 						Point pPie2 = pieChart2.getLocationOnScreen();
 						Point pPie3 = pieChart3.getLocationOnScreen();
 						Point pPie4 = pieChart4.getLocationOnScreen();
-						
+
 						Graphics2D g2d = (Graphics2D) g;
 						g2d.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 						g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
-						
-						
+
+
 						Rectangle pie1Rect = new Rectangle(pPie1.x - rootPaneOrigin.x + (pieChart1.getWidth() / 2) - 85, 
 								pPie1.y - rootPaneOrigin.y + (pieChart1.getHeight() / 2) - 40, 170, 80);
 						Rectangle pie2Rect = new Rectangle(pPie2.x - rootPaneOrigin.x + (pieChart2.getWidth() / 2) - 85, 
@@ -479,15 +466,15 @@ public class Content extends JPanel {
 								pPie3.y - rootPaneOrigin.y + (pieChart3.getHeight() / 2) - 40, 170, 80);
 						Rectangle pie4Rect = new Rectangle(pPie4.x - rootPaneOrigin.x + (pieChart4.getWidth() / 2) - 85, 
 								pPie4.y - rootPaneOrigin.y + (pieChart4.getHeight() / 2) - 40, 170, 80);
-			
+
 						g2d.fillRoundRect(pie1Rect.x, pie1Rect.y, pie1Rect.width, pie1Rect.height, 30, 30);
 						g2d.fillRoundRect(pie2Rect.x, pie2Rect.y, pie2Rect.width, pie2Rect.height, 30, 30);
 						g2d.fillRoundRect(pie3Rect.x, pie3Rect.y, pie3Rect.width, pie3Rect.height, 30, 30);
 						g2d.fillRoundRect(pie4Rect.x, pie4Rect.y, pie4Rect.width, pie4Rect.height, 30, 30);
 
-	
+
 						g2d.setFont(new Font("Arial", Font.PLAIN, 20));
-	       	    	 	g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
+						g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
 						g2d.setColor(Color.WHITE);
 						g2d.drawString("Click on the", pie1Rect.x + 33, pie1Rect.y + 35);
 						g2d.drawString("chart to export", pie1Rect.x + 20, pie1Rect.y + 55);	
@@ -499,15 +486,106 @@ public class Content extends JPanel {
 						g2d.drawString("chart to export", pie4Rect.x + 20, pie4Rect.y + 55);
 					}
 				}
-				
+
 			}  
 		};
 
 	}
 
+	public JTable createTable(String[][] data){
+		
+		String[] columnNames = {"Clicks", "Impressions", "Uniques", "Bounces",
+				"Conversions", "Total Cost", "CTR", "CPA", "CPC", "CPM", "Bounce Rate"};
+
+		tableModel = new SimpleTableModel(data, columnNames);
+
+		table = new JTable(tableModel);
+		table.addMouseListener(new PrintScreenListener());
+		TableCellRenderer rendererFromHeader = table.getTableHeader().getDefaultRenderer();
+		JLabel headerLabel = (JLabel) rendererFromHeader;
+		headerLabel.setHorizontalAlignment(JLabel.CENTER);
+
+		table.setRowHeight(40);
+		table.getColumnModel().getColumn(0).setMinWidth(65);
+		table.getColumnModel().getColumn(1).setMinWidth(85);
+		table.getColumnModel().getColumn(2).setMinWidth(70);
+		table.getColumnModel().getColumn(3).setMinWidth(70);
+		table.getColumnModel().getColumn(4).setMinWidth(85);
+		table.getColumnModel().getColumn(5).setMinWidth(70);
+		table.getColumnModel().getColumn(6).setMinWidth(60);
+		table.getColumnModel().getColumn(7).setMinWidth(60);
+		table.getColumnModel().getColumn(8).setMinWidth(60);
+		table.getColumnModel().getColumn(9).setMinWidth(60);
+		table.getColumnModel().getColumn(10).setMinWidth(85);
+
+		table.setDefaultRenderer(Object.class, new MetricsTableRenderer());
+		table.setEnabled(true);
+		table.setFillsViewportHeight(true);
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		table.setToolTipText(" Table showing the Key Metrics. ");
+		table.setPreferredScrollableViewportSize(table.getPreferredSize());
+		table.setCellSelectionEnabled(true);
+
+		return table;
+
+	}
+	
+	public JTable createTable2(String[][] data){
+		
+		String[] columnNames = {"#", "Clicks", "Impressions", "Uniques", "Bounces",
+				"Conversions", "Total Cost", "CTR", "CPA", "CPC", "CPM", "Bounce Rate"};
+
+		tableModel = new SimpleTableModel(data, columnNames);
+
+		table = new JTable(tableModel);
+		table.addMouseListener(new PrintScreenListener());
+		TableCellRenderer rendererFromHeader = table.getTableHeader().getDefaultRenderer();
+		JLabel headerLabel = (JLabel) rendererFromHeader;
+		headerLabel.setHorizontalAlignment(JLabel.CENTER);
+
+		table.setRowHeight(40);
+		table.getColumnModel().getColumn(0).setMinWidth(15);
+		table.getColumnModel().getColumn(1).setMinWidth(60);
+		table.getColumnModel().getColumn(2).setMinWidth(85);
+		table.getColumnModel().getColumn(3).setMinWidth(65);
+		table.getColumnModel().getColumn(4).setMinWidth(65);
+		table.getColumnModel().getColumn(5).setMinWidth(85);
+		table.getColumnModel().getColumn(6).setMinWidth(70);
+		table.getColumnModel().getColumn(7).setMinWidth(60);
+		table.getColumnModel().getColumn(8).setMinWidth(60);
+		table.getColumnModel().getColumn(9).setMinWidth(60);
+		table.getColumnModel().getColumn(10).setMinWidth(60);
+		table.getColumnModel().getColumn(11).setMinWidth(85);
+
+		table.setDefaultRenderer(Object.class, new MetricsTableRenderer());
+		table.setEnabled(true);
+		table.setFillsViewportHeight(true);
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		table.setToolTipText(" Table showing the Key Metrics. ");
+		table.setPreferredScrollableViewportSize(table.getPreferredSize());
+		table.setCellSelectionEnabled(true);
+
+		return table;
+
+	}
+
 	public void setMetrics(int rowIndex, String[] rowValues) {
 
-		tableModel.updateRow(rowIndex, rowValues);
+		row1 = rowValues;
+
+		if(comparing){
+			
+			String[] myArray = rowValues;
+			LinkedList<String> list = new LinkedList<String>(Arrays.asList(myArray));
+			list.add(0, Integer.toString(rowIndex+1));
+			myArray = list.toArray(new String[rowValues.length+1]);
+			
+			tableModel.updateRow(rowIndex, myArray);
+			
+		}
+		
+		else 
+			tableModel.updateRow(rowIndex, rowValues);
 
 	}
 
@@ -544,7 +622,7 @@ public class Content extends JPanel {
 	}
 
 	class PrintScreenListener implements MouseListener{
-		
+
 		@Override
 		public void mousePressed(MouseEvent e) {
 
@@ -606,11 +684,11 @@ public class Content extends JPanel {
 			dashboard.setGlassPane(glassPanel);  
 			glassPanel.setVisible(clicked);
 			glassPanel.repaint();
-			
+
 			dashboard.sidebar.exportButton.setText(" Export ");
 			dashboard.sidebar.exportButton.setIcon(dashboard.sidebar.exportIcon);
 			dashboard.sidebar.exportButton.setBackground(UIManager.getColor("Button.background")); 
-         }
+		}
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
@@ -620,22 +698,22 @@ public class Content extends JPanel {
 				{
 					drawSquare(chart.getWidth(), chart.getHeight(), chart.getWidth(), chart.getHeight());
 					JFileChooser fc = new JFileChooser();
-				    FileFilter f1 = new ImageFilter("PNG", new String[]{"PNG"});
-                    FileFilter f2 = new ImageFilter("JPG", new String[]{"JPG"});
-                    fc.setFileFilter(f1);
-                    fc.addChoosableFileFilter(f1);
-                    fc.addChoosableFileFilter(f2);
-                    fc.setAcceptAllFileFilterUsed(false);
-                    int retrival = fc.showSaveDialog(null);
-                    if (retrival == fc.APPROVE_OPTION) {
-                        String ext = "";
-                        String extension = fc.getFileFilter().getDescription();
-                        if (extension.equals("JPG")) {
-                            ext = ".jpg";
-                        }
-                        if (extension.equals("PNG")) {
-                            ext = ".png";
-                        }
+					FileFilter f1 = new ImageFilter("PNG", new String[]{"PNG"});
+					FileFilter f2 = new ImageFilter("JPG", new String[]{"JPG"});
+					fc.setFileFilter(f1);
+					fc.addChoosableFileFilter(f1);
+					fc.addChoosableFileFilter(f2);
+					fc.setAcceptAllFileFilterUsed(false);
+					int retrival = fc.showSaveDialog(null);
+					if (retrival == fc.APPROVE_OPTION) {
+						String ext = "";
+						String extension = fc.getFileFilter().getDescription();
+						if (extension.equals("JPG")) {
+							ext = ".jpg";
+						}
+						if (extension.equals("PNG")) {
+							ext = ".png";
+						}
 						File file = fc.getSelectedFile();
 						BufferedImage bufImage = new BufferedImage(graphPanel.getSize().width, graphPanel.getSize().height,BufferedImage.TYPE_INT_RGB);
 						graphPanel.paint(bufImage.createGraphics());
@@ -652,22 +730,22 @@ public class Content extends JPanel {
 				{
 					drawSquare(table.getWidth(), table.getHeight(), table.getWidth(), table.getHeight());
 					JFileChooser fc = new JFileChooser();
-				    FileFilter f1 = new ImageFilter("PNG", new String[]{"PNG"});
-                    FileFilter f2 = new ImageFilter("JPG", new String[]{"JPG"});
-                    fc.setFileFilter(f1);
-                    fc.addChoosableFileFilter(f1);
-                    fc.addChoosableFileFilter(f2);
-                    fc.setAcceptAllFileFilterUsed(false);
-                    int retrival = fc.showSaveDialog(null);
-                    if (retrival == fc.APPROVE_OPTION) {
-                        String ext = "";
-                        String extension = fc.getFileFilter().getDescription();
-                        if (extension.equals("JPG")) {
-                            ext = ".jpg";
-                        }
-                        if (extension.equals("PNG")) {
-                            ext = ".png";
-                        }
+					FileFilter f1 = new ImageFilter("PNG", new String[]{"PNG"});
+					FileFilter f2 = new ImageFilter("JPG", new String[]{"JPG"});
+					fc.setFileFilter(f1);
+					fc.addChoosableFileFilter(f1);
+					fc.addChoosableFileFilter(f2);
+					fc.setAcceptAllFileFilterUsed(false);
+					int retrival = fc.showSaveDialog(null);
+					if (retrival == fc.APPROVE_OPTION) {
+						String ext = "";
+						String extension = fc.getFileFilter().getDescription();
+						if (extension.equals("JPG")) {
+							ext = ".jpg";
+						}
+						if (extension.equals("PNG")) {
+							ext = ".png";
+						}
 						File file = fc.getSelectedFile();
 						BufferedImage bufImage = new BufferedImage(scrollPane.getSize().width, scrollPane.getSize().height,BufferedImage.TYPE_INT_RGB);
 						scrollPane.paint(bufImage.createGraphics());
@@ -684,55 +762,55 @@ public class Content extends JPanel {
 				{
 					drawSquare(pieChart1.getWidth(), pieChart1.getHeight(), pieChart1.getWidth(), pieChart1.getHeight());
 					JFileChooser fc = new JFileChooser();
-                    FileFilter f1 = new ImageFilter("PNG", new String[]{"PNG"});
-                    FileFilter f2 = new ImageFilter("JPG", new String[]{"JPG"});
-                    fc.setFileFilter(f1);
-                    fc.addChoosableFileFilter(f1);
-                    fc.addChoosableFileFilter(f2);
-                    fc.setAcceptAllFileFilterUsed(false);
-                    int retrival = fc.showSaveDialog(null);
-                    if (retrival == fc.APPROVE_OPTION) {
-                        String ext = "";
-                        String extension = fc.getFileFilter().getDescription();
-                        if (extension.equals("JPG")) {
-                            ext = ".jpg";
-                        }
-                        if (extension.equals("PNG")) {
-                            ext = ".png";
-                        }
-                        File file = fc.getSelectedFile();
-                        BufferedImage bufImage = new BufferedImage(pieChart1.getSize().width, pieChart1.getSize().height,BufferedImage.TYPE_INT_RGB);
-                        pieChart1.paint(bufImage.createGraphics());
-                        File imageFile = new File((file.getAbsolutePath() + ext));
-                        try {
-                            imageFile.createNewFile();
-                            ImageIO.write(bufImage, extension, imageFile);
-                        } catch(Exception ex) {
-                            ex.printStackTrace();
-                        }
-                    }
+					FileFilter f1 = new ImageFilter("PNG", new String[]{"PNG"});
+					FileFilter f2 = new ImageFilter("JPG", new String[]{"JPG"});
+					fc.setFileFilter(f1);
+					fc.addChoosableFileFilter(f1);
+					fc.addChoosableFileFilter(f2);
+					fc.setAcceptAllFileFilterUsed(false);
+					int retrival = fc.showSaveDialog(null);
+					if (retrival == fc.APPROVE_OPTION) {
+						String ext = "";
+						String extension = fc.getFileFilter().getDescription();
+						if (extension.equals("JPG")) {
+							ext = ".jpg";
+						}
+						if (extension.equals("PNG")) {
+							ext = ".png";
+						}
+						File file = fc.getSelectedFile();
+						BufferedImage bufImage = new BufferedImage(pieChart1.getSize().width, pieChart1.getSize().height,BufferedImage.TYPE_INT_RGB);
+						pieChart1.paint(bufImage.createGraphics());
+						File imageFile = new File((file.getAbsolutePath() + ext));
+						try {
+							imageFile.createNewFile();
+							ImageIO.write(bufImage, extension, imageFile);
+						} catch(Exception ex) {
+							ex.printStackTrace();
+						}
+					}
 
 				}
 				else if (e.getSource() == pieChart2)
 				{
 					drawSquare(pieChart2.getWidth(), pieChart2.getHeight(), pieChart2.getWidth(), pieChart2.getHeight());
 					JFileChooser fc = new JFileChooser();
-				    FileFilter f1 = new ImageFilter("PNG", new String[]{"PNG"});
-                    FileFilter f2 = new ImageFilter("JPG", new String[]{"JPG"});
-                    fc.setFileFilter(f1);
-                    fc.addChoosableFileFilter(f1);
-                    fc.addChoosableFileFilter(f2);
-                    fc.setAcceptAllFileFilterUsed(false);
-                    int retrival = fc.showSaveDialog(null);
-                    if (retrival == fc.APPROVE_OPTION) {
-                        String ext = "";
-                        String extension = fc.getFileFilter().getDescription();
-                        if (extension.equals("JPG")) {
-                            ext = ".jpg";
-                        }
-                        if (extension.equals("PNG")) {
-                            ext = ".png";
-                        }
+					FileFilter f1 = new ImageFilter("PNG", new String[]{"PNG"});
+					FileFilter f2 = new ImageFilter("JPG", new String[]{"JPG"});
+					fc.setFileFilter(f1);
+					fc.addChoosableFileFilter(f1);
+					fc.addChoosableFileFilter(f2);
+					fc.setAcceptAllFileFilterUsed(false);
+					int retrival = fc.showSaveDialog(null);
+					if (retrival == fc.APPROVE_OPTION) {
+						String ext = "";
+						String extension = fc.getFileFilter().getDescription();
+						if (extension.equals("JPG")) {
+							ext = ".jpg";
+						}
+						if (extension.equals("PNG")) {
+							ext = ".png";
+						}
 						File file = fc.getSelectedFile();
 						BufferedImage bufImage = new BufferedImage(pieChart2.getSize().width, pieChart2.getSize().height,BufferedImage.TYPE_INT_RGB);
 						pieChart2.paint(bufImage.createGraphics());
@@ -749,22 +827,22 @@ public class Content extends JPanel {
 				{
 					drawSquare(pieChart3.getWidth(), pieChart3.getHeight(), pieChart3.getWidth(), pieChart3.getHeight());
 					JFileChooser fc = new JFileChooser();
-				    FileFilter f1 = new ImageFilter("PNG", new String[]{"PNG"});
-                    FileFilter f2 = new ImageFilter("JPG", new String[]{"JPG"});
-                    fc.setFileFilter(f1);
-                    fc.addChoosableFileFilter(f1);
-                    fc.addChoosableFileFilter(f2);
-                    fc.setAcceptAllFileFilterUsed(false);                  
-                    int retrival = fc.showSaveDialog(null);
-                    if (retrival == fc.APPROVE_OPTION) {
-                        String ext = "";
-                        String extension = fc.getFileFilter().getDescription();
-                        if (extension.equals("JPG")) {
-                            ext = ".jpg";
-                        }
-                        if (extension.equals("PNG")) {
-                            ext = ".png";
-                        }
+					FileFilter f1 = new ImageFilter("PNG", new String[]{"PNG"});
+					FileFilter f2 = new ImageFilter("JPG", new String[]{"JPG"});
+					fc.setFileFilter(f1);
+					fc.addChoosableFileFilter(f1);
+					fc.addChoosableFileFilter(f2);
+					fc.setAcceptAllFileFilterUsed(false);                  
+					int retrival = fc.showSaveDialog(null);
+					if (retrival == fc.APPROVE_OPTION) {
+						String ext = "";
+						String extension = fc.getFileFilter().getDescription();
+						if (extension.equals("JPG")) {
+							ext = ".jpg";
+						}
+						if (extension.equals("PNG")) {
+							ext = ".png";
+						}
 						File file = fc.getSelectedFile();
 						BufferedImage bufImage = new BufferedImage(pieChart3.getSize().width, pieChart3.getSize().height,BufferedImage.TYPE_INT_RGB);
 						pieChart3.paint(bufImage.createGraphics());
@@ -781,22 +859,22 @@ public class Content extends JPanel {
 				{
 					drawSquare(pieChart4.getWidth(), pieChart4.getHeight(), pieChart4.getWidth(), pieChart4.getHeight());
 					JFileChooser fc = new JFileChooser();
-				    FileFilter f1 = new ImageFilter("PNG", new String[]{"PNG"});
-                    FileFilter f2 = new ImageFilter("JPG", new String[]{"JPG"});
-                    fc.setFileFilter(f1);
-                    fc.addChoosableFileFilter(f1);
-                    fc.addChoosableFileFilter(f2);
-                    fc.setAcceptAllFileFilterUsed(false);
-                    int retrival = fc.showSaveDialog(null);
-                    if (retrival == fc.APPROVE_OPTION) {
-                        String ext = "";
-                        String extension = fc.getFileFilter().getDescription();
-                        if (extension.equals("JPG")) {
-                            ext = ".jpg";
-                        }
-                        if (extension.equals("PNG")) {
-                            ext = ".png";
-                        }
+					FileFilter f1 = new ImageFilter("PNG", new String[]{"PNG"});
+					FileFilter f2 = new ImageFilter("JPG", new String[]{"JPG"});
+					fc.setFileFilter(f1);
+					fc.addChoosableFileFilter(f1);
+					fc.addChoosableFileFilter(f2);
+					fc.setAcceptAllFileFilterUsed(false);
+					int retrival = fc.showSaveDialog(null);
+					if (retrival == fc.APPROVE_OPTION) {
+						String ext = "";
+						String extension = fc.getFileFilter().getDescription();
+						if (extension.equals("JPG")) {
+							ext = ".jpg";
+						}
+						if (extension.equals("PNG")) {
+							ext = ".png";
+						}
 						File file = fc.getSelectedFile();
 						BufferedImage bufImage = new BufferedImage(pieChart4.getSize().width, pieChart4.getSize().height,BufferedImage.TYPE_INT_RGB);
 						pieChart4.paint(bufImage.createGraphics());
@@ -874,12 +952,15 @@ public class Content extends JPanel {
 
 	private class SimpleTableModel extends AbstractTableModel {
 
-		private String[][] rowData = {
-				{"0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0"},
-		};
+		private String[] columnNames;
+		private String[][] rowData;
 
-		private String[] columnNames = {"Clicks", "Impressions", "Uniques", "Bounces",
-				"Conversions", "Total Cost", "CTR", "CPA", "CPC", "CPM", "Bounce Rate"};
+		public SimpleTableModel(String[][] rowData, String[] columnNames){
+
+			this.columnNames = columnNames;
+			this.rowData = rowData;
+
+		}
 
 		public String getColumnName(int col) {
 			return columnNames[col];
