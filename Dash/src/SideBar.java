@@ -1,13 +1,17 @@
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
+
 import javafx.application.Platform;
+
 import javax.swing.*;
 import javax.swing.JFormattedTextField.AbstractFormatter;
+import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.DateFormatter;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -28,9 +32,10 @@ public class SideBar extends JPanel {
 
     JPanel filePanel, menuPanel, comparePanel;
 
-    JButton importButton, exportButton, updateButton, resetButton;
-    JPopupMenu popUpMenu;
+    JButton importButton, exportButton, updateButton, resetButton, settingsButton;
+    JPopupMenu popUpMenu, settingsPopUp;
     JMenuItem printItem, pngItem, jpegItem, piesItem, multiItem;
+    JMenuItem lightTheme, darkTheme;
     Calendar calendar;
     UtilDateModel dateModel, dateModel2;
     SpinnerDateModel timeModel, timeModel2;
@@ -42,7 +47,7 @@ public class SideBar extends JPanel {
     JCheckBox pagesCheckBox, timeCheckBox;
     JSpinner pagesSpinner, timeSpinner;
     
-    ImageIcon importIcon, exportIcon;
+    ImageIcon importIcon, exportIcon, settingsIcon;
     Color SECONDARY = Color.decode("#fafafa");
     
     JLabel compareLabel, selectedLabel;
@@ -247,7 +252,30 @@ public class SideBar extends JPanel {
         this.setLayout(new BorderLayout());
         this.add(filePanel, BorderLayout.PAGE_START);
         this.add(menuPanel, BorderLayout.LINE_END);
-
+        JPanel buttonPanel = new JPanel();
+        
+        importIcon = new ImageIcon(getClass().getResource("cog.png"));
+        Image img3 = importIcon.getImage();
+        Image newimg3 = img3.getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
+        importIcon = new ImageIcon(newimg3);
+        
+        buttonPanel.setBackground(UIManager.getColor("this.background"));
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        settingsButton = new JButton(importIcon);
+        settingsButton.setBorder(null);
+        settingsButton.setContentAreaFilled(false);
+        settingsButton.addActionListener(new SettingsListener(dashboard));
+        buttonPanel.add(settingsButton);
+        this.add(buttonPanel, BorderLayout.SOUTH);
+        
+        lightTheme = new JMenuItem("Light Theme");
+        lightTheme.addActionListener(new SettingsPopupListener(dashboard));
+        darkTheme = new JMenuItem("Dark Theme");
+        darkTheme.addActionListener(new SettingsPopupListener(dashboard));
+        settingsPopUp = new JPopupMenu("Menu");
+        settingsPopUp.add(lightTheme);
+        settingsPopUp.addSeparator();
+        settingsPopUp.add(darkTheme);  
     }
 
     private List<AbstractExpansionPanel> makeList() {
@@ -815,6 +843,43 @@ public class SideBar extends JPanel {
 
         }
 
+    }
+    
+    class SettingsListener implements ActionListener {
+
+        Dashboard dashboard;
+
+        public SettingsListener(Dashboard dashboard) {
+
+            this.dashboard = dashboard;
+
+        }
+
+        public void actionPerformed(ActionEvent e) {
+	    
+	    	dashboard.sidebar.settingsPopUp.show(dashboard.sidebar, dashboard.sidebar.getX() + 30, dashboard.sidebar.getHeight() - 60);
+    	}
+    }
+    
+    class SettingsPopupListener implements ActionListener {
+
+        Dashboard dashboard;
+
+        public SettingsPopupListener(Dashboard dashboard) {
+            
+        	this.dashboard = dashboard;
+        }
+        
+        public void actionPerformed(ActionEvent event) {
+        	
+    		if (event.getSource() == dashboard.sidebar.lightTheme) {
+
+            }
+
+            if (event.getSource() == dashboard.sidebar.darkTheme) {
+
+            }
+        }
     }
     
     class ComparingListener implements ActionListener{

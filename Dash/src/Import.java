@@ -259,7 +259,8 @@ public class Import extends JFrame {
 	
                         //This will start the parsing of the csv log files and generate Arraylist of Data
 	                    
-	                    /* MULTITHREADED */	                                 	
+	                    /* MULTITHREADED */	   
+	            
                     	Thread thread1 = new Thread() {                  		
                     		public void run() {
 	                    		try {
