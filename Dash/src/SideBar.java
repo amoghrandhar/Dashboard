@@ -1017,9 +1017,9 @@ public class SideBar extends JPanel {
             sidebar.incomeLabel.setSelected(false);
             sidebar.contextGroup.clearSelection();
             sidebar.pagesCheckBox.setSelected(false);
-            sidebar.pagesSpinner.setValue(dashboard.DEFAULT_BOUNCE_PAGES_PROP);
+            sidebar.pagesSpinner.setValue(0);
             sidebar.timeCheckBox.setSelected(false);
-            sidebar.timeSpinner.setValue(dashboard.DEFAULT_BOUNCE_TIME_PROP);
+            sidebar.timeSpinner.setValue(0);
 
             dashboard.resetLogs();
             dashboard.updateMetrics(dashboard.DEFAULT_BOUNCE_PAGES_PROP,dashboard.DEFAULT_BOUNCE_TIME_PROP);
