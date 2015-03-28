@@ -37,6 +37,7 @@ public class SideBar extends JPanel {
     JMenuItem printItem, pngItem, jpegItem, piesItem, multiItem;
     JMenuItem lightTheme, darkTheme;
     Calendar calendar;
+    JDatePickerImpl startPicker, endPicker;
     UtilDateModel dateModel, dateModel2;
     SpinnerDateModel timeModel, timeModel2;
     JToggleButton male, female;
@@ -54,12 +55,15 @@ public class SideBar extends JPanel {
     JToggleButton compareButton;
     JComboBox compareBox;
     Integer selectedSeries;
+    Series series1, series2;
 
     public SideBar(Dashboard dashboard, DataAnalytics dataAnalytics) {
 
         this.dashboard = dashboard;
         this.dataAnalytics = dataAnalytics;
         this.selectedSeries = 1;
+        this.series1 = new Series();
+        this.series2 = new Series();
         init();
 
     }
@@ -175,15 +179,7 @@ public class SideBar extends JPanel {
 		compareBox = new JComboBox(graphChoices);
 		compareBox.setPrototypeDisplayValue("XXXXXXX");
 		compareBox.setEnabled(true);
-		compareBox.addActionListener(new ActionListener(){
-
-			@Override
-			public void actionPerformed(ActionEvent e) {				
-				selectedSeries = compareBox.getSelectedIndex() + 1;
-				System.out.println(selectedSeries);
-			}
-			
-		});
+		compareBox.addActionListener(new ComparingBoxListener());
         
         comparePanel = new JPanel();
         comparePanel.setLayout(new GridBagLayout());
@@ -300,8 +296,8 @@ public class SideBar extends JPanel {
                         dateModel2 = new UtilDateModel();
                         JDatePanelImpl datePanel = new JDatePanelImpl(dateModel, p);
                         JDatePanelImpl datePanel2 = new JDatePanelImpl(dateModel2, p);
-                        JDatePickerImpl startPicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
-                        JDatePickerImpl endPicker = new JDatePickerImpl(datePanel2, new DateLabelFormatter());
+                        startPicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
+                        endPicker = new JDatePickerImpl(datePanel2, new DateLabelFormatter());
 
                         calendar = Calendar.getInstance();
                         calendar.set(Calendar.HOUR_OF_DAY, 24);
@@ -626,6 +622,19 @@ public class SideBar extends JPanel {
     	else return dashboard.DEFAULT_BOUNCE_TIME_PROP;
     	
     }
+   
+    public void saveFilters(Series series){
+    	
+    	series.setStartDate(getChosenStartDate());
+    	series.setEndDate(getChosenEndDate());
+    	series.setGender(getChosenSex());
+    	series.setAgeGroup(getChosenAge());
+    	series.setIncome(getChosenIncome());
+    	series.setContext(getChosenContext());
+    	series.setBouncePages(getChosenPages());
+    	series.setBounceTime(getChosenTime());
+    	
+    }
 
     abstract class AbstractExpansionPanel extends JPanel {
 
@@ -912,6 +921,106 @@ public class SideBar extends JPanel {
 		}
 
 	}
+    
+    class ComparingBoxListener implements ActionListener{
+    	
+    	public void actionPerformed(ActionEvent e) {	
+			
+			Series series = new Series();
+			
+			selectedSeries = compareBox.getSelectedIndex() + 1;
+			
+			if(selectedSeries == 1){
+				series = series1;
+			}
+			if(selectedSeries == 2){
+				series = series2;
+			}
+			
+			// Start date
+			if(series.getStartDate() != null){
+				
+				dateModel.setValue(series.getStartDate());
+				
+				Calendar temp = Calendar.getInstance();
+				temp.setTime(series.getStartDate());
+				timeModel.setValue(temp.getTime());
+				
+			}
+			else{ 
+				dateModel.setValue(null);
+				timeModel.setValue(calendar.getTime());
+			}
+			
+			// End date
+			if(series.getEndDate() != null){
+				
+				dateModel2.setValue(series.getEndDate());
+				
+				Calendar temp = Calendar.getInstance();
+				temp.setTime(series.getEndDate());
+				timeModel2.setValue(temp.getTime());
+				
+			}
+			else{
+				dateModel2.setValue(null);
+				timeModel2.setValue(calendar.getTime());
+			}
+			
+			// Gender
+			if(series.getGender() != null){
+				if(series.getGender() == true)
+					male.setSelected(true);
+				if(series.getGender() == false)
+					female.setSelected(true);
+			}
+			else{
+				male.setSelected(false);
+				female.setSelected(false);
+			}
+				
+			// Age Group
+			if(series.getAgeGroup() != -1){
+				ageLabel.setSelected(true);
+				ageSlider.setValue(series.getAgeGroup());
+			}
+			else ageLabel.setSelected(false);
+			
+			// Income
+			if(series.getIncome() != -1){
+				incomeLabel.setSelected(true);
+				incomeSlider.setValue(series.getIncome());
+			}
+			else incomeLabel.setSelected(false);
+			
+			// Context
+			if(series.getContext() != null){
+				for (Enumeration eRadio=contextGroup.getElements(); eRadio.hasMoreElements(); ) {
+			        JRadioButton radioButton = (JRadioButton)eRadio.nextElement();
+			        if (radioButton.getText() == series.getContext()) {
+			        	contextGroup.setSelected(radioButton.getModel(), true);
+			        }
+			    }
+			}
+			else contextGroup.clearSelection();
+			
+			// Bounce Pages
+			if(series.getBouncePages() != -1){
+				pagesCheckBox.setSelected(true);
+				pagesSpinner.setValue(series.getBouncePages());
+			}
+			else pagesCheckBox.setSelected(false);
+			
+			// Bounce Time
+			if(series.getBounceTime() != -1){
+				timeCheckBox.setSelected(true);
+				timeSpinner.setValue(series.getBounceTime());
+			}
+			else timeCheckBox.setSelected(false);
+			
+		}
+    	
+    }
 
     // Collects all filter options and updates the graphs and metrics
     class UpdateListener implements ActionListener {
@@ -1018,7 +1127,14 @@ public class SideBar extends JPanel {
             serverLogArrayList = (ArrayList<ServerLog>) DataAnalytics
             		.filterServerLogs(serverLogStartDatePredicate,serverLogEndDatePredicate,
                     serverLogArrayList,idSet);
-
+            
+            // For comparison requirement
+            
+            if(selectedSeries == 1)
+            	saveFilters(series1);
+            if(selectedSeries == 2)
+            	saveFilters(series2);
+            
             dashboard.updateLogs(clickLogArrayList,impressionLogs,serverLogArrayList);
             dashboard.updateMetrics(pages , time);
             
@@ -1085,6 +1201,11 @@ public class SideBar extends JPanel {
             sidebar.pagesSpinner.setValue(0);
             sidebar.timeCheckBox.setSelected(false);
             sidebar.timeSpinner.setValue(0);
+            
+            if(selectedSeries == 1)
+            	saveFilters(series1);
+            if(selectedSeries == 2)
+            	saveFilters(series2);
 
             dashboard.resetLogs();
             dashboard.updateMetrics(dashboard.DEFAULT_BOUNCE_PAGES_PROP,dashboard.DEFAULT_BOUNCE_TIME_PROP);
