@@ -1,6 +1,7 @@
 import javafx.application.Platform;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.dnd.*;
@@ -250,24 +251,74 @@ public class Import extends JFrame {
 
                     showProcessingAnimation();
 
-//                                // running this in a thread to stop GUI hanging
+                    // running this in a thread to stop GUI hanging
                     new Thread(() -> {
-	                    ClicklogParser clicklogParser = new ClicklogParser(clickLog.getAbsolutePath());
-	                    ImpressionParser impressionParser = new ImpressionParser(impressionLog.getAbsolutePath());
-	                    ServerlogParser serverlogParser = new ServerlogParser(serverLog.getAbsolutePath());
+	                    final ClicklogParser clicklogParser = new ClicklogParser(clickLog.getAbsolutePath());
+	                    final ImpressionParser impressionParser = new ImpressionParser(impressionLog.getAbsolutePath());
+	                    final ServerlogParser serverlogParser = new ServerlogParser(serverLog.getAbsolutePath());
 	
-	                    try {
-	                        //This will start the parsing of the csv log files and generate Arraylist of Data
-	                        clicklogParser.generateClickLogs();
-	                        impressionParser.generateImpressionsMethod1();
-	                        serverlogParser.generateServerLogs();
-	                    } catch (WrongFileException e1) {
-	                        JOptionPane.showMessageDialog(Import.this, "Wrong File Passed for Processing \n" + e1.fileName, "Error",
-	                                JOptionPane.ERROR_MESSAGE);
-	                        e1.printStackTrace();
-	                    }
-	
-	
+                        //This will start the parsing of the csv log files and generate Arraylist of Data
+	                    
+	                    /* MULTITHREADED */	                                 	
+                    	Thread thread1 = new Thread() {                  		
+                    		public void run() {
+	                    		try {
+	                    			clicklogParser.generateClickLogs();
+	                    		} catch (WrongFileException e1) {
+	                    			JOptionPane.showMessageDialog(Import.this, "Wrong File Passed for Processing \n" + e1.fileName, "Error",
+		                                JOptionPane.ERROR_MESSAGE);
+	                    			e1.printStackTrace();
+	                    		}
+                    		}
+                    	};                    	                                    
+                    	Thread thread2 = new Thread() {                    		
+                    		public void run() {
+	                    		try {
+	                                impressionParser.generateImpressionsMethod1();
+	                    		} catch (WrongFileException e1) {
+	                    			JOptionPane.showMessageDialog(Import.this, "Wrong File Passed for Processing \n" + e1.fileName, "Error",
+		                                JOptionPane.ERROR_MESSAGE);
+	                    			e1.printStackTrace();
+	                    		}
+                    		}
+                    	};                       	
+                    	Thread thread3 = new Thread() {                    		
+                    		public void run() {
+	                    		try {
+	                                serverlogParser.generateServerLogs();
+	                    		} catch (WrongFileException e1) {
+	                    			JOptionPane.showMessageDialog(Import.this, "Wrong File Passed for Processing \n" + e1.fileName, "Error",
+		                                JOptionPane.ERROR_MESSAGE);
+	                    			e1.printStackTrace();
+	                    		}
+                    		}
+                    	};
+                    	
+                    	thread1.start();
+                    	thread2.start();
+                    	thread3.start();
+                    	try {
+							thread1.join();		
+							thread2.join();
+							thread3.join();
+                    	} catch (Exception e1) {
+							e1.printStackTrace();
+						}
+						
+                    	      
+	                    /* SINGLETHREADED
+	                     * 	                      	                      
+                   		try {
+                			clicklogParser.generateClickLogs();
+                            impressionParser.generateImpressionsMethod1();
+                            serverlogParser.generateServerLogs();                           
+                		} catch (WrongFileException e1) {
+                			JOptionPane.showMessageDialog(Import.this, "Wrong File Passed for Processing \n" + e1.fileName, "Error",
+                                JOptionPane.ERROR_MESSAGE);
+                			e1.printStackTrace();
+                		}
+                       	*/
+                       	
 	                    // This will update the ArrayList of data logs with new data
 	                    dashboard.setOriginalLogs(clicklogParser.getClickLogs(), impressionParser.getImpressions(), serverlogParser.getServerLogs());
 	                    dashboard.updateMetrics(dashboard.DEFAULT_BOUNCE_PAGES_PROP,dashboard.DEFAULT_BOUNCE_TIME_PROP);
