@@ -396,7 +396,7 @@ public class Content extends JPanel {
 		tabbedPane.addTab("Metrics Display", tab1);
 		tabbedPane.addTab("Impressions Demographics", tab2);
 		tabbedPane.setFocusable(false);
-		tabbedPane.setSelectedComponent(tab2);
+		tabbedPane.setSelectedComponent(tab1);
 
 		JPanel bodyPanel = new JPanel();
 		bodyPanel.setLayout(new BorderLayout());
@@ -925,6 +925,14 @@ public class Content extends JPanel {
 				c.setForeground(Color.black);
 				c.setBackground(Color.decode("#82e9ff"));
 			}
+
+            if(!hasFocus){
+                c.setForeground(Color.BLACK);
+            } else {
+                c.setForeground(Color.BLACK);
+                c.setBackground(Color.decode("#74efec"));
+            }
+
 
 			/*
             For Future :---->

@@ -9,6 +9,9 @@ import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @SuppressWarnings("serial")
 public class Chart extends JFXPanel {
@@ -22,6 +25,8 @@ public class Chart extends JFXPanel {
 	private NumberAxis yAxis;
 	private javafx.scene.control.ScrollPane scrollPane;
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+	ExecutorService executor =  Executors.newFixedThreadPool(10);
 
 	public Chart() {
 
@@ -62,6 +67,24 @@ public class Chart extends JFXPanel {
 
 	}
 
+	public void initFX(XYChart.Series series1, XYChart.Series series2, String legend) {
+
+		lineChart = new LineChart<String, Number>(xAxis, yAxis);
+		series1.setName("Series 1");
+		series2.setName("Series 2");
+		series1.setName(legend);
+		series2.setName(legend);
+		lineChart.getData().addAll(series1,series2);
+		lineChart.setAnimated(true);
+		lineChart.setCursor(Cursor.CROSSHAIR);
+		displayOnHover(lineChart);
+
+		scene = new Scene(lineChart, xDim, yDim);
+		scene.getStylesheets().add("chartstyle.css");
+		this.setScene(scene);
+
+	}
+
 	public void showImpressionsChart(ArrayList<ImpressionLog> impressionList) {
 
 		xAxis.setLabel("Date");
@@ -71,25 +94,95 @@ public class Chart extends JFXPanel {
 		String date;
 
 		for (ImpressionLog impression : impressionList) {
-			
+
 			date = sdf.format(impression.getDate());
-			
+
 			if (!impressionPairs.containsKey(date))
 				impressionPairs.put(date, 1);
 			else
 				impressionPairs.put(date, impressionPairs.get(date) + 1);
-			
+
 		}
 
 		XYChart.Series series = new XYChart.Series();
 
-		for (Entry<String, Integer> entry : impressionPairs.entrySet())
-			series.getData().add(new XYChart.Data(entry.getKey(), entry.getValue()));
+		int i = 0;
+		for (Entry<String, Integer> entry : impressionPairs.entrySet()) {
+			i++;
+			series.getData().add(new XYChart.Data(String.valueOf(i), entry.getValue()));
+			}
 
 		initFX(series, "Impressions over Time");
 
 	}
-	
+
+	public void showImpressionsChart(ArrayList<ImpressionLog> impressionList1, ArrayList<ImpressionLog> impressionList2) {
+		xAxis.setLabel("Date");
+		yAxis.setLabel("Number of Impressions");
+
+		MyImpressionWorker w1 = new MyImpressionWorker(impressionList1);
+		executor.execute(w1);
+		MyImpressionWorker w2 = new MyImpressionWorker(impressionList2);
+		executor.execute(w2);
+
+		// Wait until all threads are finish
+		while (!executor.isTerminated()) {	}
+
+		XYChart.Series series1 = new XYChart.Series();
+		XYChart.Series series2 = new XYChart.Series();
+
+		int i = 0;
+		for (Entry<String, Integer> entry : w1.impressionPairs.entrySet()) {
+			i++;
+			series1.getData().add(new XYChart.Data(String.valueOf(i), entry.getValue()));
+		}
+
+		i = 0;
+		for (Entry<String, Integer> entry : w2.impressionPairs.entrySet()) {
+			i++;
+			series2.getData().add(new XYChart.Data(String.valueOf(i), entry.getValue()));
+		}
+
+		initFX(series1 , series2, "Impressions over Time");
+
+	}
+
+//	public void showImpressionsChart(ArrayList<ArrayList<ImpressionLog>> impressionLists) {
+//
+//		xAxis.setLabel("Date");
+//		yAxis.setLabel("Number of Impressions");
+//		String date;
+//		ArrayList<XYChart.Series> seriesArrayList = new ArrayList<XYChart.Series>(impressionLists.size());
+//
+//		for (int i = 0; i < impressionLists.size(); i++) {
+//
+//			ArrayList<ImpressionLog> impressionList = impressionLists.get(i);
+//			LinkedHashMap<String, Integer> impressionPairs = new LinkedHashMap<String, Integer>();
+//
+//			for (ImpressionLog impression : impressionList) {
+//				date = sdf.format(impression.getDate());
+//
+//				if (!impressionPairs.containsKey(date))
+//					impressionPairs.put(date, 1);
+//				else
+//					impressionPairs.put(date, impressionPairs.get(date) + 1);
+//
+//			}
+//
+//			XYChart.Series series = new XYChart.Series();
+//			series.setName("Series " + i);
+//
+//			for (Entry<String, Integer> entry : impressionPairs.entrySet())
+//				series.getData().add(new XYChart.Data(entry.getKey(), entry.getValue()));
+//
+//
+//		}
+//
+//
+//		initFX(series, "Impressions over Time");
+//
+//	}
+
 	public void showClicksChart(ArrayList<ClickLog> clickList) {
 
 		xAxis.setLabel("Date");
@@ -347,5 +440,41 @@ public class Chart extends JFXPanel {
 		}
 
 	}
+
+	private class MyImpressionWorker implements Runnable {
+		private ArrayList<ImpressionLog> impressionList1;
+		private LinkedHashMap<String, Integer> impressionPairs;
+
+		public MyImpressionWorker(ArrayList<ImpressionLog> impressionList1) {
+			this.impressionList1 = impressionList1;
+			this.impressionPairs = new LinkedHashMap<String, Integer>();
+		}
+
+		public void run() {
+			String date;
+
+			for (ImpressionLog impression : impressionList1) {
+				date = sdf.format(impression.getDate());
+				if (!impressionPairs.containsKey(date))
+					impressionPairs.put(date, 1);
+				else
+					impressionPairs.put(date, impressionPairs.get(date) + 1);
+
+			}
+
+
+		}
+	}
+
+
+
+
+
+
+
+
+
+
+
 
 }

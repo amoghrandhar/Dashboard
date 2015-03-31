@@ -25,6 +25,7 @@ public class Import extends JFrame {
         super(title);
         this.dashboard = dashboard;
         fc = new JFileChooser();
+        this.setAlwaysOnTop(true);
     }
 
     public void init() {
