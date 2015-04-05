@@ -6,6 +6,7 @@ import javafx.application.Platform;
 
 import javax.swing.*;
 import javax.swing.JFormattedTextField.AbstractFormatter;
+import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
@@ -49,7 +50,7 @@ public class SideBar extends JPanel {
     JSpinner pagesSpinner, timeSpinner;
     
     ImageIcon importIcon, exportIcon, settingsIcon;
-    Color SECONDARY = Color.decode("#fafafa");
+    Color SECONDARY;
     
     JLabel compareLabel, selectedLabel;
     JToggleButton compareButton;
@@ -57,19 +58,26 @@ public class SideBar extends JPanel {
     Integer selectedSeries;
     Series series1, series2;
 
-    public SideBar(Dashboard dashboard, DataAnalytics dataAnalytics) {
+    Box accordion;
+    JPanel updatePanel;
+    
+    String[] colours;
+    
+    public SideBar(Dashboard dashboard, DataAnalytics dataAnalytics, String[] colours) {
 
         this.dashboard = dashboard;
         this.dataAnalytics = dataAnalytics;
         this.selectedSeries = 1;
         this.series1 = new Series();
         this.series2 = new Series();
-        init();
+        init(colours);
 
     }
 
-    public void init() {
+    public void init(String[] colours) {
 
+    	this.colours = colours;
+    	SECONDARY = Color.decode(colours[3]);
         //this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
         filePanel = new JPanel();
@@ -205,7 +213,7 @@ public class SideBar extends JPanel {
         updateButton.setEnabled(false);
         updateButton.addActionListener(new UpdateListener(this));
 
-        JPanel updatePanel = new JPanel();
+        updatePanel = new JPanel();
         updatePanel.setLayout(new FlowLayout());
         updatePanel.add(resetButton);
         updatePanel.add(updateButton);
@@ -214,7 +222,7 @@ public class SideBar extends JPanel {
         updatePanel.setBorder(new CompoundBorder(b2, b1));
         updatePanel.setMaximumSize(new Dimension(200, 100));
 
-        Box accordion = Box.createVerticalBox();
+        accordion = Box.createVerticalBox();
         accordion.setOpaque(true);
 
         List<AbstractExpansionPanel> titledPanes = makeList();
@@ -228,12 +236,12 @@ public class SideBar extends JPanel {
         accordion.add(Box.createVerticalGlue());
         accordion.setPreferredSize(new Dimension(200, 499));
 
-        comparePanel.setBackground(Color.decode("#c4c7cc"));
-        updatePanel.setBackground(Color.decode("#c4c7cc"));
-        accordion.setBackground(Color.decode("#c4c7cc"));
-        filePanel.setBackground(Color.decode("#c4c7cc"));
-        menuPanel.setBackground(Color.decode("#c4c7cc"));
-        this.setBackground(Color.decode("#c4c7cc"));
+        comparePanel.setBackground(Color.decode(colours[0]));
+        updatePanel.setBackground(Color.decode(colours[0]));
+        accordion.setBackground(Color.decode(colours[0]));
+        filePanel.setBackground(Color.decode(colours[0]));
+        menuPanel.setBackground(Color.decode(colours[0]));
+        this.setBackground(Color.decode(colours[0]));
 
         // Frame
 
@@ -260,6 +268,7 @@ public class SideBar extends JPanel {
         settingsButton = new JButton(importIcon);
         settingsButton.setBorder(null);
         settingsButton.setContentAreaFilled(false);
+        settingsButton.setFocusable(false);
         settingsButton.addActionListener(new SettingsListener(dashboard));
         buttonPanel.add(settingsButton);
         this.add(buttonPanel, BorderLayout.SOUTH);
@@ -650,8 +659,8 @@ public class SideBar extends JPanel {
             label = new JLabel("\u25BA " + title) {
                 protected void paintComponent(Graphics g) {
                     Graphics2D g2 = (Graphics2D) g.create();
-                    g2.setPaint(new GradientPaint(new Point(0, 0), Color.decode("#f5f5f5"),
-                            new Point(0, getHeight()), Color.decode("#d5d5d5")));
+                    g2.setPaint(new GradientPaint(new Point(0, 0), Color.decode(colours[1]),
+                            new Point(0, getHeight()), Color.decode(colours[2])));
                     g2.fillRect(0, 0, getWidth(), getHeight());
                     g2.setColor(Color.GRAY);
                     g2.setStroke(new BasicStroke(2));
@@ -675,7 +684,7 @@ public class SideBar extends JPanel {
             panel = makePanel();
             panel.setVisible(false);
             panel.setOpaque(true);
-            panel.setBackground(Color.decode("#fafafa"));
+            panel.setBackground(Color.decode(colours[3]));
             panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
             this.add(panel);
@@ -763,7 +772,7 @@ public class SideBar extends JPanel {
 
         public void actionPerformed(ActionEvent e) {
 
-        	Import importFrame = new Import("Import Files", dashboard);
+        	Import importFrame = new Import("Import Files", dashboard, colours);
         	importFrame.init();
         	importFrame.addWindowListener(new WindowAdapter() {
                 public void windowClosing(WindowEvent e) {
@@ -882,11 +891,53 @@ public class SideBar extends JPanel {
         public void actionPerformed(ActionEvent event) {
         	
     		if (event.getSource() == dashboard.sidebar.lightTheme) {
+    			   SwingUtilities.invokeLater(
+    		                () -> {
+    		                    try {
+    		                        for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+    		                            if ("Nimbus".equals(info.getName())) {
+    		                                UIManager.setLookAndFeel(info.getClassName());
+    		                                break;
+    		                            }
+    		                            UIManager.setLookAndFeel(
+    		                                    UIManager.getCrossPlatformLookAndFeelClassName());
+    		                        }
 
+    		                        Dashboard frame = new Dashboard("Ad Dashboard");
+    		                        frame.init(new String[] {"#c4c7cc", "#f5f5f5", "#d5d5d5", "#fafafa"});
+
+    		                    } catch (IllegalAccessException | InstantiationException | ClassNotFoundException | UnsupportedLookAndFeelException e) {
+    		                        e.printStackTrace();
+    		                    }
+    		                }
+    		        );
+    			   dashboard.dispose();
             }
 
             if (event.getSource() == dashboard.sidebar.darkTheme) {
+//                try {
+//                    UIManager.setLookAndFeel("com.jtattoo.plaf.hifi.HiFiLookAndFeel");
+//
+//                } catch (ClassNotFoundException | InstantiationException
+//                        | IllegalAccessException | UnsupportedLookAndFeelException e) {
+//                    e.printStackTrace();
+//                }
+//                SwingUtilities.updateComponentTreeUI(dashboard);
+               
+                
+     		   SwingUtilities.invokeLater(
+		                () -> {
+		                    try {
+		                        UIManager.setLookAndFeel("com.jtattoo.plaf.hifi.HiFiLookAndFeel");
+		                        Dashboard frame = new Dashboard("Ad Dashboard");
+		                        frame.init(new String[] {"#0d0d0c", "#1a1818", "#524e4e", "#242424"});
 
+		                    } catch (IllegalAccessException | InstantiationException | ClassNotFoundException | UnsupportedLookAndFeelException e) {
+		                        e.printStackTrace();
+		                    }
+		                }
+		        );
+			   dashboard.dispose();
             }
         }
     }

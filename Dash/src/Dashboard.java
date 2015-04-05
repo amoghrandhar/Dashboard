@@ -29,9 +29,9 @@ public class Dashboard extends JFrame {
     }
 
     // Display login panel
-    public void init() {
+    public void init(String[] colours) {
 
-        sidebar = new SideBar(this, dataAnalytics);
+        sidebar = new SideBar(this, dataAnalytics, colours);
         sidebar.setPreferredSize(new Dimension(200, 700));
 
         content = new Content(this);
