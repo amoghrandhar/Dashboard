@@ -1044,20 +1044,6 @@ public class SideBar extends JPanel {
             int pages = sidebar.getChosenPages();
             int time = sidebar.getChosenTime();
 
-            System.out.println(startDate);
-
-            /*
-            System.out.println("Start Year after today " + startDate.after(new Date()));
-            System.out.println(endDate);
-            System.out.println(gender);
-            System.out.println(ageGroup);
-            System.out.println(income);
-            System.out.println(context);
-            System.out.println(pages);
-            System.out.println(time);
-            */
-
-
             //Start Date Predicates
             Predicate<ClickLog> clickLogStartDatePredicate = click -> true;
             Predicate<ImpressionLog> impressionLogStartDatePredicate = imp -> true;
@@ -1102,11 +1088,29 @@ public class SideBar extends JPanel {
             }
 
             dashboard.resetLogs();
+            dashboard.resetLogs2();
+            
+            ArrayList<ImpressionLog> impressionLogs = null;
+        	ArrayList<ClickLog> clickLogArrayList = null;
+        	ArrayList<ServerLog> serverLogArrayList = null;
+            
+        	// Unnecessary because logs are reset and both have identical original logs
+        	
+            if(selectedSeries == 1){
 
-            ArrayList<ImpressionLog> impressionLogs = dashboard.getImpressionLogs();
-            ArrayList<ClickLog> clickLogArrayList = dashboard.getClickLogs();
-            ArrayList<ServerLog> serverLogArrayList = dashboard.getServerLogs();
-
+            	impressionLogs = dashboard.getImpressionLogs();
+            	clickLogArrayList = dashboard.getClickLogs();
+            	serverLogArrayList = dashboard.getServerLogs();
+            
+            }
+            
+            if(selectedSeries == 2){
+            	
+            	impressionLogs = dashboard.getImpressionLogs2();
+                clickLogArrayList = dashboard.getClickLogs2();
+                serverLogArrayList = dashboard.getServerLogs2();
+            	
+            }
 
             impressionLogs = (ArrayList <ImpressionLog>) DataAnalytics.filterImpressionLogs(
                     impressionLogStartDatePredicate,
@@ -1135,13 +1139,17 @@ public class SideBar extends JPanel {
             if(selectedSeries == 2)
             	saveFilters(series2);
             
-            dashboard.updateLogs(clickLogArrayList,impressionLogs,serverLogArrayList);
+            if(selectedSeries == 1)
+            	dashboard.updateLogs(clickLogArrayList,impressionLogs,serverLogArrayList);
+            if(selectedSeries == 2)
+            	dashboard.updateLogs2(clickLogArrayList,impressionLogs,serverLogArrayList);
+            
             dashboard.updateMetrics(pages , time);
             
             Platform.runLater(() -> {
             	switch (dashboard.content.graphChoiceBox.getSelectedIndex()) {
             	case 1:
-            		dashboard.content.chart.showImpressionsChart(dashboard.getImpressionLogs());
+            		dashboard.content.chart.showImpressionsChart(dashboard.getImpressionLogs(), dashboard.getImpressionLogs2());
             		break;
             	case 2:
             		dashboard.content.chart.showUniqueChart(dashboard.dataAnalytics.uniqueClickSet(dashboard.getClickLogs()));
@@ -1166,10 +1174,10 @@ public class SideBar extends JPanel {
             });
 
             Platform.runLater(() -> {
-               dashboard.content.pieChart1.showGenderPie();
-                dashboard.content.pieChart2.showAgeGroupPie();
-                dashboard.content.pieChart3.showIncomePie();
-                dashboard.content.pieChart4.showContextPie();
+            	dashboard.content.pieChart1.showGenderPie();
+            	dashboard.content.pieChart2.showAgeGroupPie();
+            	dashboard.content.pieChart3.showIncomePie();
+            	dashboard.content.pieChart4.showContextPie();
             });
 
         }

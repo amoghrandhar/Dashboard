@@ -17,6 +17,10 @@ public class Dashboard extends JFrame {
     private ArrayList<ClickLog> clickLogs;
     private ArrayList<ImpressionLog> impressionLogs;
     private ArrayList<ServerLog> serverLogs;
+    
+    private ArrayList<ClickLog> clickLogs2;
+    private ArrayList<ImpressionLog> impressionLogs2;
+    private ArrayList<ServerLog> serverLogs2;
 
     private ArrayList<ClickLog> originalClickLogs;
     private ArrayList<ImpressionLog> originalImpressionLogs;
@@ -61,6 +65,7 @@ public class Dashboard extends JFrame {
         originalImpressionLogs = impressionLogs;
         originalServerLogs = serverLogs;
         updateLogs(originalClickLogs , originalImpressionLogs, originalServerLogs);
+        updateLogs2(originalClickLogs , originalImpressionLogs, originalServerLogs);
     }
 
     /**
@@ -70,13 +75,22 @@ public class Dashboard extends JFrame {
         updateLogs(originalClickLogs, originalImpressionLogs, originalServerLogs);
     }
 
+    public void resetLogs2() {
+        updateLogs2(originalClickLogs, originalImpressionLogs, originalServerLogs);
+    }
 
     public void updateLogs(ArrayList<ClickLog> clickLogArrayList,ArrayList<ImpressionLog> impressionArrayList
             , ArrayList<ServerLog> serverLogArrayList ){
         impressionLogs = impressionArrayList;
         clickLogs = clickLogArrayList;
         serverLogs = serverLogArrayList;
-
+    }
+    
+    public void updateLogs2(ArrayList<ClickLog> clickLogArrayList,ArrayList<ImpressionLog> impressionArrayList
+            , ArrayList<ServerLog> serverLogArrayList ){
+        impressionLogs2 = impressionArrayList;
+        clickLogs2 = clickLogArrayList;
+        serverLogs2 = serverLogArrayList;
     }
 
     public ArrayList<ServerLog> getOriginalServerLogs() {
@@ -92,7 +106,19 @@ public class Dashboard extends JFrame {
     }
 
     public ArrayList<ServerLog> getServerLogs() {
-        return serverLogs;
+        return serverLogs2;
+    }
+    
+    public ArrayList<ClickLog> getClickLogs2() {
+        return clickLogs2;
+    }
+
+    public ArrayList<ImpressionLog> getImpressionLogs2() {
+        return impressionLogs2;
+    }
+
+    public ArrayList<ServerLog> getServerLogs2() {
+        return serverLogs2;
     }
 
     public void defaultChart() {
