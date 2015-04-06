@@ -20,9 +20,12 @@ public class Import extends JFrame {
     private JButton cancelButton, openButton;
     private DragAndDropPanel panel1, panel2, panel3;
     private Dashboard dashboard;
+    
+    private String[] colours;
 
-    public Import(String title, Dashboard dashboard) {
+    public Import(String title, Dashboard dashboard, String[] colours) {
         super(title);
+        this.colours = colours;
         this.dashboard = dashboard;
         fc = new JFileChooser();
         this.setAlwaysOnTop(true);
@@ -82,7 +85,7 @@ public class Import extends JFrame {
         c.insets = new Insets(-3, 95, -2, 7);
         container.add(openButton, c);
 
-        container.setBackground(new Color(0xf5f5f5));
+        container.setBackground(Color.decode(colours[2]));
         this.pack();
         this.setSize(580, 200);
         this.setMinimumSize(getSize());
@@ -124,7 +127,7 @@ public class Import extends JFrame {
             Image img = icon.getImage();
             icon = new ImageIcon(img);
             add(new JLabel(icon));
-            setBackground(new Color(0xf5f5f5));
+            setBackground(Color.decode(colours[2]));
             new DropTarget(this, new DragDropListener());
         }
     }

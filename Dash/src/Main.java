@@ -25,7 +25,7 @@ public class Main {
                         }
 
                         Dashboard frame = new Dashboard("Ad Dashboard");
-                        frame.init();
+                        frame.init(new String[] {"#c4c7cc", "#f5f5f5", "#d5d5d5", "#fafafa", "#fafafa"});
 
                     } catch (IllegalAccessException | InstantiationException | ClassNotFoundException | UnsupportedLookAndFeelException e) {
                         e.printStackTrace();
