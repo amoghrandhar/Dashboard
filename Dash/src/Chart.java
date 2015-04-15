@@ -150,6 +150,27 @@ public class Chart extends JFXPanel {
 		xAxis.setLabel("Date");
 		yAxis.setLabel("Number of Impressions");
 
+		XYChart.Series series1 = new XYChart.Series();
+		XYChart.Series series2 = new XYChart.Series();
+
+		int i = 0;
+		for (Entry<String, Integer> entry : getPairs(impressionList1).entrySet()) {
+			i++;
+			series1.getData().add(new XYChart.Data(String.valueOf(i), entry.getValue()));
+		}
+
+		i = 0;
+		for (Entry<String, Integer> entry : getPairs(impressionList2).entrySet()) {
+			i++;
+			series2.getData().add(new XYChart.Data(String.valueOf(i), entry.getValue()));
+		}
+
+		initFX(series1 , series2);
+
+	}
+	
+	public LinkedHashMap<String, Integer> getPairs(ArrayList<ImpressionLog> impressionList1){
+		
 		LinkedHashMap<String, Integer> impressionPairs = new LinkedHashMap<String, Integer>();
 		String date;
 
@@ -164,37 +185,8 @@ public class Chart extends JFXPanel {
 
 		}
 		
-		LinkedHashMap<String, Integer> impressionPairs2 = new LinkedHashMap<String, Integer>();
-		String date2;
-
-		for (ImpressionLog impression : impressionList2) {
-
-			date2 = sdf.format(impression.getDate());
-
-			if (!impressionPairs2.containsKey(date2))
-				impressionPairs2.put(date2, 1);
-			else
-				impressionPairs2.put(date2, impressionPairs2.get(date2) + 1);
-
-		}
-
-		XYChart.Series series1 = new XYChart.Series();
-		XYChart.Series series2 = new XYChart.Series();
-
-		int i = 0;
-		for (Entry<String, Integer> entry : impressionPairs.entrySet()) {
-			i++;
-			series1.getData().add(new XYChart.Data(String.valueOf(i), entry.getValue()));
-		}
-
-		i = 0;
-		for (Entry<String, Integer> entry : impressionPairs2.entrySet()) {
-			i++;
-			series2.getData().add(new XYChart.Data(String.valueOf(i), entry.getValue()));
-		}
-
-		initFX(series1 , series2);
-
+		return impressionPairs;
+		
 	}
 
 	//	public void showImpressionsChart(ArrayList<ArrayList<ImpressionLog>> impressionLists) {
