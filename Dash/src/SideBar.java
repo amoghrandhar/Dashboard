@@ -1139,28 +1139,23 @@ public class SideBar extends JPanel {
             }
 
             dashboard.resetLogs();
-            dashboard.resetLogs2();
             
             ArrayList<ImpressionLog> impressionLogs = null;
         	ArrayList<ClickLog> clickLogArrayList = null;
         	ArrayList<ServerLog> serverLogArrayList = null;
             
-        	// Unnecessary because logs are reset and both have identical original logs
+        	// Actually unnecessary because logs are reset and both have identical original logs
         	
             if(selectedSeries == 1){
-
             	impressionLogs = dashboard.getImpressionLogs();
             	clickLogArrayList = dashboard.getClickLogs();
-            	serverLogArrayList = dashboard.getServerLogs();
-            
+            	serverLogArrayList = dashboard.getServerLogs();  
             }
             
-            if(selectedSeries == 2){
-            	
+            if(selectedSeries == 2){ 	
             	impressionLogs = dashboard.getImpressionLogs2();
                 clickLogArrayList = dashboard.getClickLogs2();
                 serverLogArrayList = dashboard.getServerLogs2();
-            	
             }
 
             impressionLogs = (ArrayList <ImpressionLog>) DataAnalytics.filterImpressionLogs(
