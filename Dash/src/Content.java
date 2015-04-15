@@ -1,13 +1,11 @@
 import javafx.application.Platform;
 import javafx.scene.chart.XYChart;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -42,8 +40,6 @@ public class Content extends JPanel {
 	boolean screenShotMode;
 	int x, y, width, height;
 
-	
-	
 	String[] row1, row2;
 	Boolean comparing;
 	
@@ -183,9 +179,12 @@ public class Content extends JPanel {
 			final int item = cb.getSelectedIndex();
 
 			Platform.runLater(() -> {
+				
+				if(dashboard.isComparing()){
+				
 				switch (item) {
 				case 1:
-					chart.showImpressionsChart(dashboard.getImpressionLogs());
+					chart.showImpressionsChartMarcos(dashboard.getImpressionLogs(), dashboard.getImpressionLogs2());
 					break;
 				case 2:
 					chart.showUniqueChart(dashboard.dataAnalytics.uniqueClickSet(dashboard.getClickLogs()));
@@ -207,6 +206,37 @@ public class Content extends JPanel {
 					chart.showClicksChart(dashboard.getClickLogs());
 					break;
 				}
+				
+				}
+				
+				if(!dashboard.isComparing()){
+					
+					switch (item) {
+					case 1:
+						chart.showImpressionsChart(dashboard.getImpressionLogs());
+						break;
+					case 2:
+						chart.showUniqueChart(dashboard.dataAnalytics.uniqueClickSet(dashboard.getClickLogs()));
+						break;
+					case 3:
+						chart.showBounceChart(dashboard.dataAnalytics.getFilteredServerLogOnBounce(dashboard.getServerLogs(), 
+								dashboard.sidebar.getChosenPages(), dashboard.sidebar.getChosenTime()));
+						break;
+					case 4:
+						chart.showConversionChart(dashboard.getServerLogs());
+						break;
+					case 5:
+						chart.showCumulativeCostChart(dashboard.getClickLogs(),dashboard.getImpressionLogs());
+						break;
+					case 6:
+						chart.showClickCostsHistogram(dashboard.getClickLogs());
+						break;
+					default:
+						chart.showClicksChart(dashboard.getClickLogs());
+						break;
+					}
+					
+					}
 
 			});
 

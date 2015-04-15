@@ -4,12 +4,22 @@
     -fx-stroke: #00d2ff;
 }
 
+.default-color0.chart-series-line { -fx-stroke: #00d2ff; }
+.default-color1.chart-series-line { -fx-stroke: #fe405b; }
+
 /*.onHover{*/
 /*-fx-background-color: #3200ff;*/
 /*}*/
 
 .default-color0.chart-line-symbol {
     -fx-background-color: #00d2ff, white;
+    -fx-background-insets: 0, 2;
+    -fx-background-radius: 4px;
+    -fx-padding: 4px;
+}
+
+.default-color1.chart-line-symbol {
+    -fx-background-color: #fe405b, white;
     -fx-background-insets: 0, 2;
     -fx-background-radius: 4px;
     -fx-padding: 4px;

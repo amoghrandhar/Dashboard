@@ -67,13 +67,11 @@ public class Chart extends JFXPanel {
 
 	}
 
-	public void initFX(XYChart.Series series1, XYChart.Series series2, String legend) {
+	public void initFX(XYChart.Series series1, XYChart.Series series2) {
 
 		lineChart = new LineChart<String, Number>(xAxis, yAxis);
 		series1.setName("Series 1");
 		series2.setName("Series 2");
-		series1.setName(legend);
-		series2.setName(legend);
 		lineChart.getData().addAll(series1,series2);
 		lineChart.setAnimated(true);
 		lineChart.setCursor(Cursor.CROSSHAIR);
@@ -110,7 +108,7 @@ public class Chart extends JFXPanel {
 		for (Entry<String, Integer> entry : impressionPairs.entrySet()) {
 			i++;
 			series.getData().add(new XYChart.Data(String.valueOf(i), entry.getValue()));
-			}
+		}
 
 		initFX(series, "Impressions over Time");
 
@@ -143,45 +141,97 @@ public class Chart extends JFXPanel {
 			series2.getData().add(new XYChart.Data(String.valueOf(i), entry.getValue()));
 		}
 
-		initFX(series1 , series2, "Impressions over Time");
+		initFX(series1 , series2);
+
+	}
+	
+	public void showImpressionsChartMarcos(ArrayList<ImpressionLog> impressionList1, ArrayList<ImpressionLog> impressionList2) {
+		
+		xAxis.setLabel("Date");
+		yAxis.setLabel("Number of Impressions");
+
+		LinkedHashMap<String, Integer> impressionPairs = new LinkedHashMap<String, Integer>();
+		String date;
+
+		for (ImpressionLog impression : impressionList1) {
+
+			date = sdf.format(impression.getDate());
+
+			if (!impressionPairs.containsKey(date))
+				impressionPairs.put(date, 1);
+			else
+				impressionPairs.put(date, impressionPairs.get(date) + 1);
+
+		}
+		
+		LinkedHashMap<String, Integer> impressionPairs2 = new LinkedHashMap<String, Integer>();
+		String date2;
+
+		for (ImpressionLog impression : impressionList2) {
+
+			date2 = sdf.format(impression.getDate());
+
+			if (!impressionPairs2.containsKey(date2))
+				impressionPairs2.put(date2, 1);
+			else
+				impressionPairs2.put(date2, impressionPairs2.get(date2) + 1);
+
+		}
+
+		XYChart.Series series1 = new XYChart.Series();
+		XYChart.Series series2 = new XYChart.Series();
+
+		int i = 0;
+		for (Entry<String, Integer> entry : impressionPairs.entrySet()) {
+			i++;
+			series1.getData().add(new XYChart.Data(String.valueOf(i), entry.getValue()));
+		}
+
+		i = 0;
+		for (Entry<String, Integer> entry : impressionPairs2.entrySet()) {
+			i++;
+			series2.getData().add(new XYChart.Data(String.valueOf(i), entry.getValue()));
+		}
+
+		initFX(series1 , series2);
 
 	}
 
-//	public void showImpressionsChart(ArrayList<ArrayList<ImpressionLog>> impressionLists) {
-//
-//		xAxis.setLabel("Date");
-//		yAxis.setLabel("Number of Impressions");
-//		String date;
-//		ArrayList<XYChart.Series> seriesArrayList = new ArrayList<XYChart.Series>(impressionLists.size());
-//
-//		for (int i = 0; i < impressionLists.size(); i++) {
-//
-//			ArrayList<ImpressionLog> impressionList = impressionLists.get(i);
-//			LinkedHashMap<String, Integer> impressionPairs = new LinkedHashMap<String, Integer>();
-//
-//			for (ImpressionLog impression : impressionList) {
-//				date = sdf.format(impression.getDate());
-//
-//				if (!impressionPairs.containsKey(date))
-//					impressionPairs.put(date, 1);
-//				else
-//					impressionPairs.put(date, impressionPairs.get(date) + 1);
-//
-//			}
-//
-//			XYChart.Series series = new XYChart.Series();
-//			series.setName("Series " + i);
-//
-//			for (Entry<String, Integer> entry : impressionPairs.entrySet())
-//				series.getData().add(new XYChart.Data(entry.getKey(), entry.getValue()));
-//
-//
-//		}
-//
-//
-//		initFX(series, "Impressions over Time");
-//
-//	}
+	//	public void showImpressionsChart(ArrayList<ArrayList<ImpressionLog>> impressionLists) {
+	//
+	//		xAxis.setLabel("Date");
+	//		yAxis.setLabel("Number of Impressions");
+	//		String date;
+	//		ArrayList<XYChart.Series> seriesArrayList = new ArrayList<XYChart.Series>(impressionLists.size());
+	//
+	//		for (int i = 0; i < impressionLists.size(); i++) {
+	//
+	//			ArrayList<ImpressionLog> impressionList = impressionLists.get(i);
+	//			LinkedHashMap<String, Integer> impressionPairs = new LinkedHashMap<String, Integer>();
+	//
+	//			for (ImpressionLog impression : impressionList) {
+	//				date = sdf.format(impression.getDate());
+	//
+	//				if (!impressionPairs.containsKey(date))
+	//					impressionPairs.put(date, 1);
+	//				else
+	//					impressionPairs.put(date, impressionPairs.get(date) + 1);
+	//
+	//			}
+	//
+	//			XYChart.Series series = new XYChart.Series();
+	//			series.setName("Series " + i);
+	//
+	//			for (Entry<String, Integer> entry : impressionPairs.entrySet())
+	//				series.getData().add(new XYChart.Data(entry.getKey(), entry.getValue()));
+	//
+	//
+	//		}
+	//
+	//
+	//		initFX(series, "Impressions over Time");
+	//
+	//	}
 
 	public void showClicksChart(ArrayList<ClickLog> clickList) {
 
@@ -193,9 +243,9 @@ public class Chart extends JFXPanel {
 
 		/* 'Counts' number of clicks per day */
 		for (ClickLog click : clickList) {
-			
+
 			date = sdf.format(click.getDate());
-			
+
 			if (!clickPairs.containsKey(date))
 				clickPairs.put(date, 1);
 			else
@@ -221,14 +271,14 @@ public class Chart extends JFXPanel {
 		String date;
 
 		for (ClickLog click : hashSet) {
-			
+
 			date = sdf.format(click.getDate());
-			
+
 			if (!uniquePairs.containsKey(date))
 				uniquePairs.put(date, 1);
 			else 
 				uniquePairs.put(date, uniquePairs.get(date) + 1);
-			
+
 		}
 
 		XYChart.Series series = new XYChart.Series();
@@ -278,16 +328,16 @@ public class Chart extends JFXPanel {
 		String date;
 
 		for (ServerLog server : serverList) {
-			
+
 			date = sdf.format(server.getStartDate());
-			
+
 			if (server.isConverted()) {
 				if (!convertPairs.containsKey(date))
 					convertPairs.put(date, 1);
 				else
 					convertPairs.put(date, convertPairs.get(date) + 1);			
 			}
-			
+
 		}
 
 		XYChart.Series series = new XYChart.Series();
@@ -319,17 +369,17 @@ public class Chart extends JFXPanel {
 			previous = date;
 		}
 
-        for (ImpressionLog impression : impressionLogs) {
-            date = sdf.format(impression.getDate());
-            if (!costPairs.containsKey(date)) {
-                if (previous != null)
-                    costPairs.put(date, impression.getImpression() + costPairs.get(previous));
-                else
-                    costPairs.put(date, impression.getImpression());
-            }
-            else costPairs.put(date, costPairs.get(date) + impression.getImpression());
-            previous = date;
-        }
+		for (ImpressionLog impression : impressionLogs) {
+			date = sdf.format(impression.getDate());
+			if (!costPairs.containsKey(date)) {
+				if (previous != null)
+					costPairs.put(date, impression.getImpression() + costPairs.get(previous));
+				else
+					costPairs.put(date, impression.getImpression());
+			}
+			else costPairs.put(date, costPairs.get(date) + impression.getImpression());
+			previous = date;
+		}
 
 		XYChart.Series series = new XYChart.Series();
 
@@ -343,47 +393,47 @@ public class Chart extends JFXPanel {
 	public void showClickCostsHistogram(ArrayList<ClickLog> clickList) {
 
 		xAxis.setLabel("Cost Division");
-       // xAxis.setLabel("Date");
+		// xAxis.setLabel("Date");
 		yAxis.setLabel("Cost (pence)");
 
-        int modVal = 100 ;
-        int temp ;
+		int modVal = 100 ;
+		int temp ;
 
 		LinkedHashMap<String, Double> costPairs = new LinkedHashMap<String, Double>();
 		String date;
 
-//		for (ClickLog click : clickList) {
-//			date = sdf.format(click.getDate());
-//			if (!costPairs.containsKey(date))
-//				costPairs.put(date, click.getClickCost());
-//			else
-//				costPairs.put(date, costPairs.get(date) + click.getClickCost());
-//
-//		}
+		//		for (ClickLog click : clickList) {
+		//			date = sdf.format(click.getDate());
+		//			if (!costPairs.containsKey(date))
+		//				costPairs.put(date, click.getClickCost());
+		//			else
+		//				costPairs.put(date, costPairs.get(date) + click.getClickCost());
+		//
+		//		}
 
-        for (ClickLog click : clickList) {
-            temp = click.getClickCost().intValue() % 100;
-            date = String.valueOf(temp);
+		for (ClickLog click : clickList) {
+			temp = click.getClickCost().intValue() % 100;
+			date = String.valueOf(temp);
 
-            if (!costPairs.containsKey(date)) {
-                System.out.println(date);
-                costPairs.put(date, 1.0);
-            }
-            else
-                costPairs.put(date, costPairs.get(date) + 1.0);
+			if (!costPairs.containsKey(date)) {
+				System.out.println(date);
+				costPairs.put(date, 1.0);
+			}
+			else
+				costPairs.put(date, costPairs.get(date) + 1.0);
 
-        }
+		}
 
-        TreeMap<String,Double> costDivi = new TreeMap<String,Double>(new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                Integer a = Integer.parseInt(o1);
-                Integer b = Integer.parseInt(o2);
-               return a.compareTo(b);
-            }
-        });
+		TreeMap<String,Double> costDivi = new TreeMap<String,Double>(new Comparator<String>() {
+			@Override
+			public int compare(String o1, String o2) {
+				Integer a = Integer.parseInt(o1);
+				Integer b = Integer.parseInt(o2);
+				return a.compareTo(b);
+			}
+		});
 
-        costDivi.putAll(costPairs);
+		costDivi.putAll(costPairs);
 
 
 		BarChart<String, Number> barChart = new BarChart<String, Number>(xAxis, yAxis);
@@ -393,8 +443,8 @@ public class Chart extends JFXPanel {
 		for (Entry<String, Double> entry : costDivi.entrySet())
 			series.getData().add(new XYChart.Data(entry.getKey().concat(" - ").concat(String.valueOf(Integer.parseInt(entry.getKey()) + 1)), entry.getValue()));
 
-//		series.setName("Cost Over Time");
-        series.setName("Cost Over Cost Division");
+		//		series.setName("Cost Over Time");
+		series.setName("Cost Over Cost Division");
 		barChart.getData().add(series);
 		barChart.setAnimated(true);
 		barChart.setCursor(Cursor.CROSSHAIR);		
@@ -442,6 +492,7 @@ public class Chart extends JFXPanel {
 	}
 
 	private class MyImpressionWorker implements Runnable {
+		
 		private ArrayList<ImpressionLog> impressionList1;
 		private LinkedHashMap<String, Integer> impressionPairs;
 

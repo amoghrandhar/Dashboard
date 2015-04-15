@@ -234,6 +234,15 @@ public class Dashboard extends JFrame {
 				round(totalCost, 2));
 
 	}
+	
+	public Boolean isComparing(){
+		
+		if(sidebar.compareButton.isSelected())
+			return true;
+		
+		else return false;
+		
+	}
 
 	public void updateComparing(Boolean comparing){
 
