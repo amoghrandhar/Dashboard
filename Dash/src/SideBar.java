@@ -631,6 +631,18 @@ public class SideBar extends JPanel {
 		else return dashboard.DEFAULT_BOUNCE_TIME_PROP;
 
 	}
+	
+	public int getSeriesBouncePages(Series series){
+		
+		return series.getBouncePages();
+		
+	}
+	
+	public int getSeriesBounceTime(Series series){
+		
+		return series.getBounceTime();
+		
+	}
 
 	public void saveFilters(Series series){
 
@@ -1194,35 +1206,6 @@ public class SideBar extends JPanel {
 
 			Platform.runLater(() -> {
 
-				if(compareButton.isSelected()){
-
-					switch (dashboard.content.graphChoiceBox.getSelectedIndex()) {
-					case 1:
-						dashboard.content.chart.showImpressionsChartMarcos(dashboard.getImpressionLogs(), dashboard.getImpressionLogs2());
-						break;
-					case 2:
-						dashboard.content.chart.showUniqueChart(dashboard.dataAnalytics.uniqueClickSet(dashboard.getClickLogs()));
-						break;
-					case 3:
-						dashboard.content.chart.showBounceChart(dashboard.dataAnalytics.getFilteredServerLogOnBounce(dashboard.getServerLogs(), 
-								getChosenPages(), getChosenTime()));
-						break;
-					case 4:
-						dashboard.content.chart.showConversionChart(dashboard.getServerLogs());
-						break;
-					case 5:
-						dashboard.content.chart.showCumulativeCostChart(dashboard.getClickLogs(),dashboard.getImpressionLogs());
-						break;
-					case 6:
-						dashboard.content.chart.showClickCostsHistogram(dashboard.getClickLogs());
-						break;
-					default:
-						dashboard.content.chart.showClicksChart(dashboard.getClickLogs());
-						break;
-					}
-
-				}
-
 				if(!compareButton.isSelected()){
 
 					switch (dashboard.content.graphChoiceBox.getSelectedIndex()) {
@@ -1247,6 +1230,41 @@ public class SideBar extends JPanel {
 						break;
 					default:
 						dashboard.content.chart.showClicksChart(dashboard.getClickLogs());
+						break;
+					}
+
+				}
+
+				if(compareButton.isSelected()){
+
+					switch (dashboard.content.graphChoiceBox.getSelectedIndex()) {
+					case 1:
+						dashboard.content.chart.showImpressionsChartMarcos(dashboard.getImpressionLogs(), dashboard.getImpressionLogs2());
+						break;
+					case 2:
+						dashboard.content.chart.showUniqueChart2(dashboard.dataAnalytics.uniqueClickSet(dashboard.getClickLogs()),
+								dashboard.dataAnalytics.uniqueClickSet(dashboard.getClickLogs2()));
+						break;
+					case 3:
+						dashboard.content.chart.showBounceChart2(
+								dashboard.dataAnalytics.getFilteredServerLogOnBounce(
+										dashboard.getServerLogs(), getSeriesBouncePages(series1), getSeriesBounceTime(series1)),
+								dashboard.dataAnalytics.getFilteredServerLogOnBounce(
+										dashboard.getServerLogs2(), getSeriesBouncePages(series2), getSeriesBounceTime(series2)));
+						break;
+					case 4:
+						dashboard.content.chart.showConversionChart2(dashboard.getServerLogs(), dashboard.getServerLogs2());
+						break;
+					case 5:
+						dashboard.content.chart.showCumulativeCostChart2(
+								dashboard.getClickLogs(),dashboard.getImpressionLogs(),
+								dashboard.getClickLogs2(),dashboard.getImpressionLogs2());
+						break;
+					case 6:
+						dashboard.content.chart.showClickCostsHistogram(dashboard.getClickLogs());
+						break;
+					default:
+						dashboard.content.chart.showClicksChart2(dashboard.getClickLogs(), dashboard.getClickLogs2());
 						break;
 					}
 

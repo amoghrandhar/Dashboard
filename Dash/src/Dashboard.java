@@ -94,10 +94,6 @@ public class Dashboard extends JFrame {
 		serverLogs2 = serverLogArrayList;
 	}
 
-	public ArrayList<ServerLog> getOriginalServerLogs() {
-		return originalServerLogs;
-	}
-
 	public ArrayList<ClickLog> getClickLogs() {
 		return clickLogs;
 	}
@@ -107,7 +103,7 @@ public class Dashboard extends JFrame {
 	}
 
 	public ArrayList<ServerLog> getServerLogs() {
-		return serverLogs2;
+		return serverLogs;
 	}
 
 	public ArrayList<ClickLog> getClickLogs2() {
