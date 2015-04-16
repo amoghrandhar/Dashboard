@@ -180,73 +180,7 @@ public class Content extends JPanel {
 
 			Platform.runLater(() -> {
 
-				if(!dashboard.isComparing()){
-
-					switch (item) {
-					case 1:
-						chart.showImpressionsChart(dashboard.getImpressionLogs());
-						break;
-					case 2:
-						chart.showUniqueChart(dashboard.dataAnalytics.uniqueClickSet(dashboard.getClickLogs()));
-						break;
-					case 3:
-						chart.showBounceChart(dashboard.dataAnalytics.getFilteredServerLogOnBounce(dashboard.getServerLogs(), 
-								dashboard.sidebar.getChosenPages(), dashboard.sidebar.getChosenTime()));
-						break;
-					case 4:
-						chart.showConversionChart(dashboard.getServerLogs());
-						break;
-					case 5:
-						chart.showCumulativeCostChart(dashboard.getClickLogs(),dashboard.getImpressionLogs());
-						break;
-					case 6:
-						chart.showClickCostsHistogram(dashboard.getClickLogs());
-						break;
-					default:
-						chart.showClicksChart(dashboard.getClickLogs());
-						break;
-					}
-
-				}
-
-				if(dashboard.isComparing()){
-
-					switch (item) {
-					case 1:
-						chart.showImpressionsChartMarcos(dashboard.getImpressionLogs(), dashboard.getImpressionLogs2());
-						break;
-					case 2:
-						chart.showUniqueChart2(dashboard.dataAnalytics.uniqueClickSet(dashboard.getClickLogs()),
-								dashboard.dataAnalytics.uniqueClickSet(dashboard.getClickLogs2()));
-						break;
-					case 3:
-						chart.showBounceChart2(
-								dashboard.dataAnalytics.getFilteredServerLogOnBounce(
-										dashboard.getServerLogs(), 
-										dashboard.sidebar.getSeriesBouncePages(dashboard.sidebar.series1), 
-										dashboard.sidebar.getSeriesBounceTime(dashboard.sidebar.series1)),
-								dashboard.dataAnalytics.getFilteredServerLogOnBounce(
-										dashboard.getServerLogs2(),
-										dashboard.sidebar.getSeriesBouncePages(dashboard.sidebar.series2), 
-										dashboard.sidebar.getSeriesBounceTime(dashboard.sidebar.series2)));
-						break;
-					case 4:
-						chart.showConversionChart2(dashboard.getServerLogs(), dashboard.getServerLogs2());
-						break;
-					case 5:
-						dashboard.content.chart.showCumulativeCostChart2(
-								dashboard.getClickLogs(),dashboard.getImpressionLogs(),
-								dashboard.getClickLogs2(),dashboard.getImpressionLogs2());
-						break;
-					case 6:
-						chart.showClickCostsHistogram(dashboard.getClickLogs());
-						break;
-					default:
-						chart.showClicksChart2(dashboard.getClickLogs(), dashboard.getClickLogs2());
-						break;
-					}
-
-				}
+				dashboard.updateGraph(item);
 
 			});
 
@@ -282,73 +216,7 @@ public class Content extends JPanel {
 						break;
 					}
 
-					if(!dashboard.isComparing()){
-
-						switch (item) {
-						case 1:
-							chart.showImpressionsChart(dashboard.getImpressionLogs());
-							break;
-						case 2:
-							chart.showUniqueChart(dashboard.dataAnalytics.uniqueClickSet(dashboard.getClickLogs()));
-							break;
-						case 3:
-							chart.showBounceChart(dashboard.dataAnalytics.getFilteredServerLogOnBounce(dashboard.getServerLogs(), 
-									dashboard.sidebar.getChosenPages(), dashboard.sidebar.getChosenTime()));
-							break;
-						case 4:
-							chart.showConversionChart(dashboard.getServerLogs());
-							break;
-						case 5:
-							chart.showCumulativeCostChart(dashboard.getClickLogs(),dashboard.getImpressionLogs());
-							break;
-						case 6:
-							chart.showClickCostsHistogram(dashboard.getClickLogs());
-							break;
-						default:
-							chart.showClicksChart(dashboard.getClickLogs());
-							break;
-						}
-
-					}
-
-					if(dashboard.isComparing()){
-
-						switch (item) {
-						case 1:
-							chart.showImpressionsChartMarcos(dashboard.getImpressionLogs(), dashboard.getImpressionLogs2());
-							break;
-						case 2:
-							chart.showUniqueChart2(dashboard.dataAnalytics.uniqueClickSet(dashboard.getClickLogs()),
-									dashboard.dataAnalytics.uniqueClickSet(dashboard.getClickLogs2()));
-							break;
-						case 3:
-							chart.showBounceChart2(
-									dashboard.dataAnalytics.getFilteredServerLogOnBounce(
-											dashboard.getServerLogs(), 
-											dashboard.sidebar.getSeriesBouncePages(dashboard.sidebar.series1), 
-											dashboard.sidebar.getSeriesBounceTime(dashboard.sidebar.series1)),
-									dashboard.dataAnalytics.getFilteredServerLogOnBounce(
-											dashboard.getServerLogs2(),
-											dashboard.sidebar.getSeriesBouncePages(dashboard.sidebar.series2), 
-											dashboard.sidebar.getSeriesBounceTime(dashboard.sidebar.series2)));
-							break;
-						case 4:
-							chart.showConversionChart2(dashboard.getServerLogs(), dashboard.getServerLogs2());
-							break;
-						case 5:
-							chart.showCumulativeCostChart2(
-									dashboard.getClickLogs(),dashboard.getImpressionLogs(),
-									dashboard.getClickLogs2(),dashboard.getImpressionLogs2());
-							break;
-						case 6:
-							chart.showClickCostsHistogram(dashboard.getClickLogs());
-							break;
-						default:
-							chart.showClicksChart2(dashboard.getClickLogs(), dashboard.getClickLogs2());
-							break;
-						}
-
-					}
+					dashboard.updateGraph(item);
 
 				});
 

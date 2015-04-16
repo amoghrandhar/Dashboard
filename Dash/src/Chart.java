@@ -190,7 +190,7 @@ public class Chart extends JFXPanel {
 		initFX(series, "Clicks over Time");
 
 	}
-	
+
 	public void showClicksChart2(ArrayList<ClickLog> clickList1, ArrayList<ClickLog> clickList2) {
 
 		xAxis.setLabel("Date");
@@ -201,14 +201,14 @@ public class Chart extends JFXPanel {
 
 		for (Entry<String, Integer> entry : getClickPairs(clickList1).entrySet())
 			series1.getData().add(new XYChart.Data(entry.getKey(), entry.getValue()));
-		
+
 		for (Entry<String, Integer> entry : getClickPairs(clickList2).entrySet())
 			series2.getData().add(new XYChart.Data(entry.getKey(), entry.getValue()));
 
 		initFX(series1, series2);
 
 	}
-	
+
 	public LinkedHashMap<String, Integer> getClickPairs(ArrayList<ClickLog> clickList){
 
 		LinkedHashMap<String, Integer> clickPairs = new LinkedHashMap<String, Integer>();
@@ -242,7 +242,7 @@ public class Chart extends JFXPanel {
 		initFX(series, "Unique Clicks over Time");
 
 	}
-	
+
 	public void showUniqueChart2(HashSet<ClickLog> hashSet1, HashSet<ClickLog> hashSet2) {
 
 		xAxis.setLabel("Date");
@@ -253,14 +253,14 @@ public class Chart extends JFXPanel {
 
 		for (Entry<String, Integer> entry : getUniquePairs(hashSet1).entrySet())
 			series1.getData().add(new XYChart.Data(entry.getKey(), entry.getValue()));
-		
+
 		for (Entry<String, Integer> entry : getUniquePairs(hashSet2).entrySet())
 			series2.getData().add(new XYChart.Data(entry.getKey(), entry.getValue()));
 
 		initFX(series1, series2);
 
 	}
-	
+
 	public LinkedHashMap<String, Integer> getUniquePairs(HashSet<ClickLog> hashSet){
 
 		LinkedHashMap<String, Integer> uniquePairs = new LinkedHashMap<String, Integer>();
@@ -294,7 +294,7 @@ public class Chart extends JFXPanel {
 		initFX(series, "Bounces over Time");
 
 	}
-	
+
 	public void showBounceChart2(ArrayList<ServerLog> serverList1, ArrayList<ServerLog> serverList2) {
 
 		xAxis.setLabel("Date");
@@ -305,14 +305,14 @@ public class Chart extends JFXPanel {
 
 		for (Entry<String, Integer> entry : getBouncePairs(serverList1).entrySet())
 			series1.getData().add(new XYChart.Data(entry.getKey(), entry.getValue()));
-		
+
 		for (Entry<String, Integer> entry : getBouncePairs(serverList2).entrySet())
 			series2.getData().add(new XYChart.Data(entry.getKey(), entry.getValue()));
 
 		initFX(series1, series2);
 
 	}
-	
+
 	public LinkedHashMap<String, Integer> getBouncePairs(ArrayList<ServerLog> serverList){
 
 		LinkedHashMap<String, Integer> bouncePairs = new LinkedHashMap<String, Integer>();
@@ -328,7 +328,7 @@ public class Chart extends JFXPanel {
 				bouncePairs.put(date, bouncePairs.get(date) + 1);
 
 		}
-		
+
 		return bouncePairs;
 
 	}
@@ -346,7 +346,7 @@ public class Chart extends JFXPanel {
 		initFX(series, "Conversions over Time");
 
 	}
-	
+
 	public void showConversionChart2(ArrayList<ServerLog> serverList1, ArrayList<ServerLog> serverList2) {
 
 		xAxis.setLabel("Date");
@@ -357,14 +357,14 @@ public class Chart extends JFXPanel {
 
 		for (Entry<String, Integer> entry : getConversionPairs(serverList1).entrySet())
 			series1.getData().add(new XYChart.Data(entry.getKey(), entry.getValue()));
-		
+
 		for (Entry<String, Integer> entry : getConversionPairs(serverList2).entrySet())
 			series2.getData().add(new XYChart.Data(entry.getKey(), entry.getValue()));
 
 		initFX(series1, series2);
 
 	}
-	
+
 	public LinkedHashMap<String, Integer> getConversionPairs(ArrayList<ServerLog> serverList){
 
 		LinkedHashMap<String, Integer> convertPairs = new LinkedHashMap<String, Integer>();
@@ -382,7 +382,7 @@ public class Chart extends JFXPanel {
 			}
 
 		}
-		
+
 		return convertPairs;
 
 	}
@@ -400,7 +400,7 @@ public class Chart extends JFXPanel {
 		initFX(series, "Cumulative Cost over Time");
 
 	}
-	
+
 	public void showCumulativeCostChart2(ArrayList<ClickLog> clickList1 , ArrayList<ImpressionLog> impressionLogs1,
 			ArrayList<ClickLog> clickList2 , ArrayList<ImpressionLog> impressionLogs2) {
 
@@ -412,14 +412,14 @@ public class Chart extends JFXPanel {
 
 		for (Entry<String, Double> entry : getCostPairs(clickList1, impressionLogs1).entrySet())
 			series1.getData().add(new XYChart.Data(entry.getKey(), entry.getValue()));
-		
+
 		for (Entry<String, Double> entry : getCostPairs(clickList2, impressionLogs2).entrySet())
 			series2.getData().add(new XYChart.Data(entry.getKey(), entry.getValue()));
 
 		initFX(series1, series2);
 
 	}
-	
+
 	public LinkedHashMap<String, Double> getCostPairs(ArrayList<ClickLog> clickList , ArrayList<ImpressionLog> impressionLogs){
 
 		LinkedHashMap<String, Double> costPairs = new LinkedHashMap<String, Double>();
@@ -448,7 +448,7 @@ public class Chart extends JFXPanel {
 			else costPairs.put(date, costPairs.get(date) + impression.getImpression());
 			previous = date;
 		}
-		
+
 		return costPairs;
 
 	}
@@ -458,27 +458,70 @@ public class Chart extends JFXPanel {
 		xAxis.setLabel("Cost Division");
 		yAxis.setLabel("Frequency");
 
+		BarChart<String, Number> barChart = new BarChart<String, Number>(xAxis, yAxis);
+
+		XYChart.Series series = new XYChart.Series();
+
+		for (Entry<String, Double> entry : getHistogramPairs(clickList).entrySet())
+			series.getData().add(new XYChart.Data(entry.getKey().concat(" - ").concat(String.valueOf(Integer.parseInt(entry.getKey()) + 1)), entry.getValue()));
+
+		series.setName("Cost Over Cost Division");
+		barChart.getData().add(series);
+		barChart.setAnimated(true);
+		barChart.setCursor(Cursor.CROSSHAIR);		
+		barChart.setBarGap(1);
+		barChart.setCategoryGap(0);
+
+		scene = new Scene(barChart, xDim, yDim);
+		scene.getStylesheets().add("chartstyle2.css");
+		this.setScene(scene);
+
+	}
+
+
+	public void showClickCostsHistogram2(ArrayList<ClickLog> clickList1, ArrayList<ClickLog> clickList2) {
+
+		xAxis.setLabel("Cost Division");
+		yAxis.setLabel("Frequency");
+
+		BarChart<String, Number> barChart = new BarChart<String, Number>(xAxis, yAxis);
+
+		XYChart.Series series = new XYChart.Series();
+		XYChart.Series series2 = new XYChart.Series();
+
+		for (Entry<String, Double> entry : getHistogramPairs(clickList1).entrySet())
+			series.getData().add(new XYChart.Data(entry.getKey().concat(" - ").concat(String.valueOf(Integer.parseInt(entry.getKey()) + 1)), entry.getValue()));
+
+		for (Entry<String, Double> entry : getHistogramPairs(clickList2).entrySet())
+			series2.getData().add(new XYChart.Data(entry.getKey().concat(" - ").concat(String.valueOf(Integer.parseInt(entry.getKey()) + 1)), entry.getValue()));
+
+		series.setName("Series1");
+		series2.setName("Series2");
+		barChart.getData().addAll(series, series2);
+		barChart.setAnimated(true);
+		barChart.setCursor(Cursor.CROSSHAIR);		
+		barChart.setBarGap(1);
+		barChart.setCategoryGap(0);
+
+		scene = new Scene(barChart, xDim, yDim);
+		scene.getStylesheets().add("chartstyle2.css");
+		this.setScene(scene);
+
+	}
+
+	public TreeMap<String, Double> getHistogramPairs(ArrayList<ClickLog> clickList){
+
 		int modVal = 100 ;
 		int temp ;
 
 		LinkedHashMap<String, Double> costPairs = new LinkedHashMap<String, Double>();
 		String date;
 
-		//		for (ClickLog click : clickList) {
-		//			date = sdf.format(click.getDate());
-		//			if (!costPairs.containsKey(date))
-		//				costPairs.put(date, click.getClickCost());
-		//			else
-		//				costPairs.put(date, costPairs.get(date) + click.getClickCost());
-		//
-		//		}
-
 		for (ClickLog click : clickList) {
 			temp = click.getClickCost().intValue() % 100;
 			date = String.valueOf(temp);
 
 			if (!costPairs.containsKey(date)) {
-				System.out.println(date);
 				costPairs.put(date, 1.0);
 			}
 			else
@@ -497,24 +540,7 @@ public class Chart extends JFXPanel {
 
 		costDivi.putAll(costPairs);
 
-		BarChart<String, Number> barChart = new BarChart<String, Number>(xAxis, yAxis);
-
-		XYChart.Series series = new XYChart.Series();
-
-		for (Entry<String, Double> entry : costDivi.entrySet())
-			series.getData().add(new XYChart.Data(entry.getKey().concat(" - ").concat(String.valueOf(Integer.parseInt(entry.getKey()) + 1)), entry.getValue()));
-
-		//		series.setName("Cost Over Time");
-		series.setName("Cost Over Cost Division");
-		barChart.getData().add(series);
-		barChart.setAnimated(true);
-		barChart.setCursor(Cursor.CROSSHAIR);		
-		barChart.setBarGap(1);
-		barChart.setCategoryGap(0);
-
-		scene = new Scene(barChart, xDim, yDim);
-		scene.getStylesheets().add("chartstyle2.css");
-		this.setScene(scene);
+		return costDivi;
 
 	}
 
@@ -574,8 +600,8 @@ public class Chart extends JFXPanel {
 
 			}
 
-
 		}
+		
 	}
 
 }

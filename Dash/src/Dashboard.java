@@ -282,6 +282,78 @@ public class Dashboard extends JFrame {
 		}
 
 	}
+	
+	public void updateGraph(int item){
+		
+		if(!isComparing()){
+
+			switch (item) {
+			case 1:
+				content.chart.showImpressionsChart(getImpressionLogs());
+				break;
+			case 2:
+				content.chart.showUniqueChart(dataAnalytics.uniqueClickSet(getClickLogs()));
+				break;
+			case 3:
+				content.chart.showBounceChart(dataAnalytics.getFilteredServerLogOnBounce(getServerLogs(), 
+						sidebar.getChosenPages(), sidebar.getChosenTime()));
+				break;
+			case 4:
+				content.chart.showConversionChart(getServerLogs());
+				break;
+			case 5:
+				content.chart.showCumulativeCostChart(getClickLogs(), getImpressionLogs());
+				break;
+			case 6:
+				content.chart.showClickCostsHistogram(getClickLogs());
+				break;
+			default:
+				content.chart.showClicksChart(getClickLogs());
+				break;
+			}
+
+		}
+
+		if(isComparing()){
+
+			switch (item) {
+			case 1:
+				content.chart.showImpressionsChartMarcos(getImpressionLogs(), getImpressionLogs2());
+				break;
+			case 2:
+				content.chart.showUniqueChart2(dataAnalytics.uniqueClickSet(getClickLogs()),
+						dataAnalytics.uniqueClickSet(getClickLogs2()));
+				break;
+			case 3:
+				content.chart.showBounceChart2(
+						dataAnalytics.getFilteredServerLogOnBounce(
+								getServerLogs(), 
+								sidebar.getSeriesBouncePages(sidebar.series1), 
+								sidebar.getSeriesBounceTime(sidebar.series1)),
+						dataAnalytics.getFilteredServerLogOnBounce(
+								getServerLogs2(),
+								sidebar.getSeriesBouncePages(sidebar.series2), 
+								sidebar.getSeriesBounceTime(sidebar.series2)));
+				break;
+			case 4:
+				content.chart.showConversionChart2(getServerLogs(), getServerLogs2());
+				break;
+			case 5:
+				content.chart.showCumulativeCostChart2(
+						getClickLogs(),getImpressionLogs(),
+						getClickLogs2(),getImpressionLogs2());
+				break;
+			case 6:
+				content.chart.showClickCostsHistogram2(getClickLogs(), getClickLogs2());
+				break;
+			default:
+				content.chart.showClicksChart2(getClickLogs(), getClickLogs2());
+				break;
+			}
+
+		}
+		
+	}
 
 	public String round(double value, int scale) {
 
