@@ -1116,7 +1116,7 @@ public class SideBar extends JPanel {
 			Predicate<ClickLog> clickLogStartDatePredicate = click -> true;
 			Predicate<ImpressionLog> impressionLogStartDatePredicate = imp -> true;
 			Predicate<ServerLog> serverLogStartDatePredicate = ser -> true;
-			;
+			
 			if (startDate != null) {
 				clickLogStartDatePredicate = click -> click.getDate().after(startDate);
 				impressionLogStartDatePredicate = imp -> imp.getDate().after(startDate);
@@ -1124,9 +1124,21 @@ public class SideBar extends JPanel {
 			}
 
 			//End Date Predicates
+			Predicate<ClickLog> clickLogEndDatePredicate = ser -> true;
+			Predicate<ImpressionLog> impressionLogEndDatePredicate = ser -> true;
 			Predicate<ServerLog> serverLogEndDatePredicate = ser -> true;
+			
 			if (endDate != null) {
-				serverLogStartDatePredicate = ser -> ser.getEndDate() != null && ser.getEndDate().before(endDate);
+				
+				Calendar c = Calendar.getInstance();
+				c.setTime(endDate);
+				c.add(Calendar.DATE, 1);
+				Date newDate = c.getTime();
+				
+				clickLogEndDatePredicate = click -> click.getDate().before(newDate);
+				impressionLogEndDatePredicate = imp -> imp.getDate().before(newDate);
+				serverLogEndDatePredicate = ser -> ser.getStartDate().before(newDate);
+				
 			}
 
 			//Gender Predicate
@@ -1176,6 +1188,7 @@ public class SideBar extends JPanel {
 
 			impressionLogs = (ArrayList <ImpressionLog>) DataAnalytics.filterImpressionLogs(
 					impressionLogStartDatePredicate,
+					impressionLogEndDatePredicate,
 					impressionLogGenderPredicate,
 					impressionAgePredicate,
 					impressionIncomePredicate,
@@ -1188,7 +1201,11 @@ public class SideBar extends JPanel {
 			}
 
 			clickLogArrayList = (ArrayList <ClickLog>) DataAnalytics
-					.filterClickLogs(clickLogStartDatePredicate, clickLogArrayList, idSet);
+					.filterClickLogs(
+							clickLogStartDatePredicate, 
+							clickLogEndDatePredicate, 
+							clickLogArrayList, 
+							idSet);
 
 			serverLogArrayList = (ArrayList<ServerLog>) DataAnalytics
 					.filterServerLogs(serverLogStartDatePredicate,serverLogEndDatePredicate,

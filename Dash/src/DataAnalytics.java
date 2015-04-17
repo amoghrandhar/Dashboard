@@ -252,13 +252,14 @@ public class DataAnalytics {
      * @param impressionLogs
      * @return filtered list
      */
-    public  static List<ImpressionLog> filterImpressionLogs(Predicate<ImpressionLog> datePredicate, Predicate<ImpressionLog> genderPredicate
+    public  static List<ImpressionLog> filterImpressionLogs(Predicate<ImpressionLog> datePredicate, Predicate<ImpressionLog> datePredicate2, Predicate<ImpressionLog> genderPredicate
             , Predicate<ImpressionLog> agePredicate, Predicate<ImpressionLog> incomePredicate
             , Predicate<ImpressionLog> contextPredicate, ArrayList<ImpressionLog> impressionLogs) {
 
 
         return impressionLogs.parallelStream()
         		.filter(datePredicate)
+        		.filter(datePredicate2)
         		.filter(genderPredicate)
         		.filter(agePredicate)
         		.filter(incomePredicate)
@@ -275,10 +276,10 @@ public class DataAnalytics {
      * @param clickLogs
      * @return filtered Clicklogs
      */
-    public static  List<ClickLog> filterClickLogs(Predicate<ClickLog> datePred, ArrayList<ClickLog> clickLogs , Set<Double> idCheck) {
+    public static  List<ClickLog> filterClickLogs(Predicate<ClickLog> datePred, Predicate<ClickLog> datePred2, ArrayList<ClickLog> clickLogs , Set<Double> idCheck) {
 
         Predicate<ClickLog> checkClicks = clp -> idCheck.contains(clp.getID());
-        return clickLogs.parallelStream().filter(checkClicks).filter(datePred).collect(Collectors.<ClickLog>toList());
+        return clickLogs.parallelStream().filter(checkClicks).filter(datePred).filter(datePred2).collect(Collectors.<ClickLog>toList());
     }
 
 
