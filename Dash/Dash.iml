@@ -20,5 +20,6 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="JTattoo-1.6.11" level="project" />
   </component>
 </module>
