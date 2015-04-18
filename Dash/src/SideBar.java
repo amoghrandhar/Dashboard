@@ -902,55 +902,70 @@ public class SideBar extends JPanel {
 
 		public void actionPerformed(ActionEvent event) {
 
-			if (event.getSource() == dashboard.sidebar.lightTheme) {
-				SwingUtilities.invokeLater(
-						() -> {
-							try {
-								for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-									if ("Nimbus".equals(info.getName())) {
-										UIManager.setLookAndFeel(info.getClassName());
-										break;
+			Object[] options = {"Yes", "No"};
+			int userResponsoe = JOptionPane.showOptionDialog(dashboard,
+					"Changing the theme will restart the application.\nDo you want to continue?", "Warning",
+					JOptionPane.YES_NO_OPTION,
+					JOptionPane.WARNING_MESSAGE,
+					null,  
+					options, 
+					options[0]);
+			
+	        if (userResponsoe == JOptionPane.YES_OPTION) {
+	        	
+	    		if (event.getSource() == dashboard.sidebar.lightTheme) {
+					SwingUtilities.invokeLater(
+							() -> {
+								try {
+									for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+										if ("Nimbus".equals(info.getName())) {
+											UIManager.setLookAndFeel(info.getClassName());
+											break;
+										}
+										UIManager.setLookAndFeel(
+												UIManager.getCrossPlatformLookAndFeelClassName());
 									}
-									UIManager.setLookAndFeel(
-											UIManager.getCrossPlatformLookAndFeelClassName());
+
+									Dashboard frame = new Dashboard("Ad Dashboard");
+									frame.init(new String[] {"#c4c7cc", "#f5f5f5", "#d5d5d5", "#fafafa"});
+
+								} catch (IllegalAccessException | InstantiationException | ClassNotFoundException | UnsupportedLookAndFeelException e) {
+									e.printStackTrace();
 								}
-
-								Dashboard frame = new Dashboard("Ad Dashboard");
-								frame.init(new String[] {"#c4c7cc", "#f5f5f5", "#d5d5d5", "#fafafa"});
-
-							} catch (IllegalAccessException | InstantiationException | ClassNotFoundException | UnsupportedLookAndFeelException e) {
-								e.printStackTrace();
 							}
-						}
-						);
-				dashboard.dispose();
-			}
+							);
+					dashboard.dispose();
+				}
 
-			if (event.getSource() == dashboard.sidebar.darkTheme) {
-				//                try {
-				//                    UIManager.setLookAndFeel("com.jtattoo.plaf.hifi.HiFiLookAndFeel");
-				//
-				//                } catch (ClassNotFoundException | InstantiationException
-				//                        | IllegalAccessException | UnsupportedLookAndFeelException e) {
-				//                    e.printStackTrace();
-				//                }
-				//                SwingUtilities.updateComponentTreeUI(dashboard);
+				if (event.getSource() == dashboard.sidebar.darkTheme) {
+					//                try {
+					//                    UIManager.setLookAndFeel("com.jtattoo.plaf.hifi.HiFiLookAndFeel");
+					//
+					//                } catch (ClassNotFoundException | InstantiationException
+					//                        | IllegalAccessException | UnsupportedLookAndFeelException e) {
+					//                    e.printStackTrace();
+					//                }
+					//                SwingUtilities.updateComponentTreeUI(dashboard);
 
 
-				SwingUtilities.invokeLater(
-						() -> {
-							try {
-								UIManager.setLookAndFeel("com.jtattoo.plaf.hifi.HiFiLookAndFeel");
-								Dashboard frame = new Dashboard("Ad Dashboard");
-								frame.init(new String[] {"#0d0d0c", "#1a1818", "#524e4e", "#242424"});
+					SwingUtilities.invokeLater(
+							() -> {
+								try {
+									UIManager.setLookAndFeel("com.jtattoo.plaf.hifi.HiFiLookAndFeel");
+									Dashboard frame = new Dashboard("Ad Dashboard");
+									frame.init(new String[] {"#0d0d0c", "#1a1818", "#524e4e", "#242424"});
 
-							} catch (IllegalAccessException | InstantiationException | ClassNotFoundException | UnsupportedLookAndFeelException e) {
-								e.printStackTrace();
+								} catch (IllegalAccessException | InstantiationException | ClassNotFoundException | UnsupportedLookAndFeelException e) {
+									e.printStackTrace();
+								}
 							}
-						}
-						);
-				dashboard.dispose();
-			}
+							);
+					dashboard.dispose();
+				}
+	        	
+	        } else {
+	        	
+	        }
 		}
 	}
 
