@@ -130,8 +130,6 @@ public class SideBar extends JPanel {
 
 		pngItem = new JMenuItem("Export as Image");
 		pngItem.addActionListener(new PopupListener(dashboard));
-		jpegItem = new JMenuItem("Export graph as JPEG file");
-		jpegItem.addActionListener(new PopupListener(dashboard));
 		printItem = new JMenuItem("Print main graph");
 		printItem.addActionListener(new PopupListener(dashboard));
 		multiItem = new JMenuItem("Print graph and table");
@@ -683,14 +681,6 @@ public class SideBar extends JPanel {
 			};
 			label.setBorder(BorderFactory.createEmptyBorder(12, 10, 12, 10));
 
-			/*
-        label.addMouseListener(new MouseAdapter() {
-			@Override public void mousePressed(MouseEvent e) {
-				initPanel();
-			}
-		});
-			 */
-
 			this.add(label, BorderLayout.NORTH);
 
 			panel = makePanel();
@@ -838,7 +828,6 @@ public class SideBar extends JPanel {
 		public void actionPerformed(ActionEvent event) {
 
 			if (event.getSource() == dashboard.sidebar.pngItem) {
-
 				this.dashboard.content.screenShotMode = true;  
 				this.dashboard.content.table.setCellSelectionEnabled(false);
 				this.dashboard.content.glassPanel.setOpaque(false);  
@@ -849,27 +838,15 @@ public class SideBar extends JPanel {
 				exportButton.setIcon(null);
 				exportButton.setBackground(Color.decode("#c54343"));
 			}
-
-			if (event.getSource() == dashboard.sidebar.jpegItem) {
-
-			}
-
-			if (event.getSource() == dashboard.sidebar.printItem) {
-
+			
+			if (event.getSource() == dashboard.sidebar.printItem) 
 				PrintSupport.printComponent(dashboard.content.chart);
 
-			}
-
-			if (event.getSource() == dashboard.sidebar.multiItem) {
-
+			if (event.getSource() == dashboard.sidebar.multiItem) 
 				PrintSupport.printComponent(dashboard.content.tab1);
 
-			}
-
-			if (event.getSource() == dashboard.sidebar.piesItem) {
-
+			if (event.getSource() == dashboard.sidebar.piesItem)
 				PrintSupport.printComponent(dashboard.content.tab2);
-			}
 
 		}
 
@@ -1013,12 +990,10 @@ public class SideBar extends JPanel {
 
 			selectedSeries = compareBox.getSelectedIndex() + 1;
 
-			if(selectedSeries == 1){
+			if(selectedSeries == 1)
 				series = series1;
-			}
-			if(selectedSeries == 2){
+			if(selectedSeries == 2)
 				series = series2;
-			}
 
 			// Start date
 			if(series.getStartDate() != null){
@@ -1182,7 +1157,6 @@ public class SideBar extends JPanel {
 			}
 
 			dashboard.resetLogs();
-
 			ArrayList<ImpressionLog> impressionLogs = null;
 			ArrayList<ClickLog> clickLogArrayList = null;
 			ArrayList<ServerLog> serverLogArrayList = null;
@@ -1194,7 +1168,6 @@ public class SideBar extends JPanel {
 				clickLogArrayList = dashboard.getClickLogs();
 				serverLogArrayList = dashboard.getServerLogs();  
 			}
-
 			if(selectedSeries == 2){ 	
 				impressionLogs = dashboard.getImpressionLogs2();
 				clickLogArrayList = dashboard.getClickLogs2();
@@ -1228,29 +1201,23 @@ public class SideBar extends JPanel {
 
 			// For comparison requirement
 
-			if(selectedSeries == 1)
+			if(selectedSeries == 1){
 				saveFilters(series1);
-			if(selectedSeries == 2)
-				saveFilters(series2);
-
-			if(selectedSeries == 1)
 				dashboard.updateLogs(clickLogArrayList,impressionLogs,serverLogArrayList);
-			if(selectedSeries == 2)
+			}
+			if(selectedSeries == 2){
 				dashboard.updateLogs2(clickLogArrayList,impressionLogs,serverLogArrayList);
-
+				saveFilters(series2);
+			}
+			
 			dashboard.updateMetrics(pages , time);
 
 			Platform.runLater(() -> {
-
 				dashboard.updateGraph(dashboard.content.graphChoiceBox.getSelectedIndex());
-
 			});
 
 			Platform.runLater(() -> {
-				dashboard.content.pieChart1.showGenderPie();
-				dashboard.content.pieChart2.showAgeGroupPie();
-				dashboard.content.pieChart3.showIncomePie();
-				dashboard.content.pieChart4.showContextPie();
+				dashboard.updatePieCharts();
 			});
 
 		}
@@ -1296,10 +1263,7 @@ public class SideBar extends JPanel {
 			});
 
 			Platform.runLater(() -> {
-				dashboard.content.pieChart1.showGenderPie();
-				dashboard.content.pieChart2.showAgeGroupPie();
-				dashboard.content.pieChart3.showIncomePie();
-				dashboard.content.pieChart4.showContextPie();
+				dashboard.updatePieCharts();
 			});
 
 		}
@@ -1341,4 +1305,5 @@ public class SideBar extends JPanel {
 		}
 
 	}
+	
 }

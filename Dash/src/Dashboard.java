@@ -68,9 +68,7 @@ public class Dashboard extends JFrame {
 		updateLogs2(originalClickLogs , originalImpressionLogs, originalServerLogs);
 	}
 
-	/**
-	 * This will reset the log files.
-	 */
+	// Reset log files to default (of selected series)
 	public void resetLogs() {
 		
 		if(sidebar.selectedSeries == 1)
@@ -80,6 +78,7 @@ public class Dashboard extends JFrame {
 		
 	}
 
+	// Update first set of log files
 	public void updateLogs(ArrayList<ClickLog> clickLogArrayList,ArrayList<ImpressionLog> impressionArrayList
 			, ArrayList<ServerLog> serverLogArrayList ){
 		impressionLogs = impressionArrayList;
@@ -87,6 +86,7 @@ public class Dashboard extends JFrame {
 		serverLogs = serverLogArrayList;
 	}
 
+	// Update second set of log files
 	public void updateLogs2(ArrayList<ClickLog> clickLogArrayList,ArrayList<ImpressionLog> impressionArrayList
 			, ArrayList<ServerLog> serverLogArrayList ){
 		impressionLogs2 = impressionArrayList;
@@ -168,7 +168,6 @@ public class Dashboard extends JFrame {
 
 		if(sidebar.selectedSeries == 1)
 			content.setMetrics(0, rowData);
-
 		if(sidebar.selectedSeries == 2)
 			content.setMetrics(1, rowData);
 
@@ -178,43 +177,6 @@ public class Dashboard extends JFrame {
 		//                String.valueOf(clicks),
 		//                String.valueOf(impressions),
 		//                round(totalCost, 2));
-
-	}
-
-	public void updateMetrics2(int pagesView , int timeSpent) {
-
-		long clicks = DataAnalytics.totalClicks(clickLogs2);
-		long impressions = DataAnalytics.noOfImpression(impressionLogs2);
-		long uniques = DataAnalytics.noOfUniques(clickLogs2);
-		long bounces = DataAnalytics.noOfBounces(serverLogs2,pagesView, timeSpent);
-		long conversions = DataAnalytics.noOfConversions(serverLogs2);
-		double totalCost = DataAnalytics.totalCost(impressionLogs, clickLogs2);
-		double CTR = DataAnalytics.getCTR(clickLogs2, impressionLogs2);
-		double CPA = DataAnalytics.getCPA(serverLogs2 , totalCost);
-		double CPC = DataAnalytics.getCPC(clickLogs2,totalCost);
-		double CPM = DataAnalytics.getCPM(impressionLogs2, totalCost);
-		double bounceRate = DataAnalytics.bounceRate(clickLogs2, serverLogs2 , pagesView, timeSpent);
-
-		// Update metrics table
-		String[] rowData = {
-				String.valueOf(clicks),
-				String.valueOf(impressions),
-				String.valueOf(uniques),
-				String.valueOf(bounces),
-				String.valueOf(conversions),
-				round(totalCost, 2),
-				round(CTR, 4),
-				round(CPA, 4),
-				round(CPC, 4),
-				round(CPM, 4),
-				round(bounceRate, 4)
-		};
-
-		if(sidebar.selectedSeries == 1)
-			content.setMetrics(0, rowData);
-
-		if(sidebar.selectedSeries == 2)
-			content.setMetrics(1, rowData);
 
 	}
 
@@ -231,6 +193,7 @@ public class Dashboard extends JFrame {
 
 	}
 	
+	// Return true if comparison mode is enabled
 	public Boolean isComparing(){
 		
 		if(sidebar.compareButton.isSelected())
@@ -240,6 +203,7 @@ public class Dashboard extends JFrame {
 		
 	}
 
+	// Modify GUI when comparison mode is toggled
 	public void updateComparing(Boolean comparing){
 
 		if(comparing){
@@ -352,6 +316,15 @@ public class Dashboard extends JFrame {
 			}
 
 		}
+		
+	}
+	
+	public void updatePieCharts(){
+		
+		content.pieChart1.showGenderPie();
+		content.pieChart2.showAgeGroupPie();
+		content.pieChart3.showIncomePie();
+		content.pieChart4.showContextPie();
 		
 	}
 

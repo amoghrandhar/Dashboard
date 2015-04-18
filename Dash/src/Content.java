@@ -16,6 +16,7 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.LinkedList;
+import javafx.embed.swing.JFXPanel;
 
 public class Content extends JPanel {
 
@@ -645,40 +646,11 @@ public class Content extends JPanel {
 		public void mouseReleased(MouseEvent e) {
 
 			if (screenShotMode) {
+				
 				if (e.getSource() == chart)
-				{
-					drawSquare(chart.getWidth(), chart.getHeight(), chart.getWidth(), chart.getHeight());
-					JFileChooser fc = new JFileChooser();
-					FileFilter f1 = new ImageFilter("PNG", new String[]{"PNG"});
-					FileFilter f2 = new ImageFilter("JPG", new String[]{"JPG"});
-					fc.setFileFilter(f1);
-					fc.addChoosableFileFilter(f1);
-					fc.addChoosableFileFilter(f2);
-					fc.setAcceptAllFileFilterUsed(false);
-					int retrival = fc.showSaveDialog(null);
-					if (retrival == fc.APPROVE_OPTION) {
-						String ext = "";
-						String extension = fc.getFileFilter().getDescription();
-						if (extension.equals("JPG")) {
-							ext = ".jpg";
-						}
-						if (extension.equals("PNG")) {
-							ext = ".png";
-						}
-						File file = fc.getSelectedFile();
-						BufferedImage bufImage = new BufferedImage(graphPanel.getSize().width, graphPanel.getSize().height,BufferedImage.TYPE_INT_RGB);
-						graphPanel.paint(bufImage.createGraphics());
-						File imageFile = new File((file.getAbsolutePath() + ext));
-						try {
-							imageFile.createNewFile();
-							ImageIO.write(bufImage, extension, imageFile);
-						} catch(Exception ex) {
-							ex.printStackTrace();
-						}
-					}
-				}
-				else if (e.getSource() == table)
-				{
+					exportJFXChart(chart);
+				
+				else if (e.getSource() == table){
 					drawSquare(table.getWidth(), table.getHeight(), table.getWidth(), table.getHeight());
 					JFileChooser fc = new JFileChooser();
 					FileFilter f1 = new ImageFilter("PNG", new String[]{"PNG"});
@@ -709,136 +681,21 @@ public class Content extends JPanel {
 						}
 					}				
 				}
+				
 				else if (e.getSource() == pieChart1)
-				{
-					drawSquare(pieChart1.getWidth(), pieChart1.getHeight(), pieChart1.getWidth(), pieChart1.getHeight());
-					JFileChooser fc = new JFileChooser();
-					FileFilter f1 = new ImageFilter("PNG", new String[]{"PNG"});
-					FileFilter f2 = new ImageFilter("JPG", new String[]{"JPG"});
-					fc.setFileFilter(f1);
-					fc.addChoosableFileFilter(f1);
-					fc.addChoosableFileFilter(f2);
-					fc.setAcceptAllFileFilterUsed(false);
-					int retrival = fc.showSaveDialog(null);
-					if (retrival == fc.APPROVE_OPTION) {
-						String ext = "";
-						String extension = fc.getFileFilter().getDescription();
-						if (extension.equals("JPG")) {
-							ext = ".jpg";
-						}
-						if (extension.equals("PNG")) {
-							ext = ".png";
-						}
-						File file = fc.getSelectedFile();
-						BufferedImage bufImage = new BufferedImage(pieChart1.getSize().width, pieChart1.getSize().height,BufferedImage.TYPE_INT_RGB);
-						pieChart1.paint(bufImage.createGraphics());
-						File imageFile = new File((file.getAbsolutePath() + ext));
-						try {
-							imageFile.createNewFile();
-							ImageIO.write(bufImage, extension, imageFile);
-						} catch(Exception ex) {
-							ex.printStackTrace();
-						}
-					}
+					exportJFXChart(pieChart1);
 
-				}
 				else if (e.getSource() == pieChart2)
-				{
-					drawSquare(pieChart2.getWidth(), pieChart2.getHeight(), pieChart2.getWidth(), pieChart2.getHeight());
-					JFileChooser fc = new JFileChooser();
-					FileFilter f1 = new ImageFilter("PNG", new String[]{"PNG"});
-					FileFilter f2 = new ImageFilter("JPG", new String[]{"JPG"});
-					fc.setFileFilter(f1);
-					fc.addChoosableFileFilter(f1);
-					fc.addChoosableFileFilter(f2);
-					fc.setAcceptAllFileFilterUsed(false);
-					int retrival = fc.showSaveDialog(null);
-					if (retrival == fc.APPROVE_OPTION) {
-						String ext = "";
-						String extension = fc.getFileFilter().getDescription();
-						if (extension.equals("JPG")) {
-							ext = ".jpg";
-						}
-						if (extension.equals("PNG")) {
-							ext = ".png";
-						}
-						File file = fc.getSelectedFile();
-						BufferedImage bufImage = new BufferedImage(pieChart2.getSize().width, pieChart2.getSize().height,BufferedImage.TYPE_INT_RGB);
-						pieChart2.paint(bufImage.createGraphics());
-						File imageFile = new File((file.getAbsolutePath() + ext));
-						try {
-							imageFile.createNewFile();
-							ImageIO.write(bufImage, extension, imageFile);
-						} catch(Exception ex) {
-							ex.printStackTrace();
-						}
-					}				
-				}
+					exportJFXChart(pieChart2);	
+				
 				else if (e.getSource() == pieChart3)
-				{
-					drawSquare(pieChart3.getWidth(), pieChart3.getHeight(), pieChart3.getWidth(), pieChart3.getHeight());
-					JFileChooser fc = new JFileChooser();
-					FileFilter f1 = new ImageFilter("PNG", new String[]{"PNG"});
-					FileFilter f2 = new ImageFilter("JPG", new String[]{"JPG"});
-					fc.setFileFilter(f1);
-					fc.addChoosableFileFilter(f1);
-					fc.addChoosableFileFilter(f2);
-					fc.setAcceptAllFileFilterUsed(false);                  
-					int retrival = fc.showSaveDialog(null);
-					if (retrival == fc.APPROVE_OPTION) {
-						String ext = "";
-						String extension = fc.getFileFilter().getDescription();
-						if (extension.equals("JPG")) {
-							ext = ".jpg";
-						}
-						if (extension.equals("PNG")) {
-							ext = ".png";
-						}
-						File file = fc.getSelectedFile();
-						BufferedImage bufImage = new BufferedImage(pieChart3.getSize().width, pieChart3.getSize().height,BufferedImage.TYPE_INT_RGB);
-						pieChart3.paint(bufImage.createGraphics());
-						File imageFile = new File((file.getAbsolutePath() + ext));
-						try {
-							imageFile.createNewFile();
-							ImageIO.write(bufImage, extension, imageFile);
-						} catch(Exception ex) {
-							ex.printStackTrace();
-						}
-					}				
-				}
+					exportJFXChart(pieChart3);				
+				
 				else if (e.getSource() == pieChart4)
-				{
-					drawSquare(pieChart4.getWidth(), pieChart4.getHeight(), pieChart4.getWidth(), pieChart4.getHeight());
-					JFileChooser fc = new JFileChooser();
-					FileFilter f1 = new ImageFilter("PNG", new String[]{"PNG"});
-					FileFilter f2 = new ImageFilter("JPG", new String[]{"JPG"});
-					fc.setFileFilter(f1);
-					fc.addChoosableFileFilter(f1);
-					fc.addChoosableFileFilter(f2);
-					fc.setAcceptAllFileFilterUsed(false);
-					int retrival = fc.showSaveDialog(null);
-					if (retrival == fc.APPROVE_OPTION) {
-						String ext = "";
-						String extension = fc.getFileFilter().getDescription();
-						if (extension.equals("JPG")) {
-							ext = ".jpg";
-						}
-						if (extension.equals("PNG")) {
-							ext = ".png";
-						}
-						File file = fc.getSelectedFile();
-						BufferedImage bufImage = new BufferedImage(pieChart4.getSize().width, pieChart4.getSize().height,BufferedImage.TYPE_INT_RGB);
-						pieChart4.paint(bufImage.createGraphics());
-						File imageFile = new File((file.getAbsolutePath() + ext));
-						try {
-							imageFile.createNewFile();
-							ImageIO.write(bufImage, extension, imageFile);
-						} catch(Exception ex) {
-							ex.printStackTrace();
-						}
-					}				
-				}
+					exportJFXChart(pieChart4);				
+				
 				screenShotMode = false;
+				
 			}
 		}
 
@@ -850,6 +707,40 @@ public class Content extends JPanel {
 
 		@Override
 		public void mouseExited(MouseEvent e) {}   	
+		
+		public void exportJFXChart(JFXPanel jfxPanel){
+			
+			drawSquare(jfxPanel.getWidth(), jfxPanel.getHeight(), jfxPanel.getWidth(), jfxPanel.getHeight());
+			JFileChooser fc = new JFileChooser();
+			FileFilter f1 = new ImageFilter("PNG", new String[]{"PNG"});
+			FileFilter f2 = new ImageFilter("JPG", new String[]{"JPG"});
+			fc.setFileFilter(f1);
+			fc.addChoosableFileFilter(f1);
+			fc.addChoosableFileFilter(f2);
+			fc.setAcceptAllFileFilterUsed(false);
+			int retrival = fc.showSaveDialog(null);
+			if (retrival == fc.APPROVE_OPTION) {
+				String ext = "";
+				String extension = fc.getFileFilter().getDescription();
+				if (extension.equals("JPG")) {
+					ext = ".jpg";
+				}
+				if (extension.equals("PNG")) {
+					ext = ".png";
+				}
+				File file = fc.getSelectedFile();
+				BufferedImage bufImage = new BufferedImage(jfxPanel.getSize().width, jfxPanel.getSize().height,BufferedImage.TYPE_INT_RGB);
+				jfxPanel.paint(bufImage.createGraphics());
+				File imageFile = new File((file.getAbsolutePath() + ext));
+				try {
+					imageFile.createNewFile();
+					ImageIO.write(bufImage, extension, imageFile);
+				} catch(Exception ex) {
+					ex.printStackTrace();
+				}
+			}	
+		}
+		
 	}
 
 	private class MetricsTableRenderer implements TableCellRenderer {
@@ -883,25 +774,6 @@ public class Content extends JPanel {
 				c.setForeground(Color.BLACK);
 				c.setBackground(Color.decode("#74efec"));
 			}
-
-
-			/*
-            For Future :---->
-
-		     //  Color row based on a cell value
-
-		     So Green color if that value is good , Red if its bad .
-
-		    if (!isRowSelected(row))
-		    {
-		        c.setBackground(getBackground());
-		        int modelRow = convertRowIndexToModel(row);
-		        String type = (String)getModel().getValueAt(modelRow, 0);
-		        if ("Buy".equals(type)) c.setBackground(Color.GREEN);
-		        if ("Sell".equals(type)) c.setBackground(Color.YELLOW);
-		    }
-			 */
-
 
 			return c;
 
