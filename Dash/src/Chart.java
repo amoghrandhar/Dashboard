@@ -10,10 +10,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 @SuppressWarnings("serial")
 public class Chart extends JFXPanel {
@@ -80,7 +82,7 @@ public class Chart extends JFXPanel {
 		displayOnHover(lineChart);
 
 		scene = new Scene(lineChart, xDim, yDim);
-		scene.getStylesheets().add("chartstyle.css");
+		//scene.getStylesheets().add("chartstyle.css");
 		this.setScene(scene);
 
 	}
@@ -103,16 +105,19 @@ public class Chart extends JFXPanel {
 	}
 
 	public void showImpressionsChart(ArrayList<ImpressionLog> impressionList1, ArrayList<ImpressionLog> impressionList2) {
+		System.out.println("Chart.showImpressionsChart");
 		xAxis.setLabel("Date");
 		yAxis.setLabel("Number of Impressions");
 
-		MyImpressionWorker w1 = new MyImpressionWorker(impressionList1);
-		executor.execute(w1);
-		MyImpressionWorker w2 = new MyImpressionWorker(impressionList2);
-		executor.execute(w2);
 
-		// Wait until all threads are finish
-		while (!executor.isTerminated()) {	}
+		MyImpressionWorker w1 = new MyImpressionWorker(impressionList1);
+		executor.submit(w1);
+		MyImpressionWorker w2 = new MyImpressionWorker(impressionList2);
+		executor.submit(w2);
+
+//		executor.shutdown(); /// To Check this Linee of Code
+
+//		List<Future<Object>> futureList = executor.invokeAll();
 
 		XYChart.Series series1 = new XYChart.Series();
 		XYChart.Series series2 = new XYChart.Series();

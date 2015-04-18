@@ -129,6 +129,12 @@ public class DashboardTest {
 
         impressionLogs = (ArrayList <ImpressionLog>) DataAnalytics.filterImpressionLogs(
                 impressionLogStartDatePredicate,
+                new Predicate<ImpressionLog>() {
+                    @Override
+                    public boolean test(ImpressionLog impressionLog) {
+                        return true;
+                    }
+                },
                 impressionLogGenderPredicate,
                 impressionAgePredicate,
                 impressionIncomePredicate,
@@ -141,7 +147,13 @@ public class DashboardTest {
         }
 
         clickLogs = (ArrayList <ClickLog>) DataAnalytics
-                .filterClickLogs(clickLogStartDatePredicate, clickLogs, idSet);
+                .filterClickLogs(clickLogStartDatePredicate,
+                        new Predicate<ClickLog>() {
+                            @Override
+                            public boolean test(ClickLog clickLog) {
+                                return true;
+                            }
+                        }, clickLogs, idSet);
 
         serverLogs = (ArrayList<ServerLog>) DataAnalytics
                 .filterServerLogs(serverLogStartDatePredicate,serverLogEndDatePredicate,
