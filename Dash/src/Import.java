@@ -7,6 +7,7 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.dnd.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.List;
 
@@ -20,6 +21,8 @@ public class Import extends JFrame {
     private JButton cancelButton, openButton;
     private DragAndDropPanel panel1, panel2, panel3;
     private Dashboard dashboard;
+    
+    private JCheckBox checkBox;
     
     private String[] colours;
 
@@ -68,6 +71,16 @@ public class Import extends JFrame {
         container.add(browseButton3, c);
 
         this.configurePanel3("dropServer.png");
+
+        this.checkBox = new JCheckBox("Compare this campaign with a previously imported one.");
+        this.checkBox.setSelected(false);
+	    c.gridx = 0;
+	    c.gridy = 5;
+	    c.gridheight = 1;
+	    c.gridwidth = 2;
+	    c.insets = new Insets(0, 7, 2, 7);
+	    container.add(checkBox, c);
+	    c.gridwidth = 1;
 
         this.cancelButton = new JButton("Cancel");
         this.cancelButton.addActionListener(buttonListener);
@@ -253,91 +266,97 @@ public class Import extends JFrame {
             if (e.getSource() == openButton) {
                 if (clickLog != null && impressionLog != null && serverLog != null) {
 
-                    showProcessingAnimation();
 
-                    // running this in a thread to stop GUI hanging
-                    new Thread(() -> {
-	                    final ClicklogParser clicklogParser = new ClicklogParser(clickLog.getAbsolutePath());
-	                    final ImpressionParser impressionParser = new ImpressionParser(impressionLog.getAbsolutePath());
-	                    final ServerlogParser serverlogParser = new ServerlogParser(serverLog.getAbsolutePath());
-	
-                        //This will start the parsing of the csv log files and generate Arraylist of Data
-	                    
-	                    /* MULTITHREADED */	   
-	            
-                    	Thread thread1 = new Thread() {                  		
-                    		public void run() {
-	                    		try {
-	                    			clicklogParser.generateClickLogs();
-	                    		} catch (WrongFileException e1) {
-	                    			JOptionPane.showMessageDialog(Import.this, "Wrong File Passed for Processing \n" + e1.fileName, "Error",
-		                                JOptionPane.ERROR_MESSAGE);
-	                    			e1.printStackTrace();
-	                    		}
-                    		}
-                    	};                    	                                    
-                    	Thread thread2 = new Thread() {                    		
-                    		public void run() {
-	                    		try {
-	                                impressionParser.generateImpressionsMethod1();
-	                    		} catch (WrongFileException e1) {
-	                    			JOptionPane.showMessageDialog(Import.this, "Wrong File Passed for Processing \n" + e1.fileName, "Error",
-		                                JOptionPane.ERROR_MESSAGE);
-	                    			e1.printStackTrace();
-	                    		}
-                    		}
-                    	};                       	
-                    	Thread thread3 = new Thread() {                    		
-                    		public void run() {
-	                    		try {
-	                                serverlogParser.generateServerLogs();
-	                    		} catch (WrongFileException e1) {
-	                    			JOptionPane.showMessageDialog(Import.this, "Wrong File Passed for Processing \n" + e1.fileName, "Error",
-		                                JOptionPane.ERROR_MESSAGE);
-	                    			e1.printStackTrace();
-	                    		}
-                    		}
-                    	};
-                    	
-                    	thread1.start();
-                    	thread2.start();
-                    	thread3.start();
-                    	try {
-							thread1.join();		
-							thread2.join();
-							thread3.join();
-                    	} catch (Exception e1) {
-							e1.printStackTrace();
-						}
-						
-                    	      
-	                    /* SINGLETHREADED
-	                     * 	                      	                      
-                   		try {
-                			clicklogParser.generateClickLogs();
-                            impressionParser.generateImpressionsMethod1();
-                            serverlogParser.generateServerLogs();                           
-                		} catch (WrongFileException e1) {
-                			JOptionPane.showMessageDialog(Import.this, "Wrong File Passed for Processing \n" + e1.fileName, "Error",
-                                JOptionPane.ERROR_MESSAGE);
-                			e1.printStackTrace();
-                		}
-                       	*/
-                       	
-	                    // This will update the ArrayList of data logs with new data
-	                    dashboard.setOriginalLogs(clicklogParser.getClickLogs(), impressionParser.getImpressions(), serverlogParser.getServerLogs());
-	                    dashboard.updateMetrics(dashboard.DEFAULT_BOUNCE_PAGES_PROP,dashboard.DEFAULT_BOUNCE_TIME_PROP);
-	                    dashboard.updateHeader();
-	
-	                    Platform.runLater(dashboard::defaultChart);
-	
-	                    setVisible(false);
-	                    dispose();
-	                    dashboard.sidebar.importButton.setEnabled(true);
-	                    dashboard.sidebar.exportButton.setEnabled(true);
-	                    dashboard.sidebar.compareButton.setEnabled(true);
-                    }).start();
+                    if (checkBox.isSelected())
+                    {
+                    	// Do something differently...
+                    }
+                    else {                    
+                        showProcessingAnimation();
 
+	                    // running this in a thread to stop GUI hanging
+	                    new Thread(() -> {
+		                    final ClicklogParser clicklogParser = new ClicklogParser(clickLog.getAbsolutePath());
+		                    final ImpressionParser impressionParser = new ImpressionParser(impressionLog.getAbsolutePath());
+		                    final ServerlogParser serverlogParser = new ServerlogParser(serverLog.getAbsolutePath());
+		
+	                        //This will start the parsing of the csv log files and generate Arraylist of Data
+		                    
+		                    /* MULTITHREADED */	   
+		            
+	                    	Thread thread1 = new Thread() {                  		
+	                    		public void run() {
+		                    		try {
+		                    			clicklogParser.generateClickLogs();
+		                    		} catch (WrongFileException e1) {
+		                    			JOptionPane.showMessageDialog(Import.this, "Wrong File Passed for Processing \n" + e1.fileName, "Error",
+			                                JOptionPane.ERROR_MESSAGE);
+		                    			e1.printStackTrace();
+		                    		}
+	                    		}
+	                    	};                    	                                    
+	                    	Thread thread2 = new Thread() {                    		
+	                    		public void run() {
+		                    		try {
+		                                impressionParser.generateImpressionsMethod1();
+		                    		} catch (WrongFileException e1) {
+		                    			JOptionPane.showMessageDialog(Import.this, "Wrong File Passed for Processing \n" + e1.fileName, "Error",
+			                                JOptionPane.ERROR_MESSAGE);
+		                    			e1.printStackTrace();
+		                    		}
+	                    		}
+	                    	};                       	
+	                    	Thread thread3 = new Thread() {                    		
+	                    		public void run() {
+		                    		try {
+		                                serverlogParser.generateServerLogs();
+		                    		} catch (WrongFileException e1) {
+		                    			JOptionPane.showMessageDialog(Import.this, "Wrong File Passed for Processing \n" + e1.fileName, "Error",
+			                                JOptionPane.ERROR_MESSAGE);
+		                    			e1.printStackTrace();
+		                    		}
+	                    		}
+	                    	};
+	                    	
+	                    	thread1.start();
+	                    	thread2.start();
+	                    	thread3.start();
+	                    	try {
+								thread1.join();		
+								thread2.join();
+								thread3.join();
+	                    	} catch (Exception e1) {
+								e1.printStackTrace();
+							}
+							
+	                    	      
+		                    /* SINGLETHREADED
+		                     * 	                      	                      
+	                   		try {
+	                			clicklogParser.generateClickLogs();
+	                            impressionParser.generateImpressionsMethod1();
+	                            serverlogParser.generateServerLogs();                           
+	                		} catch (WrongFileException e1) {
+	                			JOptionPane.showMessageDialog(Import.this, "Wrong File Passed for Processing \n" + e1.fileName, "Error",
+	                                JOptionPane.ERROR_MESSAGE);
+	                			e1.printStackTrace();
+	                		}
+	                       	*/
+	                       	
+		                    // This will update the ArrayList of data logs with new data
+		                    dashboard.setOriginalLogs(clicklogParser.getClickLogs(), impressionParser.getImpressions(), serverlogParser.getServerLogs());
+		                    dashboard.updateMetrics(dashboard.DEFAULT_BOUNCE_PAGES_PROP,dashboard.DEFAULT_BOUNCE_TIME_PROP);
+		                    dashboard.updateHeader();
+		
+		                    Platform.runLater(dashboard::defaultChart);
+		
+		                    setVisible(false);
+		                    dispose();
+		                    dashboard.sidebar.importButton.setEnabled(true);
+		                    dashboard.sidebar.exportButton.setEnabled(true);
+		                    dashboard.sidebar.compareButton.setEnabled(true);
+	                    }).start();
+                    }
                 } else {
                     JOptionPane.showMessageDialog(Import.this, "Please import all three\nfiles before continuing.", "Error",
                             JOptionPane.ERROR_MESSAGE);
