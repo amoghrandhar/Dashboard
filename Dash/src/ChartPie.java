@@ -57,7 +57,7 @@ public class ChartPie extends JFXPanel {
 
 	public void showGenderPie() {
 
-		HashMap<Boolean,Long> map = dashboard.dataAnalytics.sexRatioDivision(dashboard.getImpressionLogs());
+		HashMap<Boolean,Long> map = dashboard.dataAnalytics.sexRatioDivision(dashboard.getImpressionLogsC1());
 
 		ObservableList<PieChart.Data> pieChartData =
 				FXCollections.observableArrayList();
@@ -85,7 +85,7 @@ public class ChartPie extends JFXPanel {
 
 	public void showAgeGroupPie() {
 
-		HashMap<Integer, Long> map = dashboard.dataAnalytics.ageGroupDivision(dashboard.getImpressionLogs());
+		HashMap<Integer, Long> map = dashboard.dataAnalytics.ageGroupDivision(dashboard.getImpressionLogsC1());
 
 		ObservableList<PieChart.Data> pieChartData =
 				FXCollections.observableArrayList();
@@ -136,7 +136,7 @@ public class ChartPie extends JFXPanel {
 
 	public void showIncomePie() {
 
-		HashMap<Integer, Long> map = dashboard.dataAnalytics.incomeGroupDivision(dashboard.getImpressionLogs());
+		HashMap<Integer, Long> map = dashboard.dataAnalytics.incomeGroupDivision(dashboard.getImpressionLogsC1());
 
 		ObservableList<PieChart.Data> pieChartData =
 				FXCollections.observableArrayList();
@@ -161,7 +161,7 @@ public class ChartPie extends JFXPanel {
 
 	public void showContextPie() {
 
-		HashMap<String, Long> map = dashboard.dataAnalytics.contextGroupDivision(dashboard.getImpressionLogs());
+		HashMap<String, Long> map = dashboard.dataAnalytics.contextGroupDivision(dashboard.getImpressionLogsC1());
 
 		ObservableList<PieChart.Data> pieChartData =
 				FXCollections.observableArrayList();

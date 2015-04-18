@@ -10,6 +10,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.ExecutorService;
 
 /**
  * Created by Amogh on 19-02-2015.
@@ -40,6 +41,8 @@ public class ImpressionParser implements Runnable {
             String[] row;
             while ((row = parser.parseNext()) != null) {
                 if (row.length == 7) {
+
+
                     if (row[3].equals("<25")) {
                         row[3] = "0";
                     } else if (row[3].equals("25-34")) {

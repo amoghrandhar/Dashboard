@@ -551,7 +551,7 @@ public class Content extends JPanel {
 
 	public void defaultChart() {
 
-		chart.showClicksChart(dashboard.getClickLogs());
+		chart.showClicksChart(dashboard.getClickLogsC1());
 		pieChart1.showGenderPie();
 		pieChart2.showAgeGroupPie();
 		pieChart3.showIncomePie();

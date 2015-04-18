@@ -12,10 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
 
 @SuppressWarnings("serial")
 public class Chart extends JFXPanel {
@@ -583,7 +580,7 @@ public class Chart extends JFXPanel {
 
 	}
 
-	private class MyImpressionWorker implements Runnable {
+	private class MyImpressionWorker implements Callable {
 
 		private ArrayList<ImpressionLog> impressionList1;
 		private LinkedHashMap<String, Integer> impressionPairs;
@@ -606,7 +603,22 @@ public class Chart extends JFXPanel {
 			}
 
 		}
-		
+
+		@Override
+		public Object call() throws Exception {
+			String date;
+
+			for (ImpressionLog impression : impressionList1) {
+				date = sdf.format(impression.getDate());
+				if (!impressionPairs.containsKey(date))
+					impressionPairs.put(date, 1);
+				else
+					impressionPairs.put(date, impressionPairs.get(date) + 1);
+
+			}
+
+			return impressionPairs;
+		}
 	}
 
 }
