@@ -236,7 +236,7 @@ public class Content extends JPanel {
 
 		// ######### Tab 1 #########
 
-		chart = new Chart();
+		chart = new Chart(dashboard);
 		chart.addMouseListener(new PrintScreenListener());
 
 		Platform.setImplicitExit(false);
@@ -551,7 +551,11 @@ public class Content extends JPanel {
 
 	public void defaultChart() {
 
-		chart.showClicksChart(dashboard.getClickLogsC1());
+		if(!dashboard.isComparing())
+			chart.showClicksChart(dashboard.getClickLogsC1());
+		if(dashboard.isComparing())
+			chart.showClicksChart2(dashboard.getClickLogsC1(), dashboard.getClickLogs2());
+		
 		pieChart1.showGenderPie();
 		pieChart2.showAgeGroupPie();
 		pieChart3.showIncomePie();

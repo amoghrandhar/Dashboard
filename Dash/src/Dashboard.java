@@ -369,7 +369,7 @@ public class Dashboard extends JFrame {
         return firstCampaign;
     }
 
-    public boolean isSecondCampaignCampaign() {
+    public boolean isSecondCampaign() {
         return secondCampaign;
     }
 

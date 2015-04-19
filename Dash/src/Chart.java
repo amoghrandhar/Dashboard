@@ -19,7 +19,8 @@ public class Chart extends JFXPanel {
 
 	private int xDim = 820;
 	private int yDim = 370;
-
+	
+	private Dashboard dashboard;
 	private Scene scene;
 	private LineChart lineChart;
 	private CategoryAxis xAxis;
@@ -29,13 +30,14 @@ public class Chart extends JFXPanel {
 
 	ExecutorService executor =  Executors.newFixedThreadPool(10);
 
-	public Chart() {
+	public Chart(Dashboard dashboard) {
 
 		super();
-		this.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.gray));
+		this.dashboard = dashboard;
 		xAxis = new CategoryAxis();
 		yAxis = new NumberAxis();
 		this.lineChart = new LineChart(xAxis, yAxis);
+		this.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.gray));
 
 	}
 
@@ -71,8 +73,16 @@ public class Chart extends JFXPanel {
 	public void initFX(XYChart.Series series1, XYChart.Series series2) {
 
 		lineChart = new LineChart<String, Number>(xAxis, yAxis);
-		series1.setName("Series 1");
-		series2.setName("Series 2");
+		
+		if(!dashboard.isSecondCampaign()){
+			series1.setName("Series 1");
+			series2.setName("Series 2");
+		}
+		if(dashboard.isSecondCampaign()){
+			series1.setName("Camapign 1");
+			series2.setName("Campaign 2");
+		}
+		
 		lineChart.getData().addAll(series1,series2);
 		lineChart.setAnimated(true);
 		lineChart.setCursor(Cursor.CROSSHAIR);
