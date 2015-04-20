@@ -1,4 +1,5 @@
 import javafx.application.Platform;
+
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
@@ -10,6 +11,7 @@ import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.DateFormatter;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.text.ParseException;
@@ -1076,7 +1078,7 @@ public class SideBar extends JPanel {
             this.sidebar = sidebar;
 
         }
-
+        
         public void actionPerformed(ActionEvent e) {
 
             Date startDate = sidebar.getChosenStartDate();
