@@ -109,8 +109,9 @@ public class Dashboard extends JFrame {
     // Reset log files to default (of selected series)
     public void resetLogs() {
 
-        if (sidebar.selectedSeries == 1)
+        if (sidebar.selectedSeries == 1){
             updateLogs(originalClickLogsC1, originalImpressionLogsC1, originalServerLogsC1);
+        }
         else if (sidebar.selectedSeries == 2 && secondCampaign ) {
             System.out.println("Dashboard.resetLogs" + " Inside IF");
             updateLogs2(originalClickLogsC2, originalImpressionLogsC2, originalServerLogsC2);
@@ -258,7 +259,7 @@ public class Dashboard extends JFrame {
 
             content.table = content.createTable2(content.rowData2);
             content.setMetrics(0, content.row1);
-            content.setMetrics(1, content.row1);
+            content.setMetrics(1, content.row2);
             content.scrollPane = new JScrollPane(content.table);
             content.scrollPane.setPreferredSize(new Dimension(
                     826,
@@ -275,6 +276,10 @@ public class Dashboard extends JFrame {
             content.tablePanel.remove(content.scrollPane);
 
             content.table = content.createTable(content.rowData);
+
+            System.out.println("comparing = [" + comparing + "]");
+            System.out.println(content.row1[0] + content.row1[1]);
+
             content.setMetrics(0, content.row1);
             content.scrollPane = new JScrollPane(content.table);
             content.scrollPane.setPreferredSize(new Dimension(

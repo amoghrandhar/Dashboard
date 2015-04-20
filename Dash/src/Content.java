@@ -41,7 +41,7 @@ public class Content extends JPanel {
 	boolean screenShotMode;
 	int x, y, width, height;
 
-	String[] row1, row2;
+	String[] row1, row2 , rowFirst;
 	Boolean comparing;
 
 	String[][] rowData = {
@@ -523,7 +523,19 @@ public class Content extends JPanel {
 
 	public void setMetrics(int rowIndex, String[] rowValues) {
 
+		if(dashboard.sidebar.selectedSeries == 1)
+			row1 = rowValues;
+		if(dashboard.sidebar.selectedSeries == 2)
+			row2 = rowValues;
+		if(row2 == null)
+			row2 = rowValues;
+
 		row1 = rowValues;
+
+		if(rowIndex == 0){
+			rowFirst = rowValues;
+			System.out.println("Row 1 updated .. to row f");
+		}
 
 		if(comparing){
 
@@ -534,10 +546,15 @@ public class Content extends JPanel {
 
 			tableModel.updateRow(rowIndex, myArray);
 
+			row1 = rowFirst;
+
 		}
 
-		else 
-			tableModel.updateRow(rowIndex, rowValues);
+		else {
+			row1 = rowFirst;
+			tableModel.updateRow(rowIndex, rowFirst);
+		}
+
 
 	}
 
