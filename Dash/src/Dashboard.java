@@ -111,9 +111,14 @@ public class Dashboard extends JFrame {
 
         if (sidebar.selectedSeries == 1)
             updateLogs(originalClickLogsC1, originalImpressionLogsC1, originalServerLogsC1);
-        if (sidebar.selectedSeries == 2 && secondCampaign )
+        else if (sidebar.selectedSeries == 2 && secondCampaign ) {
+            System.out.println("Dashboard.resetLogs" + " Inside IF");
             updateLogs2(originalClickLogsC2, originalImpressionLogsC2, originalServerLogsC2);
-        else updateLogs2(originalClickLogsC1, originalImpressionLogsC1, originalServerLogsC1);
+        }
+        else {
+            updateLogs2(originalClickLogsC1, originalImpressionLogsC1, originalServerLogsC1);
+            System.out.println("Dashboard.resetLogs" + " Else Block ");
+        }
 
     }
 

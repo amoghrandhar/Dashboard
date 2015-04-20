@@ -1142,6 +1142,7 @@ public class SideBar extends JPanel {
                 impressionContextPredicate = imp -> imp.getContext().equals(context);
             }
 
+            System.out.println("Selected Series :: " + selectedSeries);
             dashboard.resetLogs();
             ArrayList<ImpressionLog> impressionLogs = null;
             ArrayList<ClickLog> clickLogArrayList = null;
@@ -1186,8 +1187,8 @@ public class SideBar extends JPanel {
             // For comparison requirement
 
             if (selectedSeries == 1) {
-                saveFilters(series1);
                 dashboard.updateLogs(clickLogArrayList, impressionLogs, serverLogArrayList);
+                saveFilters(series1);
             }
             if (selectedSeries == 2) {
                 dashboard.updateLogs2(clickLogArrayList, impressionLogs, serverLogArrayList);
