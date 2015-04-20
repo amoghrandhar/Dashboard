@@ -335,7 +335,6 @@ public class Content extends JPanel {
 
 		tab1 = new JPanel();
 		tab2 = new JPanel();
-		tab3 = new JPanel();
 
 		tab1.setLayout(new BorderLayout());
 		tab1.add(graphPanel, BorderLayout.CENTER);
@@ -592,6 +591,71 @@ public class Content extends JPanel {
 
 		new Worker().execute();
 
+	}
+	
+	public void addExtraTab(String title){
+		
+		tab3 = new JPanel();	
+		tab3.setLayout(new BorderLayout());
+		
+		JPanel piePanel2 = new JPanel();
+		piePanel2.setLayout(new GridBagLayout());
+		
+		GridBagConstraints pc1 = new GridBagConstraints();
+		GridBagConstraints pc2 = new GridBagConstraints();
+		GridBagConstraints pc3 = new GridBagConstraints();
+		GridBagConstraints pc4 = new GridBagConstraints();
+
+		pc1.gridx = 0;
+		pc1.gridy = 0;
+		pc1.insets = new Insets(16, 16, 16, 16);
+
+		pc2.gridx = 1;
+		pc2.gridy = 0;
+		pc2.insets = new Insets(16, 16, 16, 16);
+
+		pc3.gridx = 0;
+		pc3.gridy = 1;
+		pc3.insets = new Insets(16, 16, 16, 16);
+
+		pc4.gridx = 1;
+		pc4.gridy = 1;
+		pc4.insets = new Insets(16, 16, 16, 16);
+		
+		ChartPie pieChart1 = new ChartPie(dashboard);
+		ChartPie pieChart2 = new ChartPie(dashboard);
+		ChartPie pieChart3 = new ChartPie(dashboard);
+		ChartPie pieChart4 = new ChartPie(dashboard);
+
+		pieChart1.addMouseListener(new PrintScreenListener());
+		pieChart2.addMouseListener(new PrintScreenListener());
+		pieChart3.addMouseListener(new PrintScreenListener());
+		pieChart4.addMouseListener(new PrintScreenListener());
+
+		Platform.setImplicitExit(false);
+		Platform.runLater(() -> {
+			pieChart1.initFX("Gender Distribution");
+			pieChart2.initFX("Age Distribution");
+			pieChart3.initFX("Income Distribution");
+			pieChart4.initFX("Context Distribution");
+		});
+		
+		piePanel2.add(pieChart1, pc1);
+		piePanel2.add(pieChart2, pc2);
+		piePanel2.add(pieChart3, pc3);
+		piePanel2.add(pieChart4, pc4);
+		
+		
+		tab3.add(piePanel2, BorderLayout.CENTER);
+		
+		tabbedPane.addTab("Demographics of " + title, tab3);
+		
+	}
+	
+	public void removeExtraTab(){
+		
+		tabbedPane.remove(tab3);
+		
 	}
 
 	class PrintScreenListener implements MouseListener{

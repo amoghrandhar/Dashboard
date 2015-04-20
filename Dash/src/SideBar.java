@@ -961,13 +961,16 @@ public class SideBar extends JPanel {
                 compareButton.setText("ON");
                 selectedLabel.setVisible(true);
                 compareBox.setVisible(true);
+                compareBox.setSelectedIndex(0);
                 dashboard.updateComparing(true);
+                dashboard.content.addExtraTab("Series 2");
             } else {
                 selectedSeries = 1;
                 compareButton.setText("OFF");
                 selectedLabel.setVisible(false);
                 compareBox.setVisible(false);
                 dashboard.updateComparing(false);
+                dashboard.content.removeExtraTab();
             }
 
             Platform.runLater(() -> {
