@@ -165,6 +165,51 @@ public class Import extends JFrame {
                         configurePanel2("impressionLogImported.png");
                         configurePanel3("serverLogImported.png");
                         revalidate();
+                	} 
+                	else if ((files.get(0).getName().equals("click_log.csv")) && (files.get(2).getName().equals("impression_log.csv")) && (files.get(1).getName().equals("server_log.csv"))) {
+                        clickLog = files.get(0);
+                        impressionLog = files.get(1);
+                        serverLog = files.get(2);
+                        configurePanel1("clickLogImported.png");
+                        configurePanel2("impressionLogImported.png");
+                        configurePanel3("serverLogImported.png");
+                        revalidate();
+                	} 
+                	else if ((files.get(1).getName().equals("click_log.csv")) && (files.get(0).getName().equals("impression_log.csv")) && (files.get(2).getName().equals("server_log.csv"))) {
+                        clickLog = files.get(0);
+                        impressionLog = files.get(1);
+                        serverLog = files.get(2);
+                        configurePanel1("clickLogImported.png");
+                        configurePanel2("impressionLogImported.png");
+                        configurePanel3("serverLogImported.png");
+                        revalidate();
+                	}
+                	else if ((files.get(1).getName().equals("click_log.csv")) && (files.get(2).getName().equals("impression_log.csv")) && (files.get(0).getName().equals("server_log.csv"))) {
+                        clickLog = files.get(0);
+                        impressionLog = files.get(1);
+                        serverLog = files.get(2);
+                        configurePanel1("clickLogImported.png");
+                        configurePanel2("impressionLogImported.png");
+                        configurePanel3("serverLogImported.png");
+                        revalidate();
+                	}
+                	else if ((files.get(2).getName().equals("click_log.csv")) && (files.get(1).getName().equals("impression_log.csv")) && (files.get(0).getName().equals("server_log.csv"))) {
+                        clickLog = files.get(0);
+                        impressionLog = files.get(1);
+                        serverLog = files.get(2);
+                        configurePanel1("clickLogImported.png");
+                        configurePanel2("impressionLogImported.png");
+                        configurePanel3("serverLogImported.png");
+                        revalidate();
+                	} 
+                	else if ((files.get(2).getName().equals("click_log.csv")) && (files.get(0).getName().equals("impression_log.csv")) && (files.get(1).getName().equals("server_log.csv"))) {
+                        clickLog = files.get(0);
+                        impressionLog = files.get(1);
+                        serverLog = files.get(2);
+                        configurePanel1("clickLogImported.png");
+                        configurePanel2("impressionLogImported.png");
+                        configurePanel3("serverLogImported.png");
+                        revalidate();
                 	} else {
                         JOptionPane.showMessageDialog(Import.this, "<html>One or more incorrect<br> files selected.</html>", "Error",
                                 JOptionPane.ERROR_MESSAGE);
