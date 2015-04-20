@@ -165,20 +165,20 @@ public class SideBar extends JPanel {
         gc4.anchor = GridBagConstraints.LINE_END;
         gc4.insets = new Insets(4, 0, 4, 0);
 
-        compareLabel = new JLabel("Comparison:   ");
+        compareLabel = new JLabel("Comparison: ");
 
         compareButton = new JToggleButton("OFF");
-        compareButton.setPreferredSize(new Dimension(50, compareButton.getPreferredSize().height));
+        compareButton.setPreferredSize(new Dimension(60, compareButton.getPreferredSize().height));
         compareButton.setFocusable(false);
         compareButton.setEnabled(false);
         compareButton.addActionListener(new ComparingListener(dashboard));
 
         String[] graphChoices = {"Series 1", "Series 2"};
 
-        selectedLabel = new JLabel("Selected:   ");
+        selectedLabel = new JLabel("Selected: ");
 
         compareBox = new JComboBox(graphChoices);
-        compareBox.setPrototypeDisplayValue("XXXXXXX");
+        compareBox.setPrototypeDisplayValue("XXXXXXXXX");
         compareBox.setEnabled(true);
         compareBox.addActionListener(new ComparingBoxListener());
 
@@ -923,8 +923,8 @@ public class SideBar extends JPanel {
                     SwingUtilities.invokeLater(
                             () -> {
                                 try {
-                                    UIManager.setLookAndFeel("com.jtattoo.plaf.smart.SmartLookAndFeel");
-//									UIManager.setLookAndFeel("com.jtattoo.plaf.hifi.HiFiLookAndFeel");
+                                    //UIManager.setLookAndFeel("com.jtattoo.plaf.smart.SmartLookAndFeel");
+									UIManager.setLookAndFeel("com.jtattoo.plaf.hifi.HiFiLookAndFeel");
                                     Dashboard frame = new Dashboard("Ad Dashboard");
                                     frame.init(new String[]{"#0d0d0c", "#1a1818", "#524e4e", "#242424"});
 
@@ -1147,8 +1147,6 @@ public class SideBar extends JPanel {
             ArrayList<ClickLog> clickLogArrayList = null;
             ArrayList<ServerLog> serverLogArrayList = null;
 
-            // Actually unnecessary because logs are reset and both have identical original logs
-
             if (selectedSeries == 1) {
                 impressionLogs = dashboard.getImpressionLogsC1();
                 clickLogArrayList = dashboard.getClickLogsC1();
@@ -1201,7 +1199,6 @@ public class SideBar extends JPanel {
             Platform.runLater(() -> {
                 dashboard.updateGraph(dashboard.content.graphChoiceBox.getSelectedIndex());
             });
-
             Platform.runLater(() -> {
                 dashboard.updatePieCharts();
             });

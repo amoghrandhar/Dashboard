@@ -350,12 +350,14 @@ public class Import extends JFrame {
                             dashboard.updateHeader();
 
                             Platform.runLater(dashboard::defaultChart);
-
-                            setVisible(false);
-                            dispose();
+                            
                             dashboard.sidebar.importButton.setEnabled(true);
                             dashboard.sidebar.exportButton.setEnabled(true);
                             dashboard.sidebar.compareButton.setEnabled(true);
+
+                            setVisible(false);
+                            dispose();
+
                         }).start();
                     }
                     else {                    

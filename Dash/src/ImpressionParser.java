@@ -62,7 +62,14 @@ public class ImpressionParser implements Runnable {
                     } else {
                         row[4] = "2";
                     }
-                    impressions.add(new ImpressionLog(sdf.parse(row[0]), Double.parseDouble(row[1]), "Male".equals(row[2]), Integer.valueOf(row[3]), Integer.valueOf(row[4]), row[5], Double.parseDouble(row[6])));
+                    impressions.add(new ImpressionLog(
+                    		sdf.parse(row[0]), 
+                    		Double.parseDouble(row[1]), 
+                    		"Male".equals(row[2]), 
+                    		Integer.valueOf(row[3]), 
+                    		Integer.valueOf(row[4]), 
+                    		row[5], 
+                    		Double.parseDouble(row[6])));
                 }
             }
 

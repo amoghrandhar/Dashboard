@@ -1,4 +1,5 @@
 import javax.swing.*;
+
 import java.awt.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -94,6 +95,15 @@ public class Dashboard extends JFrame {
         secondCampaign = true;
         updateLogs(originalClickLogsC1, originalImpressionLogsC1, originalServerLogsC1);
         updateLogs2(originalClickLogsC2, originalImpressionLogsC2, originalServerLogsC2);
+        
+        String[] graphChoices = {"Campaign1 1", "Campaign 2"};
+        
+        sidebar.compareBox.removeItemAt(1);
+        sidebar.compareBox.removeItemAt(0);
+        
+        sidebar.compareBox.addItem(new String("Campaign 1"));
+        sidebar.compareBox.addItem(new String("Campaign 2"));
+        
     }
 
     // Reset log files to default (of selected series)
