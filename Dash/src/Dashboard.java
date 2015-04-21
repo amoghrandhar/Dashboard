@@ -368,11 +368,22 @@ public class Dashboard extends JFrame {
 
     public void updatePieCharts() {
 
-        content.pieChart1.showGenderPie();
-        content.pieChart2.showAgeGroupPie();
-        content.pieChart3.showIncomePie();
-        content.pieChart4.showContextPie();
-
+        if (!isComparing()) {
+            content.pieChart1C1.showGenderPie(1);
+            content.pieChart2C1.showAgeGroupPie(1);
+            content.pieChart3C1.showIncomePie(1);
+            content.pieChart4C1.showContextPie(1);
+        }
+        else if(isComparing()){
+            content.pieChart1C1.showGenderPie(1);
+            content.pieChart2C1.showAgeGroupPie(1);
+            content.pieChart3C1.showIncomePie(1);
+            content.pieChart4C1.showContextPie(1);
+            content.pieChart1C2.showGenderPie(2);
+            content.pieChart2C2.showAgeGroupPie(2);
+            content.pieChart3C2.showIncomePie(2);
+            content.pieChart4C2.showContextPie(2);
+        }
     }
 
     public String round(double value, int scale) {

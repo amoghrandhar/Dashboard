@@ -55,9 +55,14 @@ public class ChartPie extends JFXPanel {
 
 	}
 
-	public void showGenderPie() {
+	public void showGenderPie(int selection) {
 
-		HashMap<Boolean,Long> map = dashboard.dataAnalytics.sexRatioDivision(dashboard.getImpressionLogsC1());
+		HashMap<Boolean,Long> map;
+
+		if(selection == 1)
+			map = dashboard.dataAnalytics.sexRatioDivision(dashboard.getImpressionLogsC1());
+		else
+			map = dashboard.dataAnalytics.sexRatioDivision(dashboard.getImpressionLogs2());
 
 		ObservableList<PieChart.Data> pieChartData =
 				FXCollections.observableArrayList();
@@ -83,9 +88,14 @@ public class ChartPie extends JFXPanel {
 
 	}
 
-	public void showAgeGroupPie() {
+	public void showAgeGroupPie(int selection) {
 
-		HashMap<Integer, Long> map = dashboard.dataAnalytics.ageGroupDivision(dashboard.getImpressionLogsC1());
+		HashMap<Integer, Long> map;
+
+		if(selection == 1)
+			map = dashboard.dataAnalytics.ageGroupDivision(dashboard.getImpressionLogsC1());
+		else
+			map = dashboard.dataAnalytics.ageGroupDivision(dashboard.getImpressionLogs2());
 
 		ObservableList<PieChart.Data> pieChartData =
 				FXCollections.observableArrayList();
@@ -134,9 +144,14 @@ public class ChartPie extends JFXPanel {
         }
     }
 
-	public void showIncomePie() {
+	public void showIncomePie(int selection) {
 
-		HashMap<Integer, Long> map = dashboard.dataAnalytics.incomeGroupDivision(dashboard.getImpressionLogsC1());
+		HashMap<Integer, Long> map;
+
+		if(selection == 1)
+			map = dashboard.dataAnalytics.incomeGroupDivision(dashboard.getImpressionLogsC1());
+		else
+			map = dashboard.dataAnalytics.incomeGroupDivision(dashboard.getImpressionLogs2());
 
 		ObservableList<PieChart.Data> pieChartData =
 				FXCollections.observableArrayList();
@@ -159,9 +174,14 @@ public class ChartPie extends JFXPanel {
 
 	}
 
-	public void showContextPie() {
+	public void showContextPie(int selection) {
 
-		HashMap<String, Long> map = dashboard.dataAnalytics.contextGroupDivision(dashboard.getImpressionLogsC1());
+		HashMap<String, Long> map;
+
+		if(selection == 1)
+			map = dashboard.dataAnalytics.contextGroupDivision(dashboard.getImpressionLogsC1());
+		else
+			map = dashboard.dataAnalytics.contextGroupDivision(dashboard.getImpressionLogs2());
 
 		ObservableList<PieChart.Data> pieChartData =
 				FXCollections.observableArrayList();
