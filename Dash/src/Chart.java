@@ -25,7 +25,7 @@ public class Chart extends JFXPanel {
 	private LineChart lineChart;
 	private CategoryAxis xAxis;
 	private NumberAxis yAxis;
-	private javafx.scene.control.ScrollPane scrollPane;
+//	private javafx.scene.control.ScrollPane scrollPane;
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
 	ExecutorService executor =  Executors.newFixedThreadPool(10);

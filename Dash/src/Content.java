@@ -27,6 +27,7 @@ public class Content extends JPanel {
 
 	JPanel graphPanel, metricsPanel, headerPanel, piePanel;
 	JLabel clicksValueLabel, impressionsValueLabel, totalCostValueLabel;
+	JLabel clicksValueLabel2, impressionsValueLabel2, totalCostValueLabel2;
 	JComboBox<String> graphChoiceBox, timeBox;
 	SimpleTableModel tableModel;
 
@@ -566,10 +567,9 @@ public class Content extends JPanel {
 
 		if(dashboard.sidebar.selectedSeries == 1)
 			row1 = rowValues;
-		if(dashboard.sidebar.selectedSeries == 2)
+		else if(dashboard.sidebar.selectedSeries == 2 || row2 == null)
 			row2 = rowValues;
-		if(row2 == null)
-			row2 = rowValues;
+
 
 		row1 = rowValues;
 
@@ -588,7 +588,6 @@ public class Content extends JPanel {
 			row1 = rowFirst;
 
 		}
-
 		else {
 			row1 = rowFirst;
 			tableModel.updateRow(rowIndex, rowFirst);
