@@ -1,4 +1,5 @@
 import javafx.application.Platform;
+
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
@@ -10,13 +11,22 @@ import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.DateFormatter;
+
 import java.awt.*;
 import java.awt.event.*;
+import java.io.ByteArrayOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
 import java.util.function.Predicate;
+
+import com.univocity.parsers.csv.*;
+import com.univocity.parsers.tsv.TsvWriter;
 
 
 //import com.jtattoo.plaf.*;
@@ -30,7 +40,7 @@ public class SideBar extends JPanel {
 
     JButton importButton, exportButton, updateButton, resetButton, settingsButton;
     JPopupMenu popUpMenu, settingsPopUp;
-    JMenuItem printItem, pngItem, jpegItem, piesItem, multiItem;
+    JMenuItem printItem, pngItem, jpegItem, piesItem, multiItem, csvItem;
     JMenuItem lightTheme, darkTheme;
     Calendar calendar;
     JDatePickerImpl startPicker, endPicker;
@@ -125,6 +135,8 @@ public class SideBar extends JPanel {
 
         pngItem = new JMenuItem("Export as Image");
         pngItem.addActionListener(new PopupListener(dashboard));
+        csvItem = new JMenuItem("Export as CSV");
+        csvItem.addActionListener(new PopupListener(dashboard));
         printItem = new JMenuItem("Print main graph");
         printItem.addActionListener(new PopupListener(dashboard));
         multiItem = new JMenuItem("Print graph and table");
@@ -134,6 +146,7 @@ public class SideBar extends JPanel {
 
         popUpMenu = new JPopupMenu("Menu");
         popUpMenu.add(pngItem);
+        popUpMenu.add(csvItem);
         //popUpMenu.add(jpegItem);
         popUpMenu.addSeparator();
         popUpMenu.add(printItem);
@@ -649,6 +662,28 @@ public class SideBar extends JPanel {
         series.setBounceTime(getChosenTime());
 
     }
+    
+    public void exportCSV() {
+    	String COMMA = ",";
+    	FileWriter fwrite;
+		try {
+			fwrite = new FileWriter("clickLogOutput.csv");
+	    	CsvWriter writer = new CsvWriter(fwrite, new CsvWriterSettings());
+	    	
+	    	System.out.println("Writing Header");
+	    	writer.writeHeaders("Date","ID","Click Cost");
+	    	System.out.println("Writing rows");
+	    	int n = 0;
+	    	for (ClickLog c : dashboard.getClickLogsC1()) {
+	    		writer.writeRow(c.getDate().toString()+COMMA+c.getID().toString()
+	    				+COMMA+c.getClickCost().toString());
+	    		n++;
+	    	}
+	    	System.out.println("Wrote " + n + " rows");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}	
+    }
 
     abstract class AbstractExpansionPanel extends JPanel {
 
@@ -780,8 +815,7 @@ public class SideBar extends JPanel {
         }
 
     }
-
-    //Opens a new frame to import files
+    
     class ExportListener implements ActionListener {
 
         Dashboard dashboard;
@@ -832,6 +866,10 @@ public class SideBar extends JPanel {
                 exportButton.setText(" Cancel ");
                 exportButton.setIcon(null);
                 exportButton.setBackground(Color.decode("#c54343"));
+            }
+            
+            if (event.getSource() == dashboard.sidebar.csvItem) {
+            	exportCSV();
             }
 
             if (event.getSource() == dashboard.sidebar.printItem)
