@@ -22,7 +22,8 @@ public class Content extends JPanel {
 
 	Dashboard dashboard;
 	Chart chart;
-	ChartPie pieChart1, pieChart2, pieChart3, pieChart4;
+	ChartPie pieChart1C1, pieChart2C1, pieChart3C1, pieChart4C1;
+	ChartPie pieChart1C2, pieChart2C2, pieChart3C2, pieChart4C2;
 
 	JPanel graphPanel, metricsPanel, headerPanel, piePanel;
 	JLabel clicksValueLabel, impressionsValueLabel, totalCostValueLabel;
@@ -299,28 +300,28 @@ public class Content extends JPanel {
 		pc4.gridy = 1;
 		pc4.insets = new Insets(16, 16, 16, 16);
 
-		pieChart1 = new ChartPie(dashboard);
-		pieChart2 = new ChartPie(dashboard);
-		pieChart3 = new ChartPie(dashboard);
-		pieChart4 = new ChartPie(dashboard);
+		pieChart1C1 = new ChartPie(dashboard);
+		pieChart2C1 = new ChartPie(dashboard);
+		pieChart3C1 = new ChartPie(dashboard);
+		pieChart4C1 = new ChartPie(dashboard);
 
-		pieChart1.addMouseListener(new PrintScreenListener());
-		pieChart2.addMouseListener(new PrintScreenListener());
-		pieChart3.addMouseListener(new PrintScreenListener());
-		pieChart4.addMouseListener(new PrintScreenListener());
+		pieChart1C1.addMouseListener(new PrintScreenListener());
+		pieChart2C1.addMouseListener(new PrintScreenListener());
+		pieChart3C1.addMouseListener(new PrintScreenListener());
+		pieChart4C1.addMouseListener(new PrintScreenListener());
 
 		Platform.setImplicitExit(false);
 		Platform.runLater(() -> {
-			pieChart1.initFX("Gender Distribution");
-			pieChart2.initFX("Age Distribution");
-			pieChart3.initFX("Income Distribution");
-			pieChart4.initFX("Context Distribution");
+			pieChart1C1.initFX("Gender Distribution");
+			pieChart2C1.initFX("Age Distribution");
+			pieChart3C1.initFX("Income Distribution");
+			pieChart4C1.initFX("Context Distribution");
 		});
 
-		piePanel.add(pieChart1, pc1);
-		piePanel.add(pieChart2, pc2);
-		piePanel.add(pieChart3, pc3);
-		piePanel.add(pieChart4, pc4);
+		piePanel.add(pieChart1C1, pc1);
+		piePanel.add(pieChart2C1, pc2);
+		piePanel.add(pieChart3C1, pc3);
+		piePanel.add(pieChart4C1, pc4);
 
 		// ######### Panels #########
 
@@ -335,7 +336,6 @@ public class Content extends JPanel {
 
 		tab1 = new JPanel();
 		tab2 = new JPanel();
-		tab3 = new JPanel();
 
 		tab1.setLayout(new BorderLayout());
 		tab1.add(graphPanel, BorderLayout.CENTER);
@@ -348,7 +348,7 @@ public class Content extends JPanel {
 		tabbedPane.addTab("Metrics Display", tab1);
 		tabbedPane.addTab("Impressions Demographics", tab2);
 		tabbedPane.setFocusable(false);
-		tabbedPane.setSelectedComponent(tab2);
+		tabbedPane.setSelectedComponent(tab1);
 
 		JPanel bodyPanel = new JPanel();
 		bodyPanel.setLayout(new BorderLayout());
@@ -398,26 +398,67 @@ public class Content extends JPanel {
 
 					if (tabbedPane.getSelectedIndex() == 1) {
 
-						Point rootPaneOrigin = pieChart1.getRootPane().getContentPane().getLocationOnScreen();
+					Point rootPaneOrigin = pieChart1C1.getRootPane().getContentPane().getLocationOnScreen();
 
-						Point pPie1 = pieChart1.getLocationOnScreen();
-						Point pPie2 = pieChart2.getLocationOnScreen();
-						Point pPie3 = pieChart3.getLocationOnScreen();
-						Point pPie4 = pieChart4.getLocationOnScreen();
+					Point pPie1 = pieChart1C1.getLocationOnScreen();
+					Point pPie2 = pieChart2C1.getLocationOnScreen();
+					Point pPie3 = pieChart3C1.getLocationOnScreen();
+					Point pPie4 = pieChart4C1.getLocationOnScreen();
+
+					Graphics2D g2d = (Graphics2D) g;
+					g2d.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+					g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
+
+
+					Rectangle pie1Rect = new Rectangle(pPie1.x - rootPaneOrigin.x + (pieChart1C1.getWidth() / 2) - 85,
+							pPie1.y - rootPaneOrigin.y + (pieChart1C1.getHeight() / 2) - 40, 170, 80);
+					Rectangle pie2Rect = new Rectangle(pPie2.x - rootPaneOrigin.x + (pieChart2C1.getWidth() / 2) - 85,
+							pPie2.y - rootPaneOrigin.y + (pieChart2C1.getHeight() / 2) - 40, 170, 80);
+					Rectangle pie3Rect = new Rectangle(pPie3.x - rootPaneOrigin.x + (pieChart3C1.getWidth() / 2) - 85,
+							pPie3.y - rootPaneOrigin.y + (pieChart3C1.getHeight() / 2) - 40, 170, 80);
+					Rectangle pie4Rect = new Rectangle(pPie4.x - rootPaneOrigin.x + (pieChart4C1.getWidth() / 2) - 85,
+							pPie4.y - rootPaneOrigin.y + (pieChart4C1.getHeight() / 2) - 40, 170, 80);
+
+					g2d.fillRoundRect(pie1Rect.x, pie1Rect.y, pie1Rect.width, pie1Rect.height, 30, 30);
+					g2d.fillRoundRect(pie2Rect.x, pie2Rect.y, pie2Rect.width, pie2Rect.height, 30, 30);
+					g2d.fillRoundRect(pie3Rect.x, pie3Rect.y, pie3Rect.width, pie3Rect.height, 30, 30);
+					g2d.fillRoundRect(pie4Rect.x, pie4Rect.y, pie4Rect.width, pie4Rect.height, 30, 30);
+
+
+					g2d.setFont(new Font("Arial", Font.PLAIN, 20));
+					g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
+					g2d.setColor(Color.WHITE);
+					g2d.drawString("Click on the", pie1Rect.x + 33, pie1Rect.y + 35);
+					g2d.drawString("chart to export", pie1Rect.x + 20, pie1Rect.y + 55);
+					g2d.drawString("Click on the", pie2Rect.x + 33, pie2Rect.y + 35);
+					g2d.drawString("chart to export", pie2Rect.x + 20, pie2Rect.y + 55);
+					g2d.drawString("Click on the", pie3Rect.x + 33, pie3Rect.y + 35);
+					g2d.drawString("chart to export", pie3Rect.x + 20, pie3Rect.y + 55);
+					g2d.drawString("Click on the", pie4Rect.x + 33, pie4Rect.y + 35);
+					g2d.drawString("chart to export", pie4Rect.x + 20, pie4Rect.y + 55);
+				}
+					if (tabbedPane.getSelectedIndex() == 2) {
+
+						Point rootPaneOrigin = pieChart1C1.getRootPane().getContentPane().getLocationOnScreen();
+
+						Point pPie1 = pieChart1C2.getLocationOnScreen();
+						Point pPie2 = pieChart2C2.getLocationOnScreen();
+						Point pPie3 = pieChart3C2.getLocationOnScreen();
+						Point pPie4 = pieChart4C2.getLocationOnScreen();
 
 						Graphics2D g2d = (Graphics2D) g;
 						g2d.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 						g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
 
 
-						Rectangle pie1Rect = new Rectangle(pPie1.x - rootPaneOrigin.x + (pieChart1.getWidth() / 2) - 85, 
-								pPie1.y - rootPaneOrigin.y + (pieChart1.getHeight() / 2) - 40, 170, 80);
-						Rectangle pie2Rect = new Rectangle(pPie2.x - rootPaneOrigin.x + (pieChart2.getWidth() / 2) - 85, 
-								pPie2.y - rootPaneOrigin.y + (pieChart2.getHeight() / 2) - 40, 170, 80);
-						Rectangle pie3Rect = new Rectangle(pPie3.x - rootPaneOrigin.x + (pieChart3.getWidth() / 2) - 85, 
-								pPie3.y - rootPaneOrigin.y + (pieChart3.getHeight() / 2) - 40, 170, 80);
-						Rectangle pie4Rect = new Rectangle(pPie4.x - rootPaneOrigin.x + (pieChart4.getWidth() / 2) - 85, 
-								pPie4.y - rootPaneOrigin.y + (pieChart4.getHeight() / 2) - 40, 170, 80);
+						Rectangle pie1Rect = new Rectangle(pPie1.x - rootPaneOrigin.x + (pieChart1C2.getWidth() / 2) - 85,
+								pPie1.y - rootPaneOrigin.y + (pieChart1C2.getHeight() / 2) - 40, 170, 80);
+						Rectangle pie2Rect = new Rectangle(pPie2.x - rootPaneOrigin.x + (pieChart2C2.getWidth() / 2) - 85,
+								pPie2.y - rootPaneOrigin.y + (pieChart2C2.getHeight() / 2) - 40, 170, 80);
+						Rectangle pie3Rect = new Rectangle(pPie3.x - rootPaneOrigin.x + (pieChart3C2.getWidth() / 2) - 85,
+								pPie3.y - rootPaneOrigin.y + (pieChart3C2.getHeight() / 2) - 40, 170, 80);
+						Rectangle pie4Rect = new Rectangle(pPie4.x - rootPaneOrigin.x + (pieChart4C2.getWidth() / 2) - 85,
+								pPie4.y - rootPaneOrigin.y + (pieChart4C2.getHeight() / 2) - 40, 170, 80);
 
 						g2d.fillRoundRect(pie1Rect.x, pie1Rect.y, pie1Rect.width, pie1Rect.height, 30, 30);
 						g2d.fillRoundRect(pie2Rect.x, pie2Rect.y, pie2Rect.width, pie2Rect.height, 30, 30);
@@ -429,7 +470,7 @@ public class Content extends JPanel {
 						g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
 						g2d.setColor(Color.WHITE);
 						g2d.drawString("Click on the", pie1Rect.x + 33, pie1Rect.y + 35);
-						g2d.drawString("chart to export", pie1Rect.x + 20, pie1Rect.y + 55);	
+						g2d.drawString("chart to export", pie1Rect.x + 20, pie1Rect.y + 55);
 						g2d.drawString("Click on the", pie2Rect.x + 33, pie2Rect.y + 35);
 						g2d.drawString("chart to export", pie2Rect.x + 20, pie2Rect.y + 55);
 						g2d.drawString("Click on the", pie3Rect.x + 33, pie3Rect.y + 35);
@@ -532,10 +573,8 @@ public class Content extends JPanel {
 
 		row1 = rowValues;
 
-		if(rowIndex == 0){
+		if(rowIndex == 0)
 			rowFirst = rowValues;
-			System.out.println("Row 1 updated .. to row f");
-		}
 
 		if(comparing){
 
@@ -568,15 +607,24 @@ public class Content extends JPanel {
 
 	public void defaultChart() {
 
-		if(!dashboard.isComparing())
+		if(!dashboard.isComparing()) {
 			chart.showClicksChart(dashboard.getClickLogsC1());
-		if(dashboard.isComparing())
+			pieChart1C1.showGenderPie(1);
+			pieChart2C1.showAgeGroupPie(1);
+			pieChart3C1.showIncomePie(1);
+			pieChart4C1.showContextPie(1);
+		}
+		if(dashboard.isComparing()){
 			chart.showClicksChart2(dashboard.getClickLogsC1(), dashboard.getClickLogs2());
-		
-		pieChart1.showGenderPie();
-		pieChart2.showAgeGroupPie();
-		pieChart3.showIncomePie();
-		pieChart4.showContextPie();
+			pieChart1C1.showGenderPie(1);
+			pieChart2C1.showAgeGroupPie(1);
+			pieChart3C1.showIncomePie(1);
+			pieChart4C1.showContextPie(1);
+			pieChart1C2.showGenderPie(2);
+			pieChart2C2.showAgeGroupPie(2);
+			pieChart3C2.showIncomePie(2);
+			pieChart4C2.showContextPie(2);
+		}
 
 		class Worker extends SwingWorker<Void, Void> {
 
@@ -592,6 +640,78 @@ public class Content extends JPanel {
 
 		new Worker().execute();
 
+	}
+	
+	public void addExtraTab(String title){
+		
+		tab3 = new JPanel();	
+		tab3.setLayout(new BorderLayout());
+		
+		JPanel piePanel2 = new JPanel();
+		piePanel2.setLayout(new GridBagLayout());
+		
+		GridBagConstraints pc1 = new GridBagConstraints();
+		GridBagConstraints pc2 = new GridBagConstraints();
+		GridBagConstraints pc3 = new GridBagConstraints();
+		GridBagConstraints pc4 = new GridBagConstraints();
+
+		pc1.gridx = 0;
+		pc1.gridy = 0;
+		pc1.insets = new Insets(16, 16, 16, 16);
+
+		pc2.gridx = 1;
+		pc2.gridy = 0;
+		pc2.insets = new Insets(16, 16, 16, 16);
+
+		pc3.gridx = 0;
+		pc3.gridy = 1;
+		pc3.insets = new Insets(16, 16, 16, 16);
+
+		pc4.gridx = 1;
+		pc4.gridy = 1;
+		pc4.insets = new Insets(16, 16, 16, 16);
+		
+		pieChart1C2= new ChartPie(dashboard);
+		pieChart2C2 = new ChartPie(dashboard);
+		pieChart3C2 = new ChartPie(dashboard);
+		pieChart4C2 = new ChartPie(dashboard);
+
+		pieChart1C2.addMouseListener(new PrintScreenListener());
+		pieChart2C2.addMouseListener(new PrintScreenListener());
+		pieChart3C2.addMouseListener(new PrintScreenListener());
+		pieChart4C2.addMouseListener(new PrintScreenListener());
+
+		Platform.setImplicitExit(false);
+		Platform.runLater(() -> {
+			pieChart1C2.initFX("Gender Distribution");
+			pieChart2C2.initFX("Age Distribution");
+			pieChart3C2.initFX("Income Distribution");
+			pieChart4C2.initFX("Context Distribution");
+		});
+		
+		piePanel2.add(pieChart1C2, pc1);
+		piePanel2.add(pieChart2C2, pc2);
+		piePanel2.add(pieChart3C2, pc3);
+		piePanel2.add(pieChart4C2, pc4);
+
+		Platform.setImplicitExit(false);
+		Platform.runLater(() -> {
+			this.pieChart1C2.showGenderPie(2);
+			this.pieChart2C2.showAgeGroupPie(2);
+			this.pieChart3C2.showIncomePie(2);
+			this.pieChart4C2.showContextPie(2);
+		});
+
+		tab3.add(piePanel2, BorderLayout.CENTER);
+		
+		tabbedPane.addTab("Demographics of " + title, tab3);
+		
+	}
+	
+	public void removeExtraTab(){
+		
+		tabbedPane.remove(tab3);
+		
 	}
 
 	class PrintScreenListener implements MouseListener{
@@ -625,24 +745,47 @@ public class Content extends JPanel {
 
 					//Get "absolute" coordinates of root pane
 					Point rootPaneOrigin =
-							pieChart1.getRootPane().getContentPane().getLocationOnScreen();
+							pieChart1C1.getRootPane().getContentPane().getLocationOnScreen();
 
-					Point pPie1 = pieChart1.getLocationOnScreen();
-					Point pPie2 = pieChart2.getLocationOnScreen();
-					Point pPie3 = pieChart3.getLocationOnScreen();
-					Point pPie4 = pieChart4.getLocationOnScreen();
+					Point pPie1 = pieChart1C1.getLocationOnScreen();
+					Point pPie2 = pieChart2C1.getLocationOnScreen();
+					Point pPie3 = pieChart3C1.getLocationOnScreen();
+					Point pPie4 = pieChart4C1.getLocationOnScreen();
 
-					if (e.getSource() == pieChart1)
-						drawSquare( pPie1.x - rootPaneOrigin.x, pPie1.y - rootPaneOrigin.y ,pieChart1.getWidth(),pieChart1.getHeight());
+					if (e.getSource() == pieChart1C1)
+						drawSquare(pPie1.x - rootPaneOrigin.x, pPie1.y - rootPaneOrigin.y, pieChart1C1.getWidth(), pieChart1C1.getHeight());
 
-					if (e.getSource() == pieChart2)
-						drawSquare( pPie2.x - rootPaneOrigin.x, pPie2.y - rootPaneOrigin.y ,pieChart2.getWidth(),pieChart2.getHeight());
+					if (e.getSource() == pieChart2C1)
+						drawSquare(pPie2.x - rootPaneOrigin.x, pPie2.y - rootPaneOrigin.y, pieChart2C1.getWidth(), pieChart2C1.getHeight());
 
-					if (e.getSource() == pieChart3)
-						drawSquare( pPie3.x - rootPaneOrigin.x, pPie3.y - rootPaneOrigin.y ,pieChart3.getWidth(),pieChart3.getHeight());
+					if (e.getSource() == pieChart3C1)
+						drawSquare( pPie3.x - rootPaneOrigin.x, pPie3.y - rootPaneOrigin.y , pieChart3C1.getWidth(), pieChart3C1.getHeight());
 
-					if (e.getSource() == pieChart4)
-						drawSquare( pPie4.x - rootPaneOrigin.x, pPie4.y - rootPaneOrigin.y ,pieChart4.getWidth(),pieChart4.getHeight());
+					if (e.getSource() == pieChart4C1)
+						drawSquare( pPie4.x - rootPaneOrigin.x, pPie4.y - rootPaneOrigin.y , pieChart4C1.getWidth(), pieChart4C1.getHeight());
+				}
+				if(tabbedPane.getSelectedIndex() == 2) {
+
+					//Get "absolute" coordinates of root pane
+					Point rootPaneOrigin =
+							pieChart1C1.getRootPane().getContentPane().getLocationOnScreen();
+
+					Point pPie1 = pieChart1C2.getLocationOnScreen();
+					Point pPie2 = pieChart2C2.getLocationOnScreen();
+					Point pPie3 = pieChart3C2.getLocationOnScreen();
+					Point pPie4 = pieChart4C2.getLocationOnScreen();
+
+					if (e.getSource() == pieChart1C2)
+						drawSquare(pPie1.x - rootPaneOrigin.x, pPie1.y - rootPaneOrigin.y, pieChart1C2.getWidth(), pieChart1C2.getHeight());
+
+					if (e.getSource() == pieChart2C2)
+						drawSquare(pPie2.x - rootPaneOrigin.x, pPie2.y - rootPaneOrigin.y, pieChart2C2.getWidth(), pieChart2C2.getHeight());
+
+					if (e.getSource() == pieChart3C2)
+						drawSquare( pPie3.x - rootPaneOrigin.x, pPie3.y - rootPaneOrigin.y , pieChart3C2.getWidth(), pieChart3C2.getHeight());
+
+					if (e.getSource() == pieChart4C2)
+						drawSquare( pPie4.x - rootPaneOrigin.x, pPie4.y - rootPaneOrigin.y , pieChart4C2.getWidth(), pieChart4C2.getHeight());
 				}
 			}
 		}
@@ -703,17 +846,17 @@ public class Content extends JPanel {
 					}				
 				}
 				
-				else if (e.getSource() == pieChart1)
-					exportJFXChart(pieChart1);
+				else if (e.getSource() == pieChart1C1)
+					exportJFXChart(pieChart1C1);
 
-				else if (e.getSource() == pieChart2)
-					exportJFXChart(pieChart2);	
+				else if (e.getSource() == pieChart2C1)
+					exportJFXChart(pieChart2C1);
 				
-				else if (e.getSource() == pieChart3)
-					exportJFXChart(pieChart3);				
+				else if (e.getSource() == pieChart3C1)
+					exportJFXChart(pieChart3C1);
 				
-				else if (e.getSource() == pieChart4)
-					exportJFXChart(pieChart4);				
+				else if (e.getSource() == pieChart4C1)
+					exportJFXChart(pieChart4C1);
 				
 				screenShotMode = false;
 				
@@ -827,11 +970,8 @@ public class Content extends JPanel {
 		}
 
 		public Object getValueAt(int row, int col) {
-
 			return rowData[row][col];
-
 		}
-
 
 		public boolean isCellEditable(int rowIndex, int columnIndex) {
 			return false;

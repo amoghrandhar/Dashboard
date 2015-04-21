@@ -80,6 +80,8 @@ public class Import extends JFrame {
 	    c.insets = new Insets(0, 7, 2, 7);
 	    container.add(checkBox, c);
 	    c.gridwidth = 1;
+	    this.checkBox.setEnabled(dashboard.isFirstCampaign());;
+	    
 
         this.cancelButton = new JButton("Cancel");
         this.cancelButton.addActionListener(buttonListener);
@@ -225,190 +227,137 @@ public class Import extends JFrame {
         }
 
         public void actionPerformed(ActionEvent e) {
+        	int replaceCampaign = 0;
             if (e.getSource() == openButton) {
                 if (clickLog != null && impressionLog != null && serverLog != null) {
-
-
-                    if (checkBox.isSelected())
-                    {
-                        showProcessingAnimation();
-
-                        // running this in a thread to stop GUI hanging
-                        new Thread(() -> {
-                            final ClicklogParser clicklogParser = new ClicklogParser(clickLog.getAbsolutePath());
-                            final ImpressionParser impressionParser = new ImpressionParser(impressionLog.getAbsolutePath());
-                            final ServerlogParser serverlogParser = new ServerlogParser(serverLog.getAbsolutePath());
-
-                            //This will start the parsing of the csv log files and generate Arraylist of Data
-
-		                    /* MULTITHREADED */
-
-                            Thread thread1 = new Thread() {
-                                public void run() {
-                                    try {
-                                        clicklogParser.generateClickLogs();
-                                    } catch (WrongFileException e1) {
-                                        JOptionPane.showMessageDialog(Import.this, "Wrong File Passed for Processing \n" + e1.fileName, "Error",
-                                                JOptionPane.ERROR_MESSAGE);
-                                        e1.printStackTrace();
-                                    }
-                                }
-                            };
-                            Thread thread2 = new Thread() {
-                                public void run() {
-                                    try {
-                                        impressionParser.generateImpressionsMethod1();
-                                    }
-                                    catch (WrongFileException e1) {
-                                        JOptionPane.showMessageDialog(Import.this, "Wrong File Passed for Processing \n" + e1.fileName, "Error",
-                                                JOptionPane.ERROR_MESSAGE);
-                                        e1.printStackTrace();
-                                    }
-                                }
-                            };
-                            Thread thread3 = new Thread() {
-                                public void run() {
-                                    try {
-                                        serverlogParser.generateServerLogs();
-                                    } catch (WrongFileException e1) {
-                                        JOptionPane.showMessageDialog(Import.this, "Wrong File Passed for Processing \n" + e1.fileName, "Error",
-                                                JOptionPane.ERROR_MESSAGE);
-                                        e1.printStackTrace();
-                                    }
-                                }
-                            };
-
-                            thread1.start();
-                            thread2.start();
-                            thread3.start();
-                            try {
-                                thread1.join();
-                                thread2.join();
-                                thread3.join();
-                            } catch (Exception e1) {
-                                e1.printStackTrace();
+                	
+                    showProcessingAnimation();
+                    
+                    if (dashboard.isFirstCampaign()) {
+                    	if (dashboard.isSecondCampaign()) {                          
+                    		Object[] options = {"Campaign 1", "Campaign 2", "Cancel"};
+                            int userResponse = JOptionPane.showOptionDialog(dashboard,
+                                    "Which campaign do you wish to replace?", "Replace Campaign",
+                                    JOptionPane.YES_NO_CANCEL_OPTION,
+                                    JOptionPane.QUESTION_MESSAGE,
+                                    null,
+                                    options,
+                                    options[0]);
+                            if (userResponse == JOptionPane.YES_OPTION) {
+                            	replaceCampaign = 1;
+                            }                  
+                            else if (userResponse == JOptionPane.NO_OPTION) {
+                            	replaceCampaign = 2;
                             }
-
-
-		                    /* SINGLETHREADED
-		                     *
-	                   		try {
-	                			clicklogParser.generateClickLogs();
-	                            impressionParser.generateImpressionsMethod1();
-	                            serverlogParser.generateServerLogs();
-	                		} catch (WrongFileException e1) {
-	                			JOptionPane.showMessageDialog(Import.this, "Wrong File Passed for Processing \n" + e1.fileName, "Error",
-	                                JOptionPane.ERROR_MESSAGE);
-	                			e1.printStackTrace();
-	                		}
-	                       	*/
-
-                            // This will update the ArrayList of data logs with new data
-
-                            if(dashboard.isFirstCampaign()==false){
-                                dashboard.setOriginalLogsC1(clicklogParser.getClickLogs(), impressionParser.getImpressions(), serverlogParser.getServerLogs());
+                            else {
+                                this.dashboard.sidebar.importButton.setEnabled(true);
+                                setVisible(false);
+                                dispose();
                             }
-                            dashboard.setOriginalLogsC2(clicklogParser.getClickLogs(), impressionParser.getImpressions(), serverlogParser.getServerLogs());
-                            dashboard.updateMetrics(dashboard.DEFAULT_BOUNCE_PAGES_PROP,dashboard.DEFAULT_BOUNCE_TIME_PROP);
-                            dashboard.updateHeader();
+                    	} else {
+	                    	if (checkBox.isSelected()) {
+	                    		replaceCampaign = 2;
+	                    	} else {
+	                    		replaceCampaign = 1;
+	                    	} 
+                    	}
+                    } else {
+                		replaceCampaign = 1;
+                    }                         
+                    
+                    // final variable to be used inside thread
+                    final int _replaceCampaign = replaceCampaign;
+                    // running this in a thread to stop GUI hanging
+                    new Thread(() -> {
+                        final ClicklogParser clicklogParser = new ClicklogParser(clickLog.getAbsolutePath());
+                        final ImpressionParser impressionParser = new ImpressionParser(impressionLog.getAbsolutePath());
+                        final ServerlogParser serverlogParser = new ServerlogParser(serverLog.getAbsolutePath());
+                        //This will start the parsing of the csv log files and generate Arraylist of Data
 
-                            Platform.runLater(dashboard::defaultChart);
-                            
-                            dashboard.sidebar.importButton.setEnabled(true);
-                            dashboard.sidebar.exportButton.setEnabled(true);
-                            dashboard.sidebar.compareButton.setEnabled(true);
+	                    /* MULTITHREADED */
 
-                            setVisible(false);
-                            dispose();
+                        Thread thread1 = new Thread() {
+                            public void run() {
+                                try {
+                                    clicklogParser.generateClickLogs();
+                                } catch (WrongFileException e1) {
+                                    JOptionPane.showMessageDialog(Import.this, "Wrong File Passed for Processing \n" + e1.fileName, "Error",
+                                            JOptionPane.ERROR_MESSAGE);
+                                    e1.printStackTrace();
+                                }
+                            }
+                        };
+                        Thread thread2 = new Thread() {
+                            public void run() {
+                                try {
+                                    impressionParser.generateImpressionsMethod1();
+                                }
+                                catch (WrongFileException e1) {
+                                    JOptionPane.showMessageDialog(Import.this, "Wrong File Passed for Processing \n" + e1.fileName, "Error",
+                                            JOptionPane.ERROR_MESSAGE);
+                                    e1.printStackTrace();
+                                }
+                            }
+                        };
+                        Thread thread3 = new Thread() {
+                            public void run() {
+                                try {
+                                    serverlogParser.generateServerLogs();
+                                } catch (WrongFileException e1) {
+                                    JOptionPane.showMessageDialog(Import.this, "Wrong File Passed for Processing \n" + e1.fileName, "Error",
+                                            JOptionPane.ERROR_MESSAGE);
+                                    e1.printStackTrace();
+                                }
+                            }
+                        };
 
-                        }).start();
-                    }
-                    else {                    
-                        showProcessingAnimation();
+                        thread1.start();
+                        thread2.start();
+                        thread3.start();
+                        try {
+                            thread1.join();
+                            thread2.join();
+                            thread3.join();
+                        } catch (Exception e1) {
+                            e1.printStackTrace();
+                        }
 
-	                    // running this in a thread to stop GUI hanging
-	                    new Thread(() -> {
-		                    final ClicklogParser clicklogParser = new ClicklogParser(clickLog.getAbsolutePath());
-		                    final ImpressionParser impressionParser = new ImpressionParser(impressionLog.getAbsolutePath());
-		                    final ServerlogParser serverlogParser = new ServerlogParser(serverLog.getAbsolutePath());
-		
-	                        //This will start the parsing of the csv log files and generate Arraylist of Data
-		                    
-		                    /* MULTITHREADED */	   
-		            
-	                    	Thread thread1 = new Thread() {                  		
-	                    		public void run() {
-		                    		try {
-		                    			clicklogParser.generateClickLogs();
-		                    		} catch (WrongFileException e1) {
-		                    			JOptionPane.showMessageDialog(Import.this, "Wrong File Passed for Processing \n" + e1.fileName, "Error",
-			                                JOptionPane.ERROR_MESSAGE);
-		                    			e1.printStackTrace();
-		                    		}
-	                    		}
-	                    	};                    	                                    
-	                    	Thread thread2 = new Thread() {                    		
-	                    		public void run() {
-		                    		try {
-		                                impressionParser.generateImpressionsMethod1();
-		                    		} catch (WrongFileException e1) {
-		                    			JOptionPane.showMessageDialog(Import.this, "Wrong File Passed for Processing \n" + e1.fileName, "Error",
-			                                JOptionPane.ERROR_MESSAGE);
-		                    			e1.printStackTrace();
-		                    		}
-	                    		}
-	                    	};                       	
-	                    	Thread thread3 = new Thread() {                    		
-	                    		public void run() {
-		                    		try {
-		                                serverlogParser.generateServerLogs();
-		                    		} catch (WrongFileException e1) {
-		                    			JOptionPane.showMessageDialog(Import.this, "Wrong File Passed for Processing \n" + e1.fileName, "Error",
-			                                JOptionPane.ERROR_MESSAGE);
-		                    			e1.printStackTrace();
-		                    		}
-	                    		}
-	                    	};
-	                    	
-	                    	thread1.start();
-	                    	thread2.start();
-	                    	thread3.start();
-	                    	try {
-								thread1.join();		
-								thread2.join();
-								thread3.join();
-	                    	} catch (Exception e1) {
-								e1.printStackTrace();
-							}
-							
-	                    	      
-		                    /* SINGLETHREADED
-		                     * 	                      	                      
-	                   		try {
-	                			clicklogParser.generateClickLogs();
-	                            impressionParser.generateImpressionsMethod1();
-	                            serverlogParser.generateServerLogs();                           
-	                		} catch (WrongFileException e1) {
-	                			JOptionPane.showMessageDialog(Import.this, "Wrong File Passed for Processing \n" + e1.fileName, "Error",
-	                                JOptionPane.ERROR_MESSAGE);
-	                			e1.printStackTrace();
-	                		}
-	                       	*/
-	                       	
-		                    // This will update the ArrayList of data logs with new data
-		                    dashboard.setOriginalLogsC1(clicklogParser.getClickLogs(), impressionParser.getImpressions(), serverlogParser.getServerLogs());
-		                    dashboard.updateMetrics(dashboard.DEFAULT_BOUNCE_PAGES_PROP,dashboard.DEFAULT_BOUNCE_TIME_PROP);
-		                    dashboard.updateHeader();
-		
-		                    Platform.runLater(dashboard::defaultChart);
-		
-		                    setVisible(false);
-		                    dispose();
-		                    dashboard.sidebar.importButton.setEnabled(true);
-		                    dashboard.sidebar.exportButton.setEnabled(true);
-		                    dashboard.sidebar.compareButton.setEnabled(true);
-	                    }).start();
-                    }
+	                    /* SINGLETHREADED
+	                     *
+                   		try {
+                			clicklogParser.generateClickLogs();
+                            impressionParser.generateImpressionsMethod1();
+                            serverlogParser.generateServerLogs();
+                		} catch (WrongFileException e1) {
+                			JOptionPane.showMessageDialog(Import.this, "Wrong File Passed for Processing \n" + e1.fileName, "Error",
+                                JOptionPane.ERROR_MESSAGE);
+                			e1.printStackTrace();
+                		}
+                       	*/
+
+                        // This will update the ArrayList of data logs with new data
+                    
+                        if (_replaceCampaign == 1) {
+                            dashboard.setOriginalLogsC1(clicklogParser.getClickLogs(), impressionParser.getImpressions(), serverlogParser.getServerLogs());
+                        }
+                        else if (_replaceCampaign == 2) {
+                        	dashboard.setOriginalLogsC2(clicklogParser.getClickLogs(), impressionParser.getImpressions(), serverlogParser.getServerLogs());
+                        }
+                        
+                        dashboard.updateMetrics(dashboard.DEFAULT_BOUNCE_PAGES_PROP,dashboard.DEFAULT_BOUNCE_TIME_PROP);
+                        dashboard.updateHeader();
+
+                        Platform.runLater(dashboard::defaultChart);
+                        
+                        dashboard.sidebar.importButton.setEnabled(true);
+                        dashboard.sidebar.exportButton.setEnabled(true);
+                        dashboard.sidebar.compareButton.setEnabled(true);
+
+                        setVisible(false);
+                        dispose();
+
+                        
+                    }).start();                               
                 } else {
                     JOptionPane.showMessageDialog(Import.this, "Please import all three\nfiles before continuing.", "Error",
                             JOptionPane.ERROR_MESSAGE);
