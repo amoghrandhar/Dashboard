@@ -964,7 +964,8 @@ public class SideBar extends JPanel {
                 compareBox.setSelectedIndex(0);
                 dashboard.updateComparing(true);
                 dashboard.content.addExtraTab("Series 2");
-            } else {
+            } 
+            else {
                 selectedSeries = 1;
                 compareButton.setText("OFF");
                 selectedLabel.setVisible(false);
@@ -1147,7 +1148,6 @@ public class SideBar extends JPanel {
                 impressionContextPredicate = imp -> imp.getContext().equals(context);
             }
 
-            System.out.println("Selected Series :: " + selectedSeries);
             dashboard.resetLogs();
             ArrayList<ImpressionLog> impressionLogs = null;
             ArrayList<ClickLog> clickLogArrayList = null;

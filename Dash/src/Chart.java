@@ -89,7 +89,7 @@ public class Chart extends JFXPanel {
 		displayOnHover(lineChart);
 
 		scene = new Scene(lineChart, xDim, yDim);
-		//scene.getStylesheets().add("chartstyle.css");
+		scene.getStylesheets().add("chartstyle.css");
 		this.setScene(scene);
 
 	}
@@ -108,40 +108,6 @@ public class Chart extends JFXPanel {
 		}
 
 		initFX(series, "Impressions over Time");
-
-	}
-
-	public void showImpressionsChart(ArrayList<ImpressionLog> impressionList1, ArrayList<ImpressionLog> impressionList2) {
-		System.out.println("Chart.showImpressionsChart");
-		xAxis.setLabel("Date");
-		yAxis.setLabel("Number of Impressions");
-
-
-		MyImpressionWorker w1 = new MyImpressionWorker(impressionList1);
-		executor.submit(w1);
-		MyImpressionWorker w2 = new MyImpressionWorker(impressionList2);
-		executor.submit(w2);
-
-//		executor.shutdown(); /// To Check this Linee of Code
-
-//		List<Future<Object>> futureList = executor.invokeAll();
-
-		XYChart.Series series1 = new XYChart.Series();
-		XYChart.Series series2 = new XYChart.Series();
-
-		int i = 0;
-		for (Entry<String, Integer> entry : w1.impressionPairs.entrySet()) {
-			i++;
-			series1.getData().add(new XYChart.Data(String.valueOf(i), entry.getValue()));
-		}
-
-		i = 0;
-		for (Entry<String, Integer> entry : w2.impressionPairs.entrySet()) {
-			i++;
-			series2.getData().add(new XYChart.Data(String.valueOf(i), entry.getValue()));
-		}
-
-		initFX(series1 , series2);
 
 	}
 

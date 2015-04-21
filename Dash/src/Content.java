@@ -348,7 +348,7 @@ public class Content extends JPanel {
 		tabbedPane.addTab("Metrics Display", tab1);
 		tabbedPane.addTab("Impressions Demographics", tab2);
 		tabbedPane.setFocusable(false);
-		tabbedPane.setSelectedComponent(tab2);
+		tabbedPane.setSelectedComponent(tab1);
 
 		JPanel bodyPanel = new JPanel();
 		bodyPanel.setLayout(new BorderLayout());
@@ -573,10 +573,8 @@ public class Content extends JPanel {
 
 		row1 = rowValues;
 
-		if(rowIndex == 0){
+		if(rowIndex == 0)
 			rowFirst = rowValues;
-			System.out.println("Row 1 updated .. to row f");
-		}
 
 		if(comparing){
 
@@ -696,10 +694,13 @@ public class Content extends JPanel {
 		piePanel2.add(pieChart3C2, pc3);
 		piePanel2.add(pieChart4C2, pc4);
 
-		this.pieChart1C2.showGenderPie(2);
-		this.pieChart2C2.showAgeGroupPie(2);
-		this.pieChart3C2.showIncomePie(2);
-		this.pieChart4C2.showContextPie(2);
+		Platform.setImplicitExit(false);
+		Platform.runLater(() -> {
+			this.pieChart1C2.showGenderPie(2);
+			this.pieChart2C2.showAgeGroupPie(2);
+			this.pieChart3C2.showIncomePie(2);
+			this.pieChart4C2.showContextPie(2);
+		});
 
 		tab3.add(piePanel2, BorderLayout.CENTER);
 		
@@ -969,11 +970,8 @@ public class Content extends JPanel {
 		}
 
 		public Object getValueAt(int row, int col) {
-
 			return rowData[row][col];
-
 		}
-
 
 		public boolean isCellEditable(int rowIndex, int columnIndex) {
 			return false;
