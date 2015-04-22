@@ -43,7 +43,7 @@ public class SideBar extends JPanel {
 
     JButton importButton, exportButton, updateButton, resetButton, settingsButton;
     JPopupMenu popUpMenu, settingsPopUp;
-    JMenuItem printItem, pngItem, jpegItem, piesItem, multiItem, csvItem;
+    JMenuItem printItem, pngItem, jpegItem, piesItem, multiItem, csvItem1, csvItem2;
     JMenuItem lightTheme, darkTheme;
     Calendar calendar;
     JDatePickerImpl startPicker, endPicker;
@@ -139,18 +139,23 @@ public class SideBar extends JPanel {
 
         pngItem = new JMenuItem("Export as Image");
         pngItem.addActionListener(new PopupListener(dashboard));
-        csvItem = new JMenuItem("Export as CSV");
-        csvItem.addActionListener(new PopupListener(dashboard));
+        csvItem1 = new JMenuItem("Export Campaign 1 as CSV");
+        csvItem1.addActionListener(new PopupListener(dashboard));
+        csvItem2 = new JMenuItem("Export Campaign 2 as CSV");
+        csvItem2.addActionListener(new PopupListener(dashboard));
         printItem = new JMenuItem("Print main graph");
         printItem.addActionListener(new PopupListener(dashboard));
         multiItem = new JMenuItem("Print graph and table");
         multiItem.addActionListener(new PopupListener(dashboard));
         piesItem = new JMenuItem("Print pie charts");
         piesItem.addActionListener(new PopupListener(dashboard));
+        
+        csvItem2.setEnabled(false);
 
         popUpMenu = new JPopupMenu("Menu");
         popUpMenu.add(pngItem);
-        popUpMenu.add(csvItem);
+        popUpMenu.add(csvItem1);
+        popUpMenu.add(csvItem2);
         //popUpMenu.add(jpegItem);
         popUpMenu.addSeparator();
         popUpMenu.add(printItem);
@@ -744,7 +749,8 @@ public class SideBar extends JPanel {
     	
     }
     
-    public void exportCSV(File file) {
+    public void exportCSV(File file, ArrayList<ClickLog> cl, ArrayList<ServerLog> sl, 
+    		ArrayList<ImpressionLog> il) {
     	String DELIM = ",";
     	FileWriter fwrite;
     	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -754,7 +760,7 @@ public class SideBar extends JPanel {
 	    	
 	    	writer.writeHeaders("Date","ID","Click Cost");
 
-	    	for (ClickLog c : dashboard.getClickLogsC1()) {
+	    	for (ClickLog c : cl) {
 		    	String id = new DecimalFormat("#").format(c.getID());
 		    	System.out.println(id);
 	    		writer.writeRow(sdf.format(c.getDate())+DELIM+id+DELIM+
@@ -765,7 +771,7 @@ public class SideBar extends JPanel {
 	    	fwrite = new FileWriter(file.getCanonicalPath()+"_impressionLog.csv");
 	    	writer = new CsvWriter(fwrite, new CsvWriterSettings());
 	    	writer.writeHeaders("Date","ID","Gender","Age","Income","Context","Impression Cost");
-	    	for (ImpressionLog i : dashboard.getImpressionLogsC1()) {
+	    	for (ImpressionLog i : il) {
 	    		
 	    		String gender;
 	    		if (i.getGender()) {
@@ -817,7 +823,7 @@ public class SideBar extends JPanel {
 	    	writer = new CsvWriter(fwrite, new CsvWriterSettings());
 	    	writer.writeHeaders("Entry Date","ID","Exit Date","Pages Viewed","Conversion");
 	    	
-	    	for (ServerLog s : dashboard.getServerLogsC1()) {
+	    	for (ServerLog s : sl) {
 	    		String conv, endDate;
 	    		if (s.isConverted()) {
 	    			conv = "Yes";
@@ -986,6 +992,11 @@ public class SideBar extends JPanel {
         public void actionPerformed(ActionEvent e) {
 
             if (exportButton.getText() == " Export ") {
+            	if (dashboard.isSecondCampaign()) {
+            		dashboard.sidebar.csvItem2.setEnabled(true);
+            	} else {
+            		dashboard.sidebar.csvItem2.setEnabled(false);
+            	}
                 dashboard.sidebar.popUpMenu.show(dashboard.sidebar.exportButton,
                         dashboard.sidebar.exportButton.getWidth(), 2);
 
@@ -1025,11 +1036,21 @@ public class SideBar extends JPanel {
                 exportButton.setBackground(Color.decode("#c54343"));
             }
             
-            if (event.getSource() == dashboard.sidebar.csvItem) {
+            if (event.getSource() == dashboard.sidebar.csvItem1) {
             	fc.setAcceptAllFileFilterUsed(false);
             	int returnVal = fc.showSaveDialog(SideBar.this);
             	if (returnVal == JFileChooser.APPROVE_OPTION) {            		
-            		exportCSV(fc.getSelectedFile());
+            		exportCSV(fc.getSelectedFile(), dashboard.getClickLogsC1(),
+            				dashboard.getServerLogsC1(), dashboard.getImpressionLogsC1());
+            	}
+            }
+            
+            if (event.getSource() == dashboard.sidebar.csvItem2) {
+            	fc.setAcceptAllFileFilterUsed(false);
+            	int returnVal = fc.showSaveDialog(SideBar.this);
+            	if (returnVal == JFileChooser.APPROVE_OPTION) {
+            		exportCSV(fc.getSelectedFile(), dashboard.getClickLogs2(),
+            				dashboard.getServerLogs2(), dashboard.getImpressionLogs2());
             	}
             }
 
