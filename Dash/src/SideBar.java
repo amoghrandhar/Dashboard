@@ -20,6 +20,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -746,20 +747,19 @@ public class SideBar extends JPanel {
     public void exportCSV(File file) {
     	String DELIM = ",";
     	FileWriter fwrite;
+    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		try {
 			fwrite = new FileWriter(file.getCanonicalPath()+"_clickLog.csv");
 	    	CsvWriter writer = new CsvWriter(fwrite, new CsvWriterSettings());
 	    	
-	    	System.out.println("Writing Header");
 	    	writer.writeHeaders("Date","ID","Click Cost");
-	    	System.out.println("Writing rows");
-	    	int n = 0;
+
 	    	for (ClickLog c : dashboard.getClickLogsC1()) {
-	    		writer.writeRow(c.getDate().toString()+DELIM+c.getID().toString()
-	    				+DELIM+c.getClickCost().toString());
-	    		n++;
+		    	String id = new DecimalFormat("#").format(c.getID());
+		    	System.out.println(id);
+	    		writer.writeRow(sdf.format(c.getDate())+DELIM+id+DELIM+
+	    				c.getClickCost().toString());
 	    	}
-	    	System.out.println("Wrote " + n + " rows");
 	    	writer.close();
 	    	
 	    	fwrite = new FileWriter(file.getCanonicalPath()+"_impressionLog.csv");
@@ -805,8 +805,10 @@ public class SideBar extends JPanel {
 	    				income = "High";
 	    				break;
 	    		}
-	    		writer.writeRow(i.getDate().toString()+DELIM+i.getID().toString()
-	    				+DELIM+gender+DELIM+ageGroup+DELIM+income+i.getContext()+
+	    		
+	    		String id = new DecimalFormat("#").format(i.getID());
+	    		writer.writeRow(sdf.format(i.getDate())+DELIM+id+DELIM+
+	    				gender+DELIM+ageGroup+DELIM+income+i.getContext()+
 	    				DELIM+i.getImpression().toString());
 	    	}
 	    	writer.close();
@@ -824,12 +826,14 @@ public class SideBar extends JPanel {
 	    		}
 	    		
 	    		if (s.getEndDate() != null) {
-	    			endDate = s.getEndDate().toString();
+	    			endDate = sdf.format(s.getEndDate());
 	    		} else {
 	    			endDate = "n/a";
 	    		}
 	    		
-	    		writer.writeRow(s.getStartDate().toString()+DELIM+s.getID()+DELIM+
+	    		String id = new DecimalFormat("#").format(s.getID());
+	    		
+	    		writer.writeRow(sdf.format(s.getStartDate())+DELIM+id+DELIM+
 	    				endDate+DELIM+s.getPagesViewed()+DELIM+conv);
 	    	}
 	    	
