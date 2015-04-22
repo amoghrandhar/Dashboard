@@ -230,7 +230,7 @@ public class Import extends JFrame {
         	int replaceCampaign = 0;
             if (e.getSource() == openButton) {
                 if (clickLog != null && impressionLog != null && serverLog != null) {
-                	
+                	checkBox.setEnabled(false);
                     showProcessingAnimation();
                     
                     if (dashboard.isFirstCampaign()) {
