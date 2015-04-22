@@ -1181,7 +1181,9 @@ public class SideBar extends JPanel {
                 compareBox.setVisible(true);
                 compareBox.setSelectedIndex(0);
                 dashboard.updateComparing(true);
-                dashboard.content.addExtraTab("Series 2");
+                if(!dashboard.isSecondCampaign())
+                	dashboard.content.addExtraTab("Series 2");
+                else dashboard.content.addExtraTab("Campaign 2");
             } 
             else {
                 selectedSeries = 1;
