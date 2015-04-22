@@ -258,8 +258,9 @@ public class Dashboard extends JFrame {
 
             content.table = content.createTable2(content.rowData2);
             content.setMetrics(0, content.row1);
-            sidebar.selectedSeries=2;
+            sidebar.selectedSeries = 2;
             content.setMetrics(1,this.updateMetrics(sidebar.series2.pages,sidebar.series2.getBounceTime()));
+            sidebar.selectedSeries = 1;
             content.scrollPane = new JScrollPane(content.table);
             content.scrollPane.setPreferredSize(new Dimension(
                     826,
