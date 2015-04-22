@@ -342,6 +342,8 @@ public class Import extends JFrame {
                         }
                         else if (_replaceCampaign == 2) {
                         	dashboard.setOriginalLogsC2(clicklogParser.getClickLogs(), impressionParser.getImpressions(), serverlogParser.getServerLogs());
+                        	if(dashboard.isComparing())
+                        		dashboard.content.tabbedPane.setTitleAt(2, "Demographics of Campaign 2");
                         }
                         
                         dashboard.updateMetrics(dashboard.DEFAULT_BOUNCE_PAGES_PROP,dashboard.DEFAULT_BOUNCE_TIME_PROP);
