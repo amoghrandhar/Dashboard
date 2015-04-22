@@ -72,10 +72,9 @@ public class Dashboard extends JFrame {
         originalServerLogsC1 = serverLogs;
         firstCampaign = true;
         updateLogs(originalClickLogsC1, originalImpressionLogsC1, originalServerLogsC1);
-        if(secondCampaign == false){
+        if (secondCampaign == false) {
             updateLogs2(originalClickLogsC1, originalImpressionLogsC1, originalServerLogsC1);
-        }
-        else{
+        } else {
             updateLogs2(originalClickLogsC2, originalImpressionLogsC2, originalServerLogsC2);
         }
 
