@@ -28,11 +28,11 @@ public class ImpressionLog implements Serializable {
         return date;
     }
 
-    public double getID() {
+    public Double getID() {
         return ID;
     }
 
-    public double getImpression() {
+    public Double getImpression() {
         return impression;
     }
 

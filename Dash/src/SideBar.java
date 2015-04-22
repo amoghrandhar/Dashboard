@@ -15,6 +15,7 @@ import javax.swing.text.DateFormatter;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -33,6 +34,7 @@ import com.univocity.parsers.tsv.TsvWriter;
 
 public class SideBar extends JPanel {
 
+	final JFileChooser fc;
     Dashboard dashboard;
     DataAnalytics dataAnalytics;
 
@@ -76,6 +78,7 @@ public class SideBar extends JPanel {
         this.series1 = new Series();
         this.series2 = new Series();
         init(colours);
+        fc = new JFileChooser();
 
     }
 
@@ -663,11 +666,11 @@ public class SideBar extends JPanel {
 
     }
     
-    public void exportCSV() {
-    	String COMMA = ",";
+    public void exportCSV(File file) {
+    	String DELIM = ",";
     	FileWriter fwrite;
 		try {
-			fwrite = new FileWriter("clickLogOutput.csv");
+			fwrite = new FileWriter(file.getCanonicalPath()+"_clickLog.csv");
 	    	CsvWriter writer = new CsvWriter(fwrite, new CsvWriterSettings());
 	    	
 	    	System.out.println("Writing Header");
@@ -675,11 +678,84 @@ public class SideBar extends JPanel {
 	    	System.out.println("Writing rows");
 	    	int n = 0;
 	    	for (ClickLog c : dashboard.getClickLogsC1()) {
-	    		writer.writeRow(c.getDate().toString()+COMMA+c.getID().toString()
-	    				+COMMA+c.getClickCost().toString());
+	    		writer.writeRow(c.getDate().toString()+DELIM+c.getID().toString()
+	    				+DELIM+c.getClickCost().toString());
 	    		n++;
 	    	}
 	    	System.out.println("Wrote " + n + " rows");
+	    	writer.close();
+	    	
+	    	fwrite = new FileWriter(file.getCanonicalPath()+"_impressionLog.csv");
+	    	writer = new CsvWriter(fwrite, new CsvWriterSettings());
+	    	writer.writeHeaders("Date","ID","Gender","Age","Income","Context","Impression Cost");
+	    	for (ImpressionLog i : dashboard.getImpressionLogsC1()) {
+	    		
+	    		String gender;
+	    		if (i.getGender()) {
+	    			gender = "Male";
+	    		} else {
+	    			gender = "Female";
+	    		}
+	    		
+	    		String ageGroup = null;
+	    		switch (i.getAgeGroup()) {
+	    			case 0:
+	    				ageGroup = "<25";
+	    				break;
+	    			case 1:
+	    				ageGroup = "25-34";
+	    				break;
+	    			case 2:
+	    				ageGroup = "35-44";
+	    				break;
+	    			case 3:
+	    				ageGroup = "45-54";
+	    				break;
+	    			case 4:
+	    				ageGroup = ">54";
+	    				break;
+	    		}
+	    		
+	    		String income = null;;
+	    		switch (i.getIncomeGroup()) {
+	    			case 0:
+	    				income = "Low";
+	    				break;
+	    			case 1:
+	    				income = "Medium";
+	    				break;
+	    			case 2:
+	    				income = "High";
+	    				break;
+	    		}
+	    		writer.writeRow(i.getDate().toString()+DELIM+i.getID().toString()
+	    				+DELIM+gender+DELIM+ageGroup+DELIM+income+i.getContext()+
+	    				DELIM+i.getImpression().toString());
+	    	}
+	    	writer.close();
+	    	
+	    	fwrite = new FileWriter(file.getCanonicalPath()+"_serverLog.csv");
+	    	writer = new CsvWriter(fwrite, new CsvWriterSettings());
+	    	writer.writeHeaders("Entry Date","ID","Exit Date","Pages Viewed","Conversion");
+	    	
+	    	for (ServerLog s : dashboard.getServerLogsC1()) {
+	    		String conv, endDate;
+	    		if (s.isConverted()) {
+	    			conv = "Yes";
+	    		} else {
+	    			conv = "No";
+	    		}
+	    		
+	    		if (s.getEndDate() != null) {
+	    			endDate = s.getEndDate().toString();
+	    		} else {
+	    			endDate = "n/a";
+	    		}
+	    		
+	    		writer.writeRow(s.getStartDate().toString()+DELIM+s.getID()+DELIM+
+	    				endDate+DELIM+s.getPagesViewed()+DELIM+conv);
+	    	}
+	    	
 		} catch (IOException e) {
 			e.printStackTrace();
 		}	
@@ -869,7 +945,11 @@ public class SideBar extends JPanel {
             }
             
             if (event.getSource() == dashboard.sidebar.csvItem) {
-            	exportCSV();
+            	fc.setAcceptAllFileFilterUsed(false);
+            	int returnVal = fc.showSaveDialog(SideBar.this);
+            	if (returnVal == JFileChooser.APPROVE_OPTION) {            		
+            		exportCSV(fc.getSelectedFile());
+            	}
             }
 
             if (event.getSource() == dashboard.sidebar.printItem)
