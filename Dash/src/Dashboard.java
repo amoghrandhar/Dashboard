@@ -164,7 +164,7 @@ public class Dashboard extends JFrame {
         content.defaultChart();
     }
 
-    public void updateMetrics(int pagesView, int timeSpent) {
+    public String[] updateMetrics(int pagesView, int timeSpent) {
 
         ArrayList<ClickLog> clickLogs = null;
         ArrayList<ImpressionLog> impressionLogs = null;
@@ -220,6 +220,7 @@ public class Dashboard extends JFrame {
         //                String.valueOf(impressions),
         //                round(totalCost, 2));
 
+        return rowData;
     }
 
     public void updateHeader() {
@@ -248,6 +249,7 @@ public class Dashboard extends JFrame {
     // Modify GUI when comparison mode is toggled
     public void updateComparing(Boolean comparing) {
 
+
         if (comparing) {
 
             content.comparing = true;
@@ -256,7 +258,9 @@ public class Dashboard extends JFrame {
 
             content.table = content.createTable2(content.rowData2);
             content.setMetrics(0, content.row1);
-            content.setMetrics(1, content.row2);
+            sidebar.selectedSeries = 2;
+            content.setMetrics(1,this.updateMetrics(sidebar.series2.pages,sidebar.series2.getBounceTime()));
+            sidebar.selectedSeries = 1;
             content.scrollPane = new JScrollPane(content.table);
             content.scrollPane.setPreferredSize(new Dimension(
                     826,

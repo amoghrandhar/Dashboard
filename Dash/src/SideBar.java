@@ -666,6 +666,83 @@ public class SideBar extends JPanel {
 
     }
     
+    public void loadFilters(Series series){
+    	
+    	// Start date
+        if (series.getStartDate() != null) {
+
+            dateModel.setValue(series.getStartDate());
+
+            Calendar temp = Calendar.getInstance();
+            temp.setTime(series.getStartDate());
+            timeModel.setValue(temp.getTime());
+
+        } else {
+            dateModel.setValue(null);
+            timeModel.setValue(calendar.getTime());
+        }
+
+        // End date
+        if (series.getEndDate() != null) {
+
+            dateModel2.setValue(series.getEndDate());
+
+            Calendar temp = Calendar.getInstance();
+            temp.setTime(series.getEndDate());
+            timeModel2.setValue(temp.getTime());
+
+        } else {
+            dateModel2.setValue(null);
+            timeModel2.setValue(calendar.getTime());
+        }
+
+        // Gender
+        if (series.getGender() != null) {
+            if (series.getGender() == true)
+                male.setSelected(true);
+            if (series.getGender() == false)
+                female.setSelected(true);
+        } else {
+            male.setSelected(false);
+            female.setSelected(false);
+        }
+
+        // Age Group
+        if (series.getAgeGroup() != -1) {
+            ageLabel.setSelected(true);
+            ageSlider.setValue(series.getAgeGroup());
+        } else ageLabel.setSelected(false);
+
+        // Income
+        if (series.getIncome() != -1) {
+            incomeLabel.setSelected(true);
+            incomeSlider.setValue(series.getIncome());
+        } else incomeLabel.setSelected(false);
+
+        // Context
+        if (series.getContext() != null) {
+            for (Enumeration eRadio = contextGroup.getElements(); eRadio.hasMoreElements(); ) {
+                JRadioButton radioButton = (JRadioButton) eRadio.nextElement();
+                if (radioButton.getText() == series.getContext()) {
+                    contextGroup.setSelected(radioButton.getModel(), true);
+                }
+            }
+        } else contextGroup.clearSelection();
+
+        // Bounce Pages
+        if (series.getBouncePages() != -1) {
+            pagesCheckBox.setSelected(true);
+            pagesSpinner.setValue(series.getBouncePages());
+        } else pagesCheckBox.setSelected(false);
+
+        // Bounce Time
+        if (series.getBounceTime() != -1) {
+            timeCheckBox.setSelected(true);
+            timeSpinner.setValue(series.getBounceTime());
+        } else timeCheckBox.setSelected(false);
+    	
+    }
+    
     public void exportCSV(File file) {
     	String DELIM = ",";
     	FileWriter fwrite;
@@ -1083,6 +1160,7 @@ public class SideBar extends JPanel {
             } 
             else {
                 selectedSeries = 1;
+                loadFilters(series1);
                 compareButton.setText("OFF");
                 selectedLabel.setVisible(false);
                 compareBox.setVisible(false);
@@ -1111,78 +1189,7 @@ public class SideBar extends JPanel {
             if (selectedSeries == 2)
                 series = series2;
 
-            // Start date
-            if (series.getStartDate() != null) {
-
-                dateModel.setValue(series.getStartDate());
-
-                Calendar temp = Calendar.getInstance();
-                temp.setTime(series.getStartDate());
-                timeModel.setValue(temp.getTime());
-
-            } else {
-                dateModel.setValue(null);
-                timeModel.setValue(calendar.getTime());
-            }
-
-            // End date
-            if (series.getEndDate() != null) {
-
-                dateModel2.setValue(series.getEndDate());
-
-                Calendar temp = Calendar.getInstance();
-                temp.setTime(series.getEndDate());
-                timeModel2.setValue(temp.getTime());
-
-            } else {
-                dateModel2.setValue(null);
-                timeModel2.setValue(calendar.getTime());
-            }
-
-            // Gender
-            if (series.getGender() != null) {
-                if (series.getGender() == true)
-                    male.setSelected(true);
-                if (series.getGender() == false)
-                    female.setSelected(true);
-            } else {
-                male.setSelected(false);
-                female.setSelected(false);
-            }
-
-            // Age Group
-            if (series.getAgeGroup() != -1) {
-                ageLabel.setSelected(true);
-                ageSlider.setValue(series.getAgeGroup());
-            } else ageLabel.setSelected(false);
-
-            // Income
-            if (series.getIncome() != -1) {
-                incomeLabel.setSelected(true);
-                incomeSlider.setValue(series.getIncome());
-            } else incomeLabel.setSelected(false);
-
-            // Context
-            if (series.getContext() != null) {
-                for (Enumeration eRadio = contextGroup.getElements(); eRadio.hasMoreElements(); ) {
-                    JRadioButton radioButton = (JRadioButton) eRadio.nextElement();
-                    if (radioButton.getText() == series.getContext()) {
-                        contextGroup.setSelected(radioButton.getModel(), true);
-                    }
-                }
-            } else contextGroup.clearSelection();
-
-            // Bounce Pages
-            if (series.getBouncePages() != -1) {
-                pagesCheckBox.setSelected(true);
-                pagesSpinner.setValue(series.getBouncePages());
-            } else pagesCheckBox.setSelected(false);
-
-            // Bounce Time
-            if (series.getBounceTime() != -1) {
-                timeCheckBox.setSelected(true);
-                timeSpinner.setValue(series.getBounceTime());
-            } else timeCheckBox.setSelected(false);
+            loadFilters(series);
 
         }
 
