@@ -348,7 +348,7 @@ public class Import extends JFrame {
                         
                         dashboard.updateMetrics(dashboard.DEFAULT_BOUNCE_PAGES_PROP,dashboard.DEFAULT_BOUNCE_TIME_PROP);
                         dashboard.updateHeader();
-
+                        dashboard.sidebar.resetAllSeries();
                         Platform.runLater(dashboard::defaultChart);
                         
                         dashboard.sidebar.importButton.setEnabled(true);

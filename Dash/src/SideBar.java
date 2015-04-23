@@ -672,6 +672,26 @@ public class SideBar extends JPanel {
 
     }
     
+    public void resetAllSeries(){
+    	
+    	dateModel.setValue(null);
+        timeModel.setValue(calendar.getTime());
+        dateModel2.setValue(null);
+        timeModel2.setValue(calendar.getTime());
+        sexGroup.clearSelection();
+        ageLabel.setSelected(false);
+        incomeLabel.setSelected(false);
+        contextGroup.clearSelection();
+        pagesCheckBox.setSelected(false);
+        pagesSpinner.setValue(0);
+        timeCheckBox.setSelected(false);
+        timeSpinner.setValue(0);
+        
+        saveFilters(series1);
+        saveFilters(series2);
+    	
+    }
+    
     public void loadFilters(Series series){
     	
     	// Start date
