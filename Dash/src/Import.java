@@ -231,6 +231,8 @@ public class Import extends JFrame {
             if (e.getSource() == openButton) {
                 if (clickLog != null && impressionLog != null && serverLog != null) {
                 	checkBox.setEnabled(false);
+                	cancelButton.setEnabled(false);
+                	openButton.setEnabled(false);
                     showProcessingAnimation();
                     
                     if (dashboard.isFirstCampaign()) {
